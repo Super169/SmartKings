@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace KingsLib.data
 {
@@ -52,6 +53,8 @@ namespace KingsLib.data
         public string vipLevel { get; set; }
         public HTTPRequestHeaders currHeader { get; set; }
         public DateTime lastUpdateDTM { get; set; }
+        public List<HeroInfo> heros { get; set; }
+        public List<DecreeInfo> decreeHeros { get; set; }
 
         public void refreshRecord()
         {
@@ -92,6 +95,45 @@ namespace KingsLib.data
             this.level = JSON.getString(gfr.getObject(GA_KEY.level));
             this.vipLevel = JSON.getString(gfr.getObject(GA_KEY.vipLevel));
             this.currHeader = util.headerFromJsonString(JSON.getString(gfr.getObject(GA_KEY.currHeader)));
+
+            this.heros = new List<HeroInfo>();
+            string jsonString;
+            dynamic json;
+            try
+            {
+                jsonString = JSON.getString(gfr.getObject(GA_KEY.Heros));
+                json = Json.Decode(jsonString);
+                if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
+                {
+                    foreach (dynamic o in json["data"])
+                    {
+                        this.heros.Add(new HeroInfo(o));
+                    }
+                }
+            }
+            catch
+            {
+                this.heros = new List<HeroInfo>();
+            }
+
+            this.decreeHeros = new List<DecreeInfo>();
+            try
+            {
+                jsonString = JSON.getString(gfr.getObject(GA_KEY.DecreeHeros));
+                json = Json.Decode(jsonString);
+                if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
+                {
+                    foreach (dynamic o in json["data"])
+                    {
+                        this.decreeHeros.Add(new DecreeInfo(o));
+                    }
+                }
+            }
+            catch
+            {
+                this.decreeHeros = new List<DecreeInfo>();
+            }
+
             this.ready = true;
             refreshRecord();
         }
@@ -113,7 +155,7 @@ namespace KingsLib.data
                 this.level = li.LEVEL;
                 this.vipLevel = li.VIP_LEVEL;
                 this.currHeader = oH;
-
+                refreshHeros();
                 this.ready = true;
                 refreshRecord();
             }
@@ -133,6 +175,12 @@ namespace KingsLib.data
             gfr.saveObject(GA_KEY.level, this.level);
             gfr.saveObject(GA_KEY.vipLevel, this.vipLevel);
             gfr.saveObject(GA_KEY.currHeader, util.header2JsonString(this.currHeader));
+
+            gfr.saveObject(GA_KEY.Heros, util.infoBaseListToJsonString(this.heros.ToArray()));
+            gfr.saveObject(GA_KEY.DecreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
+
+            // Hero & Decree
+
             return gfr;
         }
 
@@ -163,6 +211,18 @@ namespace KingsLib.data
             }
             return this.status;
         }
+
+        public bool refreshHeros()
+        {
+            if (this.currHeader == null) return false;
+            if (this.status != AccountStatus.Online) return false;
+
+            this.heros = action.getHerosInfo(currHeader, sid);
+            this.decreeHeros = action.getDecreeInfo(currHeader, sid, this.heros);
+
+            return true;
+        }
+
 
     }
 

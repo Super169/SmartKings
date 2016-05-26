@@ -433,7 +433,32 @@ namespace MyUtil
 
         #endregion
 
+        public static dynamic decode(string jsonString)
+        {
+            dynamic json;
+            try
+            {
+                json = Json.Decode(jsonString);
+            }
+            catch {
+                json = JSON.Empty();
+            }
+            return json;
+        }
 
+        public static string encode(dynamic json)
+        {
+            string jsonString = "{}";
+            try
+            {
+                jsonString = Json.Encode(json);
+            }
+            catch
+            {
+                jsonString = "{}";
+            }
+            return jsonString;
+        }
 
     }
 }
