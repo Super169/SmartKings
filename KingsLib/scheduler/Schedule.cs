@@ -113,7 +113,7 @@ namespace KingsLib.scheduler
 
             public override dynamic toJson()
             {
-                dynamic json = JSON.Empty();
+                dynamic json = JSON.Empty;
                 json[SI_KEY.dow] = dow;
                 json[SI_KEY.startTime] = startTime;
                 json[SI_KEY.endTime] = endTime;

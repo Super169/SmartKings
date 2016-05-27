@@ -82,6 +82,7 @@
     <Compile Include="MainWindow_Display.cs" />
     <Compile Include="MainWindow_EventHandler.cs" />
     <Compile Include="MainWindow_GameAccounts.cs" />
+    <Compile Include="MainWindow_Schedulig.cs" />
     <Compile Include="MainWindow_SingleInstance.cs" />
     <Compile Include="MainWindow_Tasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

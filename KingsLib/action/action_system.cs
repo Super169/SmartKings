@@ -12,6 +12,7 @@ namespace KingsLib
     {
         public static GameAccount.AccountStatus goCheckAccountStatus(HTTPRequestHeaders oH, string sid)
         {
+            if (sid == null) return GameAccount.AccountStatus.Offline;
             RequestReturnObject rro = request.System.ping(oH, sid);
             if (!rro.success) return GameAccount.AccountStatus.Unknown;
             if (rro.prompt == PROMPT_NOT_ENOUGH) return GameAccount.AccountStatus.Offline;

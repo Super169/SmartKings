@@ -136,6 +136,7 @@
     <Compile Include="request\ZaJinDan.cs" />
     <Compile Include="scheduler\Schedule.cs" />
     <Compile Include="scheduler\Scheduler.cs" />
+    <Compile Include="scheduler\Task.cs" />
     <Compile Include="util\util_fiddler.cs" />
     <Compile Include="util\util_gfr.cs" />
     <Compile Include="util\util_infoBaseList.cs" />

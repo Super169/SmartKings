@@ -39,7 +39,7 @@ namespace KingsLib.data
 
         public dynamic toJson()
         {
-            dynamic json = JSON.Empty();
+            dynamic json = JSON.Empty;
             try
             {
                 json[DI_KEY.decId] = this.decId;

@@ -9,11 +9,8 @@ namespace MyUtil
 {
     public class JSON
     {
-
-        public static dynamic Empty()
-        {
-            return Json.Decode("{}");
-        }
+        public static string EmptyString { get { return "{}";  } }
+        public static dynamic Empty { get { return Json.Decode("{}"); } }
 
         #region "Numeric Data"
 
@@ -441,21 +438,21 @@ namespace MyUtil
                 json = Json.Decode(jsonString);
             }
             catch {
-                json = JSON.Empty();
+                json = JSON.Empty;
             }
             return json;
         }
 
         public static string encode(dynamic json)
         {
-            string jsonString = "{}";
+            string jsonString = JSON.EmptyString;
             try
             {
                 jsonString = Json.Encode(json);
             }
             catch
             {
-                jsonString = "{}";
+                jsonString = JSON.EmptyString;
             }
             return jsonString;
         }

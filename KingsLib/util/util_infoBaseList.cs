@@ -16,7 +16,7 @@ namespace KingsLib
             string retJson = "{}";
             try
             {
-                dynamic json = JSON.Empty();
+                dynamic json = JSON.Empty;
                 List<object> jsonArray = new List<dynamic>();
                 foreach (IInfoObject ibo in data)
                 {
@@ -27,7 +27,7 @@ namespace KingsLib
             }
             catch
             {
-                retJson = JSON.Empty(); 
+                retJson = JSON.Empty; 
             }
             return retJson;
         }

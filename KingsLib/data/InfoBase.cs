@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyUtil;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace KingsLib.data
 
         public bool fromJsonString(string jsonString)
         {
+            if ((jsonString == null) || (jsonString == "")) return false;
             try
             {
                 dynamic json = Json.Decode(jsonString);
@@ -30,14 +32,14 @@ namespace KingsLib.data
 
         public string toJsonString()
         {
-            string jsonString = "{}";
+            string jsonString = JSON.EmptyString;
             try
             {
                 jsonString = Json.Encode(this.toJson());
             }
             catch
             {
-                jsonString = "{}";
+                jsonString = JSON.EmptyString;
             }
             return jsonString;
         }

@@ -102,7 +102,7 @@ namespace KingsLib.data
 
         public dynamic toJson()
         {
-            dynamic json = JSON.Empty();
+            dynamic json = JSON.Empty;
             try
             {
                 json[HI_KEY.idx] = this.idx;

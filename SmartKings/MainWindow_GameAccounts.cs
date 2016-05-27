@@ -18,7 +18,7 @@ namespace SmartKings
     {
         List<GameAccount> gameAccounts = new List<GameAccount>();
         Object gameAccountsLocker = new Object();
-        string gfrFileName = "SmartKings.GFR";
+        string gaFileName = "SmartKings.GFR";
 
         private void blindingAccounts()
         {
@@ -34,13 +34,13 @@ namespace SmartKings
             {
                 gfrs.Add(oGA.ToGFR());
             }
-            GFR.saveGFR(gfrFileName, gfrs);
+            GFR.saveGFR(gaFileName, gfrs);
         }
 
         private void restoreAccounts()
         {
             List<GFR.GenericFileRecord> gfrs = null;
-            if (GFR.restoreGFR(gfrFileName, ref gfrs))
+            if (GFR.restoreGFR(gaFileName, ref gfrs))
             {
                 lock (gameAccountsLocker)
                 {

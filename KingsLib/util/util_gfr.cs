@@ -13,11 +13,16 @@ namespace KingsLib
     {
         public static void Gfr2List<T>(ref List<T> data, GFR.GenericFileRecord gfr, string key) where T : IInfoObject, new()
         {
-            string jsonString = JSON.getString(gfr.getObject(key));
-            dynamic json = Json.Decode(jsonString);
-            if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
+            try
             {
-                conv.Json2List(ref data, json["data"]);
+                string jsonString = JSON.getString(gfr.getObject(key));
+                dynamic json = Json.Decode(jsonString);
+                if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
+                {
+                    conv.Json2List(ref data, json["data"]);
+                }
+            } catch  {
+                data = new List<T>();
             }
         }
     }

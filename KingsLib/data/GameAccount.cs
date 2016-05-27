@@ -112,6 +112,7 @@ namespace KingsLib.data
             if (gfr == null) return;
             if ((this.account != null) && (gfr.key != this.account)) return;
             this.account = gfr.key;
+            this.sid = JSON.getString(gfr.getObject(GA_KEY.sid));
             this.status = AccountStatus.Unknown;
             this.timeAdjust = JSON.getInt(gfr.getObject(GA_KEY.timeAdjust));
             this.server = JSON.getString(gfr.getObject(GA_KEY.server));
