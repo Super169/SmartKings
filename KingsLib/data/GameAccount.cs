@@ -1,4 +1,5 @@
 ﻿using Fiddler;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,10 @@ namespace KingsLib.data
             public const string vipLevel = "vipLevel";
             public const string currHeader = "currHeader";
             public const string lastUpdateDTM = "lastUpdateDTM";
-            public const string Heros = "Heros";
-            public const string DecreeHeros = "DecreeHeros";
+            public const string heros = "heros";
+            public const string decreeHeros = "decreeHeros";
+            public const string scheduledTask = "scheduledTask";
+
             public const string BossWarHeros = "BossWarHeros";
             public const string BossWarChiefIdx = "BossWarChiefIdx";
             public const string BossWarBody = "BossWarBody";
@@ -53,8 +56,31 @@ namespace KingsLib.data
         public string vipLevel { get; set; }
         public HTTPRequestHeaders currHeader { get; set; }
         public DateTime lastUpdateDTM { get; set; }
-        public List<HeroInfo> heros { get; set; }
-        public List<DecreeInfo> decreeHeros { get; set; }
+        public List<HeroInfo> heros;
+        public List<DecreeInfo> decreeHeros;
+        public List<Scheduler> scheduledTasks;
+
+        private void initObject()
+        {
+            this.ready = false;
+            this.status = AccountStatus.Unknown;
+            this.sid = null;
+            this.account = null;
+            this.server = null;
+            this.serverTitle = null;
+            this.serverCode = null;
+            this.timeAdjust = 0;
+            this.nickName = null;
+            this.corpsName = null;
+            this.level = null;
+            this.vipLevel = null;
+            this.currHeader = null;
+            this.lastUpdateDTM = DateTime.Now;
+            this.heros = new List<HeroInfo>();
+            this.decreeHeros = new List<DecreeInfo>();
+            this.scheduledTasks = new List<Scheduler>();
+        }
+
 
         public void refreshRecord()
         {
@@ -75,14 +101,14 @@ namespace KingsLib.data
 
         public GameAccount(string account)
         {
+            initObject();
             this.account = account;
-            this.ready = false;
             refreshRecord();
         }
 
         public GameAccount(GFR.GenericFileRecord gfr)
         {
-            this.ready = false;
+            initObject();
             if (gfr == null) return;
             if ((this.account != null) && (gfr.key != this.account)) return;
             this.account = gfr.key;
@@ -96,43 +122,9 @@ namespace KingsLib.data
             this.vipLevel = JSON.getString(gfr.getObject(GA_KEY.vipLevel));
             this.currHeader = util.headerFromJsonString(JSON.getString(gfr.getObject(GA_KEY.currHeader)));
 
-            this.heros = new List<HeroInfo>();
-            string jsonString;
-            dynamic json;
-            try
-            {
-                jsonString = JSON.getString(gfr.getObject(GA_KEY.Heros));
-                json = Json.Decode(jsonString);
-                if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
-                {
-                    foreach (dynamic o in json["data"])
-                    {
-                        this.heros.Add(new HeroInfo(o));
-                    }
-                }
-            }
-            catch
-            {
-                this.heros = new List<HeroInfo>();
-            }
-
-            this.decreeHeros = new List<DecreeInfo>();
-            try
-            {
-                jsonString = JSON.getString(gfr.getObject(GA_KEY.DecreeHeros));
-                json = Json.Decode(jsonString);
-                if ((json["data"] != null) && (json["data"].GetType() == typeof(DynamicJsonArray)))
-                {
-                    foreach (dynamic o in json["data"])
-                    {
-                        this.decreeHeros.Add(new DecreeInfo(o));
-                    }
-                }
-            }
-            catch
-            {
-                this.decreeHeros = new List<DecreeInfo>();
-            }
+            util.Gfr2List(ref this.heros, gfr, GA_KEY.heros);
+            util.Gfr2List(ref this.decreeHeros, gfr, GA_KEY.decreeHeros);
+            util.Gfr2List(ref this.scheduledTasks, gfr, GA_KEY.scheduledTask);
 
             this.ready = true;
             refreshRecord();
@@ -140,7 +132,7 @@ namespace KingsLib.data
 
         public GameAccount(LoginInfo li, HTTPRequestHeaders oH)
         {
-            this.ready = false;
+            initObject();
             if (li.ready)
             {
                 this.sid = li.sid;
@@ -163,6 +155,7 @@ namespace KingsLib.data
 
         public GFR.GenericFileRecord ToGFR()
         {
+            if (!this.ready) return null;
             GFR.GenericFileRecord gfr = new GFR.GenericFileRecord(this.account);
             gfr.saveObject(GA_KEY.sid, this.sid);
             gfr.saveObject(GA_KEY.account, this.account);
@@ -176,10 +169,9 @@ namespace KingsLib.data
             gfr.saveObject(GA_KEY.vipLevel, this.vipLevel);
             gfr.saveObject(GA_KEY.currHeader, util.header2JsonString(this.currHeader));
 
-            gfr.saveObject(GA_KEY.Heros, util.infoBaseListToJsonString(this.heros.ToArray()));
-            gfr.saveObject(GA_KEY.DecreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
-
-            // Hero & Decree
+            gfr.saveObject(GA_KEY.heros, util.infoBaseListToJsonString(this.heros.ToArray()));
+            gfr.saveObject(GA_KEY.decreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
+            gfr.saveObject(GA_KEY.scheduledTask, util.infoBaseListToJsonString(this.scheduledTasks.ToArray()));
 
             return gfr;
         }
