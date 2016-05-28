@@ -50,6 +50,13 @@
                 <ListView x:Name="lvAccounts" Margin="2,6,2,-2">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding enabled}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="" Width="20">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate DataType="{x:Type ListViewItem}">

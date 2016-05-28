@@ -15,7 +15,7 @@ namespace KingsLib
             if (sid == null) return GameAccount.AccountStatus.Offline;
             RequestReturnObject rro = request.System.ping(oH, sid);
             if (!rro.success) return GameAccount.AccountStatus.Unknown;
-            if (rro.prompt == PROMPT_NOT_ENOUGH) return GameAccount.AccountStatus.Offline;
+            if (rro.prompt == PROMPT_RELOGIN) return GameAccount.AccountStatus.Offline;
             return GameAccount.AccountStatus.Online;
         }
     }

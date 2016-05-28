@@ -11,7 +11,7 @@ namespace KingsLib.data
     public class DecreeInfo : IInfoObject
     {
 
-        private static class DI_KEY
+        private static class KEY
         {
             public const string decId = "decId";
             public const string heroIdx = "heroIdx";
@@ -42,9 +42,9 @@ namespace KingsLib.data
             dynamic json = JSON.Empty;
             try
             {
-                json[DI_KEY.decId] = this.decId;
-                json[DI_KEY.heroIdx] = this.heroIdx;
-                json[DI_KEY.heroName] = this.heroName;
+                json[KEY.decId] = this.decId;
+                json[KEY.heroIdx] = this.heroIdx;
+                json[KEY.heroName] = this.heroName;
             }
             catch (Exception) { }
             return json;
@@ -54,9 +54,9 @@ namespace KingsLib.data
         {
             try
             {
-                decId = JSON.getInt(json, DI_KEY.decId);
-                heroIdx = JSON.getIntArray(json, DI_KEY.heroIdx);
-                heroName = JSON.getStringArray(json, DI_KEY.heroName);
+                decId = JSON.getInt(json, KEY.decId);
+                heroIdx = JSON.getIntArray(json, KEY.heroIdx);
+                heroName = JSON.getStringArray(json, KEY.heroName);
                 return true;
             }
             catch { }

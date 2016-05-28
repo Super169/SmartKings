@@ -17,10 +17,11 @@ namespace KingsLib.data
 
         public enum AccountStatus { Online, Offline, Unknown }
 
-        private static class GA_KEY
+        private static class KEY
         {
-            public const string sid = "sid";
             public const string account = "account";
+            public const string enabled = "enabled";
+            public const string sid = "sid";
             public const string status = "status";
             public const string timeAdjust = "timeAdjust";
             public const string server = "server";
@@ -43,9 +44,10 @@ namespace KingsLib.data
         }
 
         public bool ready { get; set; } = false;
-        public AccountStatus status { get; set; }
-        public string sid { get; set; }
         public string account { get; set; }
+        public bool enabled { get; set; }
+        public string sid { get; set; }
+        public AccountStatus status { get; set; }
         public string server { get; set; }
         public string serverTitle { get; set; }
         public string serverCode { get; set; }
@@ -63,9 +65,10 @@ namespace KingsLib.data
         private void initObject()
         {
             this.ready = false;
-            this.status = AccountStatus.Unknown;
-            this.sid = null;
             this.account = null;
+            this.enabled = false;
+            this.sid = null;
+            this.status = AccountStatus.Unknown;
             this.server = null;
             this.serverTitle = null;
             this.serverCode = null;
@@ -112,20 +115,21 @@ namespace KingsLib.data
             if (gfr == null) return;
             if ((this.account != null) && (gfr.key != this.account)) return;
             this.account = gfr.key;
-            this.sid = JSON.getString(gfr.getObject(GA_KEY.sid));
+            this.enabled = JSON.getBool(gfr.getObject(KEY.enabled));
+            this.sid = JSON.getString(gfr.getObject(KEY.sid));
             this.status = AccountStatus.Unknown;
-            this.timeAdjust = JSON.getInt(gfr.getObject(GA_KEY.timeAdjust));
-            this.server = JSON.getString(gfr.getObject(GA_KEY.server));
-            this.serverTitle = JSON.getString(gfr.getObject(GA_KEY.serverTitle));
-            this.nickName = JSON.getString(gfr.getObject(GA_KEY.nickName));
-            this.corpsName = JSON.getString(gfr.getObject(GA_KEY.corpsName));
-            this.level = JSON.getString(gfr.getObject(GA_KEY.level));
-            this.vipLevel = JSON.getString(gfr.getObject(GA_KEY.vipLevel));
-            this.currHeader = util.headerFromJsonString(JSON.getString(gfr.getObject(GA_KEY.currHeader)));
+            this.timeAdjust = JSON.getInt(gfr.getObject(KEY.timeAdjust));
+            this.server = JSON.getString(gfr.getObject(KEY.server));
+            this.serverTitle = JSON.getString(gfr.getObject(KEY.serverTitle));
+            this.nickName = JSON.getString(gfr.getObject(KEY.nickName));
+            this.corpsName = JSON.getString(gfr.getObject(KEY.corpsName));
+            this.level = JSON.getString(gfr.getObject(KEY.level));
+            this.vipLevel = JSON.getString(gfr.getObject(KEY.vipLevel));
+            this.currHeader = util.headerFromJsonString(JSON.getString(gfr.getObject(KEY.currHeader)));
 
-            util.Gfr2List(ref this.heros, gfr, GA_KEY.heros);
-            util.Gfr2List(ref this.decreeHeros, gfr, GA_KEY.decreeHeros);
-            util.Gfr2List(ref this.scheduledTasks, gfr, GA_KEY.scheduledTask);
+            util.Gfr2List(ref this.heros, gfr, KEY.heros);
+            util.Gfr2List(ref this.decreeHeros, gfr, KEY.decreeHeros);
+            util.Gfr2List(ref this.scheduledTasks, gfr, KEY.scheduledTask);
 
             this.ready = true;
             refreshRecord();
@@ -136,8 +140,9 @@ namespace KingsLib.data
             initObject();
             if (li.ready)
             {
-                this.sid = li.sid;
                 this.account = li.account;
+                this.enabled = false;
+                this.sid = li.sid;
                 this.status = AccountStatus.Online;
                 // timeAjust will be set later using system.ping
                 this.timeAdjust = 0;
@@ -158,21 +163,22 @@ namespace KingsLib.data
         {
             if (!this.ready) return null;
             GFR.GenericFileRecord gfr = new GFR.GenericFileRecord(this.account);
-            gfr.saveObject(GA_KEY.sid, this.sid);
-            gfr.saveObject(GA_KEY.account, this.account);
-            gfr.saveObject(GA_KEY.status, this.status);
-            gfr.saveObject(GA_KEY.timeAdjust, this.timeAdjust);
-            gfr.saveObject(GA_KEY.server, this.server);
-            gfr.saveObject(GA_KEY.serverTitle, this.serverTitle);
-            gfr.saveObject(GA_KEY.nickName, this.nickName);
-            gfr.saveObject(GA_KEY.corpsName, this.corpsName);
-            gfr.saveObject(GA_KEY.level, this.level);
-            gfr.saveObject(GA_KEY.vipLevel, this.vipLevel);
-            gfr.saveObject(GA_KEY.currHeader, util.header2JsonString(this.currHeader));
+            gfr.saveObject(KEY.account, this.account);
+            gfr.saveObject(KEY.enabled, this.enabled);
+            gfr.saveObject(KEY.sid, this.sid);
+            gfr.saveObject(KEY.status, this.status);
+            gfr.saveObject(KEY.timeAdjust, this.timeAdjust);
+            gfr.saveObject(KEY.server, this.server);
+            gfr.saveObject(KEY.serverTitle, this.serverTitle);
+            gfr.saveObject(KEY.nickName, this.nickName);
+            gfr.saveObject(KEY.corpsName, this.corpsName);
+            gfr.saveObject(KEY.level, this.level);
+            gfr.saveObject(KEY.vipLevel, this.vipLevel);
+            gfr.saveObject(KEY.currHeader, util.header2JsonString(this.currHeader));
 
-            gfr.saveObject(GA_KEY.heros, util.infoBaseListToJsonString(this.heros.ToArray()));
-            gfr.saveObject(GA_KEY.decreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
-            gfr.saveObject(GA_KEY.scheduledTask, util.infoBaseListToJsonString(this.scheduledTasks.ToArray()));
+            gfr.saveObject(KEY.heros, util.infoBaseListToJsonString(this.heros.ToArray()));
+            gfr.saveObject(KEY.decreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
+            gfr.saveObject(KEY.scheduledTask, util.infoBaseListToJsonString(this.scheduledTasks.ToArray()));
 
             return gfr;
         }

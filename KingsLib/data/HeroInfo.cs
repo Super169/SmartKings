@@ -11,7 +11,7 @@ namespace KingsLib.data
     public class HeroInfo : IInfoObject
     {
 
-        private static class HI_KEY
+        private static class KEY
         {
             public const string idx = "idx";
             public const string nm = "nm";
@@ -67,24 +67,24 @@ namespace KingsLib.data
             bool success = false;
             try
             {
-                this.idx = JSON.getInt(json, HI_KEY.idx, 0);
-                this.nm = JSON.getString(json, HI_KEY.nm, "");
-                this.army = JSON.getString(json, HI_KEY.army, "");
-                this.lv = JSON.getInt(json, HI_KEY.lv);
-                this.power = JSON.getInt(json, HI_KEY.power);
-                this.cfd = JSON.getInt(json, HI_KEY.cfd);
-                this.intl = JSON.getInt(json, HI_KEY.intl);
-                this.strg = JSON.getInt(json, HI_KEY.strg);
-                this.chrm = JSON.getInt(json, HI_KEY.chrm);
-                this.attk = JSON.getInt(json, HI_KEY.attk);
-                this.dfnc = JSON.getInt(json, HI_KEY.dfnc);
-                this.spd = JSON.getInt(json, HI_KEY.spd);
+                this.idx = JSON.getInt(json, KEY.idx, 0);
+                this.nm = JSON.getString(json, KEY.nm, "");
+                this.army = JSON.getString(json, KEY.army, "");
+                this.lv = JSON.getInt(json, KEY.lv);
+                this.power = JSON.getInt(json, KEY.power);
+                this.cfd = JSON.getInt(json, KEY.cfd);
+                this.intl = JSON.getInt(json, KEY.intl);
+                this.strg = JSON.getInt(json, KEY.strg);
+                this.chrm = JSON.getInt(json, KEY.chrm);
+                this.attk = JSON.getInt(json, KEY.attk);
+                this.dfnc = JSON.getInt(json, KEY.dfnc);
+                this.spd = JSON.getInt(json, KEY.spd);
 
                 if (json.amftLvs is DynamicJsonArray)
                 {
                     // DynamicJsonArray s = (DynamicJsonArray)json.amftLvs;
                     // for (int i = 0; i < 5; i++) this.amftLvs[i] = (int) s.ElementAt(i);
-                    this.amftLvs = JSON.getIntArray(json, HI_KEY.amftLvs);
+                    this.amftLvs = JSON.getIntArray(json, KEY.amftLvs);
                 }
                 success = true;
             }
@@ -105,19 +105,19 @@ namespace KingsLib.data
             dynamic json = JSON.Empty;
             try
             {
-                json[HI_KEY.idx] = this.idx;
-                json[HI_KEY.nm] = this.nm;
-                json[HI_KEY.army] = this.army;
-                json[HI_KEY.lv] = this.lv;
-                json[HI_KEY.power] = this.power;
-                json[HI_KEY.cfd] = this.cfd;
-                json[HI_KEY.intl] = this.intl;
-                json[HI_KEY.strg] = this.strg;
-                json[HI_KEY.chrm] = this.chrm;
-                json[HI_KEY.attk] = this.attk;
-                json[HI_KEY.dfnc] = this.dfnc;
-                json[HI_KEY.spd] = this.spd;
-                json[HI_KEY.amftLvs] = this.amftLvs;
+                json[KEY.idx] = this.idx;
+                json[KEY.nm] = this.nm;
+                json[KEY.army] = this.army;
+                json[KEY.lv] = this.lv;
+                json[KEY.power] = this.power;
+                json[KEY.cfd] = this.cfd;
+                json[KEY.intl] = this.intl;
+                json[KEY.strg] = this.strg;
+                json[KEY.chrm] = this.chrm;
+                json[KEY.attk] = this.attk;
+                json[KEY.dfnc] = this.dfnc;
+                json[KEY.spd] = this.spd;
+                json[KEY.amftLvs] = this.amftLvs;
             }
             catch (Exception) { }
             return json;
