@@ -118,13 +118,13 @@
     <None Include="Resources\SmartKingsIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Online.png" />
+    <Resource Include="images\Online.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Offline.png" />
+    <Resource Include="images\Offline.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Unknown.png" />
+    <Resource Include="images\Unknown.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KingsLib\KingsLib.csproj">
