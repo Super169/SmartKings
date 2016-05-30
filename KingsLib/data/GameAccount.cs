@@ -12,7 +12,7 @@ namespace KingsLib.data
 {
 
 
-    public class GameAccount
+    public class GameAccount : data.InfoBase
     {
 
         public enum AccountStatus { Online, Offline, Unknown }
@@ -62,7 +62,7 @@ namespace KingsLib.data
         public List<DecreeInfo> decreeHeros;
         public List<Scheduler> scheduledTasks;
 
-        private void initObject()
+        public override void initObject()
         {
             this.ready = false;
             this.account = null;
@@ -159,6 +159,31 @@ namespace KingsLib.data
             }
         }
 
+        public GameAccount(dynamic json)
+        {
+            fromJson(json);
+        }
+
+        public override bool fromJson(dynamic json)
+        {
+            initObject();
+            if (json == null) return false;
+            this.account = JSON.getString(json[KEY.account], "");
+            this.enabled = JSON.getBool(json[KEY.enabled]);
+            this.sid = JSON.getString(json[KEY.sid], "");
+            this.status = JSON.getString(json[KEY.status], "");
+            this.timeAdjust = JSON.getInt(json[KEY.timeAdjust]);
+            this.server = JSON.getString(json[KEY.server], "");
+            this.serverTitle = JSON.getString(json[KEY.serverTitle], "");
+            this.nickName = JSON.getString(json[KEY.nickName], "");
+            this.corpsName = JSON.getString(json[KEY.corpsName], "");
+            this.level = JSON.getString(json[KEY.level], "");
+            this.vipLevel = JSON.getString(json[KEY.vipLevel], "");
+
+            return true;
+        }
+
+
         public GFR.GenericFileRecord ToGFR()
         {
             if (!this.ready) return null;
@@ -181,6 +206,28 @@ namespace KingsLib.data
             gfr.saveObject(KEY.scheduledTask, util.infoBaseListToJsonString(this.scheduledTasks.ToArray()));
 
             return gfr;
+        }
+
+        public override dynamic toJson()
+        {
+            if (!this.ready) return null;
+            dynamic json = JSON.Empty;
+            json[KEY.account] = this.account;
+            json[KEY.enabled] = this.enabled;
+            json[KEY.sid] = this.sid;
+            json[KEY.status] = this.status;
+            json[KEY.timeAdjust] = this.timeAdjust;
+            json[KEY.server] = this.server;
+            json[KEY.serverTitle] = this.serverTitle;
+            json[KEY.nickName] = this.nickName;
+            json[KEY.corpsName] = this.corpsName;
+            json[KEY.level] = this.level;
+            json[KEY.vipLevel] = this.vipLevel;
+            json[KEY.currHeader] = this.currHeader;
+            json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
+            json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray()); 
+            json[KEY.scheduledTask] = util.infoBaseListToJsonArray(this.scheduledTasks.ToArray());
+            return json;
         }
 
         public static bool find(List<GameAccount> gameAccounts, GameAccount oGA, ref GameAccount oFind)
@@ -221,6 +268,7 @@ namespace KingsLib.data
 
             return true;
         }
+
 
 
     }

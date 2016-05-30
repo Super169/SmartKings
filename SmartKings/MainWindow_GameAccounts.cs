@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Web.Helpers;
 
 namespace SmartKings
 {
@@ -67,6 +68,20 @@ namespace SmartKings
                     }
                     refreshAccountList();
                     */
+
+
+                    List<GameAccount> gs = new List<GameAccount>();
+                    DynamicJsonArray json = KingsLib.util.infoBaseListToJsonArray(gameAccounts.ToArray());
+                    if (json.GetType() == typeof(DynamicJsonArray))
+                    {
+                        foreach (dynamic o in json)
+                        {
+                            GameAccount ga = new GameAccount(o);
+                            if (ga.ready) gs.Add(ga);
+                        }
+                    }
+
+
                 }
             }
         }

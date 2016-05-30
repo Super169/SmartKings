@@ -11,23 +11,42 @@ namespace KingsLib
 {
     public partial class util
     {
-        public static string infoBaseListToJsonString(IInfoObject[] data)
+        public static DynamicJsonArray infoBaseListToJsonArray(IInfoObject[] data)
         {
-            string retJson = "{}";
+            DynamicJsonArray retJson;
             try
             {
                 dynamic json = JSON.Empty;
-                List<object> jsonArray = new List<dynamic>();
+                List<dynamic> jsonArray = new List<dynamic>();
                 foreach (IInfoObject ibo in data)
                 {
                     jsonArray.Add(ibo.toJson());
                 }
-                json["data"] = new DynamicJsonArray(jsonArray.ToArray());
-                retJson = Json.Encode(json);
+                retJson = new DynamicJsonArray(jsonArray.ToArray());
             }
             catch
             {
-                retJson = JSON.Empty; 
+                retJson = null;
+            }
+            return retJson;
+        }
+
+        public static string infoBaseListToJsonString(IInfoObject[] data)
+        {
+            string retJson = JSON.EmptyString;
+            try
+            {
+                DynamicJsonArray dja = infoBaseListToJsonArray(data);
+                if (dja != null)
+                {
+                    dynamic json = JSON.Empty;
+                    json["data"] = dja;
+                    retJson = Json.Encode(json);
+                }
+            }
+            catch
+            {
+                retJson = JSON.EmptyString; 
             }
             return retJson;
         }

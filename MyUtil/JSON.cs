@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Ionic.Zlib;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -456,6 +458,94 @@ namespace MyUtil
             }
             return jsonString;
         }
+
+
+        #region File IO
+
+        static System.IO.MemoryStream StringToMemoryStream(string s)
+        {
+            byte[] a = System.Text.Encoding.ASCII.GetBytes(s);
+            return new System.IO.MemoryStream(a);
+        }
+
+        static String MemoryStreamToString(System.IO.MemoryStream ms)
+        {
+            byte[] ByteArray = ms.ToArray();
+            return System.Text.Encoding.ASCII.GetString(ByteArray);
+        }
+
+        static void CopyStream(System.IO.Stream src, System.IO.Stream dest)
+        {
+            byte[] buffer = new byte[1024];
+            int len = src.Read(buffer, 0, buffer.Length);
+            while (len > 0)
+            {
+                dest.Write(buffer, 0, len);
+                len = src.Read(buffer, 0, buffer.Length);
+            }
+            dest.Flush();
+        }
+
+        public static bool toFile(dynamic json, string fileName)
+        {
+            try
+            {
+                string jsonString = Json.Encode(json);
+                return toFile(jsonString, fileName);
+            }
+            catch { }
+            return false;
+        }
+        
+        public static bool toFile(string jsonString, string fileName)
+        {
+            try
+            {
+                System.IO.MemoryStream msSinkCompressed = new System.IO.MemoryStream();
+                ZlibStream zOut = new ZlibStream(msSinkCompressed, CompressionMode.Compress, CompressionLevel.BestCompression, true);
+                CopyStream(StringToMemoryStream(jsonString), zOut);
+                FileStream file = new FileStream(fileName, FileMode.Create, System.IO.FileAccess.Write);
+                msSinkCompressed.WriteTo(file);
+                file.Close();
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+
+        public static bool fromFile(ref dynamic json, string fileName)
+        {
+            string jsonString = null;
+            if (!fromFile(ref jsonString, fileName)) return false;
+            try
+            {
+                json = Json.Decode(jsonString);
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+        public static bool fromFile(ref string jsonString, string fileName)
+        {
+            try
+            {
+                MemoryStream msSinkCompressed = new MemoryStream(File.ReadAllBytes(fileName));
+                msSinkCompressed.Seek(0, System.IO.SeekOrigin.Begin);
+                MemoryStream msSinkDecompressed = new System.IO.MemoryStream();
+                ZlibStream zOut = new ZlibStream(msSinkDecompressed, CompressionMode.Decompress, true);
+                CopyStream(msSinkCompressed, zOut);
+                jsonString = MemoryStreamToString(msSinkDecompressed);
+                return true;
+            }
+            catch { }
+            return false;
+        }
+        #endregion
+
+
+
 
     }
 }
