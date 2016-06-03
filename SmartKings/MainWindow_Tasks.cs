@@ -14,7 +14,7 @@ namespace SmartKings
         {
             foreach (GameAccount oGA in gameAccounts)
             {
-                oGA.checkStatus();
+                oGA.checkStatus(forceCheck);
             }
         }
     }

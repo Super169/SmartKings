@@ -32,15 +32,6 @@ namespace KingsLib.scheduler
             this.fromJsonString(jsonString);
         }
 
-        public Scheduler(GFR.GenericFileRecord gfr)
-        {
-            this.initObject();
-            if (gfr == null) return;
-            if ((gfr.key == null) || (gfr.key == "")) return;
-            this.schedule = new Schedule.ScheduleInfo(JSON.getString(gfr.getObject(KEY.schedule)));
-            this.task = new Task.TaskInfo(JSON.getString(gfr.getObject(KEY.task)));
-        }
-
         public Scheduler(dynamic json)
         {
             initObject();
@@ -81,16 +72,6 @@ namespace KingsLib.scheduler
             }
             return json;
         }
-
-        public GFR.GenericFileRecord ToGFR()
-        {
-            GFR.GenericFileRecord gfr = new GFR.GenericFileRecord(this.taskId);
-            gfr.saveObject(KEY.taskId, this.taskId);
-            gfr.saveObject(KEY.schedule, this.schedule.toJsonString());
-            gfr.saveObject(KEY.task, this.task.toJsonString());
-            return gfr;
-        }
-
 
         public void verifySystemTask(ref List<Scheduler> systemTasks)
         {

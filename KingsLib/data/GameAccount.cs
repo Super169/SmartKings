@@ -12,7 +12,7 @@ namespace KingsLib.data
 {
 
 
-    public class GameAccount : data.InfoBase
+    public class GameAccount : InfoBase, IComparable<GameAccount>
     {
 
         public enum AccountStatus { Online, Offline, Unknown }
@@ -84,57 +84,6 @@ namespace KingsLib.data
             this.scheduledTasks = new List<Scheduler>();
         }
 
-
-        public void refreshRecord()
-        {
-            // For pubgame accounts:
-            string[] parts = serverTitle.Split(' ');
-            if ((parts[0].Length < 2) || (parts[0].Length > 4)) serverCode = parts[0];
-            try
-            {
-                int serverId = Convert.ToInt32(parts[0].Substring(1));
-                serverId = (serverId > 9 ? serverId - 9 : serverId);
-                this.serverCode = parts[0].Substring(0, 1) + serverId.ToString();
-            }
-            catch
-            {
-                this.serverCode = parts[0];
-            }
-        }
-
-        public GameAccount(string account)
-        {
-            initObject();
-            this.account = account;
-            refreshRecord();
-        }
-
-        public GameAccount(GFR.GenericFileRecord gfr)
-        {
-            initObject();
-            if (gfr == null) return;
-            if ((this.account != null) && (gfr.key != this.account)) return;
-            this.account = gfr.key;
-            this.enabled = JSON.getBool(gfr.getObject(KEY.enabled));
-            this.sid = JSON.getString(gfr.getObject(KEY.sid));
-            this.status = AccountStatus.Unknown;
-            this.timeAdjust = JSON.getInt(gfr.getObject(KEY.timeAdjust));
-            this.server = JSON.getString(gfr.getObject(KEY.server));
-            this.serverTitle = JSON.getString(gfr.getObject(KEY.serverTitle));
-            this.nickName = JSON.getString(gfr.getObject(KEY.nickName));
-            this.corpsName = JSON.getString(gfr.getObject(KEY.corpsName));
-            this.level = JSON.getString(gfr.getObject(KEY.level));
-            this.vipLevel = JSON.getString(gfr.getObject(KEY.vipLevel));
-            this.currHeader = util.headerFromJsonString(JSON.getString(gfr.getObject(KEY.currHeader)));
-
-            util.Gfr2List(ref this.heros, gfr, KEY.heros);
-            util.Gfr2List(ref this.decreeHeros, gfr, KEY.decreeHeros);
-            util.Gfr2List(ref this.scheduledTasks, gfr, KEY.scheduledTask);
-
-            this.ready = true;
-            refreshRecord();
-        }
-
         public GameAccount(LoginInfo li, HTTPRequestHeaders oH)
         {
             initObject();
@@ -153,9 +102,8 @@ namespace KingsLib.data
                 this.level = li.LEVEL;
                 this.vipLevel = li.VIP_LEVEL;
                 this.currHeader = oH;
-                refreshHeros();
+                refreshAccount();
                 this.ready = true;
-                refreshRecord();
             }
         }
 
@@ -179,6 +127,9 @@ namespace KingsLib.data
             this.corpsName = JSON.getString(json[KEY.corpsName], "");
             this.level = JSON.getString(json[KEY.level], "");
             this.vipLevel = JSON.getString(json[KEY.vipLevel], "");
+
+            conv.Json2List(ref this.heros, json[KEY.heros]);
+            conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
             HTTPRequestHeaders oH = null;
             if (fillHTTPRequestHeaders(ref oH, json[KEY.currHeader])) {
@@ -208,30 +159,6 @@ namespace KingsLib.data
                 oH[name] = value;
             }
             return true;
-        }
-
-        public GFR.GenericFileRecord ToGFR()
-        {
-            if (!this.ready) return null;
-            GFR.GenericFileRecord gfr = new GFR.GenericFileRecord(this.account);
-            gfr.saveObject(KEY.account, this.account);
-            gfr.saveObject(KEY.enabled, this.enabled);
-            gfr.saveObject(KEY.sid, this.sid);
-            gfr.saveObject(KEY.status, this.status);
-            gfr.saveObject(KEY.timeAdjust, this.timeAdjust);
-            gfr.saveObject(KEY.server, this.server);
-            gfr.saveObject(KEY.serverTitle, this.serverTitle);
-            gfr.saveObject(KEY.nickName, this.nickName);
-            gfr.saveObject(KEY.corpsName, this.corpsName);
-            gfr.saveObject(KEY.level, this.level);
-            gfr.saveObject(KEY.vipLevel, this.vipLevel);
-            gfr.saveObject(KEY.currHeader, util.header2JsonString(this.currHeader));
-
-            gfr.saveObject(KEY.heros, util.infoBaseListToJsonString(this.heros.ToArray()));
-            gfr.saveObject(KEY.decreeHeros, util.infoBaseListToJsonString(this.decreeHeros.ToArray()));
-            gfr.saveObject(KEY.scheduledTask, util.infoBaseListToJsonString(this.scheduledTasks.ToArray()));
-
-            return gfr;
         }
 
         public override dynamic toJson()
@@ -295,8 +222,44 @@ namespace KingsLib.data
             return true;
         }
 
+        public void refreshRecord()
+        {
+            // For pubgame accounts:
+            string[] parts = serverTitle.Split(' ');
+            if ((parts[0].Length < 2) || (parts[0].Length > 4)) serverCode = parts[0];
+            try
+            {
+                if (this.account.Contains("_pubgame"))
+                {
+                    int serverId = Convert.ToInt32(parts[0].Substring(1));
+                    serverId = (serverId > 9 ? serverId - 9 : serverId);
+                    this.serverCode = parts[0].Substring(0, 1) + serverId.ToString();
+                } else
+                {
+                    this.serverCode = parts[0];
+                }
+            }
+            catch
+            {
+                this.serverCode = parts[0];
+            }
+        }
 
+        public bool refreshAccount()
+        {
+            this.refreshRecord();
+            if (this.checkStatus(true) != AccountStatus.Online) return false;
+            return this.refreshHeros();
+        }
+        
+        public int CompareTo(GameAccount compareGA)
+        {
+            if (compareGA == null)
+                return 1;
+            else
+                return this.serverTitle.CompareTo(compareGA.serverTitle);
 
+        }
+     
     }
-
 }

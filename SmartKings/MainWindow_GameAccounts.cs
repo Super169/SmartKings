@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Web.Helpers;
+using KingsLib.monitor;
 
 namespace SmartKings
 {
@@ -19,8 +20,6 @@ namespace SmartKings
     {
         List<GameAccount> gameAccounts = new List<GameAccount>();
         Object gameAccountsLocker = new Object();
-        string gaFileName = "SmartKings.GFR";
-
         const string KEY_GA = "gameAccounts";
         const string jazFileName = "gameAccounts.jaz";
 
@@ -28,17 +27,6 @@ namespace SmartKings
         {
             restoreAccounts();
             lvAccounts.ItemsSource = gameAccounts;
-        }
-
-        private void saveAccounts_old()
-        {
-            List<GFR.GenericFileRecord> gfrs = new List<GFR.GenericFileRecord>();
-
-            foreach (GameAccount oGA in gameAccounts)
-            {
-                gfrs.Add(oGA.ToGFR());
-            }
-            GFR.saveGFR(gaFileName, gfrs);
         }
 
         private void saveAccounts()
@@ -64,86 +52,13 @@ namespace SmartKings
                 {
                     GameAccount oGA = new GameAccount(o);
                     gameAccounts.Add(oGA);
+                    KingsMonitor.addAccount(oGA.account, oGA.sid);
+                    oGA.refreshAccount();
                 }
-
             }
+
+            gameAccounts.Sort();
             lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);
-            goTaskCheckStatus(true);
-        }
-
-
-        private void restoreAccounts_old()
-        {
-
-            List<GFR.GenericFileRecord> gfrs = null;
-            if (GFR.restoreGFR(gaFileName, ref gfrs))
-            {
-                lock (gameAccountsLocker)
-                {
-                    gameAccounts.Clear();
-
-                    int currSelectedIndex = lvAccounts.SelectedIndex;
-
-                    lock (gameAccountsLocker)
-                    {
-                        gameAccounts.Clear();
-                        foreach (GFR.GenericFileRecord gfr in gfrs)
-                        {
-                            gameAccounts.Add(new GameAccount(gfr));
-                        }
-                    }
-                    lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);
-                    goTaskCheckStatus(true);
-
-                    /*
-                    goCheckAccountStatus(true);
-                    foreach (GameAccount oGA in gameAccounts)
-                    {
-                        KingsMonitor.addAccount(oGA.account, oGA.sid);
-                    }
-                    refreshAccountList();
-                    */
-                    const string KEY_GA = "gameAccounts";
-                    const string fileName = "gameAccounts.jaz";
-
-                    dynamic jsonData = JSON.Empty;
-                    jsonData[KEY_GA] = gameAccounts;
-                    JSON.toFile(jsonData, fileName);
-
-                    dynamic json = JSON.Empty;
-                    JSON.fromFile(ref json, fileName);
-
-                    if (json[KEY_GA] == null) return;
-
-                    if (json[KEY_GA].GetType() != typeof(DynamicJsonArray)) return;
-
-                    Console.WriteLine("Type match");
-
-                    DynamicJsonArray dja = json[KEY_GA];
-
-                    List<GameAccount> ga = new List<GameAccount>();
-
-                    foreach (dynamic o in dja)
-                    {
-                        GameAccount oGA = new GameAccount(o);
-                        ga.Add(oGA);
-                    }
-
-                    /*  // Testing code only
-                    List<GameAccount> gs = new List<GameAccount>();
-                    DynamicJsonArray json = KingsLib.util.infoBaseListToJsonArray(gameAccounts.ToArray());
-                    if (json.GetType() == typeof(DynamicJsonArray))
-                    {
-                        foreach (dynamic o in json)
-                        {
-                            GameAccount ga = new GameAccount(o);
-                            if (ga.ready) gs.Add(ga);
-                        }
-                    }
-                    */
-
-                }
-            }
         }
 
         void refreshAccountList()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace KingsLib.data
 {
@@ -10,8 +11,11 @@ namespace KingsLib.data
     {
         public static void Json2List<T>(ref List<T> data, dynamic json) where T : IInfoObject, new()
         {
+            if (json == null) return;
+            if (json.GetType() != typeof(DynamicJsonArray)) return;
             data = new List<T>();
-            foreach (dynamic o in json)
+            DynamicJsonArray dja = json;
+            foreach (dynamic o in dja)
             {
                 IInfoObject x = new T() as IInfoObject;
                 x.fromJson(o);

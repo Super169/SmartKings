@@ -13,18 +13,6 @@ namespace SmartKings
     {
         List<Scheduler> systemTasks = new List<Scheduler>();
         Object systemTasksLocker = new object();
-        string stFileName = "SystemTask.GFR";
-
-        private void saveSystemTasks()
-        {
-            List<GFR.GenericFileRecord> gfrs = new List<GFR.GenericFileRecord>();
-
-            foreach (Scheduler oS in systemTasks)
-            {
-                gfrs.Add(oS.ToGFR());
-            }
-        }
-
 
     }
 }

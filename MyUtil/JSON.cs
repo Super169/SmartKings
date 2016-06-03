@@ -459,6 +459,20 @@ namespace MyUtil
             return jsonString;
         }
 
+        public static bool exists(dynamic json, string key, Type targetType = null)
+        {
+            if (json == null) return false;
+            if ((key == null) || (key == "")) return false;
+            return JSON.exists(json[key], targetType);
+        }
+
+
+        public static bool exists(dynamic json, Type targetType = null)
+        {
+            if (json == null) return false;
+            if ((targetType != null) && (json.GetType() != targetType)) return false;
+            return true;
+        }
 
         #region File IO
 
