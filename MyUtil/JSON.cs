@@ -464,14 +464,14 @@ namespace MyUtil
 
         static System.IO.MemoryStream StringToMemoryStream(string s)
         {
-            byte[] a = System.Text.Encoding.ASCII.GetBytes(s);
+            byte[] a = System.Text.Encoding.UTF8.GetBytes(s);
             return new System.IO.MemoryStream(a);
         }
 
         static String MemoryStreamToString(System.IO.MemoryStream ms)
         {
             byte[] ByteArray = ms.ToArray();
-            return System.Text.Encoding.ASCII.GetString(ByteArray);
+            return System.Text.Encoding.UTF8.GetString(ByteArray);
         }
 
         static void CopyStream(System.IO.Stream src, System.IO.Stream dest)
@@ -504,6 +504,7 @@ namespace MyUtil
                 System.IO.MemoryStream msSinkCompressed = new System.IO.MemoryStream();
                 ZlibStream zOut = new ZlibStream(msSinkCompressed, CompressionMode.Compress, CompressionLevel.BestCompression, true);
                 CopyStream(StringToMemoryStream(jsonString), zOut);
+                zOut.Close();
                 FileStream file = new FileStream(fileName, FileMode.Create, System.IO.FileAccess.Write);
                 msSinkCompressed.WriteTo(file);
                 file.Close();

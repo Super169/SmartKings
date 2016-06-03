@@ -171,7 +171,7 @@ namespace KingsLib.data
             this.account = JSON.getString(json[KEY.account], "");
             this.enabled = JSON.getBool(json[KEY.enabled]);
             this.sid = JSON.getString(json[KEY.sid], "");
-            this.status = JSON.getString(json[KEY.status], "");
+            this.status = AccountStatus.Unknown;
             this.timeAdjust = JSON.getInt(json[KEY.timeAdjust]);
             this.server = JSON.getString(json[KEY.server], "");
             this.serverTitle = JSON.getString(json[KEY.serverTitle], "");
@@ -182,7 +182,6 @@ namespace KingsLib.data
 
             return true;
         }
-
 
         public GFR.GenericFileRecord ToGFR()
         {

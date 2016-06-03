@@ -21,13 +21,16 @@ namespace SmartKings
         Object gameAccountsLocker = new Object();
         string gaFileName = "SmartKings.GFR";
 
+        const string KEY_GA = "gameAccounts";
+        const string jazFileName = "gameAccounts.jaz";
+
         private void blindingAccounts()
         {
             restoreAccounts();
             lvAccounts.ItemsSource = gameAccounts;
         }
 
-        private void saveAccounts()
+        private void saveAccounts_old()
         {
             List<GFR.GenericFileRecord> gfrs = new List<GFR.GenericFileRecord>();
 
@@ -38,8 +41,40 @@ namespace SmartKings
             GFR.saveGFR(gaFileName, gfrs);
         }
 
+        private void saveAccounts()
+        {
+            dynamic jsonData = JSON.Empty;
+            jsonData[KEY_GA] = gameAccounts;
+            JSON.toFile(jsonData, jazFileName);
+        }
+
         private void restoreAccounts()
         {
+
+            dynamic json = JSON.Empty;
+            if (!JSON.fromFile(ref json, jazFileName)) return;
+            if ((json[KEY_GA] == null) || (json[KEY_GA].GetType() != typeof(DynamicJsonArray))) return;
+            DynamicJsonArray dja = json[KEY_GA];
+
+            int currSelectedIndex = lvAccounts.SelectedIndex;
+            lock (gameAccountsLocker)
+            {
+                gameAccounts.Clear();
+                foreach (dynamic o in dja)
+                {
+                    GameAccount oGA = new GameAccount(o);
+                    gameAccounts.Add(oGA);
+                }
+
+            }
+            lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);
+            goTaskCheckStatus(true);
+        }
+
+
+        private void restoreAccounts_old()
+        {
+
             List<GFR.GenericFileRecord> gfrs = null;
             if (GFR.restoreGFR(gaFileName, ref gfrs))
             {
@@ -68,8 +103,33 @@ namespace SmartKings
                     }
                     refreshAccountList();
                     */
+                    const string KEY_GA = "gameAccounts";
+                    const string fileName = "gameAccounts.jaz";
 
+                    dynamic jsonData = JSON.Empty;
+                    jsonData[KEY_GA] = gameAccounts;
+                    JSON.toFile(jsonData, fileName);
 
+                    dynamic json = JSON.Empty;
+                    JSON.fromFile(ref json, fileName);
+
+                    if (json[KEY_GA] == null) return;
+
+                    if (json[KEY_GA].GetType() != typeof(DynamicJsonArray)) return;
+
+                    Console.WriteLine("Type match");
+
+                    DynamicJsonArray dja = json[KEY_GA];
+
+                    List<GameAccount> ga = new List<GameAccount>();
+
+                    foreach (dynamic o in dja)
+                    {
+                        GameAccount oGA = new GameAccount(o);
+                        ga.Add(oGA);
+                    }
+
+                    /*  // Testing code only
                     List<GameAccount> gs = new List<GameAccount>();
                     DynamicJsonArray json = KingsLib.util.infoBaseListToJsonArray(gameAccounts.ToArray());
                     if (json.GetType() == typeof(DynamicJsonArray))
@@ -80,7 +140,7 @@ namespace SmartKings
                             if (ga.ready) gs.Add(ga);
                         }
                     }
-
+                    */
 
                 }
             }
