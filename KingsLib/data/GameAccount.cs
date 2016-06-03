@@ -180,6 +180,33 @@ namespace KingsLib.data
             this.level = JSON.getString(json[KEY.level], "");
             this.vipLevel = JSON.getString(json[KEY.vipLevel], "");
 
+            HTTPRequestHeaders oH = null;
+            if (fillHTTPRequestHeaders(ref oH, json[KEY.currHeader])) {
+                this.currHeader = oH;
+            }
+            return true;
+        }
+
+        private bool fillHTTPRequestHeaders(ref HTTPRequestHeaders oH, dynamic json)
+        {
+            if (json == null) return false;
+            if (json.GetType() != typeof(DynamicJsonArray)) return false;
+
+            oH = new HTTPRequestHeaders();
+            oH.HTTPMethod = "POST";
+            oH.HTTPVersion = "HTTP/1.1";
+            oH.RawPath = Encoding.UTF8.GetBytes("/m.do");
+            oH.RequestPath = "/m.do";
+            oH.UriScheme = "http";
+
+            DynamicJsonArray dja = json;
+            foreach (dynamic o in dja)
+            {
+                string name = JSON.getString(o["name"], "");
+                string value = JSON.getString(o["value"], "");
+                Console.WriteLine(string.Format("{0} : {1}", name, value));
+                oH[name] = value;
+            }
             return true;
         }
 
@@ -224,7 +251,7 @@ namespace KingsLib.data
             json[KEY.vipLevel] = this.vipLevel;
             json[KEY.currHeader] = this.currHeader;
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
-            json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray()); 
+            json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
             json[KEY.scheduledTask] = util.infoBaseListToJsonArray(this.scheduledTasks.ToArray());
             return json;
         }
@@ -247,7 +274,7 @@ namespace KingsLib.data
             if ((!forceCheck) && (this.status == AccountStatus.Offline)) return AccountStatus.Offline;
             if (currHeader == null)
             {
-                this.status = AccountStatus.Unknown;
+                this.status = AccountStatus.Offline;
             }
             else
             {
