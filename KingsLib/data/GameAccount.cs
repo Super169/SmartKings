@@ -120,7 +120,7 @@ namespace KingsLib.data
             this.enabled = JSON.getBool(json[KEY.enabled]);
             this.sid = JSON.getString(json[KEY.sid], "");
             this.status = AccountStatus.Unknown;
-            this.timeAdjust = JSON.getInt(json[KEY.timeAdjust]);
+            this.timeAdjust = JSON.getInt(json[KEY.timeAdjust], 0);
             this.server = JSON.getString(json[KEY.server], "");
             this.serverTitle = JSON.getString(json[KEY.serverTitle], "");
             this.nickName = JSON.getString(json[KEY.nickName], "");
@@ -205,8 +205,9 @@ namespace KingsLib.data
             }
             else
             {
-                this.status = action.goCheckAccountStatus(currHeader, sid);
-
+                int timeAdj = 0;
+                this.status = action.goCheckAccountStatus(currHeader, sid, ref timeAdj);
+                if (this.status == AccountStatus.Online) this.timeAdjust = timeAdj;
             }
             return this.status;
         }
