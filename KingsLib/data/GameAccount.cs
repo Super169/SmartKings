@@ -50,6 +50,7 @@ namespace KingsLib.data
         public AccountStatus status { get; set; }
         public string server { get; set; }
         public string serverTitle { get; set; }
+        public int pubGameServerId { get; set; }
         public string serverCode { get; set; }
         public int timeAdjust { get; set; }
         public string nickName { get; set; }
@@ -233,15 +234,17 @@ namespace KingsLib.data
                 if (this.account.Contains("_pubgame"))
                 {
                     int serverId = Convert.ToInt32(parts[0].Substring(1));
-                    serverId = (serverId > 9 ? serverId - 9 : serverId);
-                    this.serverCode = parts[0].Substring(0, 1) + serverId.ToString();
+                    this.pubGameServerId = (serverId > 9 ? serverId - 9 : serverId);
+                    this.serverCode = parts[0].Substring(0, 1) + pubGameServerId.ToString();
                 } else
                 {
+                    this.pubGameServerId = -1;
                     this.serverCode = parts[0];
                 }
             }
             catch
             {
+                this.pubGameServerId = -1;
                 this.serverCode = parts[0];
             }
         }

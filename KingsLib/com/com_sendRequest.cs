@@ -6,6 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Helpers;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using MyUtil;
+using System.Net;
 
 namespace KingsLib
 {
@@ -13,6 +17,104 @@ namespace KingsLib
     {
         public static RequestReturnObject SendRequest(HTTPRequestHeaders oH, string requestText)
         {
+            int goType = 1;
+            RequestReturnObject rro;
+            if (goType == 1)
+            {
+                rro = SendRequest1(oH, requestText);
+            }
+            else
+            {
+                rro = SendRequest2(oH, requestText);
+            }
+            return rro;
+        }
+
+        public static RequestReturnObject SendRequest2(HTTPRequestHeaders oH, string requestText)
+        {
+            RequestReturnObject rro = new RequestReturnObject();
+            rro.success = false;
+            rro.ok = -1;
+            rro.msg = "";
+            rro.session = null;
+            rro.requestText = requestText;
+
+            try
+            {
+                string result = "";
+                try
+                {
+                    // string Uri = oH["Host"];
+                    string uri = "http://" + oH["Host"];
+                    string FullPath = uri + "/m.do";
+
+                    HttpContent _Body = new StringContent(requestText);
+                    _Body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                    HttpClient client = new HttpClient();
+                    HttpClientHandler handler = new HttpClientHandler();
+
+                    string cookiesStr = JSON.getString(oH["Cookie"], null);
+                    int cookiesCnt = 0;
+                    if (cookiesStr != null)
+                    {
+                        handler.CookieContainer = new CookieContainer();
+                        string[] cookies = cookiesStr.Split(';');
+                        foreach (string cookie in cookies)
+                        {
+                            string[] c = cookie.Split('=');
+                            if (c.Length == 2)
+                            {
+                                handler.CookieContainer.Add(new Uri(uri), new Cookie(c[0], c[1]));
+                                cookiesCnt++;
+                            }
+                        }
+                    }
+                    if (cookiesCnt > 0)
+                    {
+                        client = new HttpClient(handler);
+                    }
+                    else
+                    {
+                        client = new HttpClient();
+                    }
+
+                    HttpResponseMessage response = client.PostAsync(FullPath, _Body).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HttpContent content = response.Content;
+                        result = content.ReadAsStringAsync().Result;
+                        rro.success = true;
+                        rro.responseText = result;
+                        rro.responseJson = com.getJsonFromResponse(rro.responseText, true);
+                        if (rro.responseJson != null)
+                        {
+                            if (rro.responseJson["ok"] != null) rro.ok = (int)rro.responseJson["ok"];
+                            if (rro.responseJson["style"] != null) rro.style = rro.responseJson["style"];
+                            if (rro.responseJson["prompt"] != null) rro.prompt = rro.responseJson["prompt"];
+                        }
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                rro.success = false;
+                rro.msg = ex.Message;
+            }
+
+            return rro;
+        }
+
+        public static RequestReturnObject SendRequest1(HTTPRequestHeaders oH, string requestText)
+        {
+
             RequestReturnObject rro = new RequestReturnObject();
             rro.success = false;
             rro.ok = -1;
