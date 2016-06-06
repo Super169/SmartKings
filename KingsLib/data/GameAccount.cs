@@ -1,4 +1,4 @@
-﻿using Fiddler;
+﻿
 using KingsLib.scheduler;
 using MyUtil;
 using System;
@@ -59,7 +59,6 @@ namespace KingsLib.data
         public string level { get; set; }
         public string vipLevel { get; set; }
         public ConnectionInfo connectionInfo { get; set; }
-        public HTTPRequestHeaders currHeader { get; set; }
         public DateTime lastUpdateDTM { get; set; }
         public List<HeroInfo> heros;
         public List<DecreeInfo> decreeHeros;
@@ -81,7 +80,6 @@ namespace KingsLib.data
             this.level = null;
             this.vipLevel = null;
             this.connectionInfo = null;
-            this.currHeader = null;
             this.lastUpdateDTM = DateTime.Now;
             this.heros = new List<HeroInfo>();
             this.decreeHeros = new List<DecreeInfo>();
@@ -130,59 +128,12 @@ namespace KingsLib.data
             this.level = li.LEVEL;
             this.vipLevel = li.VIP_LEVEL;
 
-            // buildConnectionHeader();
             this.connectionInfo = ci;
 
             this.lastUpdateDTM = DateTime.Now;
             refreshAccount();
             this.ready = true;
         }
-
-        private void buildConnectionHeader()
-        {
-            this.connectionInfo = new ConnectionInfo();
-
-            this.connectionInfo.uri = "http://" + JSON.getString(this.currHeader["Host"]);
-            this.connectionInfo.fullPath = this.connectionInfo.uri + "/m.do";
-
-            string cookiesStr = JSON.getString(this.currHeader["Cookie"], null);
-            if (cookiesStr != null)
-            {
-                string[] cookies = cookiesStr.Split(';');
-                foreach(string cookie in cookies)
-                {
-                    string[] c = cookie.Split('=');
-                    if (c.Length == 2)
-                    {
-                        this.connectionInfo.addCookie(c[0], c[1]);
-                    }
-                }
-            }
-
-            toConnectionHeader("Host");
-            toConnectionHeader("Proxy-Connection");
-            // toConnectionHeader("Content-Length");  // Just for record, should never use it in HttpClient
-            toConnectionHeader("Proxy-Authorization");
-            toConnectionHeader("Origin");
-            toConnectionHeader("X-Requested-With");
-            toConnectionHeader("User-Agent");
-            // toConnectionHeader("Content-Type");    // Just for record, should never use it in HttpClient
-            toConnectionHeader("Accept");
-            toConnectionHeader("Referer");
-            toConnectionHeader("Accept-Encoding");
-            toConnectionHeader("Accept-Language");
-            toConnectionHeader("Cookie");
-        }
-
-        private void toConnectionHeader(string key)
-        {
-            string value = JSON.getString(this.currHeader[key]);
-            if ((value != null) && (value != ""))
-            {
-                this.connectionInfo.addHeader(key, value);
-            }
-        }
-
 
         public GameAccount(dynamic json)
         {
@@ -210,34 +161,6 @@ namespace KingsLib.data
             conv.Json2List(ref this.heros, json[KEY.heros]);
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
-            HTTPRequestHeaders oH = null;
-            if (fillHTTPRequestHeaders(ref oH, json[KEY.currHeader]))
-            {
-                this.currHeader = oH;
-            }
-            return true;
-        }
-
-        private bool fillHTTPRequestHeaders(ref HTTPRequestHeaders oH, dynamic json)
-        {
-            if (json == null) return false;
-            if (json.GetType() != typeof(DynamicJsonArray)) return false;
-
-            oH = new HTTPRequestHeaders();
-            oH.HTTPMethod = "POST";
-            oH.HTTPVersion = "HTTP/1.1";
-            oH.RawPath = Encoding.UTF8.GetBytes("/m.do");
-            oH.RequestPath = "/m.do";
-            oH.UriScheme = "http";
-
-            DynamicJsonArray dja = json;
-            foreach (dynamic o in dja)
-            {
-                string name = JSON.getString(o["name"], "");
-                string value = JSON.getString(o["value"], "");
-                Console.WriteLine(string.Format("{0} : {1}", name, value));
-                oH[name] = value;
-            }
             return true;
         }
 
@@ -257,7 +180,6 @@ namespace KingsLib.data
             json[KEY.level] = this.level;
             json[KEY.vipLevel] = this.vipLevel;
             json[KEY.connectionInfo] = this.connectionInfo.toJson();
-            json[KEY.currHeader] = this.currHeader;
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
             json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
             json[KEY.scheduledTask] = util.infoBaseListToJsonArray(this.scheduledTasks.ToArray());
@@ -295,7 +217,7 @@ namespace KingsLib.data
 
         public bool refreshHeros()
         {
-            if (this.currHeader == null) return false;
+            if (this.connectionInfo == null) return false;
             if (this.status != AccountStatus.Online) return false;
 
             this.heros = action.getHerosInfo(connectionInfo, sid);

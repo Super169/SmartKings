@@ -16,7 +16,8 @@ namespace SmartKings
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            RequestReturnObject rro2 = KingsLib.request.System.ping(oGA.connectionInfo, oGA.sid);
+            RequestReturnObject rro = KingsLib.request.System.ping(oGA.connectionInfo, oGA.sid);
+            UpdateInfo(oGA.serverCode, "測試", rro.requestText);
             Console.WriteLine("Done");
         }
 

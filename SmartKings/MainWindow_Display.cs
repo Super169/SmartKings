@@ -44,7 +44,8 @@ namespace SmartKings
         private void UpdateInfo(string account, string action, string msg, bool addTime = true)
         {
             string infoMsg = account + "|" + action + "|" + msg;
-            
+            UpdateTextBox(txtInfo, infoMsg, addTime, false);
+
         }
     }
 }

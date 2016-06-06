@@ -1,4 +1,4 @@
-﻿using Fiddler;
+﻿
 using KingsLib.data;
 using KingsLib.request;
 using System;

@@ -1,4 +1,4 @@
-﻿using Fiddler;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,6 @@ namespace KingsLib.data
         public string prompt;
         public int returnCode;
         public string msg;
-        public Session session;
         public string requestText;
         public string responseText;
         public dynamic responseJson;

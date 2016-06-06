@@ -1,4 +1,4 @@
-﻿using Fiddler;
+﻿
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -40,13 +40,6 @@ namespace KingsLib
             return jsonString;
         }
 
-        private static string GetResponseText(Session oS)
-        {
-            string responseText = Encoding.UTF8.GetString(oS.responseBodyBytes);
-            return Microsoft.VisualBasic.Strings.StrConv(responseText, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0x0804);
-            // return responseText;
-        }
-
         private static dynamic getJsonFromResponse(string responseText, bool cleanUp = true)
         {
             dynamic json = null;
@@ -68,12 +61,6 @@ namespace KingsLib
                 json = JSON.Empty;
             }
             return json;
-        }
-
-        private static dynamic getJsonFromResponse(Session oS, bool cleanUp = true)
-        {
-            string responseText = GetResponseText(oS);
-            return getJsonFromResponse(responseText, cleanUp);
         }
 
     }
