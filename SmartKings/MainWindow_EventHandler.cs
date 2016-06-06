@@ -23,11 +23,11 @@ namespace SmartKings
             // UpdateInfo(info);
         }
 
-        private void OnNewSidHandler(LoginInfo li, HTTPRequestHeaders oH)
+        private void OnNewSidHandler(LoginInfo li, ConnectionInfo ci)
         {
 
             // UpdateStatus(string.Format("Server: {0}, SID: {1}, {2} - {3}", li.server, li.sid, li.serverTitle, li.nickName));
-            UpdateAccountList(li, oH);
+            UpdateAccountList(li, ci);
         }
 
         private void btnQuit_Click(object sender, RoutedEventArgs e)

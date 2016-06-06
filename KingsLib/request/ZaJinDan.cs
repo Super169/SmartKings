@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getTimeInfo = "ZaJinDan.getTimeInfo";
 
-        public static RequestReturnObject getTimeInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getTimeInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getTimeInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getTimeInfo);
         }
 
 

@@ -13,14 +13,14 @@ namespace KingsLib.request
         private const string CMD_getInfo = "CrossCamp.getInfo";
         private const string CMD_getJackpotInfo = "CrossCamp.getJackpotInfo";
 
-        public static RequestReturnObject getInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getInfo);
         }
 
-        public static RequestReturnObject getJackpotInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getJackpotInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getJackpotInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getJackpotInfo);
         }
 
 

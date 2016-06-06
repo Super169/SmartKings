@@ -15,25 +15,25 @@ namespace KingsLib.request
         private const string CMD_loginFinish = "Login.loginFinish";
         private const string CMD_serverInfo = "Login.serverInfo";
 
-        public static RequestReturnObject getOfflineConpensate(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getOfflineConpensate(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getOfflineConpensate);
+            return com.SendGenericRequest(ci, sid, CMD_getOfflineConpensate);
         }
 
-        public static RequestReturnObject loginFinish(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject loginFinish(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_loginFinish);
+            return com.SendGenericRequest(ci, sid, CMD_loginFinish);
         }
 
-        public static RequestReturnObject login(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject login(ConnectionInfo ci, string sid)
         {
             string body = string.Format("{{\"type\":\"WEB_BROWSER\", \"loginCode\":\"{0}\"}}", sid);
-            return com.SendGenericRequest(oH, sid, CMD_login, false, body);
+            return com.SendGenericRequest(ci, sid, CMD_login, false, body);
         }
 
-        public static RequestReturnObject serverInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject serverInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_serverInfo);
+            return com.SendGenericRequest(ci, sid, CMD_serverInfo);
         }
 
 

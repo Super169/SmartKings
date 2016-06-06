@@ -75,13 +75,13 @@ namespace SmartKings
             view.Refresh();
         }
 
-        void UpdateAccountList(LoginInfo li, HTTPRequestHeaders oH)
+        void UpdateAccountList(LoginInfo li, ConnectionInfo ci)
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
                 Application.Current.Dispatcher.BeginInvoke(
                   System.Windows.Threading.DispatcherPriority.Normal,
-                  (Action)(() => UpdateAccountList(li, oH)));
+                  (Action)(() => UpdateAccountList(li, ci)));
                 return;
             }
 
@@ -90,7 +90,7 @@ namespace SmartKings
                 GameAccount oExists = gameAccounts.SingleOrDefault(x => x.account == li.account);
                 if (oExists == null)
                 {
-                    GameAccount oGA = new GameAccount(li, oH);
+                    GameAccount oGA = new GameAccount(li, ci);
                     gameAccounts.Add(oGA);
                     if (lvAccounts.SelectedIndex == -1) lvAccounts.SelectedIndex = 0;
 
@@ -98,6 +98,8 @@ namespace SmartKings
                 }
                 else
                 {
+                    oExists.updateSession(li, ci);
+                    /*
                     oExists.status = GameAccount.AccountStatus.Online;
                     oExists.sid = li.sid;
                     oExists.serverTitle = li.serverTitle;
@@ -105,7 +107,7 @@ namespace SmartKings
                     oExists.currHeader = oH;
                     oExists.lastUpdateDTM = DateTime.Now;
                     oExists.refreshAccount();
-
+                    */
                     UpdateStatus(String.Format("更新 {0}: {1} - {2} [{3}]", li.account, li.serverTitle, li.nickName, li.sid));
                 }
                 refreshAccountList();
@@ -130,6 +132,30 @@ namespace SmartKings
             }
             if (lvAccounts.SelectedIndex == -1) lvAccounts.SelectedIndex = 0;
 
+        }
+
+        private GameAccount GetSelectedAccount(bool activeOnly = true)
+        {
+            if (gameAccounts.Count == 0)
+            {
+                MessageBox.Show("尚未偵測到大皇帝帳戶, 請先登入遊戲.");
+                return null;
+            }
+
+            GameAccount oGA = (GameAccount)lvAccounts.SelectedItem;
+            if (oGA == null)
+            {
+                MessageBox.Show("請先選擇帳戶.");
+                return null;
+            }
+
+            oGA.checkStatus();
+            if (activeOnly && !oGA.IsOnline())
+            {
+                MessageBox.Show("帳戶已在其他地方登入了, 請重新登入一次.");
+                return null;
+            }
+            return oGA;
         }
 
     }

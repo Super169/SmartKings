@@ -30,97 +30,97 @@ namespace KingsLib.request
         private const string CMD_showIconForServerOpenActivity = "Activity.showIconForServerOpenActivity";
         private const string CMD_tuanGouReward = "Activity.tuanGouReward";
 
-        public static RequestReturnObject drawCompanyAnniversaryLoginReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawCompanyAnniversaryLoginReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawCompanyAnniversaryLoginReward);
+            return com.SendGenericRequest(ci, sid, CMD_drawCompanyAnniversaryLoginReward);
         }
 
-        public static RequestReturnObject drawCompanyAnniversaryRechargeReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawCompanyAnniversaryRechargeReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawCompanyAnniversaryRechargeReward);
+            return com.SendGenericRequest(ci, sid, CMD_drawCompanyAnniversaryRechargeReward);
         }
 
-        public static RequestReturnObject drawExchangeHoliday(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawExchangeHoliday(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawExchangeHoliday);
+            return com.SendGenericRequest(ci, sid, CMD_drawExchangeHoliday);
         }
 
-        public static RequestReturnObject drawStrategicFundInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawStrategicFundInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawStrategicFundInfo);
+            return com.SendGenericRequest(ci, sid, CMD_drawStrategicFundInfo);
         }
 
-        public static RequestReturnObject getActivityList(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getActivityList(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getActivityList);
+            return com.SendGenericRequest(ci, sid, CMD_getActivityList);
         }
 
-        public static RequestReturnObject getAnnouncement(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getAnnouncement(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getAnnouncement);
+            return com.SendGenericRequest(ci, sid, CMD_getAnnouncement);
         }
 
-        public static RequestReturnObject getBookHeroInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getBookHeroInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getBookHeroInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getBookHeroInfo);
         }
 
-        public static RequestReturnObject getCloudSellerInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getCloudSellerInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getCloudSellerInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getCloudSellerInfo);
         }
 
-        public static RequestReturnObject getPlayerGoBackActivityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPlayerGoBackActivityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPlayerGoBackActivityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getPlayerGoBackActivityInfo);
         }
 
-        public static RequestReturnObject getRankInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getRankInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getRankInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getRankInfo);
         }
 
-        public static RequestReturnObject getRationActivity(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getRationActivity(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getRationActivity);
+            return com.SendGenericRequest(ci, sid, CMD_getRationActivity);
         }
 
 
-        public static RequestReturnObject getShuangShiyiActivityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getShuangShiyiActivityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getShuangShiyiActivityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getShuangShiyiActivityInfo);
         }
 
-        public static RequestReturnObject getShuangShiyiActivityReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getShuangShiyiActivityReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getShuangShiyiActivityReward);
+            return com.SendGenericRequest(ci, sid, CMD_getShuangShiyiActivityReward);
         }
 
-        public static RequestReturnObject getTuanGouInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getTuanGouInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getTuanGouInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getTuanGouInfo);
         }
 
-        public static RequestReturnObject getTuanGouOpenInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getTuanGouOpenInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getTuanGouOpenInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getTuanGouOpenInfo);
         }
 
-        public static RequestReturnObject serverOpenTime(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject serverOpenTime(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_serverOpenTime);
+            return com.SendGenericRequest(ci, sid, CMD_serverOpenTime);
         }
 
-        public static RequestReturnObject showIconForServerOpenActivity(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject showIconForServerOpenActivity(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_showIconForServerOpenActivity);
+            return com.SendGenericRequest(ci, sid, CMD_showIconForServerOpenActivity);
         }
 
-        public static RequestReturnObject tuanGouReward(HTTPRequestHeaders oH, string sid, int bagId)
+        public static RequestReturnObject tuanGouReward(ConnectionInfo ci, string sid, int bagId)
         {
             // string body = "{\"bagId\":" + bagId.ToString() + "}";
             string body = string.Format("{{\"bagId\":{0}}}", bagId);
-            return com.SendGenericRequest(oH, sid, CMD_tuanGouReward, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_tuanGouReward, true, body);
         }
 
 

@@ -14,9 +14,9 @@ namespace KingsLib.request
         private const string CMD_godStrenInfo = "God.godStrenInfo";
         private const string CMD_godStrenOrAdvance = "God.godStrenOrAdvance";
 
-        public static RequestReturnObject godStrenInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject godStrenInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_godStrenInfo);
+            return com.SendGenericRequest(ci, sid, CMD_godStrenInfo);
         }
 
 

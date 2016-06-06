@@ -22,61 +22,61 @@ namespace KingsLib.request
         private const string CMD_viewStep = "Travel.viewStep";
 
 
-        public static RequestReturnObject arriveStep(HTTPRequestHeaders oH, string sid, int step)
+        public static RequestReturnObject arriveStep(ConnectionInfo ci, string sid, int step)
         {
             string body = "{\"step\":" + step.ToString() + "}";
-            return com.SendGenericRequest(oH, sid, CMD_arriveStep, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_arriveStep, true, body);
         }
 
 
-        public static RequestReturnObject attack(HTTPRequestHeaders oH, string sid, int step)
+        public static RequestReturnObject attack(ConnectionInfo ci, string sid, int step)
         {
             string body = "{\"step\":" + step.ToString() + "}";
-            return com.SendGenericRequest(oH, sid, CMD_attack, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_attack, true, body);
         }
 
-        public static RequestReturnObject checkOut(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject checkOut(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_checkOut);
+            return com.SendGenericRequest(ci, sid, CMD_checkOut);
         }
 
-        public static RequestReturnObject controlDice(HTTPRequestHeaders oH, string sid, int num)
+        public static RequestReturnObject controlDice(ConnectionInfo ci, string sid, int num)
         {
             string body = "{\"num\":" + num.ToString() + "}";
-            return com.SendGenericRequest(oH, sid, CMD_controlDice, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_controlDice, true, body);
         }
 
 
-        public static RequestReturnObject dice(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject dice(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_dice);
+            return com.SendGenericRequest(ci, sid, CMD_dice);
         }
 
-        public static RequestReturnObject escape(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject escape(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_escape);
+            return com.SendGenericRequest(ci, sid, CMD_escape);
         }
 
-        public static RequestReturnObject getMapInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getMapInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getMapInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getMapInfo);
         }
 
-        public static RequestReturnObject getStatus(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getStatus(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getStatus);
+            return com.SendGenericRequest(ci, sid, CMD_getStatus);
         }
 
-        public static RequestReturnObject restartTravel(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject restartTravel(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_restartTravel);
+            return com.SendGenericRequest(ci, sid, CMD_restartTravel);
         }
 
 
-        public static RequestReturnObject viewStep(HTTPRequestHeaders oH, string sid, int step)
+        public static RequestReturnObject viewStep(ConnectionInfo ci, string sid, int step)
         {
             string body = "{\"step\":" + step.ToString() + "}";
-            return com.SendGenericRequest(oH, sid, CMD_viewStep, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_viewStep, true, body);
         }
 
 

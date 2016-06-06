@@ -14,14 +14,14 @@ namespace KingsLib.request
         private const string CMD_signIn = "SignInReward.signIn";
         private const string CMD_signInMultiple = "SignInReward.signInMultiple";
 
-        public static RequestReturnObject getInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getInfo);
         }
 
-        public static RequestReturnObject signIn(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject signIn(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_signIn);
+            return com.SendGenericRequest(ci, sid, CMD_signIn);
         }
 
     }

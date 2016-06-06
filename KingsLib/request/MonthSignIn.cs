@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getOpenInfo = "MonthSignIn.getOpenInfo";
 
-        public static RequestReturnObject getOpenInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getOpenInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getOpenInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getOpenInfo);
         }
 
 

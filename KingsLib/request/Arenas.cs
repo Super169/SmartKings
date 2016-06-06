@@ -15,24 +15,24 @@ namespace KingsLib.request
         private const string CMD_getDefFormation = "Arenas.getDefFormation";
         private const string CMD_myArenasStatus = "Arenas.myArenasStatus";
 
-        public static RequestReturnObject changeEnemies(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject changeEnemies(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_changeEnemies);
+            return com.SendGenericRequest(ci, sid, CMD_changeEnemies);
         }
 
-        public static RequestReturnObject drawTimeReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawTimeReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawTimeReward);
+            return com.SendGenericRequest(ci, sid, CMD_drawTimeReward);
         }
 
-        public static RequestReturnObject getDefFormation(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getDefFormation(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getDefFormation);
+            return com.SendGenericRequest(ci, sid, CMD_getDefFormation);
         }
 
-        public static RequestReturnObject myArenasStatus(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject myArenasStatus(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_myArenasStatus);
+            return com.SendGenericRequest(ci, sid, CMD_myArenasStatus);
         }
 
 

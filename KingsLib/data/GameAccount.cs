@@ -30,6 +30,7 @@ namespace KingsLib.data
             public const string corpsName = "corpsName";
             public const string level = "level";
             public const string vipLevel = "vipLevel";
+            public const string connectionInfo = "connectionInfo";
             public const string currHeader = "currHeader";
             public const string lastUpdateDTM = "lastUpdateDTM";
             public const string heros = "heros";
@@ -57,6 +58,7 @@ namespace KingsLib.data
         public string corpsName { get; set; }
         public string level { get; set; }
         public string vipLevel { get; set; }
+        public ConnectionInfo connectionInfo { get; set; }
         public HTTPRequestHeaders currHeader { get; set; }
         public DateTime lastUpdateDTM { get; set; }
         public List<HeroInfo> heros;
@@ -78,6 +80,7 @@ namespace KingsLib.data
             this.corpsName = null;
             this.level = null;
             this.vipLevel = null;
+            this.connectionInfo = null;
             this.currHeader = null;
             this.lastUpdateDTM = DateTime.Now;
             this.heros = new List<HeroInfo>();
@@ -85,13 +88,15 @@ namespace KingsLib.data
             this.scheduledTasks = new List<Scheduler>();
         }
 
-        public GameAccount(LoginInfo li, HTTPRequestHeaders oH)
+        public GameAccount(LoginInfo li, ConnectionInfo ci)
         {
             initObject();
             if (li.ready)
             {
                 this.account = li.account;
                 this.enabled = false;
+                this.updateSession(li, ci);
+                /*
                 this.sid = li.sid;
                 this.status = AccountStatus.Online;
                 // timeAjust will be set later using system.ping
@@ -102,11 +107,82 @@ namespace KingsLib.data
                 this.corpsName = li.CORPS_NAME;
                 this.level = li.LEVEL;
                 this.vipLevel = li.VIP_LEVEL;
+
                 this.currHeader = oH;
+                buildConnectionHeader();
+
                 refreshAccount();
                 this.ready = true;
+                */
             }
         }
+
+        public void updateSession(LoginInfo li, ConnectionInfo ci)
+        {
+            this.sid = li.sid;
+            this.status = AccountStatus.Online;
+            // timeAjust will be set later using system.ping
+            this.timeAdjust = 0;
+            this.server = li.server;
+            this.serverTitle = li.serverTitle;
+            this.nickName = li.nickName;
+            this.corpsName = li.CORPS_NAME;
+            this.level = li.LEVEL;
+            this.vipLevel = li.VIP_LEVEL;
+
+            // buildConnectionHeader();
+            this.connectionInfo = ci;
+
+            this.lastUpdateDTM = DateTime.Now;
+            refreshAccount();
+            this.ready = true;
+        }
+
+        private void buildConnectionHeader()
+        {
+            this.connectionInfo = new ConnectionInfo();
+
+            this.connectionInfo.uri = "http://" + JSON.getString(this.currHeader["Host"]);
+            this.connectionInfo.fullPath = this.connectionInfo.uri + "/m.do";
+
+            string cookiesStr = JSON.getString(this.currHeader["Cookie"], null);
+            if (cookiesStr != null)
+            {
+                string[] cookies = cookiesStr.Split(';');
+                foreach(string cookie in cookies)
+                {
+                    string[] c = cookie.Split('=');
+                    if (c.Length == 2)
+                    {
+                        this.connectionInfo.addCookie(c[0], c[1]);
+                    }
+                }
+            }
+
+            toConnectionHeader("Host");
+            toConnectionHeader("Proxy-Connection");
+            // toConnectionHeader("Content-Length");  // Just for record, should never use it in HttpClient
+            toConnectionHeader("Proxy-Authorization");
+            toConnectionHeader("Origin");
+            toConnectionHeader("X-Requested-With");
+            toConnectionHeader("User-Agent");
+            // toConnectionHeader("Content-Type");    // Just for record, should never use it in HttpClient
+            toConnectionHeader("Accept");
+            toConnectionHeader("Referer");
+            toConnectionHeader("Accept-Encoding");
+            toConnectionHeader("Accept-Language");
+            toConnectionHeader("Cookie");
+        }
+
+        private void toConnectionHeader(string key)
+        {
+            string value = JSON.getString(this.currHeader[key]);
+            if ((value != null) && (value != ""))
+            {
+                this.connectionInfo.addHeader(key, value);
+            }
+        }
+
 
         public GameAccount(dynamic json)
         {
@@ -129,11 +205,14 @@ namespace KingsLib.data
             this.level = JSON.getString(json[KEY.level], "");
             this.vipLevel = JSON.getString(json[KEY.vipLevel], "");
 
+            dynamic ci = json[KEY.connectionInfo];
+            this.connectionInfo = new ConnectionInfo(ci);
             conv.Json2List(ref this.heros, json[KEY.heros]);
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
             HTTPRequestHeaders oH = null;
-            if (fillHTTPRequestHeaders(ref oH, json[KEY.currHeader])) {
+            if (fillHTTPRequestHeaders(ref oH, json[KEY.currHeader]))
+            {
                 this.currHeader = oH;
             }
             return true;
@@ -177,6 +256,7 @@ namespace KingsLib.data
             json[KEY.corpsName] = this.corpsName;
             json[KEY.level] = this.level;
             json[KEY.vipLevel] = this.vipLevel;
+            json[KEY.connectionInfo] = this.connectionInfo.toJson();
             json[KEY.currHeader] = this.currHeader;
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
             json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
@@ -200,14 +280,14 @@ namespace KingsLib.data
         public AccountStatus checkStatus(bool forceCheck = false)
         {
             if ((!forceCheck) && (this.status == AccountStatus.Offline)) return AccountStatus.Offline;
-            if (currHeader == null)
+            if (connectionInfo == null)
             {
                 this.status = AccountStatus.Offline;
             }
             else
             {
                 int timeAdj = 0;
-                this.status = action.goCheckAccountStatus(currHeader, sid, ref timeAdj);
+                this.status = action.goCheckAccountStatus(connectionInfo, sid, ref timeAdj);
                 if (this.status == AccountStatus.Online) this.timeAdjust = timeAdj;
             }
             return this.status;
@@ -218,8 +298,8 @@ namespace KingsLib.data
             if (this.currHeader == null) return false;
             if (this.status != AccountStatus.Online) return false;
 
-            this.heros = action.getHerosInfo(currHeader, sid);
-            this.decreeHeros = action.getDecreeInfo(currHeader, sid, this.heros);
+            this.heros = action.getHerosInfo(connectionInfo, sid);
+            this.decreeHeros = action.getDecreeInfo(connectionInfo, sid, this.heros);
 
             return true;
         }
@@ -236,7 +316,8 @@ namespace KingsLib.data
                     int serverId = Convert.ToInt32(parts[0].Substring(1));
                     this.pubGameServerId = (serverId > 9 ? serverId - 9 : serverId);
                     this.serverCode = parts[0].Substring(0, 1) + pubGameServerId.ToString();
-                } else
+                }
+                else
                 {
                     this.pubGameServerId = -1;
                     this.serverCode = parts[0];
@@ -255,7 +336,7 @@ namespace KingsLib.data
             if (this.checkStatus(true) != AccountStatus.Online) return false;
             return this.refreshHeros();
         }
-        
+
         public int CompareTo(GameAccount compareGA)
         {
             if (compareGA == null)
@@ -264,6 +345,11 @@ namespace KingsLib.data
                 return this.serverTitle.CompareTo(compareGA.serverTitle);
 
         }
-     
+
+        public bool IsOnline()
+        {
+            return (this.status == AccountStatus.Online);
+        }
+
     }
 }

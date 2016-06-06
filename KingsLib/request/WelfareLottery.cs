@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_time = "WelfareLottery.time";
 
-        public static RequestReturnObject time(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject time(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_time);
+            return com.SendGenericRequest(ci, sid, CMD_time);
         }
 
     }

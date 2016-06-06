@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getPrayTime = "Pray.getPrayTime";
 
-        public static RequestReturnObject getPrayTime(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPrayTime(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPrayTime);
+            return com.SendGenericRequest(ci, sid, CMD_getPrayTime);
         }
 
     }

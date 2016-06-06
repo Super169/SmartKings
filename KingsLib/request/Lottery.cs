@@ -15,24 +15,24 @@ namespace KingsLib.request
         private const string CMD_openLottery = "Lottery.openLottery";
         private const string CMD_refreshLottery = "Lottery.refreshLottery";
 
-        public static RequestReturnObject drawLottery(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawLottery(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawLottery);
+            return com.SendGenericRequest(ci, sid, CMD_drawLottery);
         }
 
-        public static RequestReturnObject freeLottery(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject freeLottery(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_freeLottery);
+            return com.SendGenericRequest(ci, sid, CMD_freeLottery);
         }
 
-        public static RequestReturnObject openLottery(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject openLottery(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_openLottery);
+            return com.SendGenericRequest(ci, sid, CMD_openLottery);
         }
 
-        public static RequestReturnObject refreshLottery(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject refreshLottery(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_refreshLottery);
+            return com.SendGenericRequest(ci, sid, CMD_refreshLottery);
         }
 
     }

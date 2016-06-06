@@ -15,14 +15,14 @@ namespace KingsLib.request
         private const string CMD_drawStageReward = "GrassArrow.drawStageReward";
         private const string CMD_exchangeGrassArrow = "GrassArrow.exchangeGrassArrow";
 
-        public static RequestReturnObject acquireGrassArrowInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject acquireGrassArrowInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_acquireGrassArrowInfo);
+            return com.SendGenericRequest(ci, sid, CMD_acquireGrassArrowInfo);
         }
 
-        public static RequestReturnObject doGrassArrowFight(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject doGrassArrowFight(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_doGrassArrowFight);
+            return com.SendGenericRequest(ci, sid, CMD_doGrassArrowFight);
         }
 
 

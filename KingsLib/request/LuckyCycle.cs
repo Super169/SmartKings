@@ -13,14 +13,14 @@ namespace KingsLib.request
         private const string CMD_draw = "LuckyCycle.draw";
         private const string CMD_info = "LuckyCycle.info";
 
-        public static RequestReturnObject draw(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject draw(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_draw);
+            return com.SendGenericRequest(ci, sid, CMD_draw);
         }
 
-        public static RequestReturnObject info(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject info(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_info);
+            return com.SendGenericRequest(ci, sid, CMD_info);
         }
 
     }

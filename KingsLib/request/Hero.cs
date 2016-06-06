@@ -22,44 +22,44 @@ namespace KingsLib.request
         private const string CMD_matchHero = "Hero.matchHero";
 
 
-        public static RequestReturnObject assessScore(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject assessScore(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_assessScore);
+            return com.SendGenericRequest(ci, sid, CMD_assessScore);
         }
 
-        public static RequestReturnObject getConvenientFormations(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getConvenientFormations(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getConvenientFormations);
+            return com.SendGenericRequest(ci, sid, CMD_getConvenientFormations);
         }
 
-        public static RequestReturnObject getCurrRecommendActivityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getCurrRecommendActivityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getCurrRecommendActivityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getCurrRecommendActivityInfo);
         }
 
-        public static RequestReturnObject getFeastInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getFeastInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getFeastInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getFeastInfo);
         }
 
-        public static RequestReturnObject getHeroIconInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getHeroIconInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getHeroIconInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getHeroIconInfo);
         }
 
-        public static RequestReturnObject getPlayerHeroList(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPlayerHeroList(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPlayerHeroList);
+            return com.SendGenericRequest(ci, sid, CMD_getPlayerHeroList);
         }
 
-        public static RequestReturnObject getScoreHero(HTTPRequestHeaders oH, string sid, string body)
+        public static RequestReturnObject getScoreHero(ConnectionInfo ci, string sid, string body)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getScoreHero, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_getScoreHero, true, body);
         }
 
-        public static RequestReturnObject getWineInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getWineInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getWineInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getWineInfo);
         }
 
 

@@ -17,34 +17,34 @@ namespace KingsLib.request
         private const string CMD_getUnpassBuff = "LongMarch.getUnpassBuff";
         private const string CMD_restart = "LongMarch.restart";
 
-        public static RequestReturnObject getBuyResetTimes(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getBuyResetTimes(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getBuyResetTimes);
+            return com.SendGenericRequest(ci, sid, CMD_getBuyResetTimes);
         }
 
-        public static RequestReturnObject getFinishedReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getFinishedReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getFinishedReward);
+            return com.SendGenericRequest(ci, sid, CMD_getFinishedReward);
         }
 
-        public static RequestReturnObject getHeroStatus(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getHeroStatus(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getHeroStatus);
+            return com.SendGenericRequest(ci, sid, CMD_getHeroStatus);
         }
 
-        public static RequestReturnObject getMyStatus(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getMyStatus(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getMyStatus);
+            return com.SendGenericRequest(ci, sid, CMD_getMyStatus);
         }
 
-        public static RequestReturnObject getUnpassBuff(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getUnpassBuff(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getUnpassBuff);
+            return com.SendGenericRequest(ci, sid, CMD_getUnpassBuff);
         }
 
-        public static RequestReturnObject restart(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject restart(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_restart);
+            return com.SendGenericRequest(ci, sid, CMD_restart);
         }
 
 

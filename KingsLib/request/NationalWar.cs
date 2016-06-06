@@ -17,19 +17,19 @@ namespace KingsLib.request
         private const string CMD_getMyTroops = "NationalWar.getMyTroops";
 
 
-        public static RequestReturnObject acquireCityCommandInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject acquireCityCommandInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_acquireCityCommandInfo);
+            return com.SendGenericRequest(ci, sid, CMD_acquireCityCommandInfo);
         }
 
-        public static RequestReturnObject acquireNationCardPanelInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject acquireNationCardPanelInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_acquireNationCardPanelInfo);
+            return com.SendGenericRequest(ci, sid, CMD_acquireNationCardPanelInfo);
         }
 
-        public static RequestReturnObject getMyTroops(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getMyTroops(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getMyTroops);
+            return com.SendGenericRequest(ci, sid, CMD_getMyTroops);
         }
 
 

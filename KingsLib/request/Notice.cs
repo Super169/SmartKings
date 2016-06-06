@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_queryAllMarqueeMessage = "Notice.queryAllMarqueeMessage";
 
-        public static RequestReturnObject queryAllMarqueeMessage(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject queryAllMarqueeMessage(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_queryAllMarqueeMessage);
+            return com.SendGenericRequest(ci, sid, CMD_queryAllMarqueeMessage);
         }
 
 

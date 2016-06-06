@@ -14,21 +14,21 @@ namespace KingsLib.request
         private const string CMD_buyItem = "Shop2.buyItem";
         private const string CMD_shop2Info = "Shop2.shop2Info";
 
-        public static RequestReturnObject availableShops(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject availableShops(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_availableShops);
+            return com.SendGenericRequest(ci, sid, CMD_availableShops);
         }
 
-        public static RequestReturnObject shop2Info(HTTPRequestHeaders oH, string sid, string shop2Type)
+        public static RequestReturnObject shop2Info(ConnectionInfo ci, string sid, string shop2Type)
         {
             string body = "{\"shop2Type\":\"" + shop2Type + "\"}";
-            return com.SendGenericRequest(oH, sid, CMD_shop2Info, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_shop2Info, true, body);
         }
 
-        public static RequestReturnObject buyItem(HTTPRequestHeaders oH, string sid, int id, string shop2Type)
+        public static RequestReturnObject buyItem(ConnectionInfo ci, string sid, int id, string shop2Type)
         {
             string body = "{\"id\":" + id.ToString() + ", \"shop2Type\":\"" + shop2Type + "\"}";
-            return com.SendGenericRequest(oH, sid, CMD_buyItem, true, body);
+            return com.SendGenericRequest(ci, sid, CMD_buyItem, true, body);
         }
 
 

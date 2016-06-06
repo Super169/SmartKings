@@ -20,44 +20,44 @@ namespace KingsLib.request
         private const string CMD_rankInfo = "BossWar.rankInfo ";
         private const string CMD_sendTroop = "BossWar.sendTroop ";
 
-        public static RequestReturnObject bossInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject bossInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_bossInfo);
+            return com.SendGenericRequest(ci, sid, CMD_bossInfo);
         }
 
-        public static RequestReturnObject bossLineup(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject bossLineup(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_bossLineup);
+            return com.SendGenericRequest(ci, sid, CMD_bossLineup);
         }
 
-        public static RequestReturnObject enterWar(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject enterWar(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_enterWar);
+            return com.SendGenericRequest(ci, sid, CMD_enterWar);
         }
 
-        public static RequestReturnObject keyKillInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject keyKillInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_keyKillInfo);
+            return com.SendGenericRequest(ci, sid, CMD_keyKillInfo);
         }
 
-        public static RequestReturnObject leaveWar(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject leaveWar(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_leaveWar);
+            return com.SendGenericRequest(ci, sid, CMD_leaveWar);
         }
 
-        public static RequestReturnObject openInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject openInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_openInfo);
+            return com.SendGenericRequest(ci, sid, CMD_openInfo);
         }
 
-        public static RequestReturnObject pk(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject pk(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_pk);
+            return com.SendGenericRequest(ci, sid, CMD_pk);
         }
 
-        public static RequestReturnObject rankInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject rankInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_rankInfo);
+            return com.SendGenericRequest(ci, sid, CMD_rankInfo);
         }
 
 

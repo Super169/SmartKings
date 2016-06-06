@@ -11,6 +11,14 @@ namespace MyUtil
 {
     public class JSON
     {
+
+        private static class KEY
+        {
+            public const string key = "Key";
+            public const string value = "Value";
+        }
+
+
         public static string EmptyString { get { return "{}";  } }
         public static dynamic Empty { get { return Json.Decode("{}"); } }
 
@@ -559,7 +567,42 @@ namespace MyUtil
         }
         #endregion
 
+        public static List<KeyValuePair<string, string>> getKeyVlauePairList(dynamic json, string key)
+        {
+            if (!JSON.exists(json, key)) return new List<KeyValuePair<string, string>>();
+            return getKeyVlauePairList(json[key]);
+        }
 
+
+        public static List<KeyValuePair<string, string>> getKeyVlauePairList(dynamic json)
+        {
+            List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
+            if ((json != null)  && (json.GetType() == typeof(DynamicJsonArray)))
+            {
+                DynamicJsonArray dja = (DynamicJsonArray) json;
+                foreach (dynamic o in dja)
+                {
+                    if (JSON.exists(o, KEY.key) && JSON.exists(o, KEY.value))
+                    {
+                        list.Add(new KeyValuePair<string, string>(JSON.getString(o, KEY.key, null), JSON.getString(o, KEY.value, null)));
+                    }
+                }
+            }
+            return list;
+        }
+
+        public static List<dynamic> fromKeyVlauePairList(List<KeyValuePair<string, string>> list)
+        {
+            List<dynamic> jsonList = new List<dynamic>();
+            foreach (KeyValuePair<string, string> p in list)
+            {
+                dynamic json = JSON.Empty;
+                json[KEY.key] = p.Key;
+                json[KEY.value] = p.Value;
+                jsonList.Add(json);
+            }
+            return jsonList;
+        }
 
 
     }

@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_chouqianOpenInfo = "Gamble.chouqianOpenInfo";
 
-        public static RequestReturnObject chouqianOpenInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject chouqianOpenInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_chouqianOpenInfo);
+            return com.SendGenericRequest(ci, sid, CMD_chouqianOpenInfo);
         }
 
 

@@ -19,29 +19,29 @@ namespace KingsLib.request
         private const string CMD_go = "World.go";
         private const string CMD_worldSituation = "World.worldSituation";
 
-        public static RequestReturnObject getAllOpenedCities(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getAllOpenedCities(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getAllOpenedCities);
+            return com.SendGenericRequest(ci, sid, CMD_getAllOpenedCities);
         }
 
-        public static RequestReturnObject getAllTransportingUnits(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getAllTransportingUnits(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getAllTransportingUnits);
+            return com.SendGenericRequest(ci, sid, CMD_getAllTransportingUnits);
         }
 
-        public static RequestReturnObject getCityChapterBlueprint(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getCityChapterBlueprint(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getCityChapterBlueprint);
+            return com.SendGenericRequest(ci, sid, CMD_getCityChapterBlueprint);
         }
 
-        public static RequestReturnObject getCityRewardInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getCityRewardInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getCityRewardInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getCityRewardInfo);
         }
 
-        public static RequestReturnObject getExploredWorldArea(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getExploredWorldArea(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getExploredWorldArea);
+            return com.SendGenericRequest(ci, sid, CMD_getExploredWorldArea);
         }
 
 

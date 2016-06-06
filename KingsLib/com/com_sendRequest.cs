@@ -15,22 +15,8 @@ namespace KingsLib
 {
     public static partial class com
     {
-        public static RequestReturnObject SendRequest(HTTPRequestHeaders oH, string requestText)
-        {
-            int goType = 1;
-            RequestReturnObject rro;
-            if (goType == 1)
-            {
-                rro = SendRequest1(oH, requestText);
-            }
-            else
-            {
-                rro = SendRequest2(oH, requestText);
-            }
-            return rro;
-        }
 
-        public static RequestReturnObject SendRequest2(HTTPRequestHeaders oH, string requestText)
+        public static RequestReturnObject SendRequest(ConnectionInfo ci, string requestText)
         {
             RequestReturnObject rro = new RequestReturnObject();
             rro.success = false;
@@ -44,42 +30,35 @@ namespace KingsLib
                 string result = "";
                 try
                 {
-                    // string Uri = oH["Host"];
-                    string uri = "http://" + oH["Host"];
-                    string FullPath = uri + "/m.do";
 
                     HttpContent _Body = new StringContent(requestText);
                     _Body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                     HttpClient client = new HttpClient();
-                    HttpClientHandler handler = new HttpClientHandler();
 
-                    string cookiesStr = JSON.getString(oH["Cookie"], null);
-                    int cookiesCnt = 0;
-                    if (cookiesStr != null)
+                    if (ci.cookies.Count > 0)
                     {
+                        HttpClientHandler handler = new HttpClientHandler();
                         handler.CookieContainer = new CookieContainer();
-                        string[] cookies = cookiesStr.Split(';');
-                        foreach (string cookie in cookies)
+                        foreach (KeyValuePair<string, string> o in ci.cookies)
                         {
-                            string[] c = cookie.Split('=');
-                            if (c.Length == 2)
-                            {
-                                handler.CookieContainer.Add(new Uri(uri), new Cookie(c[0], c[1]));
-                                cookiesCnt++;
-                            }
+                            handler.CookieContainer.Add(new Uri(ci.uri), new Cookie(o.Key, o.Value));
                         }
-                    }
-                    if (cookiesCnt > 0)
-                    {
                         client = new HttpClient(handler);
-                    }
-                    else
+                    } else
                     {
                         client = new HttpClient();
                     }
+                    foreach (KeyValuePair<string, string> o in ci.headers)
+                    {
+                        // NEVER set the Content-Length & Content-Type for using HttpClient
+                        if ((o.Key != "Content-Length") && (o.Key != "Content-Type"))
+                        {
+                            client.DefaultRequestHeaders.Add(o.Key, o.Value);
+                        }
+                    }
 
-                    HttpResponseMessage response = client.PostAsync(FullPath, _Body).Result;
+                    HttpResponseMessage response = client.PostAsync(ci.fullPath, _Body).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         HttpContent content = response.Content;
@@ -112,7 +91,35 @@ namespace KingsLib
             return rro;
         }
 
-        public static RequestReturnObject SendRequest1(HTTPRequestHeaders oH, string requestText)
+        public static RequestReturnObject SendGenericRequest(ConnectionInfo ci, string sid, string act, bool addSId = true, string body = null)
+        {
+            dynamic json;
+            string requestText = "";
+            RequestReturnObject rro;
+
+            try
+            {
+                json = Json.Decode("{}");
+                json.act = act;
+                if (addSId) json.sid = sid;
+                if (body != null) json.body = body;
+                requestText = Json.Encode(json);
+                rro = SendRequest(ci, requestText);
+            }
+            catch (Exception ex)
+            {
+                rro = new RequestReturnObject();
+                rro.success = false;
+                rro.ok = -1;
+                rro.msg = ex.Message;
+                rro.session = null;
+            }
+            return rro;
+        }
+
+
+
+        public static RequestReturnObject SendRequest(HTTPRequestHeaders oH, string requestText)
         {
 
             RequestReturnObject rro = new RequestReturnObject();

@@ -13,9 +13,9 @@ namespace KingsLib.request
         private const string CMD_getTurnCardRewards = "TurnCardReward.getTurnCardRewards";
         private const string CMD_turnCard = "TurnCardReward.turnCard";
 
-        public static RequestReturnObject getTurnCardRewards(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getTurnCardRewards(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getTurnCardRewards);
+            return com.SendGenericRequest(ci, sid, CMD_getTurnCardRewards);
         }
 
 

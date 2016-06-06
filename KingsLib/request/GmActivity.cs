@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_superPackageInfo = "GmActivity.superPackageInfo";
 
-        public static RequestReturnObject superPackageInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject superPackageInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_superPackageInfo);
+            return com.SendGenericRequest(ci, sid, CMD_superPackageInfo);
         }
 
     }

@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getPlatformInfo = "Platform.getPlatformInfo";
 
-        public static RequestReturnObject getPlatformInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPlatformInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPlatformInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getPlatformInfo);
         }
 
 

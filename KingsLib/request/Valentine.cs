@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getActivityInfo = "Valentine.getActivityInfo";
 
-        public static RequestReturnObject getActivityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getActivityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getActivityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getActivityInfo);
         }
 
 

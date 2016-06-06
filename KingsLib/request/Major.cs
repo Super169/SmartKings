@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getMyMajorInfo = "Major.getMyMajorInfo";
 
-        public static RequestReturnObject getMyMajorInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getMyMajorInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getMyMajorInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getMyMajorInfo);
         }
 
 

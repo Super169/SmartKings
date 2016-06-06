@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getSevenDayFundRewardInfo = "RewardActivity.getSevenDayFundRewardInfo";
 
-        public static RequestReturnObject getSevenDayFundRewardInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getSevenDayFundRewardInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getSevenDayFundRewardInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getSevenDayFundRewardInfo);
         }
 
 

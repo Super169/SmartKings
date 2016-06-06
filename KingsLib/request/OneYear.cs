@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_cityStatus = "OneYear.cityStatus";
 
-        public static RequestReturnObject cityStatus(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject cityStatus(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_cityStatus);
+            return com.SendGenericRequest(ci, sid, CMD_cityStatus);
         }
 
 

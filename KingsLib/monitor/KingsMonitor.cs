@@ -20,7 +20,7 @@ namespace KingsLib.monitor
         static Object accountsLocker = new Object();
         
         // Propagate to parent handler when new sid is detected  
-        public delegate void NewSidEventHandler(LoginInfo li, HTTPRequestHeaders oH);
+        public delegate void NewSidEventHandler(LoginInfo li, ConnectionInfo ci);
         public static event NewSidEventHandler newSidEventHandler;
 
         public delegate void NotificationEventHandler(string info);
@@ -103,6 +103,9 @@ namespace KingsLib.monitor
 
             UpdateUI("*** Find new sid: " + sid);
 
+
+            // Build HTTPRequestHeaders
+            /*
             HTTPRequestHeaders oH = new HTTPRequestHeaders();
             oH.HTTPMethod = "POST";
             oH.HTTPVersion = "HTTP/1.1";
@@ -143,15 +146,30 @@ namespace KingsLib.monitor
 
 
             NewSid(li, oH);
+            
+            
+            */
+
+            // Build Connection Info here
+            ConnectionInfo ci = new ConnectionInfo();
+            ci.fromTcpPacketData(p.data);
+
+            data.LoginInfo li = action.getAccountInfo(ci, sid);
+            if (!li.ready) return;
+            li.server = server;
+            UpdateUI(string.Format("{0} | {1} - {2}", li.account, li.serverTitle, li.nickName));
+
+            NewSid(li, ci);
+
 
         }
 
 
-        private static void NewSid(LoginInfo li, HTTPRequestHeaders oH)
+        private static void NewSid(LoginInfo li, ConnectionInfo ci)
         {
             if (newSidEventHandler != null)
             {
-                newSidEventHandler(li, oH);
+                newSidEventHandler(li, ci);
             }
         }
 

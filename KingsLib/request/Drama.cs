@@ -11,9 +11,9 @@ namespace KingsLib.request
     public static class Drama
     {
         private const string CMD_getDramaInfo = "Drama.getDramaInfo";
-        public static RequestReturnObject getDramaInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getDramaInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getDramaInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getDramaInfo);
         }
 
 

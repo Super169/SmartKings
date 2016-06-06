@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800">
+        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -31,8 +30,7 @@
             </Grid>
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="#FFE2E1E1"/>
             <Grid Grid.Row="4">
-                <ListView x:Name="lvInfo" Margin="2,2,2,2">
-                </ListView>
+                <TextBox x:Name="txtInfo" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
             </Grid>
             <Grid Grid.Row="5" Background="#FFE2E1E1" />
             <Grid Grid.Row="6">
@@ -100,7 +98,9 @@
                     <Button x:Name="btnAuto" Content="立即啟動" Margin="5,69,5,2"/>
                 </Grid>
                 <Grid Grid.Row="1"  Background="#FFE2E1E1"/>
-                <Grid Grid.Row="2"  />
+                <Grid Grid.Row="2"  >
+                    <Button x:Name="btnTeter" Content="進行測試" Margin="10,37,10,0" VerticalAlignment="Top" Height="47" FontSize="24" Click="btnTeter_Click"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

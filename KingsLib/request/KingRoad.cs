@@ -15,19 +15,19 @@ namespace KingsLib.request
         private const string CMD_kingroadState = "KingRoad.kingroadState";
         private const string CMD_seasonChallenge = "KingRoad.seasonChallenge";
 
-        public static RequestReturnObject afterSeasonEnemy(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject afterSeasonEnemy(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_afterSeasonEnemy);
+            return com.SendGenericRequest(ci, sid, CMD_afterSeasonEnemy);
         }
 
-        public static RequestReturnObject kingroadEnd(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject kingroadEnd(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_kingroadEnd);
+            return com.SendGenericRequest(ci, sid, CMD_kingroadEnd);
         }
 
-        public static RequestReturnObject kingroadState(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject kingroadState(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_kingroadState);
+            return com.SendGenericRequest(ci, sid, CMD_kingroadState);
         }
 
 

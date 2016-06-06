@@ -17,29 +17,29 @@ namespace KingsLib.request
         private const string CMD_getGameInfo = "Emperor.getGameInfo";
         private const string CMD_isFloat = "Emperor.isFloat";
 
-        public static RequestReturnObject collected(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject collected(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_collected);
+            return com.SendGenericRequest(ci, sid, CMD_collected);
         }
 
-        public static RequestReturnObject draw(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject draw(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_draw);
+            return com.SendGenericRequest(ci, sid, CMD_draw);
         }
 
-        public static RequestReturnObject getBuyInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getBuyInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getBuyInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getBuyInfo);
         }
 
-        public static RequestReturnObject getGameInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getGameInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getGameInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getGameInfo);
         }
 
-        public static RequestReturnObject isFloat(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject isFloat(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_isFloat);
+            return com.SendGenericRequest(ci, sid, CMD_isFloat);
         }
 
 

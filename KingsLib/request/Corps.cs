@@ -22,34 +22,34 @@ namespace KingsLib.request
         private const string CMD_takeZhanjiStep = "Corps.takeZhanjiStep";
         private const string CMD_upgradePlayerTech = "Corps.upgradePlayerTech";
 
-        public static RequestReturnObject corpsCityReward(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject corpsCityReward(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_corpsCityReward);
+            return com.SendGenericRequest(ci, sid, CMD_corpsCityReward);
         }
 
-        public static RequestReturnObject getCorpsMessageNum(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getCorpsMessageNum(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getCorpsMessageNum);
+            return com.SendGenericRequest(ci, sid, CMD_getCorpsMessageNum);
         }
 
-        public static RequestReturnObject getJoinedCorps(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getJoinedCorps(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getJoinedCorps);
+            return com.SendGenericRequest(ci, sid, CMD_getJoinedCorps);
         }
 
-        public static RequestReturnObject personIndustryRefresh(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject personIndustryRefresh(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_personIndustryRefresh);
+            return com.SendGenericRequest(ci, sid, CMD_personIndustryRefresh);
         }
 
-        public static RequestReturnObject playerTech(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject playerTech(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_playerTech);
+            return com.SendGenericRequest(ci, sid, CMD_playerTech);
         }
 
-        public static RequestReturnObject takeZhanjiStep(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject takeZhanjiStep(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_takeZhanjiStep);
+            return com.SendGenericRequest(ci, sid, CMD_takeZhanjiStep);
         }
 
 

@@ -11,10 +11,10 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public static GameAccount.AccountStatus goCheckAccountStatus(HTTPRequestHeaders oH, string sid, ref int timeAdjust)
+        public static GameAccount.AccountStatus goCheckAccountStatus(ConnectionInfo ci, string sid, ref int timeAdjust)
         {
             if ((sid == null) || (sid == "")) return GameAccount.AccountStatus.Offline;
-            RequestReturnObject rro = request.System.ping(oH, sid);
+            RequestReturnObject rro = request.System.ping(ci, sid);
             if (!rro.success) return GameAccount.AccountStatus.Unknown;
             if (rro.prompt == PROMPT_RELOGIN) return GameAccount.AccountStatus.Offline;
             if (rro.style == "ALERT")  return GameAccount.AccountStatus.Offline;

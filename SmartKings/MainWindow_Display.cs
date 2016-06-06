@@ -36,10 +36,15 @@ namespace SmartKings
         }
 
 
-        private void UpdateStatus(string info, bool addTime = true, bool resetText = false)
+        private void UpdateStatus(string status, bool addTime = true, bool resetText = false)
         {
-            UpdateTextBox(txtStatus, info, addTime, resetText);
+            UpdateTextBox(txtStatus, status, addTime, resetText);
         }
 
+        private void UpdateInfo(string account, string action, string msg, bool addTime = true)
+        {
+            string infoMsg = account + "|" + action + "|" + msg;
+            
+        }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="MainWindow_Schedulig.cs" />
     <Compile Include="MainWindow_SingleInstance.cs" />
     <Compile Include="MainWindow_Tasks.cs" />
+    <Compile Include="MainWindow_Tester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

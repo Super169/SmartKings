@@ -17,29 +17,29 @@ namespace KingsLib.request
         private const string CMD_retreatAllTroops = "NorthMarch.retreatAllTroops";
         private const string CMD_sendTroops = "NorthMarch.sendTroops";
 
-        public static RequestReturnObject enterWar(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject enterWar(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_enterWar);
+            return com.SendGenericRequest(ci, sid, CMD_enterWar);
         }
 
-        public static RequestReturnObject inMissionHeros(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject inMissionHeros(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_inMissionHeros);
+            return com.SendGenericRequest(ci, sid, CMD_inMissionHeros);
         }
 
-        public static RequestReturnObject leaveWar(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject leaveWar(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_leaveWar);
+            return com.SendGenericRequest(ci, sid, CMD_leaveWar);
         }
 
-        public static RequestReturnObject northCitySituation(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject northCitySituation(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_northCitySituation);
+            return com.SendGenericRequest(ci, sid, CMD_northCitySituation);
         }
 
-        public static RequestReturnObject retreatAllTroops(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject retreatAllTroops(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_retreatAllTroops);
+            return com.SendGenericRequest(ci, sid, CMD_retreatAllTroops);
         }
 
 

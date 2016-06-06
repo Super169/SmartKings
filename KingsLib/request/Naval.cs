@@ -20,29 +20,29 @@ namespace KingsLib.request
         private const string CMD_rewardCfg = "Naval.rewardCfg";
         private const string CMD_sendTroops = "Naval.sendTroops";
 
-        public static RequestReturnObject getInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getInfo);
         }
 
-        public static RequestReturnObject inMissionHeros(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject inMissionHeros(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_inMissionHeros);
+            return com.SendGenericRequest(ci, sid, CMD_inMissionHeros);
         }
 
-        public static RequestReturnObject killRank(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject killRank(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_killRank);
+            return com.SendGenericRequest(ci, sid, CMD_killRank);
         }
 
-        public static RequestReturnObject leaveWar(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject leaveWar(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_leaveWar);
+            return com.SendGenericRequest(ci, sid, CMD_leaveWar);
         }
 
-        public static RequestReturnObject rewardCfg(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject rewardCfg(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_rewardCfg);
+            return com.SendGenericRequest(ci, sid, CMD_rewardCfg);
         }
 
 

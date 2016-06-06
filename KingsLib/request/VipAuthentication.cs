@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_isGotMobileGift = "VipAuthentication.isGotMobileGift";
 
-        public static RequestReturnObject isGotMobileGift(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject isGotMobileGift(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_isGotMobileGift);
+            return com.SendGenericRequest(ci, sid, CMD_isGotMobileGift);
         }
 
 

@@ -12,15 +12,15 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public static LoginInfo getAccountInfo(HTTPRequestHeaders oH, string sid)
+        public static LoginInfo getAccountInfo(ConnectionInfo ci, string sid)
         {
             LoginInfo info = new LoginInfo() { ready = false, sid = sid };
-            RequestReturnObject rro = request.Login.login(oH, sid);
+            RequestReturnObject rro = request.Login.login(ci, sid);
             if (!rro.SuccessWithJson("account")) return info;
             info.account = JSON.getString(rro.responseJson, "account", "");
             info.serverTitle = JSON.getString(rro.responseJson, "serverTitle", "");
             info.nickName = JSON.getString(rro.responseJson, "nickName", "");
-            rro = request.Player.getProperties(oH, sid);
+            rro = request.Player.getProperties(ci, sid);
             if (!rro.SuccessWithJson("pvs", typeof(DynamicJsonArray))) return info;
             // only assign the sid here if all data is ready. or should it use other field like isReady?
             DynamicJsonArray pvs = (DynamicJsonArray)rro.responseJson.pvs;

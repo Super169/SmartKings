@@ -13,14 +13,14 @@ namespace KingsLib.request
         private const string CMD_activityInfo = "Firecracker.activityInfo";
         private const string CMD_myFirecrackerInfo = "Firecracker.myFirecrackerInfo";
 
-        public static RequestReturnObject activityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject activityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_activityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_activityInfo);
         }
 
-        public static RequestReturnObject myFirecrackerInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject myFirecrackerInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_myFirecrackerInfo);
+            return com.SendGenericRequest(ci, sid, CMD_myFirecrackerInfo);
         }
 
 

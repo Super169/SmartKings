@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_findAllPowerRank = "Rank.findAllPowerRank";
 
-        public static RequestReturnObject findAllPowerRank(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject findAllPowerRank(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_findAllPowerRank);
+            return com.SendGenericRequest(ci, sid, CMD_findAllPowerRank);
         }
 
 

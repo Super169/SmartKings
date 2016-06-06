@@ -15,19 +15,19 @@ namespace KingsLib.request
         private const string CMD_open = "EightTrigrams.open";
         private const string CMD_openBox = "EightTrigrams.openBox";
 
-        public static RequestReturnObject getInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getInfo);
         }
 
-        public static RequestReturnObject open(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject open(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_open);
+            return com.SendGenericRequest(ci, sid, CMD_open);
         }
 
-        public static RequestReturnObject openBox(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject openBox(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_openBox);
+            return com.SendGenericRequest(ci, sid, CMD_openBox);
         }
 
     }

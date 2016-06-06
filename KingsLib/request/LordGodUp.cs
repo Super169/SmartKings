@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getDispInfo = "LordGodUp.getDispInfo";
 
-        public static RequestReturnObject getDispInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getDispInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getDispInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getDispInfo);
         }
 
 

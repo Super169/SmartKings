@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_activityTime = "RedEnvelope.activityTime";
 
-        public static RequestReturnObject activityTime(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject activityTime(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_activityTime);
+            return com.SendGenericRequest(ci, sid, CMD_activityTime);
         }
 
 

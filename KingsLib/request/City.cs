@@ -14,9 +14,9 @@ namespace KingsLib.request
         private const string CMD_getIndustryInfo = "City.getIndustryInfo";
         private const string CMD_getPlayerCityInfo = "City.getPlayerCityInfo";
 
-        public static RequestReturnObject getPlayerCityInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPlayerCityInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPlayerCityInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getPlayerCityInfo);
         }
 
 

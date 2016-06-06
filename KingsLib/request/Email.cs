@@ -14,9 +14,9 @@ namespace KingsLib.request
         private const string CMD_openInBox = "Email.openInBox";
         private const string CMD_read = "Email.read";
 
-        public static RequestReturnObject openInBox(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject openInBox(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_openInBox);
+            return com.SendGenericRequest(ci, sid, CMD_openInBox);
         }
 
 

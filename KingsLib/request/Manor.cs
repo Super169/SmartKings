@@ -29,29 +29,29 @@ namespace KingsLib.request
         private const string CMD_trainHeroInfo = "Manor.trainHeroInfo";
         private const string CMD_upgradeArmsTechnology = "Manor.upgradeArmsTechnology";
 
-        public static RequestReturnObject armsTechnology(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject armsTechnology(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_armsTechnology);
+            return com.SendGenericRequest(ci, sid, CMD_armsTechnology);
         }
 
-        public static RequestReturnObject decreeInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject decreeInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_decreeInfo);
+            return com.SendGenericRequest(ci, sid, CMD_decreeInfo);
         }
 
-        public static RequestReturnObject getManorInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getManorInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getManorInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getManorInfo);
         }
 
-        public static RequestReturnObject refreshManor(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject refreshManor(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_refreshManor);
+            return com.SendGenericRequest(ci, sid, CMD_refreshManor);
         }
 
-        public static RequestReturnObject resHourOutput(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject resHourOutput(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_resHourOutput);
+            return com.SendGenericRequest(ci, sid, CMD_resHourOutput);
         }
 
     }

@@ -14,14 +14,14 @@ namespace KingsLib.request
         private const string CMD_viewCountry = "Country.viewCountry";
 
 
-        public static RequestReturnObject corpsCountry(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject corpsCountry(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_corpsCountry);
+            return com.SendGenericRequest(ci, sid, CMD_corpsCountry);
         }
 
-        public static RequestReturnObject viewCountry(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject viewCountry(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_viewCountry);
+            return com.SendGenericRequest(ci, sid, CMD_viewCountry);
         }
 
     }

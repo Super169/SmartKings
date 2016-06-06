@@ -11,9 +11,9 @@ namespace KingsLib.request
     public static class CorpsWar
     {
         private const string CMD_getInfo = "CorpsWar.getInfo";
-        public static RequestReturnObject getInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getInfo);
         }
 
 

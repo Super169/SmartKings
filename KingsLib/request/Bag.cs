@@ -13,9 +13,9 @@ namespace KingsLib.request
         private const string CMD_getBagInfo = "Bag.getBagInfo";
         private const string CMD_useItem = "Bag.useItem";
 
-        public static RequestReturnObject getBagInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getBagInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getBagInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getBagInfo);
         }
 
 

@@ -13,9 +13,9 @@ namespace KingsLib.request
         private const string CMD_dealPatroledEvent = "Patrol.dealPatroledEvent";
         private const string CMD_getPatrolInfo = "Patrol.getPatrolInfo";
 
-        public static RequestReturnObject getPatrolInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getPatrolInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getPatrolInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getPatrolInfo);
         }
 
 

@@ -12,12 +12,12 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public static List<HeroInfo> getHerosInfo(HTTPRequestHeaders oH, string sid)
+        public static List<HeroInfo> getHerosInfo(ConnectionInfo ci, string sid)
         {
             List<HeroInfo> heroList = new List<HeroInfo>();
             try
             {
-                RequestReturnObject rro = Hero.getPlayerHeroList(oH, sid);
+                RequestReturnObject rro = Hero.getPlayerHeroList(ci, sid);
                 if (rro.SuccessWithJson("heros", typeof(DynamicJsonArray)))
                 {
                     DynamicJsonArray heros = rro.responseJson.heros;

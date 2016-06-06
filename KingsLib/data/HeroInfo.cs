@@ -8,7 +8,7 @@ using System.Web.Helpers;
 
 namespace KingsLib.data
 {
-    public class HeroInfo : IInfoObject
+    public class HeroInfo : InfoBase
     {
 
         private static class KEY
@@ -49,12 +49,7 @@ namespace KingsLib.data
 
         public HeroInfo()
         {
-            idx = 0;
-        }
-
-        public HeroInfo(string jsonString)
-        {
-            this.fromJsonString(jsonString);
+            this.initObject();
         }
 
         public HeroInfo(dynamic json)
@@ -62,11 +57,22 @@ namespace KingsLib.data
             this.fromJson(json);
         }
 
-        public bool fromJson(dynamic json)
+        public HeroInfo(string jsonString)
+        {
+            this.fromJsonString(jsonString);
+        }
+
+        public override void initObject()
+        {
+            idx = 0;
+        }
+
+        public override bool fromJson(dynamic json)
         {
             bool success = false;
             try
             {
+                this.initObject();
                 this.idx = JSON.getInt(json, KEY.idx, 0);
                 this.nm = JSON.getString(json, KEY.nm, "");
                 this.army = JSON.getString(json, KEY.army, "");
@@ -95,12 +101,7 @@ namespace KingsLib.data
             return success;
         }
 
-        public bool fromJsonString(string jsonString)
-        {
-            return fromJson(JSON.decode(jsonString));
-        }
-
-        public dynamic toJson()
+        public override dynamic toJson()
         {
             dynamic json = JSON.Empty;
             try
@@ -123,9 +124,5 @@ namespace KingsLib.data
             return json;
         }
 
-        public string toJsonString()
-        {
-            return JSON.encode(this.toJson());
-        }
     }
 }

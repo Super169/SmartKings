@@ -11,12 +11,12 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public static List<DecreeInfo> getDecreeInfo(HTTPRequestHeaders oH, string sid, List<HeroInfo> heroList)
+        public static List<DecreeInfo> getDecreeInfo(ConnectionInfo ci, string sid, List<HeroInfo> heroList)
         {
             List<DecreeInfo> decreeInfo = new List<DecreeInfo>();
             try
             {
-                RequestReturnObject rro = request.Manor.decreeInfo(oH, sid);
+                RequestReturnObject rro = request.Manor.decreeInfo(ci, sid);
                 if (rro.SuccessWithJson("decHeros", typeof(DynamicJsonArray)))
                 {
                     DynamicJsonArray decHeros = rro.responseJson["decHeros"];

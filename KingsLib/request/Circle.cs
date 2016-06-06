@@ -16,24 +16,24 @@ namespace KingsLib.request
         private const string CMD_restartHuarongRoad = "Circle.restartHuarongRoad";
         private const string CMD_turnOverHeroCard = "Circle.turnOverHeroCard";
 
-        public static RequestReturnObject challenge(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject challenge(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_challenge);
+            return com.SendGenericRequest(ci, sid, CMD_challenge);
         }
 
-        public static RequestReturnObject drawPassRewards(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject drawPassRewards(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_drawPassRewards);
+            return com.SendGenericRequest(ci, sid, CMD_drawPassRewards);
         }
 
-        public static RequestReturnObject getHuarongRoadInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getHuarongRoadInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getHuarongRoadInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getHuarongRoadInfo);
         }
 
-        public static RequestReturnObject restartHuarongRoad(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject restartHuarongRoad(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_restartHuarongRoad);
+            return com.SendGenericRequest(ci, sid, CMD_restartHuarongRoad);
         }
 
 

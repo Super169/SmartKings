@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_teamDuplicateFreeTimes = "TeamDuplicate.teamDuplicateFreeTimes";
 
-        public static RequestReturnObject teamDuplicateFreeTimes(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject teamDuplicateFreeTimes(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_teamDuplicateFreeTimes);
+            return com.SendGenericRequest(ci, sid, CMD_teamDuplicateFreeTimes);
         }
 
 

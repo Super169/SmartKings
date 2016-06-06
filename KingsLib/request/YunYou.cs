@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getYunYouInfo = "YunYou.getYunYouInfo";
 
-        public static RequestReturnObject getYunYouInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getYunYouInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getYunYouInfo);
+            return com.SendGenericRequest(ci, sid, CMD_getYunYouInfo);
         }
 
     }

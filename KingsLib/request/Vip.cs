@@ -14,14 +14,14 @@ namespace KingsLib.request
         private const string CMD_monthCard = "Vip.monthCard";
         private const string CMD_vipPrivilegeLevel = "Vip.vipPrivilegeLevel";
 
-        public static RequestReturnObject firstChargeInfo(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject firstChargeInfo(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_firstChargeInfo);
+            return com.SendGenericRequest(ci, sid, CMD_firstChargeInfo);
         }
 
-        public static RequestReturnObject monthCard(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject monthCard(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_monthCard);
+            return com.SendGenericRequest(ci, sid, CMD_monthCard);
         }
 
 

@@ -12,9 +12,9 @@ namespace KingsLib.request
     {
         private const string CMD_getNpcWars = "NpcCorps.getNpcWars";
 
-        public static RequestReturnObject getNpcWars(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getNpcWars(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getNpcWars);
+            return com.SendGenericRequest(ci, sid, CMD_getNpcWars);
         }
 
 

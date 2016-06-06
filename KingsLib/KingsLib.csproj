@@ -56,6 +56,7 @@
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
+    <Compile Include="data\ConnectionInfo.cs" />
     <Compile Include="data\DecreeInfo.cs" />
     <Compile Include="data\GameAccount.cs" />
     <Compile Include="data\HeroInfo.cs" />

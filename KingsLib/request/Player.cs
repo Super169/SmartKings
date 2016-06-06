@@ -14,14 +14,14 @@ namespace KingsLib.request
         private const string CMD_getSpecialState = "Player.getSpecialState";
         private const string CMD_updateGuideSequence = "Player.updateGuideSequence";
 
-        public static RequestReturnObject getProperties(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getProperties(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getProperties);
+            return com.SendGenericRequest(ci, sid, CMD_getProperties);
         }
 
-        public static RequestReturnObject getSpecialState(HTTPRequestHeaders oH, string sid)
+        public static RequestReturnObject getSpecialState(ConnectionInfo ci, string sid)
         {
-            return com.SendGenericRequest(oH, sid, CMD_getSpecialState);
+            return com.SendGenericRequest(ci, sid, CMD_getSpecialState);
         }
 
 
