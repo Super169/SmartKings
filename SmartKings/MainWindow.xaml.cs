@@ -43,6 +43,8 @@ namespace SmartKings
                 this.Close();
             }
 
+            initTimer();
+            goAutoKings();
         }
 
     }

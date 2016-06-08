@@ -12,40 +12,61 @@ namespace SmartKings
 {
     public partial class MainWindow : Window
     {
-        private string SystemTimePrefix()
+
+        private string SystemTime()
         {
-            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss | ");
+            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        private void UpdateTextBox(TextBox tb, string info, bool addTime = true, bool resetText = false)
+        private void UpdateTextBox(TextBox tb, string content, bool async = true)
+        {
+            if (Dispatcher.FromThread(Thread.CurrentThread) == null)
+            {
+                if (async)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => UpdateTextBox(tb, content, async)));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => UpdateTextBox(tb, content, async)));
+                }
+                return;
+            }
+            tb.Text = content;
+            tb.ScrollToEnd();
+        }
+
+        private void userNotification(TextBox tb, string info, bool addTime = true, bool resetText = false, bool newLine = true)
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
                 // Time must be added here, otherwise, there will have longer delay
-                if (addTime) info = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss | ") + info;
+                if (addTime) info = SystemTime() + " | " + info;
 
                 Application.Current.Dispatcher.BeginInvoke(
                   System.Windows.Threading.DispatcherPriority.Normal,
-                  (Action)(() => UpdateTextBox(tb, info, false, resetText)));
+                  (Action)(() => userNotification(tb, info, false, resetText, newLine)));
                 return;
             }
             if (resetText) tb.Text = "";
-            if (addTime) tb.Text += SystemTimePrefix();
-            tb.Text += info + "\n";
+            if (addTime) tb.Text += SystemTime() + " | ";
+            tb.Text += info + (newLine ? "\n" : "");
             tb.ScrollToEnd();
         }
 
-
         private void UpdateStatus(string status, bool addTime = true, bool resetText = false)
         {
-            UpdateTextBox(txtStatus, status, addTime, resetText);
+            userNotification(txtStatus, status, addTime, resetText);
         }
 
         private void UpdateInfo(string account, string action, string msg, bool addTime = true)
         {
             string infoMsg = account + "|" + action + "|" + msg;
-            UpdateTextBox(txtInfo, infoMsg, addTime, false);
-
+            userNotification(txtInfo, infoMsg, addTime, false);
         }
     }
 }
