@@ -45,26 +45,26 @@ namespace SmartKings
         {
             autoTimer.Enabled = false;
 
+            if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 開始執行");
             UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);
             UpdateTextBox(txtNextExecution, "執行中。。。。。。", false);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
 
-            // UpdateStatus(string.Format("自動大皇帝 - 開始執行"));
             DateTime minNext;
             DateTime nextActionTime;
 
-
-            minNext = DateTime.Now.AddMinutes(1);
-            nextActionTime = new DateTime(minNext.Year, minNext.Month, minNext.Day, minNext.Hour, 05, 00).AddHours(1);
+            minNext = DateTime.Now;
+            int currMinSlot =  ( (int) (minNext.Minute / AppSettings.elapseMin + 1)) * AppSettings.elapseMin;
+            nextActionTime = new DateTime(minNext.Year, minNext.Month, minNext.Day, minNext.Hour, 00, 00).AddMinutes(currMinSlot + AppSettings.extraStartMin);
 
             double waitMS = (nextActionTime - DateTime.Now).TotalSeconds * 1000;
             if (waitMS < 0) waitMS = 1000;
 
             autoTimer.Interval = waitMS;
             autoTimer.Enabled = true;
-            // UpdateInfo("SYSTEM","自動", string.Format("自動大皇帝 - 執行完成, 下次執行時候為: {0:yyyy-MM-dd HH:mm:ss}", nextActionTime));
             UpdateTextBox(txtNextExecution, nextActionTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");
 
         }
 

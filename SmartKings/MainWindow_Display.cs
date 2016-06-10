@@ -40,16 +40,23 @@ namespace SmartKings
             tb.ScrollToEnd();
         }
 
-        private void userNotification(TextBox tb, string info, bool addTime = true, bool resetText = false, bool newLine = true)
+        private void userNotification(TextBox tb, string info, bool addTime = true, bool resetText = false, bool newLine = true, bool async = true)
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
                 // Time must be added here, otherwise, there will have longer delay
                 if (addTime) info = SystemTime() + " | " + info;
 
-                Application.Current.Dispatcher.BeginInvoke(
-                  System.Windows.Threading.DispatcherPriority.Normal,
-                  (Action)(() => userNotification(tb, info, false, resetText, newLine)));
+                if (async)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => userNotification(tb, info, false, resetText, newLine)));
+                }
+                else
+                {
+
+                }
                 return;
             }
             if (resetText) tb.Text = "";
@@ -63,10 +70,10 @@ namespace SmartKings
             userNotification(txtStatus, status, addTime, resetText);
         }
 
-        private void UpdateInfo(string account, string action, string msg, bool addTime = true)
+        private void UpdateInfo(string account, string action, string msg, bool addTime = true, bool async = true)
         {
             string infoMsg = account + "|" + action + "|" + msg;
-            userNotification(txtInfo, infoMsg, addTime, false);
+            userNotification(txtInfo, infoMsg, addTime, false, async);
         }
     }
 }
