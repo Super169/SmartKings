@@ -8,6 +8,21 @@ namespace KingsLib
 {
     public static partial class action
     {
+        public static class PROMPT
+        {
+            public const string ERR_NOT_ENOUGH = "ERR_NOT_ENOUGH";
+            public const string ERR_COMMON_NOT_SUPPORT = "ERR_COMMON_NOT_SUPPORTED";
+            public const string ERR_COMMON_RELOGIN = "ERR_COMMON_RELOGIN";
+
+            public const string ACTIVITY_NOT_OPEN = "ACTIVITY_IS_NOT_OPEN";
+            public const string GOT_REWARD_ALREADY = "GOT_REWARD_ALREADY";
+
+            public const string RESOURCE_FULL = "RESOURCE_FULL";
+
+            public const string ACTIVITY_CAN_NOT_PARTICIPATE = "ACTIVITY_CAN_NOT_PARTICIPATE";
+
+        }
+/*
         public const string PROMPT_NOT_ENOUGH = "ERR_NOT_ENOUGH";
         public const string PROMPT_NOT_SUPPORT = "ERR_COMMON_NOT_SUPPORTED";
         public const string PROMPT_RELOGIN = "ERR_COMMON_RELOGIN";
@@ -17,6 +32,8 @@ namespace KingsLib
 
         public const string PROMPT_RESOURCE_FULL = "RESOURCE_FULL";
 
+        public const string PROMPT_ACTIVITY_CAN_NOT_PARTICIPATE = "ACTIVITY_CAN_NOT_PARTICIPATE";
+*/
         public static class RRO
         {
             public const string elite = "elite";
@@ -35,6 +52,8 @@ namespace KingsLib
             public const string times = "times";
             public const string buyTimes = "buyTimes";
             public const string weekday = "weekday";
+
+            public const string diceNum = "diceNum";
         }
 
     }

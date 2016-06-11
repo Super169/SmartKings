@@ -27,7 +27,7 @@
             </Grid>
             <Grid Grid.Row="1" Background="#FFE2E1E1" />
             <Grid Grid.Row="2">
-                <TextBox x:Name="txtStatus" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Background="#FFC0FFFF" FontSize="16"/>
+                <TextBox x:Name="txtStatus" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Background="#FFC0FFFF" FontSize="13.333"/>
             </Grid>
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="#FFE2E1E1"/>
             <Grid Grid.Row="4">

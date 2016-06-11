@@ -39,6 +39,9 @@ namespace KingsLib
             // 王者獎勵/保級賽
             goCheckOutstandTasks(action, "王者獎勵", checkOutstandingAfterKingRoad, oGA, updateInfo, debug);
 
+            // 周遊天下
+            goCheckOutstandTasks(action, "周遊天下", checkOutstandingTravel, oGA, updateInfo, debug);
+
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
             return true;
@@ -53,7 +56,6 @@ namespace KingsLib
             }
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: {1}", "結束檢查", module));
         }
-
 
         public static bool checkOutstandingCampaignElite(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, bool debug)
         {
@@ -181,6 +183,25 @@ namespace KingsLib
             }
             return true;
         }
+
+        public static bool checkOutstandingTravel(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, bool debug)
+        {
+            RequestReturnObject rro = request.Travel.getMapInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (rro.prompt == PROMPT.ACTIVITY_CAN_NOT_PARTICIPATE) return true;
+            if (!(rro.Exists(RRO.diceNum))) return false;
+            int diceNum = JSON.getInt(rro.responseJson, RRO.diceNum);
+            if (diceNum > 0)
+            {
+                updateInfo(oGA.displayName, action, string.Format("周遊天下: 還有{0}可行", diceNum), true, false);
+            } else
+            {
+                updateInfo(oGA.displayName, action, "周遊天下: 尚未挑戰精英", true, false);
+            }
+
+            return true;
+        }
+
 
     }
 }
