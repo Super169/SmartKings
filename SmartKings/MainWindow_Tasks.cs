@@ -26,7 +26,7 @@ namespace SmartKings
                 oGA.checkStatus(true);
                 if (oGA.IsOnline())
                 {
-                    action.checkOutstandingTask(oGA, UpdateInfo, AppSettings.DEBUG);
+                    action.checkAllOutstandingTasks(oGA, UpdateInfo, AppSettings.DEBUG);
                 }
             }
         }

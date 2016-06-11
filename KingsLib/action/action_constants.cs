@@ -23,6 +23,13 @@ namespace KingsLib
             public const string eliteBuyTimes = "eliteBuyTimes";
             public const string eliteCanBuyTimes = "eliteCanBuyTimes";
 
+            public const string enemy = "enemy";
+            public const string remainChallenge = "remainChallenge";
+            public const string star = "star";
+            public const string seasonType = "seasonType";
+            public const string TO_KEEP = "TO_KEEP";
+            public const string GIFT = "GIFT";
+
             public const string matchTimes = "matchTimes";
 
             public const string times = "times";

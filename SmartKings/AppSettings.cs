@@ -9,7 +9,7 @@ namespace SmartKings
     public static class AppSettings
     {
         public static bool AutoRun = true;
-        public static bool DEBUG = true;
+        public static bool DEBUG = false;
         public static int elapseMin = 2;
         public static int extraStartMin = 0;
     }
