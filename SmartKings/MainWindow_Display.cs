@@ -7,15 +7,51 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Windows.Media;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace SmartKings
 {
     public partial class MainWindow : Window
     {
+        List<EventLog> eventLogs = new List<EventLog>();
+
+        private void bindEventLogs()
+        {
+            lvEventLog.ItemsSource = eventLogs;
+        }
+
+        private void refreshEventLog()
+        {
+            if (Dispatcher.FromThread(Thread.CurrentThread) == null)
+            {
+                Application.Current.Dispatcher.BeginInvoke(
+                  System.Windows.Threading.DispatcherPriority.Normal,
+                  (Action)(() => refreshAccountList()));
+                return;
+            }
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvEventLog.ItemsSource);
+            view.Refresh();
+        }
+
+        private void SetUI()
+        {
+            
+            lblAutoRunning.Content = (normalMode ? "自動大皇帝 準備中" : "自動大皇帝 已啟動");
+            lblAutoRunning.Background = (normalMode ? Brushes.Gray : Brushes.LawnGreen);
+            lblAutoRunning.Foreground = (normalMode ? Brushes.Black : Brushes.Red);
+
+
+            btnAuto.IsEnabled = true;
+            btnAuto.Content = (normalMode ? "啟動" : "停止") + " 自動大皇帝";
+            btnAuto.Background = (normalMode ? Brushes.LawnGreen : Brushes.Red);
+        }
 
         private string SystemTime()
         {
-            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return DateTime.Now.ToString("MM-dd HH:mm:ss");
         }
 
         private void UpdateTextBox(TextBox tb, string content, bool async = true)
@@ -38,6 +74,7 @@ namespace SmartKings
             }
             tb.Text = content;
             tb.ScrollToEnd();
+            // if (!async) tb.InvalidateVisual();
         }
 
         private void userNotification(TextBox tb, string info, bool addTime = true, bool resetText = false, bool newLine = true, bool async = true)
@@ -55,6 +92,9 @@ namespace SmartKings
                 }
                 else
                 {
+                    Application.Current.Dispatcher.Invoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => userNotification(tb, info, false, resetText, newLine)));
 
                 }
                 return;
@@ -65,6 +105,30 @@ namespace SmartKings
             tb.ScrollToEnd();
         }
 
+
+        private void UpdateEventLog(DateTime eventTime, string account, string action, string msg, bool async = false)
+        {
+            if (Dispatcher.FromThread(Thread.CurrentThread) == null)
+            {
+                if (async)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => UpdateEventLog(eventTime, account, action, msg, async)));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(
+                      System.Windows.Threading.DispatcherPriority.Normal,
+                      (Action)(() => UpdateEventLog(eventTime, account, action, msg, async)));
+                }
+                return;
+            }
+            eventLogs.Add(new EventLog() { eventTime = eventTime, account = account, action = action, msg = msg });
+            refreshEventLog();
+        }
+
+
         private void UpdateStatus(string status, bool addTime = true, bool resetText = false)
         {
             userNotification(txtStatus, status, addTime, resetText);
@@ -72,8 +136,8 @@ namespace SmartKings
 
         private void UpdateInfo(string account, string action, string msg, bool addTime = true, bool async = true)
         {
-            string infoMsg = account + "|" + action + "|" + msg;
-            userNotification(txtInfo, infoMsg, addTime, false, async);
+            UpdateEventLog(DateTime.Now, account, action, msg, async);
         }
+
     }
 }

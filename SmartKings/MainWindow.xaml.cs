@@ -32,7 +32,9 @@ namespace SmartKings
             this.Title = ((App)Application.Current).winTitle;
             UpdateStatus(this.Title + " 啟動");
             com.start("SmartKings");
-            blindingAccounts();
+            bindAccounts();
+            bindEventLogs();
+            
 
             KingsMonitor.notificationEventHandler += new NotificationEventHandler(this.OnNotificationHandler);
             KingsMonitor.newSidEventHandler += new NewSidEventHandler(this.OnNewSidHandler);
@@ -44,7 +46,7 @@ namespace SmartKings
             }
 
             initTimer();
-            goAutoKings();
+            if (AppSettings.AutoRun) goAutoKings();
         }
 
     }

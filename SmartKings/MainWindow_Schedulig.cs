@@ -28,6 +28,7 @@ namespace SmartKings
         private void goAutoKings()
         {
             normalMode = !normalMode;
+            SetUI();
 
             if (normalMode)
             {
@@ -49,7 +50,7 @@ namespace SmartKings
             UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);
             UpdateTextBox(txtNextExecution, "執行中。。。。。。", false);
 
-            Thread.Sleep(3000);
+            // Thread.Sleep(3000);
 
             DateTime minNext;
             DateTime nextActionTime;

@@ -52,10 +52,18 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getPlayerHeroList);
         }
 
+        /*
         public static RequestReturnObject getScoreHero(ConnectionInfo ci, string sid, string body)
         {
             return com.SendGenericRequest(ci, sid, CMD_getScoreHero, true, body);
         }
+        */
+        public static RequestReturnObject getVisitHeroInfo(ConnectionInfo ci, string sid, string heroName)
+        {
+            string body = string.Format("{{\"heroName\":\"{0}\"}}", heroName);
+            return com.SendGenericRequest(ci, sid, CMD_getVisitHeroInfo, true, body);
+        }
+
 
         public static RequestReturnObject getWineInfo(ConnectionInfo ci, string sid)
         {

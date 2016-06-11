@@ -56,13 +56,15 @@ namespace KingsLib.data
         public int timeAdjust { get; set; }
         public string nickName { get; set; }
         public string corpsName { get; set; }
-        public string level { get; set; }
-        public string vipLevel { get; set; }
+        public int level { get; set; }
+        public int vipLevel { get; set; }
         public ConnectionInfo connectionInfo { get; set; }
         public DateTime lastUpdateDTM { get; set; }
         public List<HeroInfo> heros;
         public List<DecreeInfo> decreeHeros;
         public List<Scheduler> scheduledTasks;
+
+        public string displayName { get { return this.serverCode + " " + this.nickName; } }
 
         public override void initObject()
         {
@@ -77,8 +79,8 @@ namespace KingsLib.data
             this.timeAdjust = 0;
             this.nickName = null;
             this.corpsName = null;
-            this.level = null;
-            this.vipLevel = null;
+            this.level = 0;
+            this.vipLevel = 0;
             this.connectionInfo = null;
             this.lastUpdateDTM = DateTime.Now;
             this.heros = new List<HeroInfo>();
@@ -125,8 +127,18 @@ namespace KingsLib.data
             this.serverTitle = li.serverTitle;
             this.nickName = li.nickName;
             this.corpsName = li.CORPS_NAME;
-            this.level = li.LEVEL;
-            this.vipLevel = li.VIP_LEVEL;
+            try
+            {
+                this.level = int.Parse(li.LEVEL);
+
+            } catch { this.level = 0; }
+
+            try
+            {
+                this.vipLevel = int.Parse(li.VIP_LEVEL);
+
+            }
+            catch { this.vipLevel = 0; }
 
             this.connectionInfo = ci;
 
@@ -153,8 +165,8 @@ namespace KingsLib.data
             this.serverTitle = JSON.getString(json[KEY.serverTitle], "");
             this.nickName = JSON.getString(json[KEY.nickName], "");
             this.corpsName = JSON.getString(json[KEY.corpsName], "");
-            this.level = JSON.getString(json[KEY.level], "");
-            this.vipLevel = JSON.getString(json[KEY.vipLevel], "");
+            this.level = JSON.getInt(json[KEY.level], 0);
+            this.vipLevel = JSON.getInt(json[KEY.vipLevel], 0);
 
             dynamic ci = json[KEY.connectionInfo];
             this.connectionInfo = new ConnectionInfo(ci);

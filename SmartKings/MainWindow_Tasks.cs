@@ -1,4 +1,5 @@
-﻿using KingsLib.data;
+﻿using KingsLib;
+using KingsLib.data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,18 @@ namespace SmartKings
             foreach (GameAccount oGA in gameAccounts)
             {
                 oGA.checkStatus(forceCheck);
+            }
+        }
+
+        private void goTaskCheckOutstanding()
+        {
+            foreach (GameAccount oGA in gameAccounts)
+            {
+                oGA.checkStatus(true);
+                if (oGA.IsOnline())
+                {
+                    action.checkOutstandingTask(oGA, UpdateInfo, AppSettings.DEBUG);
+                }
             }
         }
     }

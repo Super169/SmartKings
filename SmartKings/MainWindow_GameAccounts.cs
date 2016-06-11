@@ -23,7 +23,7 @@ namespace SmartKings
         const string KEY_GA = "gameAccounts";
         const string jazFileName = "gameAccounts.jaz";
 
-        private void blindingAccounts()
+        private void bindAccounts()
         {
             restoreAccounts();
             lvAccounts.ItemsSource = gameAccounts;

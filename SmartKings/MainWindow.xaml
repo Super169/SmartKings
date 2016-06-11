@@ -26,11 +26,20 @@
             </Grid>
             <Grid Grid.Row="1" Background="#FFE2E1E1" />
             <Grid Grid.Row="2">
-                <TextBox x:Name="txtStatus" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Background="#FFC0FFFF"/>
+                <TextBox x:Name="txtStatus" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Background="#FFC0FFFF" FontSize="16"/>
             </Grid>
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Background="#FFE2E1E1"/>
             <Grid Grid.Row="4">
-                <TextBox x:Name="txtInfo" Margin="2,2,2,2" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True"/>
+                <ListView x:Name="lvEventLog" Margin="2,2,2,2" FontSize="13.333" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="時間" Width="100" DisplayMemberBinding="{Binding displayTime}" />
+                            <GridViewColumn Header="帳戶" Width="120" DisplayMemberBinding="{Binding account}" />
+                            <GridViewColumn Header="任務" Width="67" DisplayMemberBinding="{Binding action}" />
+                            <GridViewColumn Header="資訊" Width="500" DisplayMemberBinding="{Binding msg}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
             <Grid Grid.Row="5" Background="#FFE2E1E1" />
             <Grid Grid.Row="6">
@@ -45,7 +54,7 @@
                 <RowDefinition Height="600*" MinHeight="400"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <ListView x:Name="lvAccounts" Margin="2,6,2,-2">
+                <ListView x:Name="lvAccounts" Margin="2,2,2,2">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn >
@@ -90,13 +99,13 @@
                     <RowDefinition Height="*" MinHeight="400"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"  >
-                    <Label x:Name="label" Content="智能大皇帝 準備中" Height="30" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="16" FontWeight="ExtraBlack" FontFamily="MingLiU" ForceCursor="True" Background="#FFD1CFCF"/>
+                    <Label x:Name="lblAutoRunning" Content="智能大皇帝 準備中" Height="30" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="16" FontWeight="ExtraBlack" FontFamily="MingLiU" ForceCursor="True" Background="#FFD1CFCF"/>
                     <Label x:Name="lblLastExecution" Content="最後執行:" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="52" VerticalContentAlignment="Center" Padding="0" />
                     <TextBox x:Name="txtLastExecution" HorizontalAlignment="Right" Height="20" Margin="0,32,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="133" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
                     <Label x:Name="lblNextExecution" Content="下次執行:" HorizontalAlignment="Left" Margin="5,56,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="52" VerticalContentAlignment="Center" Padding="0" />
                     <TextBox x:Name="txtNextExecution" HorizontalAlignment="Right" Height="20" Margin="0,56,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="133" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
 
-                    <Button x:Name="btnAuto" Content="立即啟動" Margin="5,0,5,2" Height="29" VerticalAlignment="Bottom"/>
+                    <Button x:Name="btnAuto" Content="立即啟動" Margin="5,0,5,2" Height="29" VerticalAlignment="Bottom" Click="btnAuto_Click" FontSize="18.667" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Row="1"  Background="#FFE2E1E1"/>
                 <Grid Grid.Row="2"  >

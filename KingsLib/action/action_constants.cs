@@ -16,5 +16,20 @@ namespace KingsLib
         public const string PROMPT_GOT_REWARD_ALREADY = "GOT_REWARD_ALREADY";
 
         public const string PROMPT_RESOURCE_FULL = "RESOURCE_FULL";
+
+        public static class RRO
+        {
+            public const string elite = "elite";
+            public const string eliteBuyTimes = "eliteBuyTimes";
+            public const string eliteCanBuyTimes = "eliteCanBuyTimes";
+
+            public const string matchTimes = "matchTimes";
+
+            public const string times = "times";
+            public const string buyTimes = "buyTimes";
+            public const string weekday = "weekday";
+        }
+
     }
+
 }

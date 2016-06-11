@@ -37,5 +37,10 @@ namespace SmartKings
                 ((App)Application.Current).ExitApplication();
             }
         }
+
+        private void btnAuto_Click(object sender, RoutedEventArgs e)
+        {
+            goAutoKings();
+        }
     }
 }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\action_decree.cs" />
+    <Compile Include="action\action_general.cs" />
     <Compile Include="action\action_hero.cs" />
     <Compile Include="action\action_login.cs" />
     <Compile Include="action\action_system.cs" />
