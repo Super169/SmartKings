@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings"
-        xmlns:ui="clr-namespace:SmartKings" x:Class="SmartKings.MainWindow"
-        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800">
+        xmlns:ui="clr-namespace:SmartKings" xmlns:ui1="clr-namespace:SmartKings.ui" x:Class="SmartKings.MainWindow"
+        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800" FontSize="13.333">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -43,7 +43,9 @@
                 </ListView>
             </Grid>
             <Grid Grid.Row="5" Background="#FFE2E1E1" />
-            <Grid Grid.Row="6"/>
+            <Grid Grid.Row="6">
+                <Button x:Name="btnClearEventLog" Content="清除記錄" Margin="0,0,2,5" HorizontalAlignment="Right" Width="101" Click="btnClearEventLog_Click"/>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" Background="#FFE2E1E1" />
 
@@ -110,7 +112,7 @@
                 </Grid>
                 <Grid Grid.Row="1"  Background="#FFE2E1E1"/>
                 <Grid Grid.Row="2"  >
-
+                    <ui1:UcAppSettings x:Name="ucAppSettings" />
                 </Grid>
                 <Grid Grid.Row="3"  >
                     <Button x:Name="btnTeter" Content="進行測試" Margin="10,0,10,0" VerticalAlignment="Top" Height="47" FontSize="24" Click="btnTeter_Click"/>

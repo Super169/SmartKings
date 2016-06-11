@@ -47,6 +47,8 @@ namespace SmartKings
             btnAuto.IsEnabled = true;
             btnAuto.Content = (normalMode ? "啟動" : "停止") + " 自動大皇帝";
             btnAuto.Background = (normalMode ? Brushes.LawnGreen : Brushes.Red);
+
+            if (normalMode) txtNextExecution.Text = "";
         }
 
         private string SystemTime()

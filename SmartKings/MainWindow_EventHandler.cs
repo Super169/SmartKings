@@ -42,5 +42,12 @@ namespace SmartKings
         {
             goAutoKings();
         }
+
+
+        private void btnClearEventLog_Click(object sender, RoutedEventArgs e)
+        {
+            eventLogs.Clear();
+            refreshEventLog();
+        }
     }
 }

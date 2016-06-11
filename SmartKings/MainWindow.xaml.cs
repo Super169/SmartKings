@@ -32,6 +32,7 @@ namespace SmartKings
             this.Title = ((App)Application.Current).winTitle;
             UpdateStatus(this.Title + " 啟動");
             com.start("SmartKings");
+            loadAppSettings();
             bindAccounts();
             bindEventLogs();
             
