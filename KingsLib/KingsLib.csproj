@@ -83,6 +83,7 @@
     <Compile Include="request\Country.cs" />
     <Compile Include="request\CrossCamp.cs" />
     <Compile Include="request\DaqiaoActivity.cs" />
+    <Compile Include="request\DianJiangTai.cs" />
     <Compile Include="request\Drama.cs" />
     <Compile Include="request\EightTrigrams.cs" />
     <Compile Include="request\Email.cs" />

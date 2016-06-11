@@ -66,11 +66,11 @@ namespace KingsLib
         public static bool checkOutstandingCampaignElite(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
         {
             RequestReturnObject rro = request.Campaign.getLeftTimes(oGA.connectionInfo, oGA.sid);
-            if (!(rro.SuccessWithJson(RRO.elite) && rro.Exists(RRO.eliteBuyTimes) && rro.Exists(RRO.eliteCanBuyTimes))) return false;
+            if (!(rro.SuccessWithJson(RRO.Campaign.elite) && rro.Exists(RRO.Campaign.eliteBuyTimes) && rro.Exists(RRO.Campaign.eliteCanBuyTimes))) return false;
 
-            int elite = JSON.getInt(rro.responseJson, RRO.elite, -1);
-            int eliteBuyTimes = JSON.getInt(rro.responseJson, RRO.eliteBuyTimes, -1);
-            int eliteCanBuyTimes = JSON.getInt(rro.responseJson, RRO.eliteCanBuyTimes, -1);
+            int elite = JSON.getInt(rro.responseJson, RRO.Campaign.elite, -1);
+            int eliteBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteBuyTimes, -1);
+            int eliteCanBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteCanBuyTimes, -1);
             if ((elite > 0) || ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)))
             {
                 string msg = module + ": ";
@@ -84,8 +84,8 @@ namespace KingsLib
         public static bool checkOutstandingVisitHero(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
         {
             RequestReturnObject rro = request.Hero.getVisitHeroInfo(oGA.connectionInfo, oGA.sid, "徐晃");
-            if (!rro.SuccessWithJson(RRO.matchTimes)) return false;
-            int matchTimes = JSON.getInt(rro.responseJson, RRO.matchTimes, -1);
+            if (!rro.SuccessWithJson(RRO.Hero.matchTimes)) return false;
+            int matchTimes = JSON.getInt(rro.responseJson, RRO.Hero.matchTimes, -1);
             if (matchTimes > 0)
             {
                 string msg = string.Format("{0}: 尚有 {1} 次未完成", module, matchTimes);
@@ -98,10 +98,10 @@ namespace KingsLib
         {
 
             RequestReturnObject rro = request.Campaign.getTrialsInfo(oGA.connectionInfo, oGA.sid);
-            if (!(rro.SuccessWithJson(RRO.weekday) && rro.Exists(RRO.times) && rro.Exists(RRO.buyTimes))) return false;
-            int weekday = JSON.getInt(rro.responseJson[RRO.weekday]);
-            dynamic times = rro.responseJson[RRO.times];
-            dynamic buyTimes = rro.responseJson[RRO.buyTimes];
+            if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.Exists(RRO.Campaign.times) && rro.Exists(RRO.Campaign.buyTimes))) return false;
+            int weekday = JSON.getInt(rro.responseJson[RRO.Campaign.weekday]);
+            dynamic times = rro.responseJson[RRO.Campaign.times];
+            dynamic buyTimes = rro.responseJson[RRO.Campaign.buyTimes];
             string[] trialType = { "", "WZLJ", "WJDD", "WHSJ" };
             string[] trialName = { "", "五子良將", "五俊都督", "五虎上將" };
             string msgRemain = "";
@@ -154,32 +154,32 @@ namespace KingsLib
                 return true;
             }
             RequestReturnObject rro = request.KingRoad.afterSeasonEnemy(oGA.connectionInfo, oGA.sid);
-            if (!(rro.SuccessWithJson(RRO.remainChallenge) &&
-                  rro.Exists(RRO.seasonType) &&
-                  rro.Exists(RRO.enemy, typeof(DynamicJsonArray))))
+            if (!(rro.SuccessWithJson(RRO.KingRoad.remainChallenge) &&
+                  rro.Exists(RRO.KingRoad.seasonType) &&
+                  rro.Exists(RRO.KingRoad.enemy, typeof(DynamicJsonArray))))
             {
                 return false;
             }
 
-            int remainChallenge = JSON.getInt(rro.responseJson, RRO.remainChallenge);
+            int remainChallenge = JSON.getInt(rro.responseJson, RRO.KingRoad.remainChallenge);
             if (remainChallenge > 0)
             {
                 int failCnt = 0;
-                DynamicJsonArray dja = rro.responseJson[RRO.enemy];
+                DynamicJsonArray dja = rro.responseJson[RRO.KingRoad.enemy];
                 foreach (dynamic o in dja)
                 {
-                    int star = JSON.getInt(o, RRO.star, 0);
+                    int star = JSON.getInt(o, RRO.KingRoad.star, 0);
                     if (star < 3) failCnt++;
                 }
                 if (failCnt > 0)
                 {
-                    string seasonType = JSON.getString(rro.responseJson, RRO.seasonType, "UNKNOWN");
+                    string seasonType = JSON.getString(rro.responseJson, RRO.KingRoad.seasonType, "UNKNOWN");
                     switch (seasonType)
                     {
-                        case RRO.TO_KEEP:
+                        case RRO.KingRoad.seasonType_TO_KEEP:
                             seasonType = "保級";
                             break;
-                        case RRO.GIFT:
+                        case RRO.KingRoad.seasonType_GIFT:
                             seasonType = "獎勵";
                             break;
 
@@ -195,8 +195,8 @@ namespace KingsLib
             RequestReturnObject rro = request.Travel.getMapInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
             if (rro.prompt == PROMPT.ACTIVITY_CAN_NOT_PARTICIPATE) return true;
-            if (!(rro.Exists(RRO.diceNum))) return false;
-            int diceNum = JSON.getInt(rro.responseJson, RRO.diceNum);
+            if (!(rro.Exists(RRO.Travel.diceNum))) return false;
+            int diceNum = JSON.getInt(rro.responseJson, RRO.Travel.diceNum);
             if (diceNum > 0)
             {
                 updateInfo(oGA.displayName, action, string.Format("{0}: 還有{1}可行", module, diceNum), true, false);
@@ -212,14 +212,14 @@ namespace KingsLib
         {
             RequestReturnObject rro = request.LongMarch.getMyStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!(rro.Exists(RRO.leftTimes) && rro.Exists(RRO.curStation))) return false;
-            int leftTimes = JSON.getInt(rro.responseJson, RRO.leftTimes);
+            if (!(rro.Exists(RRO.LongMarch.leftTimes) && rro.Exists(RRO.LongMarch.curStation))) return false;
+            int leftTimes = JSON.getInt(rro.responseJson, RRO.LongMarch.leftTimes);
             if (leftTimes > 0)
             {
                 updateInfo(oGA.displayName, action, module + ": 今日尚未開始", true, false);
                 return true;
             }
-            int curStation = JSON.getInt(rro.responseJson, RRO.curStation);
+            int curStation = JSON.getInt(rro.responseJson, RRO.LongMarch.curStation);
             if (curStation < 15)
             {
                 updateInfo(oGA.displayName, action, module + ": 尚未到達 匈奴", true, false);
@@ -271,6 +271,17 @@ namespace KingsLib
 
             }
 
+            // 點將台
+            rro = request.DianJiangTai.beforeStart(oGA.connectionInfo, oGA.sid);
+            if (rro.SuccessWithJson(RRO.DianJiangTai.leftTimes))
+            {
+                int leftTimes = JSON.getInt(rro.responseJson, RRO.DianJiangTai.leftTimes);
+                if (leftTimes > 0)
+                {
+                    updateInfo(oGA.displayName, action, string.Format("{0}: 點將台尚有 {1} 次", module, leftTimes), true, false);
+                }
+            }
+
             // 仙鶴雲居
             rro = request.OneYear.info(oGA.connectionInfo, oGA.sid);
             if (rro.SuccessWithJson(RRO.OneYear.remainCount))
@@ -283,6 +294,7 @@ namespace KingsLib
 
                 }
             }
+
 
             return true;
         }

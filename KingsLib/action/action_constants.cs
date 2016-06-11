@@ -8,6 +8,11 @@ namespace KingsLib
 {
     public static partial class action
     {
+        public static class STYLE
+        {
+            public const string ALERT = "ALERT";
+        }
+
         public static class PROMPT
         {
             public const string ERR_NOT_ENOUGH = "ERR_NOT_ENOUGH";
@@ -25,29 +30,6 @@ namespace KingsLib
 
         public static class RRO
         {
-            public const string elite = "elite";
-            public const string eliteBuyTimes = "eliteBuyTimes";
-            public const string eliteCanBuyTimes = "eliteCanBuyTimes";
-
-            public const string enemy = "enemy";
-            public const string remainChallenge = "remainChallenge";
-            public const string star = "star";
-            public const string seasonType = "seasonType";
-            public const string TO_KEEP = "TO_KEEP";
-            public const string GIFT = "GIFT";
-
-            public const string matchTimes = "matchTimes";
-
-            public const string times = "times";
-            public const string buyTimes = "buyTimes";
-            public const string weekday = "weekday";
-
-            public const string diceNum = "diceNum";
-
-            public const string leftTimes = "leftTimes";
-            public const string curStation = "curStation";
-
-            public const string serverTime = "serverTime";
 
             public static class Bag
             {
@@ -58,10 +40,60 @@ namespace KingsLib
                 public const string nm_ticket = "嘉年华入场券";
             }
 
+            public static class Campaign
+            {
+                public const string elite = "elite";
+                public const string eliteBuyTimes = "eliteBuyTimes";
+                public const string eliteCanBuyTimes = "eliteCanBuyTimes";
+
+                public const string times = "times";
+                public const string buyTimes = "buyTimes";
+                public const string weekday = "weekday";
+            }
+
+            public static class DianJiangTai
+            {
+                public const string leftTimes = "leftTimes";
+            }
+
+            public static class Hero
+            {
+                public const string matchTimes = "matchTimes";
+            }
+
+            public static class KingRoad
+            {
+                public const string enemy = "enemy";
+                public const string remainChallenge = "remainChallenge";
+                public const string star = "star";
+                public const string seasonType = "seasonType";
+                public const string seasonType_TO_KEEP = "TO_KEEP";
+                public const string seasonType_GIFT = "GIFT";
+
+            }
+
+            public static class LongMarch
+            {
+                public const string leftTimes = "leftTimes";
+                public const string curStation = "curStation";
+            }
+
             public static class OneYear
             {
                 public const string activityStatus = "activityStatus";
                 public const string remainCount = "remainCount";
+            }
+
+            public static class System
+            {
+                public const string clientTime = "clientTime";
+                public const string serverTime = "serverTime";
+            }
+
+            public static class Travel
+            {
+                public const string diceNum = "diceNum";
+
             }
 
         }

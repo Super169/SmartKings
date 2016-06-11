@@ -17,10 +17,10 @@ namespace KingsLib
             RequestReturnObject rro = request.System.ping(ci, sid);
             if (!rro.success) return GameAccount.AccountStatus.Unknown;
             if (rro.prompt == PROMPT.ERR_COMMON_RELOGIN) return GameAccount.AccountStatus.Offline;
-            if (rro.style == "ALERT")  return GameAccount.AccountStatus.Offline;
-            if (!rro.SuccessWithJson("clientTime") || !rro.SuccessWithJson("serverTime")) return GameAccount.AccountStatus.Offline;
-            long clientTime = JSON.getLong(rro.responseJson, "clientTime", 0);
-            long serverTime = JSON.getLong(rro.responseJson, "serverTime", 0);
+            if (rro.style == STYLE.ALERT)  return GameAccount.AccountStatus.Offline;
+            if (!rro.SuccessWithJson(RRO.System.clientTime) || !rro.SuccessWithJson(RRO.System.serverTime)) return GameAccount.AccountStatus.Offline;
+            long clientTime = JSON.getLong(rro.responseJson, RRO.System.clientTime, 0);
+            long serverTime = JSON.getLong(rro.responseJson, RRO.System.serverTime, 0);
             timeAdjust = (int) (serverTime - clientTime);
             return GameAccount.AccountStatus.Online;
         }
@@ -29,9 +29,9 @@ namespace KingsLib
         {
             long currTime = 0;
             RequestReturnObject rro = request.System.ping(ci, sid);
-            if (rro.SuccessWithJson(RRO.serverTime))
+            if (rro.SuccessWithJson(RRO.System.serverTime))
             {
-                currTime = JSON.getLong(rro.responseJson, RRO.serverTime);
+                currTime = JSON.getLong(rro.responseJson, RRO.System.serverTime);
             }
             else
             {
