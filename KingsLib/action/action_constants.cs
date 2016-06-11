@@ -46,6 +46,24 @@ namespace KingsLib
 
             public const string leftTimes = "leftTimes";
             public const string curStation = "curStation";
+
+            public const string serverTime = "serverTime";
+
+            public static class Bag
+            {
+                public const string items = "items";
+                public const string nm = "nm";
+                public const string n = "n";
+
+                public const string nm_ticket = "嘉年华入场券";
+            }
+
+            public static class OneYear
+            {
+                public const string activityStatus = "activityStatus";
+                public const string remainCount = "remainCount";
+            }
+
         }
 
     }

@@ -25,6 +25,22 @@ namespace KingsLib
             return GameAccount.AccountStatus.Online;
         }
 
+        public static long getSystemTime(ConnectionInfo ci, string sid)
+        {
+            long currTime = 0;
+            RequestReturnObject rro = request.System.ping(ci, sid);
+            if (rro.SuccessWithJson(RRO.serverTime))
+            {
+                currTime = JSON.getLong(rro.responseJson, RRO.serverTime);
+            }
+            else
+            {
+                TimeSpan t = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1);
+                currTime = (long)(t.TotalMilliseconds + 0.5);
+            }
+            return currTime;
+        }
+
 
     }
 }

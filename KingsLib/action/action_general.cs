@@ -45,6 +45,9 @@ namespace KingsLib
             // 遠征西域
             goCheckOutstandTasks(action, "遠征西域", checkOutstandingLongMarch, oGA, updateInfo, debug);
 
+            // 嘉年華活動
+            goCheckOutstandTasks(action, "嘉年華活動", checkOutstandingOneYear, oGA, updateInfo, debug);
+
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
             return true;
@@ -223,9 +226,67 @@ namespace KingsLib
                 return true;
             }
 
+            return true;
+        }
+
+        public static bool checkOutstandingOneYear(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        {
+            RequestReturnObject rro = request.OneYear.cityStatus(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.Exists(RRO.OneYear.activityStatus, typeof(DynamicJsonArray))) return false;
+            long currTime = getSystemTime(oGA.connectionInfo, oGA.sid) / 1000;
+            bool oneYearActivity = false;
+            DynamicJsonArray activityStatus = rro.responseJson[RRO.OneYear.activityStatus];
+            foreach (dynamic o in activityStatus)
+            {
+                if (JSON.exists(o, "startTime") && JSON.exists(o, "endTime"))
+                {
+                    long startTime = JSON.getLong(o, "startTime");
+                    long endTime = JSON.getLong(o, "endTime");
+                    if ((startTime < currTime) && (currTime < endTime))
+                    {
+                        oneYearActivity = true;
+                        break;
+                    }
+                }
+            }
+            if (!oneYearActivity) return true;
+
+            // 嘉年华入场券
+            rro = request.Bag.getBagInfo(oGA.connectionInfo, oGA.sid);
+            if (rro.SuccessWithJson(RRO.Bag.items,typeof(DynamicJsonArray))) {
+                DynamicJsonArray dja = rro.responseJson[RRO.Bag.items];
+                int ticket = 0;
+                foreach(dynamic o in dja)
+                {
+                    if (JSON.getString(o, RRO.Bag.nm,"") == RRO.Bag.nm_ticket)
+                    {
+                        ticket += JSON.getInt(o, RRO.Bag.n, 0);
+                    }
+                }
+                if (ticket > 0)
+                {
+                    updateInfo(oGA.displayName, action, string.Format("{0}: 尚有 {1} 張嘉年華入場卷", module, ticket), true, false);
+                }
+
+            }
+
+            // 仙鶴雲居
+            rro = request.OneYear.info(oGA.connectionInfo, oGA.sid);
+            if (rro.SuccessWithJson(RRO.OneYear.remainCount))
+            {
+                int remainCount = JSON.getInt(rro.responseJson, RRO.OneYear.remainCount);
+                if (remainCount > 0)
+                {
+                    updateInfo(oGA.displayName, action, string.Format("{0}: 仙鶴雲居尚有 {1} 次", module, remainCount), true, false);
+                    return true;
+
+                }
+            }
 
             return true;
         }
+
 
     }
 }
