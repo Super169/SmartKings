@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -110,7 +111,7 @@ namespace SmartKings
 
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
             _notifyIcon.DoubleClick += (s, args) => ShowMainWindow();
-            _notifyIcon.Icon = SmartKings.Properties.Resources.SmartKingsIcon;
+            _notifyIcon.Icon = SmartKings.Properties.Resources.Logo256;
             _notifyIcon.Visible = true;
 
             CreateContextMenu();

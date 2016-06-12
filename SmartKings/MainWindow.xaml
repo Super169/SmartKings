@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings"
         xmlns:ui="clr-namespace:SmartKings" xmlns:ui1="clr-namespace:SmartKings.ui" x:Class="SmartKings.MainWindow"
-        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800" FontSize="13.333">
+        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

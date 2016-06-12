@@ -63,6 +63,16 @@ namespace SmartKings.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon Logo256 {
+            get {
+                object obj = ResourceManager.GetObject("Logo256", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon SmartKingsIcon {
             get {
                 object obj = ResourceManager.GetObject("SmartKingsIcon", resourceCulture);

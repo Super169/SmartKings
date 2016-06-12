@@ -333,7 +333,6 @@ namespace KingsLib
 
             if (findMAKE)
             {
-                updateInfo(oGA.displayName, action, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE), true, false);
                 if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE));
             }
             else
