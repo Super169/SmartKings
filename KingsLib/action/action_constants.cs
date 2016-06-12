@@ -58,7 +58,17 @@ namespace KingsLib
 
             public static class Hero
             {
+                public const string afi = "afi";
+                public const string dsp = "dsp";
+                public const string heros = "heros";
                 public const string matchTimes = "matchTimes";
+                public const string nm = "nm";
+                public const string sta = "sta";
+
+                public const string sta_NULL = "NULL";
+                public const string sta_MAKE = "MAKE";
+                public const string sta_IN_ACT = "IN_ACT";
+                public const string sta_STR = "STR";
             }
 
             public static class KingRoad

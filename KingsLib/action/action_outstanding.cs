@@ -48,6 +48,10 @@ namespace KingsLib
             // 嘉年華活動
             goCheckOutstandTasks(action, "嘉年華活動", checkOutstandingOneYear, oGA, updateInfo, debug);
 
+            // 神器打造
+            goCheckOutstandTasks(action, "神器打造", checkOutstandingHeroAfi, oGA, updateInfo, debug);
+
+
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
             return true;
@@ -132,7 +136,7 @@ namespace KingsLib
             }
             if (remain || notBuy)
             {
-                string msg = module +  ": ";
+                string msg = module + ": ";
                 if (remain) msg += "尚餘 " + msgRemain + "未完成; ";
                 if (notBuy) msg += "尚未購買 " + msgNotBuy;
                 updateInfo(oGA.displayName, action, msg, true, false);
@@ -199,8 +203,9 @@ namespace KingsLib
             int diceNum = JSON.getInt(rro.responseJson, RRO.Travel.diceNum);
             if (diceNum > 0)
             {
-                updateInfo(oGA.displayName, action, string.Format("{0}: 還有{1}可行", module, diceNum), true, false);
-            } else
+                updateInfo(oGA.displayName, action, string.Format("{0}: 還有 {1} 步可行", module, diceNum), true, false);
+            }
+            else
             {
                 updateInfo(oGA.displayName, action, module + ": 尚未挑戰精英", true, false);
             }
@@ -254,12 +259,13 @@ namespace KingsLib
 
             // 嘉年华入场券
             rro = request.Bag.getBagInfo(oGA.connectionInfo, oGA.sid);
-            if (rro.SuccessWithJson(RRO.Bag.items,typeof(DynamicJsonArray))) {
+            if (rro.SuccessWithJson(RRO.Bag.items, typeof(DynamicJsonArray)))
+            {
                 DynamicJsonArray dja = rro.responseJson[RRO.Bag.items];
                 int ticket = 0;
-                foreach(dynamic o in dja)
+                foreach (dynamic o in dja)
                 {
-                    if (JSON.getString(o, RRO.Bag.nm,"") == RRO.Bag.nm_ticket)
+                    if (JSON.getString(o, RRO.Bag.nm, "") == RRO.Bag.nm_ticket)
                     {
                         ticket += JSON.getInt(o, RRO.Bag.n, 0);
                     }
@@ -299,6 +305,43 @@ namespace KingsLib
             return true;
         }
 
+
+        public static bool checkOutstandingHeroAfi(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        {
+            if (oGA.level < 80)
+            {
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: 主公只有 {1} 等的, 尚未達到打造神器的最低要求", module, oGA.level));
+                return true;
+            }
+
+            RequestReturnObject rro = request.Hero.getPlayerHeroList(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.Exists(RRO.Hero.heros, typeof(DynamicJsonArray))) return false;
+            DynamicJsonArray dja = rro.responseJson[RRO.Hero.heros];
+            bool findMAKE = false;
+            string heroMAKE = "";
+            foreach (dynamic o in dja)
+            {
+                dynamic afi = o[RRO.Hero.afi];
+                if (JSON.getString(afi, RRO.Hero.sta, "") == RRO.Hero.sta_MAKE)
+                {
+                    findMAKE = true;
+                    heroMAKE = JSON.getString(o, RRO.Hero.dsp, "");
+                    break;
+                }
+            }
+
+            if (findMAKE)
+            {
+                updateInfo(oGA.displayName, action, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE), true, false);
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE));
+            }
+            else
+            {
+                updateInfo(oGA.displayName, action, string.Format("{0}: 沒有打造中的神器", module), true, false);
+            }
+            return true;
+        }
 
     }
 }
