@@ -88,6 +88,13 @@ namespace KingsLib
                 public const string curStation = "curStation";
             }
 
+            public static class Naval
+            {
+                public const string alives = "alives";
+                public const string deads = "deads";
+                public const string deadhero = "deadhero";
+            }
+
             public static class OneYear
             {
                 public const string activityStatus = "activityStatus";

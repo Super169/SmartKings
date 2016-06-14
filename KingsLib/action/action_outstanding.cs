@@ -8,6 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
+// Checking included:
+// Check 討伐群雄
+// Check 英雄切磋
+// 英雄試練
+// 王者獎勵/保級賽
+// 周遊天下
+// 遠征西域
+// 嘉年華活動
+// 神器打造
+// 誇服入侵
+
 namespace KingsLib
 {
     public static partial class action
@@ -27,10 +38,10 @@ namespace KingsLib
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "開始");
 
-            // Check 討伐群雄
+            // 討伐群雄
             goCheckOutstandTasks(action, "討伐群雄", checkOutstandingCampaignElite, oGA, updateInfo, debug);
 
-            // Check 英雄切磋
+            // 英雄切磋
             goCheckOutstandTasks(action, "英雄切磋", checkOutstandingVisitHero, oGA, updateInfo, debug);
 
             // 英雄試練
@@ -51,6 +62,8 @@ namespace KingsLib
             // 神器打造
             goCheckOutstandTasks(action, "神器打造", checkOutstandingHeroAfi, oGA, updateInfo, debug);
 
+            // 誇服入侵
+            goCheckOutstandTasks(action, "誇服入侵", checkOutstandingNaval, oGA, updateInfo, debug);
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -341,6 +354,36 @@ namespace KingsLib
             }
             return true;
         }
+
+        public static bool checkOutstandingNaval(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        {
+            int gameDOW = scheduler.Schedule.ScheduleInfo.getGameDOW();
+            DateTime now = DateTime.Now;
+            if ((gameDOW != 1) && (gameDOW != 2)) return true;
+            if ((now.Hour < 9) || (now.Hour > 21)) return true;
+
+            int cityId = (gameDOW == 1 ? 1 : 3);
+
+            RequestReturnObject rro;
+            rro = request.Naval.inMissionHeros(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!(rro.Exists(RRO.Naval.alives, typeof(DynamicJsonArray)) &&
+                  rro.Exists(RRO.Naval.deads, typeof(DynamicJsonArray)) &&
+                  rro.Exists(RRO.Naval.deadhero, typeof(DynamicJsonArray))))
+                return false;
+
+            DynamicJsonArray oAlives, oDeads, oDeadHero;
+            oAlives = rro.responseJson["alives"];
+            oDeads = rro.responseJson["deads"];
+            oDeadHero = rro.responseJson["deadhero"];
+            // The task should be executed before start, so may only need to check alives
+            // If any of them contain data, that means troops already sent, no action required.
+            if ((oAlives.Length + oDeads.Length + oDeadHero.Length) > 0) return true;
+
+            updateInfo(oGA.displayName, action, string.Format("{0}: 尚未出兵", module), true, false);
+            return true;
+        }
+
 
     }
 }
