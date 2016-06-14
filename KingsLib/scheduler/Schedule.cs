@@ -53,19 +53,22 @@ namespace KingsLib.scheduler
                 public const string endTime = "endTime";
                 public const string elapseMin = "elapseMin";
                 public const string executionTimes = "executionTimes";
+                public const string retryFreqMin = "retryFreqMin";
+                public const string maxRetry = "maxRetry";
                 public const string lastExecutionTime = "lastExecutionTime";
-                public const string lastExecutionFailCount = "lastExecutionFailCount";
+                public const string retryCnt = "retryCnt";
                 public const string nextExecutionTime = "nextExecutionTime";
             }
-
 
             public List<int> dow { get; set; }
             public TimeSpan? startTime { get; set; }
             public TimeSpan? endTime { get; set; }
             public int elapseMin { get; set; }
             public List<TimeSpan> executionTimes { get; set; }
+            public int retryFreqMin { get; set; }
+            public int maxRetry { get; set; }
             public DateTime? lastExecutionTime;
-            public int lastExecutionFailCount { get; set; }
+            public int retryCnt { get; set; }
             public DateTime? nextExecutionTime;
 
             public ScheduleInfo()
@@ -93,7 +96,7 @@ namespace KingsLib.scheduler
                 elapseMin = -1;
                 executionTimes = new List<TimeSpan>();
                 lastExecutionTime = null;
-                lastExecutionFailCount = 0;
+                retryCnt = 0;
                 nextExecutionTime = null;
             }
 
@@ -106,7 +109,7 @@ namespace KingsLib.scheduler
                 elapseMin = JSON.getInt(json, SI_KEY.elapseMin);
                 executionTimes = JSON.getTimeSpanList(json, SI_KEY.executionTimes);
                 lastExecutionTime = JSON.getDateTimeX(json, SI_KEY.lastExecutionTime);
-                lastExecutionFailCount = JSON.getInt(json, SI_KEY.lastExecutionFailCount);
+                retryCnt = JSON.getInt(json, SI_KEY.retryCnt);
                 nextExecutionTime = JSON.getDateTimeX(json, SI_KEY.nextExecutionTime);
                 return true;
             }
@@ -120,7 +123,7 @@ namespace KingsLib.scheduler
                 json[SI_KEY.elapseMin] = elapseMin;
                 json[SI_KEY.executionTimes] = executionTimes;
                 json[SI_KEY.lastExecutionTime] = lastExecutionTime;
-                json[SI_KEY.lastExecutionFailCount] = lastExecutionFailCount;
+                json[SI_KEY.retryCnt] = retryCnt;
                 json[SI_KEY.nextExecutionTime] = nextExecutionTime;
                 return json;
             }
@@ -160,8 +163,8 @@ namespace KingsLib.scheduler
             public bool matchDOW(DateTime chkTime)
             {
                 if (dow.Count == 0) return true;
-                int currDow = (int)getStartTime(chkTime).DayOfWeek;
-                return (dow.FindIndex(x => x == currDow) >= 0);
+                int gameDow = getGameDOW(chkTime);
+                return (dow.FindIndex(x => x == gameDow) >= 0);
             }
 
             public bool matchTime(DateTime chkTime)
@@ -181,115 +184,139 @@ namespace KingsLib.scheduler
                 return (validActionTime(now));
             }
 
-            public DateTime getNextByElapseTime(DateTime baseTime)
+            private void sortExecutionTimes()
             {
-                DateTime nextTime = baseTime.AddMinutes(this.elapseMin);
-                if (!endTimeOK(baseTime, nextTime) || !matchDOW(nextTime))
-                {
-                    nextTime = getStartTime(baseTime).AddDays(1);
-                    while (!matchDOW(nextTime))
-                    {
-                        nextTime = nextTime.AddDays(1);
-                    }
-                }
-                return nextTime;
+                if (this.executionTimes.Count < 2) return;
+                this.executionTimes.Sort();
             }
 
-            public DateTime getNextByFixStartTime(DateTime baseTime)
+            public void initNextTime()
             {
-                bool findOnBase = false;
-                bool findMinTime = false;
+                this.nextExecutionTime = getNextTime();
+            }
 
-                // Dummy initialize to due with the checking for usage before assignment
-                DateTime nextTime = baseTime;
-                DateTime minTime = baseTime;
+            public void setNextTime(bool success)
+            {
+                setNextTime(success, DateTime.Now);
+            }
 
-                foreach (TimeSpan ts in executionTimes)
+            public void setNextTime(bool success, DateTime executionTime)
+            {
+                this.lastExecutionTime = executionTime;
+                if (!success)
                 {
-                    DateTime newTime = getRefTime(baseTime, ts);
-                    if (validActionTime(newTime) && (newTime > baseTime))
+                    if (this.retryCnt < this.maxRetry)
                     {
-                        if (findOnBase)
+                        this.retryCnt++;
+                        DateTime nextTime = executionTime.AddMinutes(retryFreqMin);
+                        if (nextTime <= getEndTime(executionTime))
                         {
-                            if (newTime < nextTime) nextTime = newTime;
+                            this.nextExecutionTime = nextTime;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // may prompt message here for fail to retry
+                    }
+                }
+                // Either success, or this execution cannot be retried.
+                this.nextExecutionTime = getNextTime();
+            }
+
+            // Get the next time for new start or after a successful run
+            public DateTime getNextTime()
+            {
+                DateTime nextTime = DateTime.Now;
+                DateTime chkTime;
+
+                bool lastOnToday = false;
+                if (this.lastExecutionTime != null)
+                {
+                    DateTime refTimeLast = getRefTime(this.lastExecutionTime.GetValueOrDefault(), new TimeSpan(12, 0, 0));
+                    DateTime refTimeNow = getRefTime(nextTime, new TimeSpan(12, 0, 0));
+                    lastOnToday = (refTimeLast == refTimeNow);
+                }
+                bool sameDay = true;
+                bool searchNextDate = true;
+                while (searchNextDate)
+                {
+                    if (matchDOW(nextTime) &&
+                       (!sameDay || (endTime == null) || (nextTime < getRefTime(nextTime, this.endTime.GetValueOrDefault()))))
+                    {
+                        if (this.elapseMin > 0)
+                        {
+                            if (sameDay && lastOnToday)
+                            {
+                                chkTime = lastExecutionTime.GetValueOrDefault().AddMinutes(this.elapseMin);
+                                if (chkTime < getEndTime(nextTime))
+                                {
+                                    nextTime = chkTime;
+                                    searchNextDate = false;
+                                }
+                            }
+                            else
+                            {
+                                nextTime = getStartTime(nextTime);
+                                searchNextDate = false;
+                            }
+                            // by elapseMin
+                        }
+                        else if (this.executionTimes.Count > 0)
+                        {
+                            // by fixed time slot
+                            if (sameDay)
+                            {
+                                for (int idx = 0; idx < executionTimes.Count; idx++)
+                                {
+                                    DateTime slotTime = getRefTime(nextTime, executionTimes.ElementAt(idx));
+                                    if ((this.lastExecutionTime == null) || (this.lastExecutionTime.GetValueOrDefault() < slotTime))
+                                    {
+                                        if (slotTime > nextTime)
+                                        {
+                                            nextTime = slotTime;
+                                        }
+                                        searchNextDate = false;
+                                        break;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                nextTime = getRefTime(nextTime, executionTimes.ElementAt(0));
+                                searchNextDate = false;
+                            }
+
                         }
                         else
                         {
-                            findOnBase = true;
-                            nextTime = newTime;
+                            // Once a day
+                            if (sameDay)
+                            {
+                               if (!lastOnToday)
+                                {
+                                    DateTime nextStart = getStartTime(nextTime);
+                                    nextTime = (nextTime < nextStart ? nextStart : nextTime);
+                                    searchNextDate = false;
+                                }
+                            }
+                            else
+                            {
+                                nextTime = getStartTime(nextTime);
+                                searchNextDate = false;
+                            }
                         }
                     }
-                    if (matchTime(newTime))
+                    if (searchNextDate)
                     {
-                        if (!findMinTime || (newTime < minTime))
-                        {
-                            findMinTime = true;
-                            minTime = newTime;
-                        }
-                    }
-                }
-                if (!findOnBase)
-                {
-                    nextTime = minTime.AddDays(1);
-                    while (!matchDOW(nextTime))
-                    {
-                        nextTime = nextTime.AddDays(1);
+                        nextTime = getStartTime(nextTime).AddDays(1);
+                        sameDay = false;
                     }
                 }
                 return nextTime;
             }
 
-            public void setNextExecutionTime()
-            {
-                DateTime now = DateTime.Now;
-
-                if (lastExecutionTime == null)
-                {
-                    // set lastExecuteTime on today if it cannot be execute on today,
-                    // so that it will search for next time as normal
-                    if (!matchDOW(now) || !endTimeOK(now)) lastExecutionTime = now;
-                }
-                if (lastExecutionTime == null)
-                {
-                    if (this.elapseMin > 0)
-                    {
-                        // Set to execute immedicately
-                        this.nextExecutionTime = now;
-                    }
-                    else if (executionTimes.Count() > 0)
-                    {
-                        DateTime dayStart = getStartTime(now);
-                        this.nextExecutionTime = getNextByFixStartTime(dayStart);
-                    }
-                    else
-                    {
-                        // Daily, so set to execute immedicately
-                        this.nextExecutionTime = now;
-                    }
-                }
-                else
-                {
-                    if (this.elapseMin > 0)
-                    {
-                        this.nextExecutionTime = getNextByElapseTime(this.lastExecutionTime.GetValueOrDefault());
-                    }
-                    else if (executionTimes.Count() > 0)
-                    {
-                        this.nextExecutionTime = getNextByFixStartTime(this.lastExecutionTime.GetValueOrDefault());
-                    }
-                    else
-                    {
-                        DateTime nextTime = getStartTime(this.lastExecutionTime.GetValueOrDefault()).AddDays(1);
-                        while (!matchDOW(nextTime)) nextTime = nextTime.AddDays(1);
-                        this.nextExecutionTime = nextTime;
-                    }
-                }
-            }
-
         }
-
-
-
-
     }
 }

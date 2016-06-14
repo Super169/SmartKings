@@ -30,6 +30,14 @@ namespace SmartKings
             UpdateAccountList(li, ci);
         }
 
+        private void btnCheckStatus_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateEventLog(DateTime.Now, "***", "檢查帳戶", "開始", true);
+            goTaskCheckStatus();
+            refreshAccountList();
+            UpdateEventLog(DateTime.Now, "***", "檢查帳戶", "結束", true);
+        }
+
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -42,7 +50,6 @@ namespace SmartKings
         {
             goAutoKings();
         }
-
 
         private void btnClearEventLog_Click(object sender, RoutedEventArgs e)
         {

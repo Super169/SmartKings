@@ -7,13 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200" FontSize="13.333">
     <Grid>
-        <CheckBox x:Name="cbxAutoRun" Content="自動執行" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="cbxAutoRun_Changed" Unchecked="cbxAutoRun_Changed"/>
-        <CheckBox x:Name="cbxDebug" Content="除蟲模式" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="cbxDebug_Changed" Unchecked="cbxDebug_Changed"/>
-        <Label x:Name="label" Content="頻率/延遲 (分鐘):" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" Width="110" Padding="0,5,5,5"/>
-        <TextBox x:Name="txtElapseMin" HorizontalAlignment="Left" Height="23" Margin="120,36,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="28" TextChanged="txtElapseMin_TextChanged"/>
-        <Label x:Name="label1" Content="/" HorizontalAlignment="Left" Margin="148,32,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtExtraStartMin" HorizontalAlignment="Left" Height="23" Margin="162,36,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="28" TextChanged="txtExtraStartMin_TextChanged"/>
-        <Button x:Name="btnSaveSettings" Content="儲存設定" HorizontalAlignment="Right" Margin="0,65,10,0" VerticalAlignment="Top" Width="75" Click="btnSaveSettings_Click"/>
-
+        <Label x:Name="label" Content="頻率/延遲 (分鐘):" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Top" Width="110" Padding="0,5,5,5"/>
+        <TextBox x:Name="txtElapseMin" HorizontalAlignment="Left" Height="23" Margin="120,6,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="28" TextChanged="txtElapseMin_TextChanged"/>
+        <Label x:Name="label1" Content="/" HorizontalAlignment="Left" Margin="148,2,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtExtraStartMin" HorizontalAlignment="Left" Height="23" Margin="162,6,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="28" TextChanged="txtExtraStartMin_TextChanged"/>
+        <Button x:Name="btnSaveSettings" Content="儲存設定" HorizontalAlignment="Right" Margin="0,35,10,0" VerticalAlignment="Top" Width="75" Click="btnSaveSettings_Click"/>
     </Grid>
 </UserControl>

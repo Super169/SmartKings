@@ -71,6 +71,9 @@
     <Compile Include="ui\UcAppSettings.xaml.cs">
       <DependentUpon>UcAppSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ui\UcAppSwitches.xaml.cs">
+      <DependentUpon>UcAppSwitches.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +90,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ui\UcAppSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ui\UcAppSwitches.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

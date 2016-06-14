@@ -30,8 +30,6 @@ namespace SmartKings.ui
 
         public void loadAppSettings()
         {
-            cbxAutoRun.IsChecked = AppSettings.AutoRun;
-            cbxDebug.IsChecked = AppSettings.DEBUG;
             txtElapseMin.Text = AppSettings.elapseMin.ToString();
             txtExtraStartMin.Text = AppSettings.extraStartMin.ToString();
         }
@@ -91,8 +89,6 @@ namespace SmartKings.ui
                 MessageBox.Show("頻率不可為 0");
                 return;
             }
-            AppSettings.AutoRun = (cbxAutoRun.IsChecked == true);
-            AppSettings.DEBUG = (cbxDebug.IsChecked == true);
             AppSettings.elapseMin = elapseMin;
             AppSettings.extraStartMin = (txtExtraStartMin.Text == "" ? 0 : int.Parse(txtExtraStartMin.Text));
             AppSettings.saveSettings();
