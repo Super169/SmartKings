@@ -107,6 +107,12 @@ namespace KingsLib
                 public const string serverTime = "serverTime";
             }
 
+            public static class TeamDuplicate
+            {
+                public const string times = "times";
+
+            }
+
             public static class Travel
             {
                 public const string diceNum = "diceNum";

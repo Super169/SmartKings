@@ -18,6 +18,7 @@ using System.Web.Helpers;
 // 嘉年華活動
 // 神器打造
 // 誇服入侵
+// 皇榜
 
 namespace KingsLib
 {
@@ -64,6 +65,10 @@ namespace KingsLib
 
             // 誇服入侵
             goCheckOutstandTasks(action, "誇服入侵", checkOutstandingNaval, oGA, updateInfo, debug);
+
+            // 皇榜
+            goCheckOutstandTasks(action, "皇榜", checkOutstandingTeamDuplicate, oGA, updateInfo, debug);
+
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -383,6 +388,23 @@ namespace KingsLib
             updateInfo(oGA.displayName, action, string.Format("{0}: 尚未出兵", module), true, false);
             return true;
         }
+
+        public static bool checkOutstandingTeamDuplicate(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.TeamDuplicate.teamDuplicateFreeTimes(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.Exists(RRO.TeamDuplicate.times))  return false;
+
+            int times = JSON.getInt(rro.responseJson, RRO.TeamDuplicate.times);
+            if (times < 3)
+            {
+                updateInfo(oGA.displayName, action, string.Format("{0}: 只做了 {1} 次, 尚未完成", module, times), true, false);
+            }
+            return true;
+        }
+
+
 
 
     }
