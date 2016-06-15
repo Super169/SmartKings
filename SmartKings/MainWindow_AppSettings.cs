@@ -20,8 +20,6 @@ namespace SmartKings
             AppSettings.restoreSettings();
             ucAppSwitches.UpdateStatus += new EventHandler<string>(ucAppSetting_UpdateStatus);
             ucAppSwitches.loadAppSwitches();
-            ucAppSettings.UpdateStatus += new EventHandler<string>(ucAppSetting_UpdateStatus);
-            ucAppSettings.loadAppSettings();
         }
 
         private void ucAppSetting_UpdateStatus(object sender, string status)

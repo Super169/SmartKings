@@ -113,8 +113,8 @@
                 </Grid>
                 <Grid Grid.Row="1"  Background="#FFE2E1E1"/>
                 <Grid Grid.Row="2"  >
-                    <ui1:UcAppSettings x:Name="ucAppSettings" Height="335" VerticalAlignment="Bottom" />
                     <ui1:UcAppSwitches x:Name="ucAppSwitches" VerticalAlignment="Top" Height="31"/>
+                    <ui1:UcActionPanel x:Name="ucActionPanel" Margin="0,31,0,0"/>
                 </Grid>
                 <Grid Grid.Row="3"  >
                     <Button x:Name="btnTeter" Content="進行測試" Margin="10,0,10,0" VerticalAlignment="Top" Height="47" FontSize="24" Click="btnTeter_Click"/>

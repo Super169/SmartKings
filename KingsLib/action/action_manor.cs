@@ -21,14 +21,14 @@ namespace KingsLib
             foreach (dynamic building in buildings)
             {
                 ManorInfo mi = new ManorInfo();
-                mi.field = JSON.getString(building, RRO.Manor.field);
-                mi.heroIndex = JSON.getString(building, RRO.Manor.heroIndex);
-                mi.leftSeconds = JSON.getString(building, RRO.Manor.leftSeconds);
-                mi.level = JSON.getString(building, RRO.Manor.level);
-                mi.levelSeconds = JSON.getString(building, RRO.Manor.levelSeconds);
-                mi.produceSeconds = JSON.getString(building, RRO.Manor.produceSeconds);
-                mi.products = JSON.getString(building, RRO.Manor.products);
-                mi.type = JSON.getString(building, RRO.Manor.type);
+                mi.field = JSON.getInt(building, RRO.Manor.field);
+                mi.heroIndex = JSON.getInt(building, RRO.Manor.heroIndex);
+                mi.leftSeconds = JSON.getInt(building, RRO.Manor.leftSeconds);
+                mi.level = JSON.getInt(building, RRO.Manor.level);
+                mi.levelSeconds = JSON.getInt(building, RRO.Manor.levelSeconds);
+                mi.produceSeconds = JSON.getInt(building, RRO.Manor.produceSeconds);
+                mi.products = JSON.getInt(building, RRO.Manor.products);
+                mi.type = JSON.getString(building, RRO.Manor.type,"");
                 manorInfo.Add(mi);
             }
             return manorInfo;

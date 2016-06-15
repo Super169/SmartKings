@@ -36,7 +36,6 @@ namespace SmartKings
             loadAppSettings();
             bindAccounts();
             bindEventLogs();
-            
 
             KingsMonitor.notificationEventHandler += new NotificationEventHandler(this.OnNotificationHandler);
             KingsMonitor.newSidEventHandler += new NewSidEventHandler(this.OnNewSidHandler);
@@ -48,6 +47,7 @@ namespace SmartKings
             }
 
             KingsTask.intiSystemTasks();
+            initActionPanel();
             initTimer();
             if (AppSettings.AutoRun) goAutoKings();
         }

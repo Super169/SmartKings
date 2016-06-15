@@ -141,5 +141,9 @@ namespace SmartKings
             UpdateEventLog(DateTime.Now, account, action, msg, async);
         }
 
+        private void DebugLog(string action, string msg, string account = null)
+        {
+            UpdateEventLog(DateTime.Now, (account == null ? "***" : account), action,  "**** " + msg, false);
+        }
     }
 }

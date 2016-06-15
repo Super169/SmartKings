@@ -18,10 +18,10 @@ namespace KingsLib
             PlayerProperties pp = new PlayerProperties() { ready = false };
             RequestReturnObject rro = request.Player.getProperties(ci, sid);
             if (!rro.SuccessWithJson(RRO.Player.pvs, typeof(DynamicJsonArray))) return pp;
-            DynamicJsonArray pvs = rro.responseJson(RRO.Player.pvs);
+            DynamicJsonArray pvs = rro.responseJson[RRO.Player.pvs];
             foreach (dynamic pv in pvs)
             {
-                string p = JSON.getString(pv, RRO.Player.p);
+                string p = JSON.getString(pv, RRO.Player.p, "");
                 switch (p)
                 {
                     case RRO.Player.EXP:

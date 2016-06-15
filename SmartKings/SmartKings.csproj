@@ -67,7 +67,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainWindow_ActionPanel.cs" />
     <Compile Include="MainWindow_AppSettings.cs" />
+    <Compile Include="ui\UcActionPanel.xaml.cs">
+      <DependentUpon>UcActionPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ui\UcAppSettings.xaml.cs">
       <DependentUpon>UcAppSettings.xaml</DependentUpon>
     </Compile>
@@ -89,6 +93,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ui\UcActionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ui\UcAppSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
