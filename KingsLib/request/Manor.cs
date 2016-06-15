@@ -44,6 +44,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getManorInfo);
         }
 
+        public static RequestReturnObject harvestProduct(ConnectionInfo ci, string sid, int field)
+        {
+            string body = string.Format("{{\"field\":{0}}}", field);
+            return com.SendGenericRequest(ci, sid, CMD_harvestProduct, true, body);
+        }
+
         public static RequestReturnObject refreshManor(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_refreshManor);

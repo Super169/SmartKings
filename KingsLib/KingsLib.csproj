@@ -46,10 +46,13 @@
   <ItemGroup>
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\action_decree.cs" />
+    <Compile Include="action\action_manor.cs" />
     <Compile Include="action\action_outstanding.cs" />
     <Compile Include="action\action_hero.cs" />
     <Compile Include="action\action_login.cs" />
+    <Compile Include="action\action_player.cs" />
     <Compile Include="action\action_system.cs" />
+    <Compile Include="action\task\Harvest.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
@@ -60,6 +63,8 @@
     <Compile Include="data\IInfoObject.cs" />
     <Compile Include="data\InfoBase.cs" />
     <Compile Include="data\LoginInfo.cs" />
+    <Compile Include="data\ManorInfo.cs" />
+    <Compile Include="data\PlayerProperties.cs" />
     <Compile Include="data\RequestReturnObject.cs" />
     <Compile Include="data\conv.cs" />
     <Compile Include="monitor\KingsMonitor.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="request\ZaJinDan.cs" />
     <Compile Include="scheduler\Schedule.cs" />
     <Compile Include="scheduler\Scheduler.cs" />
+    <Compile Include="scheduler\ScheduleTask.cs" />
     <Compile Include="scheduler\Task.cs" />
     <Compile Include="util\util_infoBaseList.cs" />
   </ItemGroup>

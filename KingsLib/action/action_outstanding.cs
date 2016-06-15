@@ -24,8 +24,6 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public delegate void DelegateUpdateInfo(string account, string action, string msg, bool addTime = true, bool async = true);
-
         public delegate bool DelegateCheckOutstandingTask(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug);
 
         private static void showDebugMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)

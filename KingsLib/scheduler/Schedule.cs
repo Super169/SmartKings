@@ -53,8 +53,8 @@ namespace KingsLib.scheduler
                 public const string endTime = "endTime";
                 public const string elapseMin = "elapseMin";
                 public const string executionTimes = "executionTimes";
-                public const string retryFreqMin = "retryFreqMin";
                 public const string maxRetry = "maxRetry";
+                public const string retryFreqMin = "retryFreqMin";
                 public const string lastExecutionTime = "lastExecutionTime";
                 public const string retryCnt = "retryCnt";
                 public const string nextExecutionTime = "nextExecutionTime";
@@ -65,8 +65,8 @@ namespace KingsLib.scheduler
             public TimeSpan? endTime { get; set; }
             public int elapseMin { get; set; }
             public List<TimeSpan> executionTimes { get; set; }
-            public int retryFreqMin { get; set; }
             public int maxRetry { get; set; }
+            public int retryFreqMin { get; set; }
             public DateTime? lastExecutionTime;
             public int retryCnt { get; set; }
             public DateTime? nextExecutionTime;

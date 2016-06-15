@@ -18,12 +18,41 @@ namespace KingsLib.scheduler
         }
 
         public Schedule.ScheduleInfo schedule  { get; set; }
-        public Task.TaskInfo task { get; set; }
-        public string taskId { get { return task.id;  } }
+        public KingsTask.TaskInfo task { get; set; }
+        public string taskId { get { return task.id; } }
 
         public Scheduler()
         {
             initObject();
+        }
+
+        public Scheduler(String taskId, KingsTask.TaskType taskType, string taskParameter,
+                          List<int> dow, TimeSpan? startTime, TimeSpan? endTime,
+                          int elapseMin, List<TimeSpan> executionTimes,
+                          int maxRetry, int retryFreqMin)
+        {
+            this.task = new KingsTask.TaskInfo()
+            {
+                id = taskId
+            };
+
+            this.schedule = new Schedule.ScheduleInfo()
+            {
+                dow = dow,
+                startTime = startTime,
+                endTime = endTime,
+                elapseMin = elapseMin,
+                executionTimes = executionTimes,
+                maxRetry = maxRetry,
+                retryFreqMin = retryFreqMin
+            };
+
+        }
+
+        public Scheduler(KingsTask.TaskInfo taskInfo, Schedule.ScheduleInfo scheduleInfo)
+        {
+            this.task = taskInfo;
+            this.schedule = scheduleInfo;
         }
 
         public Scheduler(string jsonString)
@@ -41,7 +70,7 @@ namespace KingsLib.scheduler
         public override void initObject()
         {
             this.schedule = new Schedule.ScheduleInfo();
-            this.task = new Task.TaskInfo();
+            this.task = new KingsTask.TaskInfo();
         }
 
         public override bool fromJson(dynamic json)
@@ -50,7 +79,7 @@ namespace KingsLib.scheduler
             try
             {
                 this.schedule = new Schedule.ScheduleInfo(JSON.getString(json, KEY.schedule, null));
-                this.task = new Task.TaskInfo(JSON.getString(json, KEY.task, null));
+                // this.task = new KingsTask.TaskInfo(JSON.getString(json, KEY.task, null));
 
             }
             catch {
@@ -75,7 +104,7 @@ namespace KingsLib.scheduler
 
         public void verifySystemTask(ref List<Scheduler> systemTasks)
         {
-            string[] validId = { Task.TaskId.SignIn, Task.TaskId.Harvest, Task.TaskId.Reload};
+            string[] validId = { KingsTask.TaskId.SignIn, KingsTask.TaskId.Harvest, KingsTask.TaskId.Reload};
             foreach (Scheduler oS in systemTasks)
             {
                 string id = validId.FirstOrDefault(x => x == oS.taskId);
@@ -100,12 +129,12 @@ namespace KingsLib.scheduler
 
             switch (id)
             {
-                case Task.TaskId.SignIn:
+                case KingsTask.TaskId.SignIn:
                     oS.schedule.executionTimes.Add(new TimeSpan(06, 05, 00));
                     oS.schedule.executionTimes.Add(new TimeSpan(10, 05, 00));
                     oS.schedule.executionTimes.Add(new TimeSpan(13, 05, 00));
                     break;
-                case Task.TaskId.Harvest:
+                case KingsTask.TaskId.Harvest:
                     oS.schedule.elapseMin = 60;
                     break;
             }

@@ -8,6 +8,9 @@ namespace KingsLib
 {
     public static partial class action
     {
+
+        public delegate void DelegateUpdateInfo(string account, string action, string msg, bool addTime = true, bool async = true);
+
         public static class STYLE
         {
             public const string ALERT = "ALERT";
@@ -88,6 +91,29 @@ namespace KingsLib
                 public const string curStation = "curStation";
             }
 
+            public static class Manor
+            {
+                public const string buildings = "buildings";
+                public const string field = "field";
+                public const string heroIndex = "heroIndex";
+                public const string leftSeconds = "leftSeconds";
+                public const string level = "level";
+                public const string levelSeconds = "levelSeconds";
+                public const string product_out = "out";
+                public const string produceSeconds = "produceSeconds";
+                public const string products = "products";
+                public const string type = "type";
+
+                public const string MH = "MH";
+                public const string SP = "SP";
+
+                public const string NT = "NT";
+                public const string MC = "MC";
+
+                public const string LTC = "LTC";
+
+            }
+
             public static class Naval
             {
                 public const string alives = "alives";
@@ -99,6 +125,36 @@ namespace KingsLib
             {
                 public const string activityStatus = "activityStatus";
                 public const string remainCount = "remainCount";
+            }
+
+            public static class Player
+            {
+                public const string ARENA_COIN = "ARENA_COIN";
+                public const string CONTRIBUTION = "CONTRIBUTION";
+                public const string CORPS_NAME = "CORPS_NAME";
+                public const string CSKING_COIN = "CSKING_COIN";
+                public const string EXP = "EXP";
+                public const string EXPLOIT = "EXPLOIT";
+                public const string FIGHTING_SPIRIT = "FIGHTING_SPIRIT";
+                public const string FOOD = "FOOD";
+                public const string GOLD = "GOLD";
+                public const string GOLD_TICKET = "GOLD_TICKET";
+                public const string ICON = "ICON";
+                public const string IRON = "IRON";
+                public const string LEVEL = "LEVEL";
+                public const string LEVEL_UP_EXP = "LEVEL_UP_EXP";
+                public const string LONGMARCH_COIN = "LONGMARCH_COIN";
+                public const string MAX_FOOD = "MAX_FOOD";
+                public const string MAX_IRON = "MAX_IRON";
+                public const string MAX_SILVER = "MAX_SILVER";
+                public const string PLATFORM_MARK = "PLATFORM_MARK";
+                public const string p = "p";
+                public const string pvs = "pvs";
+                public const string SILVER = "SILVER";
+                public const string UNDERGO_EXP = "UNDERGO_EXP";
+                public const string v = "v";
+                public const string VIP_LEVEL = "VIP_LEVEL";
+                public const string XIYU_COIN = "XIYU_COIN";
             }
 
             public static class System

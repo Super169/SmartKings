@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using KingsLib.monitor;
 using static KingsLib.monitor.KingsMonitor;
 using KingsLib;
+using KingsLib.scheduler;
 
 namespace SmartKings
 {
@@ -46,6 +47,7 @@ namespace SmartKings
                 this.Close();
             }
 
+            KingsTask.intiSystemTasks();
             initTimer();
             if (AppSettings.AutoRun) goAutoKings();
         }
