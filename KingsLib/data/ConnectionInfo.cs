@@ -117,6 +117,14 @@ namespace KingsLib.data
                 }
             }
 
+            // Check for abnormal cookies
+            if (this.cookies.Count > 1)
+            {
+                string cookieString = this.getHeader("Cookie");
+                LOG.D("Abnormal cookies: " + cookieString);
+                // TODO: may need to remove abormal cookies, need further study
+            }
+
         }
 
     }

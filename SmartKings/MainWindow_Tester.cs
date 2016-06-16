@@ -69,23 +69,20 @@ namespace SmartKings
             msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd hh:mm:ss} - {2:yyyy-MM-dd hh:mm:ss}", dt, startDtm, endDtm);
             Console.WriteLine(msg);
             */
+            /*
+                        List<KingsTask.TaskInfo> t = KingsLib.scheduler.KingsTask.systemTasks;
+                        foreach (KingsTask.TaskInfo task in t)
+                        {
+                            if (task.isEnabled)
+                            {
+                                Console.WriteLine(task.id);
+                            }
+                        }
+            */
 
-            List<KingsTask.TaskInfo> t = KingsLib.scheduler.KingsTask.systemTasks;
-            foreach (KingsTask.TaskInfo task in t)
-            {
-                if (task.isEnabled)
-                {
-                    Console.WriteLine(task.id);
-                }
-            }
+            LOG.D("Not so bad");
+            LOG.E("Too Bad");
 
-
-            UpdateEventLog(DateTime.Now, "***", "手動測試", "開始", true);
-            goTaskCheckStatus();
-            refreshAccountList();
-            goTaskCheckOutstanding();
-            UpdateEventLog(DateTime.Now, "***", "手動測試", "結束", true);
-            
         }
 
 

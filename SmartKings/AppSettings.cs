@@ -10,6 +10,8 @@ namespace SmartKings
     public static class AppSettings
     {
         private const string jazFileName = "AppSetting.jaz";
+        private const string errLog = "SmartKings.err";
+        private const string debugLog = "SmartKings.debug";
 
         private static class DEFAULT
         {
@@ -62,6 +64,10 @@ namespace SmartKings
             dynamic json = JSON.Empty;
             if (!JSON.fromFile(ref json, jazFileName)) return false;
             fromJson(json);
+
+            LOG.errLog = errLog;
+            LOG.debugLog = debugLog;
+
             return true;
         }
 
