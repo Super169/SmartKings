@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KingsLib.monitor
@@ -62,7 +63,13 @@ namespace KingsLib.monitor
             data = sb.ToString();
 
             // don't check icantw.com/m.do as it cannot be found for direct connection
-            if (!data.Contains(KINGS_DATA_KEYWORD)) return;
+            if (!data.Contains(KINGS_DATA_KEYWORD))
+            {
+                // Double check for post data
+                string rx = rx = "\"sid\":\"([a-z0-9]+)\"";
+                Match match = Regex.Match(data, rx);
+                if (!match.Success) return;
+            }
             valid = true;
         }
     }

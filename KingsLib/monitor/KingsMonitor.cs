@@ -18,7 +18,10 @@ namespace KingsLib.monitor
 
         static List<KingsPacketKey> accounts = new List<KingsPacketKey>();
         static Object accountsLocker = new Object();
-        
+
+        static string prePacket = null;
+        static string preServer = null;
+
         // Propagate to parent handler when new sid is detected  
         public delegate void NewSidEventHandler(LoginInfo li, ConnectionInfo ci);
         public static event NewSidEventHandler newSidEventHandler;
@@ -82,12 +85,47 @@ namespace KingsLib.monitor
         {
             string server = "";
             string sid = "";
+            string fullPacket = "";
 
             string rx = "(kings[0-9]+)\\.icantw.com.+\"sid\":\"([a-z0-9]+)\"";
             Match match = Regex.Match(p.data, rx);
-            if (!match.Success) return;
-            server = match.Groups[1].Value;
-            sid = match.Groups[2].Value;
+            if (match.Success)
+            {
+                preServer = null;
+                prePacket = null;
+                server = match.Groups[1].Value;
+                sid = match.Groups[2].Value;
+                fullPacket = p.data;
+            }
+            else
+            {
+                rx = "(kings[0-9]+)\\.icantw.com";
+                match = Regex.Match(p.data, rx);
+                if (match.Success)
+                {
+                    preServer = match.Groups[1].Value;
+                    prePacket = p.data;
+                    return;
+                }
+                else
+                {
+                    if (preServer == null) return;
+
+                    rx = "\"sid\":\"([a-z0-9]+)\"";
+                    match = Regex.Match(p.data, rx);
+                    if (match.Success)
+                    {
+                        server = preServer;
+                        sid = match.Groups[1].Value;
+                        fullPacket = prePacket + p.data;
+                    } else
+                    {
+                        preServer = null;
+                        prePacket = null;
+                        return;
+                    }
+                }
+            }
             UpdateUI(string.Format("Server: {0} ; sid: {1}", server, sid));
 
             KingsPacketKey oKPK = null;
@@ -103,56 +141,10 @@ namespace KingsLib.monitor
 
             UpdateUI("*** Find new sid: " + sid);
 
-
-            // Build HTTPRequestHeaders
-            /*
-            HTTPRequestHeaders oH = new HTTPRequestHeaders();
-            oH.HTTPMethod = "POST";
-            oH.HTTPVersion = "HTTP/1.1";
-            // byte[] rawPath = { 47, 109, 46, 100, 111 };
-            // oH.RawPath = rawPath;
-            oH.RawPath = Encoding.UTF8.GetBytes("/m.do");
-            oH.RequestPath = "/m.do";
-            oH.UriScheme = "http";
-
-            string[] headerStr = p.data.Split('|');
-            foreach (string s in headerStr)
-            {
-                if ((s.Trim() != "") && !s.StartsWith("POST ") && !s.StartsWith("{") && s.Contains(":"))
-                {
-                    string[] pair = s.Split(':');
-                    string key = pair[0].Trim();
-                    string value = pair[1].Trim();
-                    if ((key != "") && (value != ""))
-                    {
-                        // UpdateUI(string.Format("{0} : {1}", key, value));
-                        oH[key] = value;
-                    }
-                }
-            }
-
-            data.LoginInfo li = action.getAccountInfo(oH, sid);
-            if (!li.ready) return;
-
-            li.server = server;
-            UpdateUI(string.Format("{0} | {1} - {2}", li.account, li.serverTitle, li.nickName));
-
-            // ************* Testing for save & restore via json *************
-            // Most information is fixed, so only the key-value in headerStr need to be saved
-            string jsonString = util.header2JsonString(oH);
-            oH = null;
-            oH = util.headerFromJsonString(jsonString);
-            // ***************************************************************
-
-
-            NewSid(li, oH);
-            
-            
-            */
-
             // Build Connection Info here
             ConnectionInfo ci = new ConnectionInfo();
-            ci.fromTcpPacketData(p.data);
+            // ci.fromTcpPacketData(p.data);
+            ci.fromTcpPacketData(fullPacket);
 
             data.LoginInfo li = action.getAccountInfo(ci, sid);
             if (!li.ready) return;

@@ -54,6 +54,12 @@ namespace KingsLib
                 public const string eliteBuyTimes = "eliteBuyTimes";
                 public const string eliteCanBuyTimes = "eliteCanBuyTimes";
 
+                public const string arena = "arena";
+                public const string lmarch = "lmarch";
+                public const string arenas = "arenas";
+                public const string starryLeftCount = "starryLeftCount";
+
+
                 public const string times = "times";
                 public const string buyTimes = "buyTimes";
                 public const string weekday = "weekday";

@@ -37,8 +37,8 @@ namespace KingsLib
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "開始");
 
-            // 討伐群雄
-            goCheckOutstandTasks(action, "討伐群雄", checkOutstandingCampaignElite, oGA, updateInfo, debug);
+            // 征戰
+            goCheckOutstandTasks(action, "征戰", checkOutstandingCampaign, oGA, updateInfo, debug);
 
             // 英雄切磋
             goCheckOutstandTasks(action, "英雄切磋", checkOutstandingVisitHero, oGA, updateInfo, debug);
@@ -83,25 +83,44 @@ namespace KingsLib
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: {1}", "結束檢查", module));
         }
 
-        public static bool checkOutstandingCampaignElite(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingCampaign(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro = request.Campaign.getLeftTimes(oGA.connectionInfo, oGA.sid);
-            if (!(rro.SuccessWithJson(RRO.Campaign.elite) && rro.Exists(RRO.Campaign.eliteBuyTimes) && rro.Exists(RRO.Campaign.eliteCanBuyTimes))) return false;
+            if (!(rro.SuccessWithJson(RRO.Campaign.elite) &&
+                  rro.Exists(RRO.Campaign.eliteBuyTimes) &&
+                  rro.Exists(RRO.Campaign.eliteCanBuyTimes) &&
+                  rro.Exists(RRO.Campaign.arena) &&
+                  rro.Exists(RRO.Campaign.lmarch) &&
+                  rro.Exists(RRO.Campaign.arenas) &&
+                  rro.Exists(RRO.Campaign.starryLeftCount)
+                  )) return false;
 
             int elite = JSON.getInt(rro.responseJson, RRO.Campaign.elite, -1);
             int eliteBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteBuyTimes, -1);
             int eliteCanBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteCanBuyTimes, -1);
+            string msg;
             if ((elite > 0) || ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)))
             {
-                string msg = module + ": ";
+                msg = "討伐群雄: ";
                 if (elite > 0) msg += string.Format("尚餘 {0} 次 ", elite);
-                if ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)) msg += "尚未購買額外次數";
-                updateInfo(oGA.displayName, action, msg, true, false);
+                if ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)) msg += " 尚未購買額外次數";
+                updateInfo(oGA.displayName, actionName, msg, true, false);
             }
+            checkRemainCount(oGA, updateInfo, "天下比武", JSON.getInt(rro.responseJson, RRO.Campaign.arena, -1));
+            checkRemainCount(oGA, updateInfo, "攬星壇", JSON.getInt(rro.responseJson, RRO.Campaign.starryLeftCount, -1));
+            checkRemainCount(oGA, updateInfo, "三軍演武", JSON.getInt(rro.responseJson, RRO.Campaign.arenas, -1));
             return true;
         }
 
-        public static bool checkOutstandingVisitHero(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        private static void checkRemainCount(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, int remainCount)
+        {
+            if (remainCount > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚餘 {1} 次", actionName, remainCount), true, false);
+            }
+        }
+
+        public static bool checkOutstandingVisitHero(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro = request.Hero.getVisitHeroInfo(oGA.connectionInfo, oGA.sid, "徐晃");
             if (!rro.SuccessWithJson(RRO.Hero.matchTimes)) return false;
@@ -109,12 +128,12 @@ namespace KingsLib
             if (matchTimes > 0)
             {
                 string msg = string.Format("{0}: 尚有 {1} 次未完成", module, matchTimes);
-                updateInfo(oGA.displayName, action, msg, true, false);
+                updateInfo(oGA.displayName, actionName, msg, true, false);
             }
             return true;
         }
 
-        public static bool checkOutstandingCampainTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingCampainTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
 
             RequestReturnObject rro = request.Campaign.getTrialsInfo(oGA.connectionInfo, oGA.sid);
@@ -155,22 +174,22 @@ namespace KingsLib
                 string msg = module + ": ";
                 if (remain) msg += "尚餘 " + msgRemain + "未完成; ";
                 if (notBuy) msg += "尚未購買 " + msgNotBuy;
-                updateInfo(oGA.displayName, action, msg, true, false);
+                updateInfo(oGA.displayName, actionName, msg, true, false);
             }
             return true;
         }
 
-        public static bool checkOutstandingAfterKingRoad(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingAfterKingRoad(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             int gameDOW = scheduler.Schedule.ScheduleInfo.getGameDOW();
             if (!((gameDOW == 3) || (gameDOW == 6)))
             {
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "今天沒有王者獎勵/保級賽");
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "今天沒有王者獎勵/保級賽");
                 return true;
             }
             if (DateTime.Now > scheduler.Schedule.ScheduleInfo.getRefTime(DateTime.Now, new TimeSpan(21, 0, 0)))
             {
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "王者獎勵/保級賽 已經結束");
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "王者獎勵/保級賽 已經結束");
                 return true;
             }
             RequestReturnObject rro = request.KingRoad.afterSeasonEnemy(oGA.connectionInfo, oGA.sid);
@@ -204,13 +223,13 @@ namespace KingsLib
                             break;
 
                     }
-                    updateInfo(oGA.displayName, action, string.Format("王者{0}賽: 餘下 {1} 次挑戰, 尚有 {2} 個未達三星", seasonType, remainChallenge, failCnt), true, false);
+                    updateInfo(oGA.displayName, actionName, string.Format("王者{0}賽: 餘下 {1} 次挑戰, 尚有 {2} 個未達三星", seasonType, remainChallenge, failCnt), true, false);
                 }
             }
             return true;
         }
 
-        public static bool checkOutstandingTravel(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingTravel(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro = request.Travel.getMapInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
@@ -219,17 +238,17 @@ namespace KingsLib
             int diceNum = JSON.getInt(rro.responseJson, RRO.Travel.diceNum);
             if (diceNum > 0)
             {
-                updateInfo(oGA.displayName, action, string.Format("{0}: 還有 {1} 步可行", module, diceNum), true, false);
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 還有 {1} 步可行", module, diceNum), true, false);
             }
             else
             {
-                updateInfo(oGA.displayName, action, module + ": 尚未挑戰精英", true, false);
+                updateInfo(oGA.displayName, actionName, module + ": 尚未挑戰精英", true, false);
             }
 
             return true;
         }
 
-        public static bool checkOutstandingLongMarch(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingLongMarch(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro = request.LongMarch.getMyStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
@@ -237,20 +256,20 @@ namespace KingsLib
             int leftTimes = JSON.getInt(rro.responseJson, RRO.LongMarch.leftTimes);
             if (leftTimes > 0)
             {
-                updateInfo(oGA.displayName, action, module + ": 今日尚未開始", true, false);
+                updateInfo(oGA.displayName, actionName, module + ": 今日尚未開始", true, false);
                 return true;
             }
             int curStation = JSON.getInt(rro.responseJson, RRO.LongMarch.curStation);
             if (curStation < 15)
             {
-                updateInfo(oGA.displayName, action, module + ": 尚未到達 匈奴", true, false);
+                updateInfo(oGA.displayName, actionName, module + ": 尚未到達 匈奴", true, false);
                 return true;
             }
 
             return true;
         }
 
-        public static bool checkOutstandingOneYear(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingOneYear(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro = request.OneYear.cityStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
@@ -288,7 +307,7 @@ namespace KingsLib
                 }
                 if (ticket > 0)
                 {
-                    updateInfo(oGA.displayName, action, string.Format("{0}: 尚有 {1} 張嘉年華入場卷", module, ticket), true, false);
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 張嘉年華入場卷", module, ticket), true, false);
                 }
 
             }
@@ -300,7 +319,7 @@ namespace KingsLib
                 int leftTimes = JSON.getInt(rro.responseJson, RRO.DianJiangTai.leftTimes);
                 if (leftTimes > 0)
                 {
-                    updateInfo(oGA.displayName, action, string.Format("{0}: 點將台尚有 {1} 次", module, leftTimes), true, false);
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 點將台尚有 {1} 次", module, leftTimes), true, false);
                 }
             }
 
@@ -311,7 +330,7 @@ namespace KingsLib
                 int remainCount = JSON.getInt(rro.responseJson, RRO.OneYear.remainCount);
                 if (remainCount > 0)
                 {
-                    updateInfo(oGA.displayName, action, string.Format("{0}: 仙鶴雲居尚有 {1} 次", module, remainCount), true, false);
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 仙鶴雲居尚有 {1} 次", module, remainCount), true, false);
                     return true;
 
                 }
@@ -322,11 +341,11 @@ namespace KingsLib
         }
 
 
-        public static bool checkOutstandingHeroAfi(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingHeroAfi(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             if (oGA.level < 80)
             {
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: 主公只有 {1} 等的, 尚未達到打造神器的最低要求", module, oGA.level));
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("{0}: 主公只有 {1} 等的, 尚未達到打造神器的最低要求", module, oGA.level));
                 return true;
             }
 
@@ -349,16 +368,16 @@ namespace KingsLib
 
             if (findMAKE)
             {
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, action, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE));
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("{0}: 正在為 {1} 打造神器", module, heroMAKE));
             }
             else
             {
-                updateInfo(oGA.displayName, action, string.Format("{0}: 沒有打造中的神器", module), true, false);
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 沒有打造中的神器", module), true, false);
             }
             return true;
         }
 
-        public static bool checkOutstandingNaval(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingNaval(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             int gameDOW = scheduler.Schedule.ScheduleInfo.getGameDOW();
             DateTime now = DateTime.Now;
@@ -383,21 +402,21 @@ namespace KingsLib
             // If any of them contain data, that means troops already sent, no action required.
             if ((oAlives.Length + oDeads.Length + oDeadHero.Length) > 0) return true;
 
-            updateInfo(oGA.displayName, action, string.Format("{0}: 尚未出兵", module), true, false);
+            updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未出兵", module), true, false);
             return true;
         }
 
-        public static bool checkOutstandingTeamDuplicate(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug)
+        public static bool checkOutstandingTeamDuplicate(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             RequestReturnObject rro;
             rro = request.TeamDuplicate.teamDuplicateFreeTimes(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!rro.Exists(RRO.TeamDuplicate.times))  return false;
+            if (!rro.Exists(RRO.TeamDuplicate.times)) return false;
 
             int times = JSON.getInt(rro.responseJson, RRO.TeamDuplicate.times);
             if (times < 3)
             {
-                updateInfo(oGA.displayName, action, string.Format("{0}: 只做了 {1} 次, 尚未完成", module, times), true, false);
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 只做了 {1} 次, 尚未完成", module, times), true, false);
             }
             return true;
         }
