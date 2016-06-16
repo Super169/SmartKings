@@ -18,6 +18,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getBagInfo);
         }
 
+        public static RequestReturnObject useItem(ConnectionInfo ci, string sid, int num, int index)
+        {
+            string body = string.Format("{{\"parmList\":[\"-1\"], \"num\":{0}, \"index\":{1}}}", num, index);
+            return com.SendGenericRequest(ci, sid, CMD_useItem, true, body);
+        }
+
 
     }
 }

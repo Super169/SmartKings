@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="action\action_bag.cs" />
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\action_decree.cs" />
     <Compile Include="action\action_manor.cs" />
@@ -52,10 +53,12 @@
     <Compile Include="action\action_login.cs" />
     <Compile Include="action\action_player.cs" />
     <Compile Include="action\action_system.cs" />
+    <Compile Include="action\task\Bag.cs" />
     <Compile Include="action\task\Harvest.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
+    <Compile Include="data\BagInfo.cs" />
     <Compile Include="data\ConnectionInfo.cs" />
     <Compile Include="data\DecreeInfo.cs" />
     <Compile Include="data\GameAccount.cs" />

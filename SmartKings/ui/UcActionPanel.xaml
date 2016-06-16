@@ -10,8 +10,7 @@
         <CheckBox x:Name="cbxAllPlayers" Content="所有帳戶" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="71"/>
         <Button x:Name="btnCheckStatus" Content="檢查全部狀況" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnOutstanding" Content="檢查遺漏" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnCleanBag" Content="清理背包" HorizontalAlignment="Left" Margin="110,34,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnHarvest" Content="封田收獲" HorizontalAlignment="Left" Margin="110,34,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-
+        <Button x:Name="btnCleanBag" Content="清理背包" HorizontalAlignment="Left" Margin="110,58,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
     </Grid>
 </UserControl>

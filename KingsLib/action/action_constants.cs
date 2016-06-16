@@ -36,9 +36,14 @@ namespace KingsLib
 
             public static class Bag
             {
+                public const string deleted = "deleted";
+                public const string updated = "updated";
+
+                public const string idx = "idx";
                 public const string items = "items";
                 public const string nm = "nm";
                 public const string n = "n";
+                public const string us = "us";
 
                 public const string nm_ticket = "嘉年华入场券";
             }

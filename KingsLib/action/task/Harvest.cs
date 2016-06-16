@@ -15,7 +15,7 @@ namespace KingsLib
 
             public static bool goTaskHarvest(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string action = "封地收獲";
+                string actionName = "封地收獲";
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
 
@@ -23,7 +23,7 @@ namespace KingsLib
                 if (!pp.ready) return false;
                 if ((pp.FOOD >= pp.MAX_FOOD) && (pp.SILVER >= pp.MAX_SILVER) && (pp.IRON >= pp.MAX_IRON))
                 {
-                    updateInfo(oGA.displayName, action, "各項資源都滿了", true, false);
+                    updateInfo(oGA.displayName, actionName, "各項資源都滿了", true, false);
                     return true;
                 }
 
@@ -77,7 +77,7 @@ namespace KingsLib
                 }
                 if (getSILVER + getFOOD + getIRON > 0)
                 {
-                    updateInfo(oGA.displayName, action, string.Format("收取 {0} 銀, {1} 糧, {2} 鐵", getSILVER, getFOOD, getIRON), true, false);
+                    updateInfo(oGA.displayName, actionName, string.Format("收取 {0} 銀, {1} 糧, {2} 鐵", getSILVER, getFOOD, getIRON), true, false);
                 }
                 return true;
             }
