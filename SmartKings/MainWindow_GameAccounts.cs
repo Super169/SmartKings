@@ -32,7 +32,12 @@ namespace SmartKings
         private void saveAccounts()
         {
             dynamic jsonData = JSON.Empty;
-            jsonData[KEY_GA] = gameAccounts;
+            List<dynamic> acList = new List<dynamic>();
+            foreach (GameAccount oGA in gameAccounts)
+            {
+                acList.Add(oGA.toJson());
+            }
+            jsonData[KEY_GA] = acList;
             JSON.toFile(jsonData, jazFileName);
         }
 

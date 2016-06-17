@@ -36,12 +36,12 @@ namespace KingsLib.data
             public const string heros = "heros";
             public const string decreeHeros = "decreeHeros";
 
-/*
-            public const string BossWarHeros = "BossWarHeros";
-            public const string BossWarChiefIdx = "BossWarChiefIdx";
-            public const string BossWarBody = "BossWarBody";
-            public const string BossWarCount = "BossWarCount";
-*/
+            /*
+                        public const string BossWarHeros = "BossWarHeros";
+                        public const string BossWarChiefIdx = "BossWarChiefIdx";
+                        public const string BossWarBody = "BossWarBody";
+                        public const string BossWarCount = "BossWarCount";
+            */
             public const string autoTasks = "autoTasks";
 
         }
@@ -133,7 +133,8 @@ namespace KingsLib.data
             {
                 this.level = int.Parse(li.LEVEL);
 
-            } catch { this.level = 0; }
+            }
+            catch { this.level = 0; }
 
             try
             {
@@ -158,17 +159,17 @@ namespace KingsLib.data
         {
             initObject();
             if (json == null) return false;
-            this.account = JSON.getString(json,KEY.account, "");
-            this.enabled = JSON.getBool(json,KEY.enabled);
-            this.sid = JSON.getString(json,KEY.sid, "");
+            this.account = JSON.getString(json, KEY.account, "");
+            this.enabled = JSON.getBool(json, KEY.enabled);
+            this.sid = JSON.getString(json, KEY.sid, "");
             this.status = AccountStatus.Unknown;
-            this.timeAdjust = JSON.getInt(json,KEY.timeAdjust, 0);
-            this.server = JSON.getString(json,KEY.server, "");
-            this.serverTitle = JSON.getString(json,KEY.serverTitle, "");
-            this.nickName = JSON.getString(json,KEY.nickName, "");
-            this.corpsName = JSON.getString(json,KEY.corpsName, "");
-            this.level = JSON.getInt(json,KEY.level, 0);
-            this.vipLevel = JSON.getInt(json,KEY.vipLevel, 0);
+            this.timeAdjust = JSON.getInt(json, KEY.timeAdjust, 0);
+            this.server = JSON.getString(json, KEY.server, "");
+            this.serverTitle = JSON.getString(json, KEY.serverTitle, "");
+            this.nickName = JSON.getString(json, KEY.nickName, "");
+            this.corpsName = JSON.getString(json, KEY.corpsName, "");
+            this.level = JSON.getInt(json, KEY.level, 0);
+            this.vipLevel = JSON.getInt(json, KEY.vipLevel, 0);
 
             dynamic ci = json[KEY.connectionInfo];
             this.connectionInfo = new ConnectionInfo(ci);
@@ -176,6 +177,7 @@ namespace KingsLib.data
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
             this.autoTasks = new List<Scheduler.AutoTask>();
+            /*
             if (JSON.exists(json, KEY.autoTasks, typeof(DynamicJsonArray))) {
                 DynamicJsonArray tasks = (DynamicJsonArray)json[KEY.autoTasks];
                 foreach(dynamic t in tasks)
@@ -183,7 +185,9 @@ namespace KingsLib.data
                     autoTasks.Add(new Scheduler.AutoTask(t));
                 }
             }
+            */
             rebuildAutoTasks();
+            this.ready = true;
             return true;
         }
 
@@ -206,6 +210,7 @@ namespace KingsLib.data
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
             json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
             json[KEY.autoTasks] = util.infoBaseListToJsonArray(this.autoTasks.ToArray());
+
             return json;
         }
 
