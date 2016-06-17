@@ -35,13 +35,15 @@ namespace KingsLib.data
             public const string lastUpdateDTM = "lastUpdateDTM";
             public const string heros = "heros";
             public const string decreeHeros = "decreeHeros";
-            public const string scheduledTask = "scheduledTask";
 
+/*
             public const string BossWarHeros = "BossWarHeros";
             public const string BossWarChiefIdx = "BossWarChiefIdx";
             public const string BossWarBody = "BossWarBody";
             public const string BossWarCount = "BossWarCount";
-            public const string AutoTasks = "AutoTasks";
+*/
+            public const string autoTasks = "autoTasks";
+
         }
 
         public bool ready { get; set; } = false;
@@ -62,7 +64,7 @@ namespace KingsLib.data
         public DateTime lastUpdateDTM { get; set; }
         public List<HeroInfo> heros;
         public List<DecreeInfo> decreeHeros;
-        public List<Scheduler> scheduledTasks;
+        public List<Scheduler.AutoTask> autoTasks;
 
         public string displayName { get { return this.serverCode + " " + this.nickName; } }
 
@@ -85,7 +87,7 @@ namespace KingsLib.data
             this.lastUpdateDTM = DateTime.Now;
             this.heros = new List<HeroInfo>();
             this.decreeHeros = new List<DecreeInfo>();
-            this.scheduledTasks = new List<Scheduler>();
+            this.autoTasks = new List<Scheduler.AutoTask>();
         }
 
         public GameAccount(LoginInfo li, ConnectionInfo ci)
@@ -156,23 +158,32 @@ namespace KingsLib.data
         {
             initObject();
             if (json == null) return false;
-            this.account = JSON.getString(json[KEY.account], "");
-            this.enabled = JSON.getBool(json[KEY.enabled]);
-            this.sid = JSON.getString(json[KEY.sid], "");
+            this.account = JSON.getString(json,KEY.account, "");
+            this.enabled = JSON.getBool(json,KEY.enabled);
+            this.sid = JSON.getString(json,KEY.sid, "");
             this.status = AccountStatus.Unknown;
-            this.timeAdjust = JSON.getInt(json[KEY.timeAdjust], 0);
-            this.server = JSON.getString(json[KEY.server], "");
-            this.serverTitle = JSON.getString(json[KEY.serverTitle], "");
-            this.nickName = JSON.getString(json[KEY.nickName], "");
-            this.corpsName = JSON.getString(json[KEY.corpsName], "");
-            this.level = JSON.getInt(json[KEY.level], 0);
-            this.vipLevel = JSON.getInt(json[KEY.vipLevel], 0);
+            this.timeAdjust = JSON.getInt(json,KEY.timeAdjust, 0);
+            this.server = JSON.getString(json,KEY.server, "");
+            this.serverTitle = JSON.getString(json,KEY.serverTitle, "");
+            this.nickName = JSON.getString(json,KEY.nickName, "");
+            this.corpsName = JSON.getString(json,KEY.corpsName, "");
+            this.level = JSON.getInt(json,KEY.level, 0);
+            this.vipLevel = JSON.getInt(json,KEY.vipLevel, 0);
 
             dynamic ci = json[KEY.connectionInfo];
             this.connectionInfo = new ConnectionInfo(ci);
             conv.Json2List(ref this.heros, json[KEY.heros]);
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
+            this.autoTasks = new List<Scheduler.AutoTask>();
+            if (JSON.exists(json, KEY.autoTasks, typeof(DynamicJsonArray))) {
+                DynamicJsonArray tasks = (DynamicJsonArray)json[KEY.autoTasks];
+                foreach(dynamic t in tasks)
+                {
+                    autoTasks.Add(new Scheduler.AutoTask(t));
+                }
+            }
+            rebuildAutoTasks();
             return true;
         }
 
@@ -194,8 +205,21 @@ namespace KingsLib.data
             json[KEY.connectionInfo] = this.connectionInfo.toJson();
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
             json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
-            json[KEY.scheduledTask] = util.infoBaseListToJsonArray(this.scheduledTasks.ToArray());
+            json[KEY.autoTasks] = util.infoBaseListToJsonArray(this.autoTasks.ToArray());
             return json;
+        }
+
+        public void rebuildAutoTasks()
+        {
+            foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
+            {
+                Scheduler.AutoTask oAT = this.autoTasks.Find(x => x.taskId == t.id);
+                if (oAT == null)
+                {
+                    oAT = new Scheduler.AutoTask(t.id, true, null, null);
+                    this.autoTasks.Add(oAT);
+                }
+            }
         }
 
         public static bool find(List<GameAccount> gameAccounts, GameAccount oGA, ref GameAccount oFind)

@@ -1,51 +1,47 @@
-﻿using MyUtil;
+﻿using KingsLib.data;
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 
 namespace KingsLib.scheduler
 {
-    public class Schedule
+    public partial class Scheduler
     {
-
         public const int DAY_START_HOUR = 5;
         public const int DAY_START_ADJ_MIN = 5;
 
-        public enum FreqType
+        public static DateTime getRefTime(DateTime baseTime, TimeSpan refTS)
         {
-            DAILY, ELAPSE, WEEKLY
+            DateTime refTime = new DateTime(baseTime.Year, baseTime.Month, baseTime.Day) + refTS;
+            if (baseTime.Hour < DAY_START_HOUR)
+            {
+                if (refTS.Hours >= DAY_START_HOUR) refTime = refTime.AddDays(-1);
+            }
+            else
+            {
+                if (refTS.Hours < DAY_START_HOUR) refTime = refTime.AddDays(1);
+            }
+            return refTime;
         }
+
+        public static int getGameDOW()
+        {
+            return getGameDOW(DateTime.Now);
+        }
+
+        public static int getGameDOW(DateTime baseTime)
+        {
+            DateTime gameDate = getRefTime(baseTime, new TimeSpan(12, 00, 00));
+            return (int)gameDate.DayOfWeek;
+        }
+
 
         public class ScheduleInfo : data.InfoBase
         {
-            public static int getGameDOW()
-            {
-                return getGameDOW(DateTime.Now);
-            }
-
-            public static int getGameDOW(DateTime baseTime)
-            {
-                DateTime gameDate = getRefTime(baseTime, new TimeSpan(12, 00, 00));
-                return (int)gameDate.DayOfWeek;
-            }
-
-            public static DateTime getRefTime(DateTime baseTime, TimeSpan refTS)
-            {
-                DateTime refTime = new DateTime(baseTime.Year, baseTime.Month, baseTime.Day) + refTS;
-                if (baseTime.Hour < DAY_START_HOUR)
-                {
-                    if (refTS.Hours >= DAY_START_HOUR) refTime = refTime.AddDays(-1);
-                }
-                else
-                {
-                    if (refTS.Hours < DAY_START_HOUR) refTime = refTime.AddDays(1);
-                }
-                return refTime;
-            }
-
+ 
             private static class SI_KEY
             {
                 public const string dow = "dow";
@@ -294,7 +290,7 @@ namespace KingsLib.scheduler
                             // Once a day
                             if (sameDay)
                             {
-                               if (!lastOnToday)
+                                if (!lastOnToday)
                                 {
                                     DateTime nextStart = getStartTime(nextTime);
                                     nextTime = (nextTime < nextStart ? nextStart : nextTime);
@@ -318,5 +314,6 @@ namespace KingsLib.scheduler
             }
 
         }
+
     }
 }

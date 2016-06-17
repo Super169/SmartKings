@@ -141,10 +141,9 @@
     <Compile Include="request\World.cs" />
     <Compile Include="request\YunYou.cs" />
     <Compile Include="request\ZaJinDan.cs" />
-    <Compile Include="scheduler\Schedule.cs" />
-    <Compile Include="scheduler\Scheduler.cs" />
-    <Compile Include="scheduler\ScheduleTask.cs" />
-    <Compile Include="scheduler\Task.cs" />
+    <Compile Include="scheduler\Scheduler_AutoTask.cs" />
+    <Compile Include="scheduler\Scheduler_ScheduleInfo.cs" />
+    <Compile Include="scheduler\Scheduler_KingsTask.cs" />
     <Compile Include="util\util_infoBaseList.cs" />
   </ItemGroup>
   <ItemGroup>

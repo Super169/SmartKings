@@ -219,7 +219,8 @@ namespace MyUtil
             return getString(json[key], defValue);
         }
 
-        public static string getString(object json, string defValue = null)
+        // For safety, this mehtod only used internally
+        private static string getString(object json, string defValue = null)
         {
             if (json == null) return defValue;
             String retValue = defValue;
@@ -442,6 +443,7 @@ namespace MyUtil
 
         public static dynamic decode(string jsonString)
         {
+            if (jsonString == null) return JSON.Empty;
             dynamic json;
             try
             {
@@ -456,6 +458,7 @@ namespace MyUtil
         public static string encode(dynamic json)
         {
             string jsonString = JSON.EmptyString;
+            if (json == null) return jsonString;
             try
             {
                 jsonString = Json.Encode(json);

@@ -33,6 +33,7 @@ namespace SmartKings
             this.Title = ((App)Application.Current).winTitle;
             UpdateStatus(this.Title + " 啟動");
             com.start("SmartKings");
+            Scheduler.initAutoTasks();
             loadAppSettings();
             bindAccounts();
             bindEventLogs();
@@ -46,7 +47,6 @@ namespace SmartKings
                 this.Close();
             }
 
-            KingsTask.intiSystemTasks();
             initActionPanel();
             initTimer();
             if (AppSettings.AutoRun) goAutoKings();

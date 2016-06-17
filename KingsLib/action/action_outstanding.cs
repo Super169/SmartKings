@@ -1,5 +1,6 @@
 ﻿
 using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -181,13 +182,13 @@ namespace KingsLib
 
         public static bool checkOutstandingAfterKingRoad(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
-            int gameDOW = scheduler.Schedule.ScheduleInfo.getGameDOW();
+            int gameDOW = Scheduler.getGameDOW();
             if (!((gameDOW == 3) || (gameDOW == 6)))
             {
                 if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "今天沒有王者獎勵/保級賽");
                 return true;
             }
-            if (DateTime.Now > scheduler.Schedule.ScheduleInfo.getRefTime(DateTime.Now, new TimeSpan(21, 0, 0)))
+            if (DateTime.Now > Scheduler.getRefTime(DateTime.Now, new TimeSpan(21, 0, 0)))
             {
                 if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "王者獎勵/保級賽 已經結束");
                 return true;
@@ -379,7 +380,7 @@ namespace KingsLib
 
         public static bool checkOutstandingNaval(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
-            int gameDOW = scheduler.Schedule.ScheduleInfo.getGameDOW();
+            int gameDOW = Scheduler.getGameDOW();
             DateTime now = DateTime.Now;
             if ((gameDOW != 1) && (gameDOW != 2)) return true;
             if ((now.Hour < 9) || (now.Hour > 21)) return true;

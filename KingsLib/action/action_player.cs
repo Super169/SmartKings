@@ -67,7 +67,7 @@ namespace KingsLib
                         pp.MAX_IRON = JSON.getInt(pv, RRO.Player.v);
                         break;
                     case RRO.Player.CORPS_NAME:
-                        pp.CORPS_NAME = JSON.getString(pv, RRO.Player.v);
+                        pp.CORPS_NAME = JSON.getString(pv, RRO.Player.v, "");
                         break;
                     case RRO.Player.IRON:
                         pp.IRON = JSON.getInt(pv, RRO.Player.v);
