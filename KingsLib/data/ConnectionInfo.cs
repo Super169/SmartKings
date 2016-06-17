@@ -112,7 +112,12 @@ namespace KingsLib.data
                     string[] c = cookie.Split('=');
                     if (c.Length == 2)
                     {
-                        this.addCookie(c[0], c[1]);
+                        if (c[0] == "_ga")
+                        {
+                            this.addCookie(c[0], c[1]);
+                        } else { 
+                            LOG.D(string.Format("Abnormal cookies: {0} - {1}",c[0],c[1]));
+                        }
                     }
                 }
             }
