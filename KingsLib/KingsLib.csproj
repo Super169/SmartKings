@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="action\action_bag.cs" />
+    <Compile Include="action\action_campaign.cs" />
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\action_decree.cs" />
     <Compile Include="action\action_manor.cs" />

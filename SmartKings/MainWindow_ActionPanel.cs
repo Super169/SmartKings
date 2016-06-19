@@ -61,7 +61,7 @@ namespace SmartKings
         {
             if (allPlayers)
             {
-                Thread thread = new Thread(() => goActionThread(actionName, actionHandler));
+                Thread thread = new Thread(() => goActionThread(actionName, actionHandler, null));
                 thread.Start();
             }
             else
@@ -71,37 +71,48 @@ namespace SmartKings
                 if (oGA == null) return;
                 if (oGA.IsOnline())
                 {
-                    Thread thread = new Thread(() => goActionThread(actionName, oGA, actionHandler));
+                    Thread thread = new Thread(() => goActionThread(actionName, actionHandler, oGA));
                     thread.Start();
-                } else
+                }
+                else
                 {
                     MessageBox.Show("帳戶已在其他地方登入");
                 }
             }
         }
 
-        private void goActionThread(string actionName, DelegateActionHandler actionHandler)
+        private void goActionThread(string actionName, DelegateActionHandler actionHandler, GameAccount oGA)
         {
-            if (AppSettings.DEBUG) DebugLog(actionName, "開始");
-            foreach (GameAccount oGA in gameAccounts)
+            if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
             {
-                oGA.checkStatus(true);
-                if (oGA.IsOnline())
+                try
                 {
-                    actionHandler(oGA, UpdateInfo, AppSettings.DEBUG);
+                    if (AppSettings.DEBUG) DebugLog(actionName, "開始");
+                    if (oGA == null)
+                    {
+                        foreach (GameAccount gameAccount in gameAccounts)
+                        {
+                            gameAccount.checkStatus(true);
+                            if (gameAccount.IsOnline()) actionHandler(gameAccount, UpdateInfo, AppSettings.DEBUG);
+                        }
+                    }
+                    else
+                    {
+                        oGA.checkStatus();
+                        if (oGA.IsOnline()) actionHandler(oGA, UpdateInfo, AppSettings.DEBUG);
+                    }
+
+                    if (AppSettings.DEBUG) DebugLog(actionName, "結束");
+                }
+                finally
+                {
+                    Monitor.Exit(AppSettings.actionLocker);
                 }
             }
-            if (AppSettings.DEBUG) DebugLog(actionName, "結束");
-        }
-
-        private void goActionThread(string actionName, GameAccount oGA, DelegateActionHandler actionHandler)
-        {
-            if (AppSettings.DEBUG) DebugLog(actionName, "開始");
-            if ((oGA != null) && oGA.IsOnline())
+            else
             {
-                actionHandler(oGA, UpdateInfo, AppSettings.DEBUG);
+                UpdateInfo((oGA == null? null : oGA.displayName), actionName, "等待超時, 未能進行");
             }
-            if (AppSettings.DEBUG) DebugLog(actionName, "結束");
         }
 
         private GameAccount GetSelectedActiveAccount()

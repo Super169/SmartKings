@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 
@@ -24,16 +25,53 @@ namespace KingsLib
             return si;
         }
 
-        public static StarryInfo.ChapterInfo getChapterInfo(ConnectionInfo ci, string sid, int chapterId)
+        public static StarryInfo.ChapterInfo getStarryChapterInfo(ConnectionInfo ci, string sid, int chapterId)
         {
-            StarryInfo.ChapterInfo chapterInfo = new StarryInfo.ChapterInfo();
             RequestReturnObject rro;
             rro = request.Starry.chapterInfo(ci, sid, chapterId);
             if (!rro.success) return null;
 
-
-
+            StarryInfo.ChapterInfo chapterInfo = StarryInfo.ChapterInfo.fromJson(rro.responseJson);
             return chapterInfo;
+        }
+
+        public static bool goStarryFlight(ConnectionInfo ci, string sid, int barrierId)
+        {
+            RequestReturnObject rro;
+
+            // For safety, always do Campaign.quitCampaign before any war (maybe before any action later if possible).
+            quitCampaign(ci, sid);
+            
+            rro = request.Starry.fight(ci, sid, barrierId);
+            if (!rro.SuccessWithJson(RRO.Starry.data)) return quitCampaign(ci, sid); 
+            if (!(rro.Exists(RRO.Starry._type) && rro.Exists(RRO.Starry._rs))) return quitCampaign(ci, sid);
+            string fight_type = JSON.getString(rro.responseJson, RRO.Starry._type, null);
+            int fight_rs = JSON.getInt(rro.responseJson, RRO.Starry._rs);
+            if (!((fight_type == RRO.Starry._type_SCEnterCampaign) && (fight_rs == 1))) return quitCampaign(ci, sid);
+
+            rro = request.Campaign.getAttFormation(ci, sid, "STARRY");
+            if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return quitCampaign(ci, sid);
+            // Thread.Sleep(500);
+
+            if (rro.responseJson[RRO.Campaign.heros].Length < 5) return false;
+            dynamic json = JSON.Empty;
+            json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
+            json[RRO.Campaign.chief] = JSON.getInt(rro.responseJson, RRO.Campaign.chief);
+            string body = JSON.encode(json);
+
+            rro = request.Campaign.nextEnemies(ci, sid);
+            if (!rro.SuccessWithJson(RRO.Campaign.enemies, typeof(DynamicJsonArray))) return quitCampaign(ci, sid);
+            // Thread.Sleep(500);
+
+            rro = request.Campaign.saveFormation(ci, sid, body);
+            if (!rro.SuccessWithJson(RRO.Campaign.power)) return false;
+            // Thread.Sleep(500);
+
+            rro = request.Campaign.fightNext(ci, sid);
+            if (rro.ok != 1) return quitCampaign(ci, sid);
+
+            quitCampaign(ci, sid);
+            return true;
         }
 
     }

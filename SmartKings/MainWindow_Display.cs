@@ -138,7 +138,7 @@ namespace SmartKings
 
         private void UpdateInfo(string account, string action, string msg, bool addTime = true, bool async = true)
         {
-            UpdateEventLog(DateTime.Now, account, action, msg, async);
+            UpdateEventLog(DateTime.Now, (account == null ? "***" : account), action, msg, async);
         }
 
         private void DebugLog(string action, string msg, string account = null)

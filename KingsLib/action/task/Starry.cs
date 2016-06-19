@@ -22,23 +22,47 @@ namespace KingsLib
 
                 if (si == null) return false;
 
-                int chapterCnt = si.chapterList.Count;
-                StarryInfo.ChapterInfo currChapter = si.chapterList.ElementAt(chapterCnt - 1);
-                int currChapterId = currChapter.chapterId;
+                int currChapterId = si.chapterList.Last().chapterId;
+                int currBarrierId = si.chapterList.Last().barrierList.Last().barrierId;
+                int lastBarrierId = -1;
 
-                int barrierCnt = currChapter.barrierList.Count;
-                StarryInfo.ChapterInfo.BarrierInfo currBarrier = currChapter.barrierList.ElementAt(barrierCnt - 1);
-                int currBarrierId = currBarrier.barrierId;
+                updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
 
-                updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, barrierCnt, currBarrierId));
-
-                if (si.leftAllCount > 0)
+                while (si.leftAllCount > 0)
                 {
+
+                    // Just follow the step to call chapterInfo, but information alreay collected
                     rro = request.Starry.chapterInfo(ci, sid, currChapterId);
 
+                    StarryInfo.ChapterInfo currChapter = action.getStarryChapterInfo(ci, sid, currChapterId);
+                    if (currChapter == null) return false;
+
+                    currChapterId = currChapter.chapterId;
+                    currBarrierId = currChapter.barrierList.Last().barrierId;
+
+                    updateInfo(oGA.displayName, taskName, string.Format("備戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
+
+                    action.goStarryFlight(ci, sid, currBarrierId);
+
+                    updateInfo(oGA.displayName, taskName, string.Format("完成出戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
+
+                    lastBarrierId = currBarrierId;
+
+                    si = action.getStarryInfo(ci, sid);
+
+                    currChapterId = si.chapterList.Last().chapterId;
+                    currBarrierId = si.chapterList.Last().barrierList.Last().barrierId;
+
+                    if (lastBarrierId == currBarrierId)
+                    {
+                        updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3} - 作戰失敗", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
+                        // Need some action for fail?
+                        return false;
+                    } else
+                    {
+                        updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
+                    }
                 }
-
-
                 return true;
             }
         }

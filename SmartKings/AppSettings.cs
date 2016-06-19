@@ -9,9 +9,12 @@ namespace SmartKings
 {
     public static class AppSettings
     {
+        public static object actionLocker = new object();
+
         private const string jazFileName = "AppSetting.jaz";
         private const string errLog = "SmartKings.err";
         private const string debugLog = "SmartKings.debug";
+
 
         private static class DEFAULT
         {
