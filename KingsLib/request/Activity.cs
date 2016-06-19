@@ -123,7 +123,5 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_tuanGouReward, true, body);
         }
 
-
-
     }
 }

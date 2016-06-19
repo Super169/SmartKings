@@ -48,6 +48,28 @@ namespace KingsLib
                 public const string nm_ticket = "嘉年华入场券";
             }
 
+            public static class Starry
+            {
+                public const string allCountBuyGold = "allCountBuyGold";
+                public const string leftAllCount = "leftAllCount";
+                public const string buyCount = "buyCount";
+
+                public const string list = "list";
+                public const string chapterId = "chapterId";
+                public const string chapterReward = "chapterReward";
+                public const string starReward = "starReward";
+                public const string barrierList = "barrierList";
+
+                public const string star = "star";
+                public const string barrierStep = "barrierStep";
+                public const string barrierId = "barrierId";
+                public const string leftCount = "leftCount";
+                public const string gold = "gold";
+                public const string boughtCount = "boughtCount";
+
+            }
+
+
             public static class Campaign
             {
                 public const string elite = "elite";

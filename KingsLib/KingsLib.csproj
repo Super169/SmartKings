@@ -52,9 +52,11 @@
     <Compile Include="action\action_hero.cs" />
     <Compile Include="action\action_login.cs" />
     <Compile Include="action\action_player.cs" />
+    <Compile Include="action\action_starry.cs" />
     <Compile Include="action\action_system.cs" />
     <Compile Include="action\task\Bag.cs" />
     <Compile Include="action\task\Harvest.cs" />
+    <Compile Include="action\task\Starry.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="data\PlayerProperties.cs" />
     <Compile Include="data\RequestReturnObject.cs" />
     <Compile Include="data\conv.cs" />
+    <Compile Include="data\StarryInfo.cs" />
     <Compile Include="monitor\KingsMonitor.cs" />
     <Compile Include="monitor\KingsPacket.cs" />
     <Compile Include="monitor\KingsPacketKey.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="request\Shop2.cs" />
     <Compile Include="request\SignInReward.cs" />
     <Compile Include="request\StarGazing.cs" />
+    <Compile Include="request\Starry.cs" />
     <Compile Include="request\System.cs" />
     <Compile Include="request\Task.cs" />
     <Compile Include="request\TeamDuplicate.cs" />

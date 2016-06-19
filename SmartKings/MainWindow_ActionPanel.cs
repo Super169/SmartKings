@@ -41,6 +41,9 @@ namespace SmartKings
                 case "btnCleanBag":
                     goAction("清理背包", allPlayers, action.task.goTaskCleanupBag);
                     break;
+                case "btnStarry":
+                    goAction("攬星壇", allPlayers, action.task.goTaskStarry);
+                    break;
             }
 
         }
