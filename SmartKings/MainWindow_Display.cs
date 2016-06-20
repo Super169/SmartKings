@@ -145,5 +145,18 @@ namespace SmartKings
         {
             UpdateEventLog(DateTime.Now, (account == null ? "***" : account), action,  "**** " + msg, false);
         }
+
+        private void UpdateProgress(string progress = "")
+        {
+            if (Dispatcher.FromThread(Thread.CurrentThread) == null)
+            {
+                Application.Current.Dispatcher.Invoke(
+                    System.Windows.Threading.DispatcherPriority.Normal,
+                    (Action)(() => UpdateProgress(progress)));
+                return;
+            }
+            txtProgress.Text = progress;
+            txtProgress.Background = (progress == "" ? Brushes.Transparent : Brushes.LawnGreen);
+        }
     }
 }

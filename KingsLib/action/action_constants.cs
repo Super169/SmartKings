@@ -74,14 +74,22 @@ namespace KingsLib
 
                 public const string enemies = "enemies";
 
-
-
-
             }
 
             public static class DianJiangTai
             {
                 public const string leftTimes = "leftTimes";
+            }
+
+            public static class GrassArrow
+            {
+                public const string fightGold = "fightGold";
+                public const string arrowNum = "arrowNum";
+                public const string fightCount = "fightCount";
+                public const string totalNum = "totalNum";
+                public const string rewards = "rewards";
+                public const string got = "got";
+                public const string num = "num";
             }
 
             public static class Hero

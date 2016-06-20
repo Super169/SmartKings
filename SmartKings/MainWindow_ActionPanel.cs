@@ -87,6 +87,7 @@ namespace SmartKings
             {
                 try
                 {
+                    UpdateProgress(actionName + " 進行中......");
                     if (AppSettings.DEBUG) DebugLog(actionName, "開始");
                     if (oGA == null)
                     {
@@ -103,6 +104,7 @@ namespace SmartKings
                     }
 
                     if (AppSettings.DEBUG) DebugLog(actionName, "結束");
+                    UpdateProgress();
                 }
                 finally
                 {

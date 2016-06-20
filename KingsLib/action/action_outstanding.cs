@@ -21,6 +21,7 @@ using System.Web.Helpers;
 // 誇服入侵
 // 皇榜
 // 五福臨門
+// 草船借箭
 
 namespace KingsLib
 {
@@ -71,6 +72,10 @@ namespace KingsLib
 
             // 五福臨門
             goCheckOutstandTasks(action, "五福臨門", checkOutstandingWuFuLinMen, oGA, updateInfo, debug);
+
+            // 草船借箭
+            goCheckOutstandTasks(action, "草船借箭", checkOutstandingGrassArrow, oGA, updateInfo, debug);
+
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -468,6 +473,47 @@ namespace KingsLib
             return true;
         }
 
+
+        public static bool checkOutstandingGrassArrow(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.GrassArrow.acquireGrassArrowInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!(rro.Exists(RRO.GrassArrow.arrowNum) &&
+                  rro.Exists(RRO.GrassArrow.fightCount) &&
+                  rro.Exists(RRO.GrassArrow.totalNum) &&
+                  rro.Exists(RRO.GrassArrow.rewards, typeof(DynamicJsonArray))
+                  )) return false;
+
+            int fightCount = JSON.getInt(rro.responseJson, RRO.GrassArrow.fightCount);
+            if (fightCount > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未有 {1} 次未完成", module, fightCount), true, false);
+            }
+            else
+            {
+                int arrowNum = JSON.getInt(rro.responseJson, RRO.GrassArrow.arrowNum);
+                if (arrowNum >= 160)
+                {
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 支箭可換領獎品", module, arrowNum), true, false);
+                }
+                int totalNum = JSON.getInt(rro.responseJson, RRO.GrassArrow.totalNum);
+                DynamicJsonArray rewards = rro.responseJson[RRO.GrassArrow.rewards];
+                int notYetGot = 0;
+                foreach (dynamic reward in rewards)
+                {
+                    int num = JSON.getInt(reward, RRO.GrassArrow.num, 999999);
+                    bool got = JSON.getBool(reward, RRO.GrassArrow.got, true);
+                    if ((totalNum >= num) && (!got)) notYetGot++;
+                }
+                if (notYetGot > 0)
+                {
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 個獎勵未領取", module, notYetGot), true, false);
+                }
+            }
+            
+            return true;
+        }
 
 
     }
