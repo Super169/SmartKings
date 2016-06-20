@@ -227,6 +227,22 @@ namespace KingsLib
 
             }
 
+
+            public static class WuFuLinMen
+            {
+                public const string drawDatas = "drawDatas";
+                public const string stage = "stage";
+                public const string rewards = "rewards";
+                public const string reward = "reward";
+                public const string resources = "resources";
+                public const string quality = "quality";
+                public const string drawStatus = "drawStatus";
+                public const string type = "type";
+                public const string index = "index";
+                public const string type_EVERYDAY_LOGIN = "EVERYDAY_LOGIN";
+                public const string todayCharge = "todayCharge";
+
+            }
         }
 
     }

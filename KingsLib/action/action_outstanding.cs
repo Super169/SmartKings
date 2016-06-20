@@ -20,6 +20,7 @@ using System.Web.Helpers;
 // 神器打造
 // 誇服入侵
 // 皇榜
+// 五福臨門
 
 namespace KingsLib
 {
@@ -68,6 +69,8 @@ namespace KingsLib
             // 皇榜
             goCheckOutstandTasks(action, "皇榜", checkOutstandingTeamDuplicate, oGA, updateInfo, debug);
 
+            // 五福臨門
+            goCheckOutstandTasks(action, "五福臨門", checkOutstandingWuFuLinMen, oGA, updateInfo, debug);
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -383,7 +386,7 @@ namespace KingsLib
             int gameDOW = Scheduler.getGameDOW();
             DateTime now = DateTime.Now;
             if ((gameDOW != 1) && (gameDOW != 2)) return true;
-            if ((now.Hour < 9) || (now.Hour > 21)) return true;
+            if ((now.Hour < 9) || (now.Hour >= 21)) return true;
 
             int cityId = (gameDOW == 1 ? 1 : 3);
 
@@ -422,6 +425,48 @@ namespace KingsLib
             return true;
         }
 
+        public static bool checkOutstandingWuFuLinMen(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.WuFuLinMen.getGameInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.Exists(RRO.WuFuLinMen.drawDatas)) return false;
+
+            dynamic drawDatas = rro.responseJson[RRO.WuFuLinMen.drawDatas];
+            int stage = JSON.getInt(drawDatas, RRO.WuFuLinMen.stage);
+            if (stage < 1) return false;
+
+            switch (stage)
+            {
+                case 1:
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未開始", module), true, false);
+                    break;
+                case 2:
+                    updateInfo(oGA.displayName, actionName, string.Format("{0}: 只選了道具, 尚未抽取獎勵數量", module), true, false);
+                    break;
+                case 3:
+                    if (!JSON.exists(drawDatas, RRO.WuFuLinMen.drawStatus, typeof(DynamicJsonArray))) return false;
+                    DynamicJsonArray drawStatus = drawDatas[RRO.WuFuLinMen.drawStatus];
+                    bool getEverydayLogin = false;
+                    foreach (dynamic draw in drawStatus)
+                    {
+                        if (JSON.getString(draw, RRO.WuFuLinMen.type, null) == RRO.WuFuLinMen.type_EVERYDAY_LOGIN)
+                        {
+                            getEverydayLogin = true;
+                            break;
+                        }
+                    }
+                    if (!getEverydayLogin)
+                    {
+                        updateInfo(oGA.displayName, actionName, string.Format("{0}: 己抽取獎勵, 尚未決定領取每日登陛獎勵", module), true, false);
+                    }
+                    break;
+
+                default:
+                    return false;
+            }
+            return true;
+        }
 
 
 
