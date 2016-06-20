@@ -53,7 +53,7 @@ namespace KingsLib
             if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return quitCampaign(ci, sid);
             // Thread.Sleep(500);
 
-            if (rro.responseJson[RRO.Campaign.heros].Length < 5) return false;
+            if (rro.responseJson[RRO.Campaign.heros].Length < 5) return quitCampaign(ci, sid);
             dynamic json = JSON.Empty;
             json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
             json[RRO.Campaign.chief] = JSON.getInt(rro.responseJson, RRO.Campaign.chief);
@@ -64,7 +64,7 @@ namespace KingsLib
             // Thread.Sleep(500);
 
             rro = request.Campaign.saveFormation(ci, sid, body);
-            if (!rro.SuccessWithJson(RRO.Campaign.power)) return false;
+            if (!rro.SuccessWithJson(RRO.Campaign.power)) return quitCampaign(ci, sid);
             // Thread.Sleep(500);
 
             rro = request.Campaign.fightNext(ci, sid);
