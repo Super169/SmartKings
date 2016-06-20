@@ -117,7 +117,15 @@ namespace KingsLib
             }
             checkRemainCount(oGA, updateInfo, "天下比武", JSON.getInt(rro.responseJson, RRO.Campaign.arena, -1));
             checkRemainCount(oGA, updateInfo, "攬星壇", JSON.getInt(rro.responseJson, RRO.Campaign.starryLeftCount, -1));
-            checkRemainCount(oGA, updateInfo, "三軍演武", JSON.getInt(rro.responseJson, RRO.Campaign.arenas, -1));
+            if (oGA.level < 65)
+            {
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("{0}: 主公只有 {1} 等的, 尚未達到三軍演武的最低要求", module, oGA.level));
+            }
+            else
+            {
+                checkRemainCount(oGA, updateInfo, "三軍演武", JSON.getInt(rro.responseJson, RRO.Campaign.arenas, -1));
+            }
+
             return true;
         }
 
@@ -511,7 +519,7 @@ namespace KingsLib
                     updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 個獎勵未領取", module, notYetGot), true, false);
                 }
             }
-            
+
             return true;
         }
 

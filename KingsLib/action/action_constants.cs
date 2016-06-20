@@ -147,6 +147,12 @@ namespace KingsLib
 
             }
 
+            public static class MonthSignIn
+            {
+                public const string today = "today";
+            }
+
+
             public static class Naval
             {
                 public const string alives = "alives";

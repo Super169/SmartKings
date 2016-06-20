@@ -57,6 +57,7 @@
     <Compile Include="action\action_system.cs" />
     <Compile Include="action\task\Bag.cs" />
     <Compile Include="action\task\Harvest.cs" />
+    <Compile Include="action\task\MonthSignIn.cs" />
     <Compile Include="action\task\Starry.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />

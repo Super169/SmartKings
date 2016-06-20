@@ -38,6 +38,9 @@ namespace SmartKings
                 case "btnHarvest":
                     goAction("封地收獲", allPlayers, action.task.goTaskHarvest);
                     break;
+                case "btnMonthSignIn":
+                    goAction("簽到領獎", allPlayers, action.task.goTaskMonthSignIn);
+                    break;
                 case "btnCleanBag":
                     goAction("清理背包", allPlayers, action.task.goTaskCleanupBag);
                     break;
