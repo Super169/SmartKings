@@ -39,7 +39,7 @@ namespace KingsLib
             // No special handle required
             RequestReturnObject rro = request.Manor.harvestProduct(ci, sid, field);
             if (!rro.SuccessWithJson(RRO.Manor.product_out)) return -1;
-            int outProduct = JSON.getInt(rro.responseJson, RRO.Manor.product_out, -1);
+            int outProduct = rro.getInt(RRO.Manor.product_out, -1);
             return outProduct;
         }
 

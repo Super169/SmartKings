@@ -1,4 +1,5 @@
 ﻿
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace KingsLib.data
             return true;
         }
 
-        public bool Exists(string key, Type targetType = null)
+        public bool exists(string key, Type targetType = null)
         {
             if (responseJson == null) return false;
             if ((key == null) || (key == "")) return true;
@@ -56,5 +57,37 @@ namespace KingsLib.data
             if (responseJson[key].GetType() != targetType) return false;
             return true;
         }
+
+        public byte getByte(string key, byte defValue = 0)
+        {
+            return JSON.getByte(this.responseJson, key, defValue);
+        }
+
+        public bool getBool(string key, bool defValue = false)
+        {
+            return JSON.getBool(this.responseJson, key, defValue);
+        }
+
+        public int getInt(string key, int defValue = -1)
+        {
+            return JSON.getInt(this.responseJson, key, defValue);
+        }
+
+        public long getLong(string key, long defValue = -1)
+        {
+            return JSON.getLong(this.responseJson, key, defValue);
+        }
+
+
+        public double getDouble(string key, double defValue = -1.0)
+        {
+            return JSON.getDouble(this.responseJson, key, defValue);
+        }
+
+        public string getString(string key, string defValue = null)
+        {
+            return JSON.getString(this.responseJson, key, defValue);
+        }
+
     }
 }

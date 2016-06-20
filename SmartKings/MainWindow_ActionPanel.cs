@@ -53,10 +53,12 @@ namespace SmartKings
 
         private void goCheckStatus()
         {
+            UpdateProgress("檢查帳戶狀況 進行中......");
             if (AppSettings.DEBUG) DebugLog("帳戶狀況", "開始");
             goTaskCheckStatus();
             refreshAccountList();
             if (AppSettings.DEBUG) DebugLog("帳戶狀況", "結束");
+            UpdateProgress();
         }
 
 

@@ -19,8 +19,8 @@ namespace KingsLib
             if (rro.prompt == PROMPT.ERR_COMMON_RELOGIN) return GameAccount.AccountStatus.Offline;
             if (rro.style == STYLE.ALERT)  return GameAccount.AccountStatus.Offline;
             if (!rro.SuccessWithJson(RRO.System.clientTime) || !rro.SuccessWithJson(RRO.System.serverTime)) return GameAccount.AccountStatus.Offline;
-            long clientTime = JSON.getLong(rro.responseJson, RRO.System.clientTime, 0);
-            long serverTime = JSON.getLong(rro.responseJson, RRO.System.serverTime, 0);
+            long clientTime = rro.getLong(RRO.System.clientTime, 0);
+            long serverTime = rro.getLong(RRO.System.serverTime, 0);
             timeAdjust = (int) (serverTime - clientTime);
             return GameAccount.AccountStatus.Online;
         }
@@ -31,7 +31,7 @@ namespace KingsLib
             RequestReturnObject rro = request.System.ping(ci, sid);
             if (rro.SuccessWithJson(RRO.System.serverTime))
             {
-                currTime = JSON.getLong(rro.responseJson, RRO.System.serverTime);
+                currTime = rro.getLong(RRO.System.serverTime);
             }
             else
             {

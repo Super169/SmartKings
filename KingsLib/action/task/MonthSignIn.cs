@@ -18,7 +18,7 @@ namespace KingsLib
                 string actionName = "簽到領獎";
                 RequestReturnObject rro = request.MonthSignIn.getInfo(oGA.connectionInfo, oGA.sid);
                 if (!rro.SuccessWithJson(RRO.MonthSignIn.today)) return false;
-                int today = JSON.getInt(rro.responseJson, RRO.MonthSignIn.today);
+                int today = rro.getInt(RRO.MonthSignIn.today);
                 if (today <= 0) return false;
                 updateInfo(oGA.displayName, actionName, string.Format("完成第{0}天簽到", today), true, false);
                 return true;

@@ -96,17 +96,17 @@ namespace KingsLib
         {
             RequestReturnObject rro = request.Campaign.getLeftTimes(oGA.connectionInfo, oGA.sid);
             if (!(rro.SuccessWithJson(RRO.Campaign.elite) &&
-                  rro.Exists(RRO.Campaign.eliteBuyTimes) &&
-                  rro.Exists(RRO.Campaign.eliteCanBuyTimes) &&
-                  rro.Exists(RRO.Campaign.arena) &&
-                  rro.Exists(RRO.Campaign.lmarch) &&
-                  rro.Exists(RRO.Campaign.arenas) &&
-                  rro.Exists(RRO.Campaign.starryLeftCount)
+                  rro.exists(RRO.Campaign.eliteBuyTimes) &&
+                  rro.exists(RRO.Campaign.eliteCanBuyTimes) &&
+                  rro.exists(RRO.Campaign.arena) &&
+                  rro.exists(RRO.Campaign.lmarch) &&
+                  rro.exists(RRO.Campaign.arenas) &&
+                  rro.exists(RRO.Campaign.starryLeftCount)
                   )) return false;
 
-            int elite = JSON.getInt(rro.responseJson, RRO.Campaign.elite, -1);
-            int eliteBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteBuyTimes, -1);
-            int eliteCanBuyTimes = JSON.getInt(rro.responseJson, RRO.Campaign.eliteCanBuyTimes, -1);
+            int elite = rro.getInt(RRO.Campaign.elite, -1);
+            int eliteBuyTimes = rro.getInt(RRO.Campaign.eliteBuyTimes, -1);
+            int eliteCanBuyTimes = rro.getInt(RRO.Campaign.eliteCanBuyTimes, -1);
             string msg;
             if ((elite > 0) || ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)))
             {
@@ -115,15 +115,15 @@ namespace KingsLib
                 if ((eliteCanBuyTimes > 0) && (eliteBuyTimes == 0)) msg += " 尚未購買額外次數";
                 updateInfo(oGA.displayName, actionName, msg, true, false);
             }
-            checkRemainCount(oGA, updateInfo, "天下比武", JSON.getInt(rro.responseJson, RRO.Campaign.arena, -1));
-            checkRemainCount(oGA, updateInfo, "攬星壇", JSON.getInt(rro.responseJson, RRO.Campaign.starryLeftCount, -1));
+            checkRemainCount(oGA, updateInfo, "天下比武", rro.getInt(RRO.Campaign.arena, -1));
+            checkRemainCount(oGA, updateInfo, "攬星壇", rro.getInt(RRO.Campaign.starryLeftCount, -1));
             if (oGA.level < 65)
             {
                 if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("{0}: 主公只有 {1} 等的, 尚未達到三軍演武的最低要求", module, oGA.level));
             }
             else
             {
-                checkRemainCount(oGA, updateInfo, "三軍演武", JSON.getInt(rro.responseJson, RRO.Campaign.arenas, -1));
+                checkRemainCount(oGA, updateInfo, "三軍演武", rro.getInt(RRO.Campaign.arenas, -1));
             }
 
             return true;
@@ -141,7 +141,7 @@ namespace KingsLib
         {
             RequestReturnObject rro = request.Hero.getVisitHeroInfo(oGA.connectionInfo, oGA.sid, "徐晃");
             if (!rro.SuccessWithJson(RRO.Hero.matchTimes)) return false;
-            int matchTimes = JSON.getInt(rro.responseJson, RRO.Hero.matchTimes, -1);
+            int matchTimes = rro.getInt(RRO.Hero.matchTimes, -1);
             if (matchTimes > 0)
             {
                 string msg = string.Format("{0}: 尚有 {1} 次未完成", module, matchTimes);
@@ -154,7 +154,7 @@ namespace KingsLib
         {
 
             RequestReturnObject rro = request.Campaign.getTrialsInfo(oGA.connectionInfo, oGA.sid);
-            if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.Exists(RRO.Campaign.times) && rro.Exists(RRO.Campaign.buyTimes))) return false;
+            if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.exists(RRO.Campaign.times) && rro.exists(RRO.Campaign.buyTimes))) return false;
             int weekday = JSON.getInt(rro.responseJson[RRO.Campaign.weekday]);
             dynamic times = rro.responseJson[RRO.Campaign.times];
             dynamic buyTimes = rro.responseJson[RRO.Campaign.buyTimes];
@@ -211,13 +211,13 @@ namespace KingsLib
             }
             RequestReturnObject rro = request.KingRoad.afterSeasonEnemy(oGA.connectionInfo, oGA.sid);
             if (!(rro.SuccessWithJson(RRO.KingRoad.remainChallenge) &&
-                  rro.Exists(RRO.KingRoad.seasonType) &&
-                  rro.Exists(RRO.KingRoad.enemy, typeof(DynamicJsonArray))))
+                  rro.exists(RRO.KingRoad.seasonType) &&
+                  rro.exists(RRO.KingRoad.enemy, typeof(DynamicJsonArray))))
             {
                 return false;
             }
 
-            int remainChallenge = JSON.getInt(rro.responseJson, RRO.KingRoad.remainChallenge);
+            int remainChallenge = rro.getInt(RRO.KingRoad.remainChallenge);
             if (remainChallenge > 0)
             {
                 int failCnt = 0;
@@ -229,7 +229,7 @@ namespace KingsLib
                 }
                 if (failCnt > 0)
                 {
-                    string seasonType = JSON.getString(rro.responseJson, RRO.KingRoad.seasonType, "UNKNOWN");
+                    string seasonType = rro.getString(RRO.KingRoad.seasonType, "UNKNOWN");
                     switch (seasonType)
                     {
                         case RRO.KingRoad.seasonType_TO_KEEP:
@@ -251,8 +251,8 @@ namespace KingsLib
             RequestReturnObject rro = request.Travel.getMapInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
             if (rro.prompt == PROMPT.ACTIVITY_CAN_NOT_PARTICIPATE) return true;
-            if (!(rro.Exists(RRO.Travel.diceNum))) return false;
-            int diceNum = JSON.getInt(rro.responseJson, RRO.Travel.diceNum);
+            if (!(rro.exists(RRO.Travel.diceNum))) return false;
+            int diceNum = rro.getInt(RRO.Travel.diceNum);
             if (diceNum > 0)
             {
                 updateInfo(oGA.displayName, actionName, string.Format("{0}: 還有 {1} 步可行", module, diceNum), true, false);
@@ -269,14 +269,14 @@ namespace KingsLib
         {
             RequestReturnObject rro = request.LongMarch.getMyStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!(rro.Exists(RRO.LongMarch.leftTimes) && rro.Exists(RRO.LongMarch.curStation))) return false;
-            int leftTimes = JSON.getInt(rro.responseJson, RRO.LongMarch.leftTimes);
+            if (!(rro.exists(RRO.LongMarch.leftTimes) && rro.exists(RRO.LongMarch.curStation))) return false;
+            int leftTimes = rro.getInt(RRO.LongMarch.leftTimes);
             if (leftTimes > 0)
             {
                 updateInfo(oGA.displayName, actionName, module + ": 今日尚未開始", true, false);
                 return true;
             }
-            int curStation = JSON.getInt(rro.responseJson, RRO.LongMarch.curStation);
+            int curStation = rro.getInt(RRO.LongMarch.curStation);
             if (curStation < 15)
             {
                 updateInfo(oGA.displayName, actionName, module + ": 尚未到達 匈奴", true, false);
@@ -290,7 +290,7 @@ namespace KingsLib
         {
             RequestReturnObject rro = request.OneYear.cityStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!rro.Exists(RRO.OneYear.activityStatus, typeof(DynamicJsonArray))) return false;
+            if (!rro.exists(RRO.OneYear.activityStatus, typeof(DynamicJsonArray))) return false;
             long currTime = getSystemTime(oGA.connectionInfo, oGA.sid) / 1000;
             bool oneYearActivity = false;
             DynamicJsonArray activityStatus = rro.responseJson[RRO.OneYear.activityStatus];
@@ -333,7 +333,7 @@ namespace KingsLib
             rro = request.DianJiangTai.beforeStart(oGA.connectionInfo, oGA.sid);
             if (rro.SuccessWithJson(RRO.DianJiangTai.leftTimes))
             {
-                int leftTimes = JSON.getInt(rro.responseJson, RRO.DianJiangTai.leftTimes);
+                int leftTimes = rro.getInt(RRO.DianJiangTai.leftTimes);
                 if (leftTimes > 0)
                 {
                     updateInfo(oGA.displayName, actionName, string.Format("{0}: 點將台尚有 {1} 次", module, leftTimes), true, false);
@@ -344,7 +344,7 @@ namespace KingsLib
             rro = request.OneYear.info(oGA.connectionInfo, oGA.sid);
             if (rro.SuccessWithJson(RRO.OneYear.remainCount))
             {
-                int remainCount = JSON.getInt(rro.responseJson, RRO.OneYear.remainCount);
+                int remainCount = rro.getInt(RRO.OneYear.remainCount);
                 if (remainCount > 0)
                 {
                     updateInfo(oGA.displayName, actionName, string.Format("{0}: 仙鶴雲居尚有 {1} 次", module, remainCount), true, false);
@@ -368,7 +368,7 @@ namespace KingsLib
 
             RequestReturnObject rro = request.Hero.getPlayerHeroList(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!rro.Exists(RRO.Hero.heros, typeof(DynamicJsonArray))) return false;
+            if (!rro.exists(RRO.Hero.heros, typeof(DynamicJsonArray))) return false;
             DynamicJsonArray dja = rro.responseJson[RRO.Hero.heros];
             bool findMAKE = false;
             string heroMAKE = "";
@@ -406,9 +406,9 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.Naval.inMissionHeros(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!(rro.Exists(RRO.Naval.alives, typeof(DynamicJsonArray)) &&
-                  rro.Exists(RRO.Naval.deads, typeof(DynamicJsonArray)) &&
-                  rro.Exists(RRO.Naval.deadhero, typeof(DynamicJsonArray))))
+            if (!(rro.exists(RRO.Naval.alives, typeof(DynamicJsonArray)) &&
+                  rro.exists(RRO.Naval.deads, typeof(DynamicJsonArray)) &&
+                  rro.exists(RRO.Naval.deadhero, typeof(DynamicJsonArray))))
                 return false;
 
             DynamicJsonArray oAlives, oDeads, oDeadHero;
@@ -428,9 +428,9 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.TeamDuplicate.teamDuplicateFreeTimes(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!rro.Exists(RRO.TeamDuplicate.times)) return false;
+            if (!rro.exists(RRO.TeamDuplicate.times)) return false;
 
-            int times = JSON.getInt(rro.responseJson, RRO.TeamDuplicate.times);
+            int times = rro.getInt(RRO.TeamDuplicate.times);
             if (times < 3)
             {
                 updateInfo(oGA.displayName, actionName, string.Format("{0}: 只做了 {1} 次, 尚未完成", module, times), true, false);
@@ -443,7 +443,7 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.WuFuLinMen.getGameInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!rro.Exists(RRO.WuFuLinMen.drawDatas)) return false;
+            if (!rro.exists(RRO.WuFuLinMen.drawDatas)) return false;
 
             dynamic drawDatas = rro.responseJson[RRO.WuFuLinMen.drawDatas];
             int stage = JSON.getInt(drawDatas, RRO.WuFuLinMen.stage);
@@ -487,25 +487,25 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.GrassArrow.acquireGrassArrowInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!(rro.Exists(RRO.GrassArrow.arrowNum) &&
-                  rro.Exists(RRO.GrassArrow.fightCount) &&
-                  rro.Exists(RRO.GrassArrow.totalNum) &&
-                  rro.Exists(RRO.GrassArrow.rewards, typeof(DynamicJsonArray))
+            if (!(rro.exists(RRO.GrassArrow.arrowNum) &&
+                  rro.exists(RRO.GrassArrow.fightCount) &&
+                  rro.exists(RRO.GrassArrow.totalNum) &&
+                  rro.exists(RRO.GrassArrow.rewards, typeof(DynamicJsonArray))
                   )) return false;
 
-            int fightCount = JSON.getInt(rro.responseJson, RRO.GrassArrow.fightCount);
+            int fightCount = rro.getInt(RRO.GrassArrow.fightCount);
             if (fightCount > 0)
             {
                 updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未有 {1} 次未完成", module, fightCount), true, false);
             }
             else
             {
-                int arrowNum = JSON.getInt(rro.responseJson, RRO.GrassArrow.arrowNum);
+                int arrowNum = rro.getInt(RRO.GrassArrow.arrowNum);
                 if (arrowNum >= 160)
                 {
                     updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 支箭可換領獎品", module, arrowNum), true, false);
                 }
-                int totalNum = JSON.getInt(rro.responseJson, RRO.GrassArrow.totalNum);
+                int totalNum = rro.getInt(RRO.GrassArrow.totalNum);
                 DynamicJsonArray rewards = rro.responseJson[RRO.GrassArrow.rewards];
                 int notYetGot = 0;
                 foreach (dynamic reward in rewards)

@@ -118,6 +118,15 @@ namespace KingsLib
 
             }
 
+            public static class Login
+            {
+                public const string account = "account";
+                public const string serverTitle = "serverTitle";
+                public const string nickName = "nickName";
+            }
+
+
+
             public static class LongMarch
             {
                 public const string leftTimes = "leftTimes";
@@ -194,6 +203,8 @@ namespace KingsLib
                 public const string v = "v";
                 public const string VIP_LEVEL = "VIP_LEVEL";
                 public const string XIYU_COIN = "XIYU_COIN";
+
+
             }
 
             public static class Starry

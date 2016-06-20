@@ -44,9 +44,9 @@ namespace KingsLib
             
             rro = request.Starry.fight(ci, sid, barrierId);
             if (!rro.SuccessWithJson(RRO.Starry.data)) return quitCampaign(ci, sid); 
-            if (!(rro.Exists(RRO.Starry._type) && rro.Exists(RRO.Starry._rs))) return quitCampaign(ci, sid);
-            string fight_type = JSON.getString(rro.responseJson, RRO.Starry._type, null);
-            int fight_rs = JSON.getInt(rro.responseJson, RRO.Starry._rs);
+            if (!(rro.exists(RRO.Starry._type) && rro.exists(RRO.Starry._rs))) return quitCampaign(ci, sid);
+            string fight_type = rro.getString(RRO.Starry._type, null);
+            int fight_rs = rro.getInt(RRO.Starry._rs);
             if (!((fight_type == RRO.Starry._type_SCEnterCampaign) && (fight_rs == 1))) return quitCampaign(ci, sid);
 
             rro = request.Campaign.getAttFormation(ci, sid, "STARRY");
@@ -56,7 +56,7 @@ namespace KingsLib
             if (rro.responseJson[RRO.Campaign.heros].Length < 5) return quitCampaign(ci, sid);
             dynamic json = JSON.Empty;
             json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
-            json[RRO.Campaign.chief] = JSON.getInt(rro.responseJson, RRO.Campaign.chief);
+            json[RRO.Campaign.chief] = rro.getInt(RRO.Campaign.chief);
             string body = JSON.encode(json);
 
             rro = request.Campaign.nextEnemies(ci, sid);
