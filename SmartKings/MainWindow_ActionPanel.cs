@@ -44,6 +44,12 @@ namespace SmartKings
                 case "btnCleanBag":
                     goAction("清理背包", allPlayers, action.task.goCleanupBag);
                     break;
+                case "btnStarrySetup":
+                    ui.GenericWar winStarry = new ui.GenericWar();
+                    winStarry.Owner = this;
+                    winStarry.Title = "攬星壇佈陣設定";
+                    bool? dialogResult = winStarry.ShowDialog();
+                    break;
                 case "btnStarry":
                     goAction("攬星壇", allPlayers, action.task.goCheckStarry);
                     break;
