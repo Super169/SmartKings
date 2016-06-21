@@ -59,10 +59,12 @@
     <Compile Include="action\starry.cs" />
     <Compile Include="action\system.cs" />
     <Compile Include="action\task\Bag.cs" />
+    <Compile Include="action\task\Email.cs" />
     <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />
     <Compile Include="action\task\MonthSignIn.cs" />
     <Compile Include="action\task\Starry.cs" />
+    <Compile Include="action\task\Task.cs" />
     <Compile Include="action\task\TuanGou.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />

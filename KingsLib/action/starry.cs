@@ -38,43 +38,50 @@ namespace KingsLib
                 return chapterInfo;
             }
 
-            public static bool fight(ConnectionInfo ci, string sid, int barrierId)
+            public static int fight(ConnectionInfo ci, string sid, int barrierId, string fightHeros)
             {
                 RequestReturnObject rro;
 
                 // For safety, always do Campaign.quitCampaign before any war (maybe before any action later if possible).
-                campaign.quitCampaign(ci, sid);
+                campaign.quitCampaign(ci, sid, 0);
 
                 rro = request.Starry.fight(ci, sid, barrierId);
-                if (!rro.SuccessWithJson(RRO.Starry.data)) return campaign.quitCampaign(ci, sid);
-                if (!(rro.exists(RRO.Starry._type) && rro.exists(RRO.Starry._rs))) return campaign.quitCampaign(ci, sid);
+                if (!rro.SuccessWithJson(RRO.Starry.data)) return campaign.quitCampaign(ci, sid, -1);
+                if (!(rro.exists(RRO.Starry._type) && rro.exists(RRO.Starry._rs))) return campaign.quitCampaign(ci, sid, -1);
                 string fight_type = rro.getString(RRO.Starry._type, null);
                 int fight_rs = rro.getInt(RRO.Starry._rs);
-                if (!((fight_type == RRO.Starry._type_SCEnterCampaign) && (fight_rs == 1))) return campaign.quitCampaign(ci, sid);
+                if (!((fight_type == RRO.Starry._type_SCEnterCampaign) && (fight_rs == 1))) return campaign.quitCampaign(ci, sid, -1);
 
                 rro = request.Campaign.getAttFormation(ci, sid, "STARRY");
-                if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid);
+                if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid, -1);
                 // Thread.Sleep(500);
 
-                if (rro.responseJson[RRO.Campaign.heros].Length < 5) return campaign.quitCampaign(ci, sid);
-                dynamic json = JSON.Empty;
-                json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
-                json[RRO.Campaign.chief] = rro.getInt(RRO.Campaign.chief);
-                string body = JSON.encode(json);
+                string body;
+                if ((fightHeros == null) || (fightHeros == ""))
+                {
+                    if (rro.responseJson[RRO.Campaign.heros].Length < 5) return campaign.quitCampaign(ci, sid, 1);
+                    dynamic json = JSON.Empty;
+                    json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
+                    json[RRO.Campaign.chief] = rro.getInt(RRO.Campaign.chief);
+                    body = JSON.encode(json);
+                } else
+                {
+                    body = fightHeros;
+                }
+
 
                 rro = request.Campaign.nextEnemies(ci, sid);
-                if (!rro.SuccessWithJson(RRO.Campaign.enemies, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid);
+                if (!rro.SuccessWithJson(RRO.Campaign.enemies, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid, -1);
                 // Thread.Sleep(500);
 
                 rro = request.Campaign.saveFormation(ci, sid, body);
-                if (!rro.SuccessWithJson(RRO.Campaign.power)) return campaign.quitCampaign(ci, sid);
+                if (!rro.SuccessWithJson(RRO.Campaign.power)) return campaign.quitCampaign(ci, sid, -1);
                 // Thread.Sleep(500);
 
                 rro = request.Campaign.fightNext(ci, sid);
-                if (rro.ok != 1) return campaign.quitCampaign(ci, sid);
+                if (rro.ok != 1) return campaign.quitCampaign(ci, sid, -1);
 
-                campaign.quitCampaign(ci, sid);
-                return true;
+                return campaign.quitCampaign(ci, sid, 0);
             }
         }
 

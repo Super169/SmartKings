@@ -12,6 +12,8 @@ using System.ComponentModel;
 using System.Windows.Data;
 using KingsLib.data;
 using KingsLib;
+using KingsLib.scheduler;
+using MyUtil;
 
 namespace SmartKings
 {
@@ -45,20 +47,24 @@ namespace SmartKings
                     goAction("清理背包", allPlayers, action.task.goCleanupBag);
                     break;
                 case "btnStarrySetup":
-                    ui.GenericWar winStarry = new ui.GenericWar();
-                    winStarry.Owner = this;
-                    winStarry.Title = "攬星壇佈陣設定";
-                    bool? dialogResult = winStarry.ShowDialog();
+                    goStarrySetup();
                     break;
                 case "btnStarry":
                     goAction("攬星壇", allPlayers, action.task.goCheckStarry);
                     break;
                 case "btnMarket":
-                    goAction("糧草先行", allPlayers, action.task.goCheckStarry);
+                    goAction("糧草先行", allPlayers, action.task.goMarket);
                     break;
                 case "btnCycleShop":
                     goAction("東瀛寶船", allPlayers, action.task.goCycleShop);
                     break;
+                case "btnReadEmail":
+                    goAction("開啟郵件", allPlayers, action.task.goReadAllEmail);
+                    break;
+                case "btnFinishTask":
+                    goAction("任務報酬", allPlayers, action.task.goFinishAllTask);
+                    break;
+
             }
 
         }
@@ -73,6 +79,27 @@ namespace SmartKings
             UpdateProgress();
         }
 
+        private void goStarrySetup()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            ui.WinWarSettings winStarry = new ui.WinWarSettings();
+            winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveStarrySertting);
+            winStarry.Owner = this;
+            winStarry.init("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.Starry));
+            bool? dialogResult = winStarry.ShowDialog();
+        }
+
+        private void saveStarrySertting(GameAccount oGA, dynamic json)
+        {
+            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.Starry);
+            if (autoTask != null)
+            {
+                autoTask.parmObject = json;
+                autoTask.parameter = ( json == null ? null : JSON.encode(json));
+            }
+        }
 
         private void goAction(string actionName, bool allPlayers, DelegateActionHandler actionHandler)
         {
@@ -84,7 +111,7 @@ namespace SmartKings
             else
             {
                 // Must get account in UI thread then pass to background thread
-                GameAccount oGA = GetSelectedActiveAccount();
+                GameAccount oGA = GetSelectedAccount();
                 if (oGA == null) return;
                 if (oGA.IsOnline())
                 {
@@ -130,11 +157,11 @@ namespace SmartKings
             }
             else
             {
-                UpdateInfo((oGA == null? null : oGA.displayName), actionName, "等待超時, 未能進行");
+                UpdateInfo((oGA == null ? null : oGA.displayName), actionName, "等待超時, 未能進行");
             }
         }
 
-        private GameAccount GetSelectedActiveAccount()
+        private GameAccount GetSelectedAccount()
         {
             if (gameAccounts.Count == 0)
             {

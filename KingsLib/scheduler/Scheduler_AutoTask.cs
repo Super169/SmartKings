@@ -22,9 +22,9 @@ namespace KingsLib.scheduler
             }
 
             public string taskId { get; set; }
-            bool isEnabled { get; set; }
-            string parameter { get; set; }
-            dynamic parmObject;
+            public bool isEnabled { get; set; }
+            public string parameter { get; set; }
+            public dynamic parmObject;
             ScheduleInfo schedule;
 
             public AutoTask(string taskId, bool isEnabled, string parameter, ScheduleInfo schedule)

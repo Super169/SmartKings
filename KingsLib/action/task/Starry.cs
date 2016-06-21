@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace KingsLib
                 int currBarrierId = si.chapterList.Last().barrierList.Last().barrierId;
                 int lastBarrierId = -1;
 
+
+                string fightHeros = oGA.getTaskParameter(Scheduler.TaskId.Starry);
+
                 updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
 
                 while (si.leftAllCount > 0)
@@ -42,8 +46,18 @@ namespace KingsLib
 
                     updateInfo(oGA.displayName, taskName, string.Format("備戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
 
-                    action.starry.fight(ci, sid, currBarrierId);
+                    int fightResult = action.starry.fight(ci, sid, currBarrierId, fightHeros);
 
+                    if (fightResult == -1)
+                    {
+                        updateInfo(oGA.displayName, taskName, "出戰失敗");
+                        return false;
+                    }
+                    else if (fightResult == 1)
+                    {
+                        updateInfo(oGA.displayName, taskName, "尚未完成佈陣");
+                        return false;
+                    }
                     updateInfo(oGA.displayName, taskName, string.Format("完成出戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
 
                     lastBarrierId = currBarrierId;

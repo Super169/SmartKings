@@ -57,7 +57,7 @@ namespace KingsLib
                 rro = request.Task.getTaskTraceInfo(ci, sid);
                 if (!rro.SuccessWithJson(RRO.Task.tasks, typeof(DynamicJsonArray))) return false;
                 DynamicJsonArray tasks = (DynamicJsonArray)rro.responseJson["tasks"];
-                dynamic o = tasks.FirstOrDefault(x => JSON.getInt(x, "id") == 8);
+                dynamic o = tasks.FirstOrDefault(x => JSON.getInt(x, RRO.Task.id) == 8);
                 if (o == null) return false;
                 if (JSON.getString(o, RRO.Task.status, "") != RRO.Task.status_ACC) return false;
 

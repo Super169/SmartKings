@@ -16,7 +16,7 @@ namespace KingsLib
         public static class campaign
         {
             // Special function for quit Campaign at any time with expected return value
-            public static bool quitCampaign(ConnectionInfo ci, string sid, bool returnValue = false)
+            public static int quitCampaign(ConnectionInfo ci, string sid, int returnValue)
             {
                 request.Campaign.quitCampaign(ci, sid);
                 return returnValue;

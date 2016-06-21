@@ -94,6 +94,15 @@ namespace KingsLib
                 public const string leftTimes = "leftTimes";
             }
 
+            public static class Email
+            {
+                public const string emails = "emails";
+
+                public const string status = "status";
+                public const string status_NR = "NR";
+                public const string id = "id";
+            }
+
             public static class GrassArrow
             {
                 public const string fightGold = "fightGold";
@@ -295,8 +304,11 @@ namespace KingsLib
             public static class Task
             {
                 public const string tasks = "tasks";
+                public const string id = "id";
+                public const string taskId = "taskId";
                 public const string status = "status";
                 public const string status_ACC = "ACC";
+                public const string status_FIN = "FIN";
             }
 
 

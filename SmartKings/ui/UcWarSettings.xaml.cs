@@ -1,10 +1,13 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,22 +21,60 @@ using System.Windows.Shapes;
 namespace SmartKings.ui
 {
     /// <summary>
-    /// Interaction logic for WarSettings.xaml
+    /// Interaction logic for UcWarSettings.xaml
     /// </summary>
-    public partial class WarSettings : UserControl
+    public partial class UcWarSettings : UserControl
     {
+
         GameAccount oGA;
+        int minHero = 1;
+        int maxHero = 5;
+        bool reqChief = true;
 
-        WarHero[] warHeros = new WarHero[7];
-        WarHero selectedWH = null;
+        private static int[,] warPos = { { -5, -1 }, { -3, -1 }, { -6, 0 }, { -4, 0 }, { -2, 0 }, { -5, 1 }, { -3, 1 } };
 
-        public void setData(GameAccount oGA)
+
+        public event EventHandler<dynamic> Save;
+        public event EventHandler Cancel;
+
+        UcWarHero[] warHeros = new UcWarHero[7];
+        UcWarHero selectedWH = null;
+
+        public void init(GameAccount oGA, dynamic json)
         {
-/*
             this.oGA = oGA;
-            lvHero.ItemsSource = oGA.Heros;
+            lvHero.ItemsSource = oGA.heros;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvHero.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("power", ListSortDirection.Descending));
+
+            for (int i = 0; i < 7; i++)
+            {
+                warHeros[i].Reset();
+            }
+
+            if (json == null) return;
+            if (!JSON.exists(json, "heros", typeof(DynamicJsonArray))) return;
+            int chief = JSON.getInt(json, "chief");
+            DynamicJsonArray heros = json["heros"];
+
+            foreach (dynamic hero in heros)
+            {
+                int pos = getPos(JSON.getInt(hero, "x"), JSON.getInt(hero, "y"));
+                int heroIdx = JSON.getInt(hero, "index");
+                if ((heroIdx > 0) && (pos >= 0))
+                {
+                    HeroInfo hi = oGA.heros.SingleOrDefault(x => x.idx == heroIdx);
+                    if (hi != null)
+                    {
+                        warHeros[pos].SetHero(heroIdx, hi.nm, hi.lv, hi.power, hi.cfd, hi.spd);
+                        if (heroIdx == chief) warHeros[pos].SetChief(true);
+                    }
+
+                }
+            }
+
+
+            /*
             for (int i = 0; i < 7; i++)
             {
                 if (oGA.BossWarHeros[i] == 0)
@@ -50,12 +91,27 @@ namespace SmartKings.ui
                 }
                 if (oGA.BossWarChiefIdx != -1) warHeros[oGA.BossWarChiefIdx].SetChief(true);
             }
-*/
+            */
         }
 
-        public WarSettings()
+        private int getPos(int x, int y)
+        {
+            int pos = -1;
+            for (int idx = 0; idx < 7; idx++)
+            {
+                if ((warPos[idx, 0] == x) && (warPos[idx, 1] == y))
+                {
+                    pos = idx;
+                    break;
+                }
+            }
+            return pos;
+        }
+
+        public UcWarSettings()
         {
             InitializeComponent();
+
             warHeros[0] = wh00;
             warHeros[1] = wh01;
             warHeros[2] = wh02;
@@ -68,11 +124,12 @@ namespace SmartKings.ui
                 warHeros[i].id = i;
                 warHeros[i].Reset();
             }
+
         }
 
         private void warHero_Click(object sender, EventArgs e)
         {
-            WarHero wh = (WarHero)sender;
+            UcWarHero wh = (UcWarHero)sender;
             bool selection = !wh.selected;
             if (selectedWH != null) selectedWH.SetSelected(false);
             wh.SetSelected(selection);
@@ -87,15 +144,6 @@ namespace SmartKings.ui
             btnClear.IsEnabled = (selectedWH != null);
         }
 
-
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-/*
-            this.DialogResult = false;
-            this.Close();
-*/
-        }
-
         private void lvHero_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (selectedWH == null) return;
@@ -104,7 +152,7 @@ namespace SmartKings.ui
 
             int heroCnt = 0;
 
-            foreach (WarHero wh in warHeros)
+            foreach (UcWarHero wh in warHeros)
             {
                 if (wh.heroIdx == hi.idx) wh.Reset();
                 if (wh.heroIdx > 0) heroCnt++;
@@ -123,7 +171,7 @@ namespace SmartKings.ui
         private void btnChief_Click(object sender, RoutedEventArgs e)
         {
             if ((selectedWH == null) || (selectedWH.chief) || (selectedWH.IsEmpty())) return;
-            foreach (WarHero wh in warHeros) wh.SetChief(false);
+            foreach (UcWarHero wh in warHeros) wh.SetChief(false);
             selectedWH.SetChief(true);
         }
 
@@ -135,8 +183,6 @@ namespace SmartKings.ui
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            /*
-
             int heroCnt = 0;
             int chiefIdx = -1;
             for (int i = 0; i < 7; i++)
@@ -160,17 +206,10 @@ namespace SmartKings.ui
                 return;
             }
 
-            for (int i = 0; i < 7; i++)
-            {
-                oGA.BossWarHeros[i] = warHeros[i].heroIdx;
-            }
-            oGA.BossWarChiefIdx = chiefIdx;
-
             // The JSON to build the body string
             dynamic json = JSON.Empty;
             List<dynamic> heros = new List<dynamic>();
 
-            int[,] warPos = { { -5, -1 }, { -3, -1 }, { -6, 0 }, { -4, 0 }, { -2, 0 }, { -5, 1 }, { -3, 1 } };
             for (int i = 0; i < 7; i++)
             {
                 if (warHeros[i].heroIdx > 0)
@@ -184,15 +223,15 @@ namespace SmartKings.ui
             }
             json["chief"] = warHeros[chiefIdx].heroIdx;
             json["heros"] = heros;
-            string body = Json.Encode(json);
+            string body = JSON.encode(json);
+            if (Save != null) Save(this, json);
 
-            oGA.BossWarBody = body;
-            this.DialogResult = true;
-            this.Close();
-
-            */
         }
 
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Cancel != null) Cancel(this, EventArgs.Empty);
+        }
 
     }
 }

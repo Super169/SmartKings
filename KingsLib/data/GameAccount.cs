@@ -177,7 +177,6 @@ namespace KingsLib.data
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
             this.autoTasks = new List<Scheduler.AutoTask>();
-            /*
             if (JSON.exists(json, KEY.autoTasks, typeof(DynamicJsonArray))) {
                 DynamicJsonArray tasks = (DynamicJsonArray)json[KEY.autoTasks];
                 foreach(dynamic t in tasks)
@@ -185,7 +184,6 @@ namespace KingsLib.data
                     autoTasks.Add(new Scheduler.AutoTask(t));
                 }
             }
-            */
             rebuildAutoTasks();
             this.ready = true;
             return true;
@@ -312,6 +310,26 @@ namespace KingsLib.data
         public bool IsOnline()
         {
             return (this.status == AccountStatus.Online);
+        }
+
+        public Scheduler.AutoTask findAutoTask(string taskId)
+        {
+            Scheduler.AutoTask autoTask = autoTasks.Find(x => x.taskId == taskId);
+            return autoTask;
+        }
+
+        public string getTaskParameter(string taskId)
+        {
+            Scheduler.AutoTask autoTask = findAutoTask(taskId);
+            if (autoTask == null) return null;
+            return autoTask.parameter;
+        }
+
+        public dynamic getTaskParmObject(string taskId)
+        {
+            Scheduler.AutoTask autoTask = findAutoTask(taskId);
+            if (autoTask == null) return null;
+            return autoTask.parmObject;
         }
 
     }

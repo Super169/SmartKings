@@ -14,10 +14,23 @@ namespace KingsLib.request
         private const string CMD_openInBox = "Email.openInBox";
         private const string CMD_read = "Email.read";
 
+        public static RequestReturnObject getAttachment(ConnectionInfo ci, string sid, int emailId)
+        {
+            string body = string.Format("{{\"emailId\":{0}}}", emailId);
+            return com.SendGenericRequest(ci, sid, CMD_getAttachment, true, body);
+        }
+
         public static RequestReturnObject openInBox(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_openInBox);
         }
+
+        public static RequestReturnObject read(ConnectionInfo ci, string sid, int emailId)
+        {
+            string body = string.Format("{{\"emailId\":{0}}}", emailId);
+            return com.SendGenericRequest(ci, sid, CMD_read, true, body);
+        }
+
 
 
     }

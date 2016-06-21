@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SmartKings.ui.WarSettings"
+﻿<UserControl x:Class="SmartKings.ui.UcWarSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -44,12 +44,14 @@
         <Button x:Name="btnClear" Content="清除" HorizontalAlignment="Left" Margin="121,0,0,7" Width="75" Height="20" VerticalAlignment="Bottom" Click="btnClear_Click"/>
         <Button x:Name="btnSave" Content="儲存" Margin="0,0,97,7" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" Click="btnSave_Click"/>
         <Button x:Name="btnCancel" Content="取消" Margin="0,0,10,7" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" Click="btnCancel_Click"/>
-        <local:WarHero x:Name="wh00" HorizontalAlignment="Left" Margin="45,10,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh01" HorizontalAlignment="Left" Margin="108,10,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh02" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh03" HorizontalAlignment="Left" Margin="73,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh04" HorizontalAlignment="Left" Margin="136,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh05" HorizontalAlignment="Left" Margin="45,120,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
-        <local:WarHero x:Name="wh06" HorizontalAlignment="Left" Margin="110,120,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh00" HorizontalAlignment="Left" Margin="45,10,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh01" HorizontalAlignment="Left" Margin="108,10,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh02" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh03" HorizontalAlignment="Left" Margin="73,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh04" HorizontalAlignment="Left" Margin="136,65,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh05" HorizontalAlignment="Left" Margin="45,120,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+        <local:UcWarHero x:Name="wh06" HorizontalAlignment="Left" Margin="110,120,0,0" VerticalAlignment="Top" Width="60" Height="50" Click="warHero_Click"/>
+
+
     </Grid>
 </UserControl>

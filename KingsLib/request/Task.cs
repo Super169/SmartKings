@@ -14,6 +14,13 @@ namespace KingsLib.request
         private const string CMD_getAchievementInfo = "Task.getAchievementInfo";
         private const string CMD_getTaskTraceInfo = "Task.getTaskTraceInfo";
 
+
+        public static RequestReturnObject finishTask(ConnectionInfo ci, string sid, int taskId)
+        {
+            string body = string.Format("{{\"taskId\":{0}}}", taskId);
+            return com.SendGenericRequest(ci, sid, CMD_finishTask, true, body);
+        }
+
         public static RequestReturnObject getAchievementInfo(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_getAchievementInfo);

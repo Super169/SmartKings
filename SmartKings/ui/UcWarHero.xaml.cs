@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 namespace SmartKings.ui
 {
     /// <summary>
-    /// Interaction logic for WarHero.xaml
+    /// Interaction logic for UcWarHero.xaml
     /// </summary>
-    public partial class WarHero : UserControl
+    public partial class UcWarHero : UserControl
     {
 
         public event EventHandler Click;
@@ -33,7 +33,7 @@ namespace SmartKings.ui
         public bool chief = false;
         public bool selected = false;
 
-        public WarHero()
+        public UcWarHero()
         {
             InitializeComponent();
             this.SetSelected(false);
