@@ -32,9 +32,9 @@ namespace KingsLib.scheduler
         public static void initAutoTasks()
         {
             autoTaskList = new List<KingsTask>();
-            autoTaskList.Add(new KingsTask() { id = TaskId.Harvest, isEnabled = true, customSchedule = false, executeTask = action.task.goTaskHarvest });
-            autoTaskList.Add(new KingsTask() { id = TaskId.CleanUpBag, isEnabled = true, customSchedule = false, executeTask = action.task.goTaskCleanupBag });
-            autoTaskList.Add(new KingsTask() { id = TaskId.Starry, isEnabled = true, customSchedule = true, executeTask = action.task.goTaskStarry });
+            autoTaskList.Add(new KingsTask() { id = TaskId.Harvest, isEnabled = true, customSchedule = false, executeTask = action.task.goHarvest });
+            autoTaskList.Add(new KingsTask() { id = TaskId.CleanUpBag, isEnabled = true, customSchedule = false, executeTask = action.task.goCleanupBag });
+            autoTaskList.Add(new KingsTask() { id = TaskId.Starry, isEnabled = true, customSchedule = true, executeTask = action.task.goCheckStarry });
 
         }
 

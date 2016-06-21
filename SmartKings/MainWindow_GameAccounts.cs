@@ -80,7 +80,7 @@ namespace SmartKings
             view.Refresh();
         }
 
-        void UpdateAccountList(LoginInfo li, ConnectionInfo ci)
+        void UpdateAccountList(AccountInfo li, ConnectionInfo ci)
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {

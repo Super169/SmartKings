@@ -13,7 +13,7 @@ namespace KingsLib
         public static partial class task
         {
 
-            public static bool goTaskMonthSignIn(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goMonthSignIn(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string actionName = "簽到領獎";
                 RequestReturnObject rro = request.MonthSignIn.getInfo(oGA.connectionInfo, oGA.sid);

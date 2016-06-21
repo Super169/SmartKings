@@ -90,7 +90,7 @@ namespace KingsLib.data
             this.autoTasks = new List<Scheduler.AutoTask>();
         }
 
-        public GameAccount(LoginInfo li, ConnectionInfo ci)
+        public GameAccount(AccountInfo li, ConnectionInfo ci)
         {
             initObject();
             if (li.ready)
@@ -119,7 +119,7 @@ namespace KingsLib.data
             }
         }
 
-        public void updateSession(LoginInfo li, ConnectionInfo ci)
+        public void updateSession(AccountInfo li, ConnectionInfo ci)
         {
             this.sid = li.sid;
             this.status = AccountStatus.Online;
@@ -250,7 +250,7 @@ namespace KingsLib.data
             else
             {
                 int timeAdj = 0;
-                this.status = action.goCheckAccountStatus(connectionInfo, sid, ref timeAdj);
+                this.status = action.account.checkStatus(connectionInfo, sid, ref timeAdj);
                 if (this.status == AccountStatus.Online) this.timeAdjust = timeAdj;
             }
             return this.status;
@@ -261,8 +261,8 @@ namespace KingsLib.data
             if (this.connectionInfo == null) return false;
             if (this.status != AccountStatus.Online) return false;
 
-            this.heros = action.getHerosInfo(connectionInfo, sid);
-            this.decreeHeros = action.getDecreeInfo(connectionInfo, sid, this.heros);
+            this.heros = action.hero.getInfo(connectionInfo, sid);
+            this.decreeHeros = action.decree.getInfo(connectionInfo, sid, this.heros);
 
             return true;
         }

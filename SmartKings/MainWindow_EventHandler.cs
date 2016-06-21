@@ -23,7 +23,7 @@ namespace SmartKings
             // UpdateInfo(info);
         }
 
-        private void OnNewSidHandler(LoginInfo li, ConnectionInfo ci)
+        private void OnNewSidHandler(AccountInfo li, ConnectionInfo ci)
         {
 
             // UpdateStatus(string.Format("Server: {0}, SID: {1}, {2} - {3}", li.server, li.sid, li.serverTitle, li.nickName));

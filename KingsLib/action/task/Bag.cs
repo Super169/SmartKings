@@ -11,13 +11,13 @@ namespace KingsLib
     {
         public static partial class task
         {
-            public static bool goTaskCleanupBag(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goCleanupBag(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskName = "清理背包";
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
 
-                List<BagInfo> bis = action.getBagInfo(ci, sid);
+                List<BagInfo> bis = action.bag.getInfo(ci, sid);
                 if (bis == null) return false;
 
                 foreach (BagInfo bi in bis)

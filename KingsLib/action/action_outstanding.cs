@@ -291,7 +291,7 @@ namespace KingsLib
             RequestReturnObject rro = request.OneYear.cityStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
             if (!rro.exists(RRO.OneYear.activityStatus, typeof(DynamicJsonArray))) return false;
-            long currTime = getSystemTime(oGA.connectionInfo, oGA.sid) / 1000;
+            long currTime = system.getTime(oGA.connectionInfo, oGA.sid) / 1000;
             bool oneYearActivity = false;
             DynamicJsonArray activityStatus = rro.responseJson[RRO.OneYear.activityStatus];
             foreach (dynamic o in activityStatus)

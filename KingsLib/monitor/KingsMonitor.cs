@@ -23,7 +23,7 @@ namespace KingsLib.monitor
         static string preServer = null;
 
         // Propagate to parent handler when new sid is detected  
-        public delegate void NewSidEventHandler(LoginInfo li, ConnectionInfo ci);
+        public delegate void NewSidEventHandler(AccountInfo li, ConnectionInfo ci);
         public static event NewSidEventHandler newSidEventHandler;
 
         public delegate void NotificationEventHandler(string info);
@@ -146,7 +146,7 @@ namespace KingsLib.monitor
             // ci.fromTcpPacketData(p.data);
             ci.fromTcpPacketData(fullPacket);
 
-            data.LoginInfo li = action.getAccountInfo(ci, sid);
+            data.AccountInfo li = action.account.getInfo(ci, sid);
             if (!li.ready) return;
             li.server = server;
             UpdateUI(string.Format("{0} | {1} - {2}", li.account, li.serverTitle, li.nickName));
@@ -157,7 +157,7 @@ namespace KingsLib.monitor
         }
 
 
-        private static void NewSid(LoginInfo li, ConnectionInfo ci)
+        private static void NewSid(AccountInfo li, ConnectionInfo ci)
         {
             if (newSidEventHandler != null)
             {

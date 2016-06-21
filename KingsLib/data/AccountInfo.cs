@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KingsLib.data
 {
-    public struct LoginInfo
+    public struct AccountInfo
     {
         public bool ready;
         public string sid;

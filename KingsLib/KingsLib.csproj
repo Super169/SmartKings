@@ -44,19 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="action\action_bag.cs" />
-    <Compile Include="action\action_campaign.cs" />
+    <Compile Include="action\account.cs" />
+    <Compile Include="action\bag.cs" />
+    <Compile Include="action\campaign.cs" />
     <Compile Include="action\action_constants.cs" />
-    <Compile Include="action\action_decree.cs" />
-    <Compile Include="action\action_manor.cs" />
+    <Compile Include="action\Shop.cs" />
+    <Compile Include="action\decree.cs" />
+    <Compile Include="action\manor.cs" />
     <Compile Include="action\action_outstanding.cs" />
-    <Compile Include="action\action_hero.cs" />
-    <Compile Include="action\action_login.cs" />
-    <Compile Include="action\action_player.cs" />
-    <Compile Include="action\action_starry.cs" />
-    <Compile Include="action\action_system.cs" />
+    <Compile Include="action\hero.cs" />
+    <Compile Include="action\player.cs" />
+    <Compile Include="action\starry.cs" />
+    <Compile Include="action\system.cs" />
     <Compile Include="action\task\Bag.cs" />
+    <Compile Include="action\task\CycleShop.cs" />
     <Compile Include="action\task\Harvest.cs" />
+    <Compile Include="action\task\Market.cs" />
     <Compile Include="action\task\MonthSignIn.cs" />
     <Compile Include="action\task\Starry.cs" />
     <Compile Include="com\com_fiddler.cs" />
@@ -64,12 +67,13 @@
     <Compile Include="com\com_sendRequest.cs" />
     <Compile Include="data\BagInfo.cs" />
     <Compile Include="data\ConnectionInfo.cs" />
+    <Compile Include="data\CycleShopInfo.cs" />
     <Compile Include="data\DecreeInfo.cs" />
     <Compile Include="data\GameAccount.cs" />
     <Compile Include="data\HeroInfo.cs" />
     <Compile Include="data\IInfoObject.cs" />
     <Compile Include="data\InfoBase.cs" />
-    <Compile Include="data\LoginInfo.cs" />
+    <Compile Include="data\AccountInfo.cs" />
     <Compile Include="data\ManorInfo.cs" />
     <Compile Include="data\PlayerProperties.cs" />
     <Compile Include="data\RequestReturnObject.cs" />

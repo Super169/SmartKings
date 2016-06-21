@@ -11,14 +11,14 @@ namespace KingsLib
     {
         public static partial class task
         {
-            public static bool goTaskStarry(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goCheckStarry(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskName = "攬星壇";
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
 
-                StarryInfo si = action.getStarryInfo(ci, sid);
+                StarryInfo si = action.starry.getInfo(ci, sid);
 
                 if (si == null) return false;
 
@@ -34,7 +34,7 @@ namespace KingsLib
                     // Just follow the step to call chapterInfo, but information alreay collected
                     rro = request.Starry.chapterInfo(ci, sid, currChapterId);
 
-                    StarryInfo.ChapterInfo currChapter = action.getStarryChapterInfo(ci, sid, currChapterId);
+                    StarryInfo.ChapterInfo currChapter = action.starry.getChapterInfo(ci, sid, currChapterId);
                     if (currChapter == null) return false;
 
                     currChapterId = currChapter.chapterId;
@@ -42,13 +42,13 @@ namespace KingsLib
 
                     updateInfo(oGA.displayName, taskName, string.Format("備戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
 
-                    action.goStarryFlight(ci, sid, currBarrierId);
+                    action.starry.fight(ci, sid, currBarrierId);
 
                     updateInfo(oGA.displayName, taskName, string.Format("完成出戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
 
                     lastBarrierId = currBarrierId;
 
-                    si = action.getStarryInfo(ci, sid);
+                    si = action.starry.getInfo(ci, sid);
 
                     currChapterId = si.chapterList.Last().chapterId;
                     currBarrierId = si.chapterList.Last().barrierList.Last().barrierId;

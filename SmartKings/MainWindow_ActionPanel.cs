@@ -36,16 +36,22 @@ namespace SmartKings
                     goAction("檢查遺漏", allPlayers, action.checkAllOutstandingTasks);
                     break;
                 case "btnHarvest":
-                    goAction("封地收獲", allPlayers, action.task.goTaskHarvest);
+                    goAction("封地收獲", allPlayers, action.task.goHarvest);
                     break;
                 case "btnMonthSignIn":
-                    goAction("簽到領獎", allPlayers, action.task.goTaskMonthSignIn);
+                    goAction("簽到領獎", allPlayers, action.task.goMonthSignIn);
                     break;
                 case "btnCleanBag":
-                    goAction("清理背包", allPlayers, action.task.goTaskCleanupBag);
+                    goAction("清理背包", allPlayers, action.task.goCleanupBag);
                     break;
                 case "btnStarry":
-                    goAction("攬星壇", allPlayers, action.task.goTaskStarry);
+                    goAction("攬星壇", allPlayers, action.task.goCheckStarry);
+                    break;
+                case "btnMarket":
+                    goAction("糧草先行", allPlayers, action.task.goCheckStarry);
+                    break;
+                case "btnCycleShop":
+                    goAction("東瀛寶船", allPlayers, action.task.goCycleShop);
                     break;
             }
 

@@ -14,6 +14,7 @@ namespace KingsLib
         public static class STYLE
         {
             public const string ALERT = "ALERT";
+            public const string ERROR = "ERROR";
         }
 
         public static class PROMPT
@@ -207,6 +208,29 @@ namespace KingsLib
 
             }
 
+            public static class Shop
+            {
+                public const string items = "items";
+                public const string pos = "pos";
+                public const string res = "res";
+                public const string nm = "nm";
+                public const string amount = "amount";
+                public const string sold = "sold";
+            }
+
+            public static class Shop2
+            {
+                public const string TYPE_SL_SHOP = "SL_SHOP";
+                public const string remainBuyCount = "remainBuyCount";
+                public const string pos = "pos";
+                public const string res = "res";
+                public const string nm = "nm";
+                public const string amount = "amount";
+                public const string sold = "sold";
+            }
+
+
+
             public static class Starry
             {
                 public const string allCountBuyGold = "allCountBuyGold";
@@ -234,16 +258,24 @@ namespace KingsLib
 
             }
 
+
             public static class System
             {
                 public const string clientTime = "clientTime";
                 public const string serverTime = "serverTime";
             }
 
+            public static class Task
+            {
+                public const string tasks = "tasks";
+                public const string status = "status";
+                public const string status_ACC = "ACC";
+            }
+
+
             public static class TeamDuplicate
             {
                 public const string times = "times";
-
             }
 
             public static class Travel

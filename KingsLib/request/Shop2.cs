@@ -25,12 +25,17 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_shop2Info, true, body);
         }
 
+        /*
         public static RequestReturnObject buyItem(ConnectionInfo ci, string sid, int id, string shop2Type)
         {
             string body = "{\"id\":" + id.ToString() + ", \"shop2Type\":\"" + shop2Type + "\"}";
             return com.SendGenericRequest(ci, sid, CMD_buyItem, true, body);
         }
-
-
+        */
+        public static RequestReturnObject buyItem(ConnectionInfo ci, string sid, int count, int id, string shop2Type)
+        {
+            string body = string.Format("{{\"count\":{0}, \"id\":{1}, \"shop2Type\":\"{2}\"}}", count, id, shop2Type);
+            return com.SendGenericRequest(ci, sid, CMD_buyItem, true, body);
+        }
     }
 }
