@@ -34,6 +34,18 @@ namespace KingsLib
 
         public static class RRO
         {
+            public static class Activity
+            {
+                public const string bagInfos = "bagInfos";
+                public const string rewardBags = "rewardBags";
+
+                public const string sumSize = "sumSize";
+                public const string needSize = "needSize";
+                public const string isReward = "isReward";
+                public const string bagId = "bagId";
+
+            }
+
 
             public static class Bag
             {
@@ -174,6 +186,21 @@ namespace KingsLib
             {
                 public const string activityStatus = "activityStatus";
                 public const string remainCount = "remainCount";
+                public const string startTime = "startTime";
+                public const string endTime = "endTime";
+            }
+
+            public static class OneYearEntry
+            {
+                public const string entryLists = "entryLists";
+                public const string type = "type";
+                public const string KEY_SignInType = "登陆";
+
+                public const string isDraw = "isDraw";
+                public const string reward = "reward";
+                public const string itemDefs = "itemDefs";
+                public const string name = "name";
+                public const string num = "num";
             }
 
             public static class Player

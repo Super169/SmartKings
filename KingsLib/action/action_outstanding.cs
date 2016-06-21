@@ -32,6 +32,7 @@ namespace KingsLib
         private static void showDebugMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)
         {
             updateInfo(account, action, "**** " + msg, true, false);
+            LOG.D(string.Format("{0} : {1} : {2}", account, action, msg));
         }
 
         public static bool checkAllOutstandingTasks(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug = false)
@@ -288,6 +289,36 @@ namespace KingsLib
 
         public static bool checkOutstandingOneYear(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
+            ConnectionInfo ci = oGA.connectionInfo;
+            string sid = oGA.sid;
+
+            int eventCount = action.OneYear.eventCount(ci, sid);
+            if (eventCount < 0) return false;
+            if (eventCount == 0) return true;
+
+            int ticket = action.OneYear.checkTicket(ci, sid);
+            if (ticket > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 張嘉年華入場卷", module, ticket), true, false);
+            }
+
+            int leftTimes = action.OneYear.checkDianJiangTai(ci, sid);
+            if (leftTimes > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 點將台尚有 {1} 次", module, leftTimes), true, false);
+            }
+
+            int remainCount = action.OneYear.checkRemain(ci, sid);
+            if (remainCount > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 仙鶴雲居尚有 {1} 次", module, remainCount), true, false);
+            }
+
+            return true;
+
+
+            /*
+
             RequestReturnObject rro = request.OneYear.cityStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
             if (!rro.exists(RRO.OneYear.activityStatus, typeof(DynamicJsonArray))) return false;
@@ -355,6 +386,7 @@ namespace KingsLib
 
 
             return true;
+            */
         }
 
 

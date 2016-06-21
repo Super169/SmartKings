@@ -39,7 +39,7 @@ namespace SmartKings
                     goAction("封地收獲", allPlayers, action.task.goHarvest);
                     break;
                 case "btnMonthSignIn":
-                    goAction("簽到領獎", allPlayers, action.task.goMonthSignIn);
+                    goAction("簽到領獎", allPlayers, action.task.goSignIn);
                     break;
                 case "btnCleanBag":
                     goAction("清理背包", allPlayers, action.task.goCleanupBag);

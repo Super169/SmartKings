@@ -48,6 +48,8 @@
     <Compile Include="action\bag.cs" />
     <Compile Include="action\campaign.cs" />
     <Compile Include="action\action_constants.cs" />
+    <Compile Include="action\Corps.cs" />
+    <Compile Include="action\OneYear.cs" />
     <Compile Include="action\Shop.cs" />
     <Compile Include="action\decree.cs" />
     <Compile Include="action\manor.cs" />
@@ -57,11 +59,11 @@
     <Compile Include="action\starry.cs" />
     <Compile Include="action\system.cs" />
     <Compile Include="action\task\Bag.cs" />
-    <Compile Include="action\task\CycleShop.cs" />
+    <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />
-    <Compile Include="action\task\Market.cs" />
     <Compile Include="action\task\MonthSignIn.cs" />
     <Compile Include="action\task\Starry.cs" />
+    <Compile Include="action\task\TuanGou.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="data\GameAccount.cs" />
     <Compile Include="data\HeroInfo.cs" />
     <Compile Include="data\IInfoObject.cs" />
+    <Compile Include="data\Industry.cs" />
     <Compile Include="data\InfoBase.cs" />
     <Compile Include="data\AccountInfo.cs" />
     <Compile Include="data\ManorInfo.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="request\Notice.cs" />
     <Compile Include="request\NpcCorps.cs" />
     <Compile Include="request\OneYear.cs" />
+    <Compile Include="request\OneYearEntry.cs" />
     <Compile Include="request\Patrol.cs" />
     <Compile Include="request\Platform.cs" />
     <Compile Include="request\Player.cs" />

@@ -47,16 +47,14 @@ namespace KingsLib
                 return (retPos == pos);
             }
 
-            public static int goSLShopBuyFood(GameAccount oGA)
+            public static int goSLShopBuyFood(ConnectionInfo ci, string sid)
             {
-                ConnectionInfo ci = oGA.connectionInfo;
-                string sid = oGA.sid;
-
                 PlayerProperties pp = action.player.getProperties(ci, sid);
-                if ((!pp.ready) || (pp.EXPLOIT < 93)) return 0;
+                if (!pp.ready) return -1;
+                if (pp.EXPLOIT < 93) return 0;
 
                 RequestReturnObject rro = request.Shop2.shop2Info(ci, sid, RRO.Shop2.TYPE_SL_SHOP);
-                if (!rro.SuccessWithJson(RRO.Shop2.remainBuyCount)) return 0;
+                if (!rro.SuccessWithJson(RRO.Shop2.remainBuyCount)) return -1;
 
                 int coins = pp.EXPLOIT;
                 int remainCount = rro.getInt(RRO.Shop2.remainBuyCount);
@@ -74,7 +72,6 @@ namespace KingsLib
                         coins -= 93;
                     }
                 }
-
                 return buyCount;
             }
 
