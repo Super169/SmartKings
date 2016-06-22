@@ -32,6 +32,7 @@ namespace SmartKings.ui
         public string nm = "";
         public bool chief = false;
         public bool selected = false;
+        public bool isFixed = false;
 
         public UcWarHero()
         {
@@ -49,6 +50,7 @@ namespace SmartKings.ui
             cfd = 0;
             spd = 0;
             chief = false;
+            isFixed = false;
             this.SetDisplay();
         }
 
@@ -65,7 +67,7 @@ namespace SmartKings.ui
             return (heroIdx == 0);
         }
 
-        public void SetHero(int heroIdx, string nm, int lv, int power, int cfd, int spd)
+        public void SetHero(int heroIdx, string nm, int lv, int power, int cfd, int spd, bool isFixed = false)
         {
             this.heroIdx = heroIdx;
             this.nm = nm;
@@ -73,6 +75,7 @@ namespace SmartKings.ui
             this.power = power;
             this.cfd = cfd;
             this.spd = spd;
+            this.isFixed = isFixed;
             this.SetDisplay();
         }
 
@@ -84,7 +87,11 @@ namespace SmartKings.ui
 
         private void SetColor()
         {
-            if (heroIdx == 0)
+            if (isFixed)
+            {
+                button.Background = Brushes.DarkOrange;
+            }
+            else if (heroIdx == 0)
             {
                 button.Background = Brushes.Gray;
             }

@@ -45,6 +45,11 @@ namespace SmartKings.ui
 
         }
 
+        public void setFixedHero(int pos, string nm)
+        {
+            warSettings.setFixedHero(pos, nm);
+        }
+
         private void CancelSettingsHandler(object sender, EventArgs e)
         {
             this.Close();

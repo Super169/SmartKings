@@ -112,15 +112,23 @@ namespace SmartKings.ui
 
         }
 
+        public void setFixedHero(int pos, string nm)
+        {
+            warHeros[pos].SetHero(0, nm, 0, 0, 0, 0, true);
+        }
+
         private void warHero_Click(object sender, EventArgs e)
         {
             UcWarHero wh = (UcWarHero)sender;
-            bool selection = !wh.selected;
-            if (selectedWH != null) selectedWH.SetSelected(false);
-            wh.SetSelected(selection);
-            lvHero.UnselectAll();
-            if (selection) selectedWH = wh;
-            else selectedWH = null;
+            if (!wh.isFixed)
+            {
+                bool selection = !wh.selected;
+                if (selectedWH != null) selectedWH.SetSelected(false);
+                wh.SetSelected(selection);
+                lvHero.UnselectAll();
+                if (selection) selectedWH = wh;
+                else selectedWH = null;
+            }
         }
 
         private void setStatus()
