@@ -515,10 +515,13 @@ namespace MyUtil
         {
             try
             {
-                string jsonString = Json.Encode(json);
+                // string jsonString = Json.Encode(json);
+                string jsonString = JSON.encode(json);
                 return toFile(jsonString, fileName);
             }
-            catch { }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
             return false;
         }
         

@@ -84,10 +84,10 @@ namespace SmartKings
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
 
-            ui.WinWarSettings winStarry = new ui.WinWarSettings();
+            ui.WinWarSettings winStarry = new ui.WinWarSettings("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.Starry),1,5,true);
             winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveStarrySertting);
             winStarry.Owner = this;
-            winStarry.init("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.Starry));
+            // winStarry.init("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.Starry));
             bool? dialogResult = winStarry.ShowDialog();
         }
 

@@ -27,8 +27,8 @@ namespace SmartKings.ui
     {
 
         GameAccount oGA;
-        int minHero = 1;
-        int maxHero = 5;
+        int minHeros = 1;
+        int maxHeros = 5;
         bool reqChief = true;
 
         private static int[,] warPos = { { -5, -1 }, { -3, -1 }, { -6, 0 }, { -4, 0 }, { -2, 0 }, { -5, 1 }, { -3, 1 } };
@@ -40,12 +40,16 @@ namespace SmartKings.ui
         UcWarHero[] warHeros = new UcWarHero[7];
         UcWarHero selectedWH = null;
 
-        public void init(GameAccount oGA, dynamic json)
+        public void init(GameAccount oGA, dynamic json, int minHeros, int maxHeros, bool reqChief)
         {
             this.oGA = oGA;
             lvHero.ItemsSource = oGA.heros;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvHero.ItemsSource);
             view.SortDescriptions.Add(new SortDescription("power", ListSortDirection.Descending));
+            this.minHeros = minHeros;
+            this.maxHeros = maxHeros;
+            this.reqChief = reqChief;
+            btnChief.IsEnabled = reqChief;
 
             for (int i = 0; i < 7; i++)
             {
@@ -54,7 +58,8 @@ namespace SmartKings.ui
 
             if (json == null) return;
             if (!JSON.exists(json, "heros", typeof(DynamicJsonArray))) return;
-            int chief = JSON.getInt(json, "chief");
+            int chief = 0;
+            if (reqChief) chief = JSON.getInt(json, "chief");
             DynamicJsonArray heros = json["heros"];
 
             foreach (dynamic hero in heros)
@@ -67,31 +72,11 @@ namespace SmartKings.ui
                     if (hi != null)
                     {
                         warHeros[pos].SetHero(heroIdx, hi.nm, hi.lv, hi.power, hi.cfd, hi.spd);
-                        if (heroIdx == chief) warHeros[pos].SetChief(true);
+                        if (reqChief && (heroIdx == chief)) warHeros[pos].SetChief(true);
                     }
 
                 }
             }
-
-
-            /*
-            for (int i = 0; i < 7; i++)
-            {
-                if (oGA.BossWarHeros[i] == 0)
-                {
-                    warHeros[i].Reset();
-                }
-                else
-                {
-                    HeroInfo hi = oGA.Heros.SingleOrDefault(x => x.idx == oGA.BossWarHeros[i]);
-                    if (hi != null)
-                    {
-                        warHeros[i].SetHero(oGA.BossWarHeros[i], hi.nm, hi.lv, hi.power, hi.cfd, hi.spd);
-                    }
-                }
-                if (oGA.BossWarChiefIdx != -1) warHeros[oGA.BossWarChiefIdx].SetChief(true);
-            }
-            */
         }
 
         private int getPos(int x, int y)
@@ -158,9 +143,9 @@ namespace SmartKings.ui
                 if (wh.heroIdx > 0) heroCnt++;
             }
 
-            if ((heroCnt == 5) && (selectedWH.heroIdx == 0))
+            if ((heroCnt >= maxHeros) && (selectedWH.heroIdx == 0))
             {
-                MessageBox.Show("最多只可派5名英雄出戰");
+                MessageBox.Show(string.Format("最多只可派 {0} 名英雄出戰", maxHeros));
             }
             else
             {
@@ -194,13 +179,13 @@ namespace SmartKings.ui
                 }
             }
 
-            if (heroCnt == 0)
+            if (heroCnt < minHeros)
             {
-                MessageBox.Show("請選擇要作戰的英雄");
+                MessageBox.Show(string.Format("請派遣最少 {0} 名英雄出戰", minHeros));
                 return;
             }
 
-            if (chiefIdx == -1)
+            if (reqChief && (chiefIdx == -1))
             {
                 MessageBox.Show("請設定一名英雄為主帥");
                 return;
@@ -221,9 +206,13 @@ namespace SmartKings.ui
                     heros.Add(o);
                 }
             }
-            json["chief"] = warHeros[chiefIdx].heroIdx;
+            if (reqChief) json["chief"] = warHeros[chiefIdx].heroIdx;
             json["heros"] = heros;
+            // A little bit tricky way to synchronize the type of object after restore.
+            // Just convert to string then back to json.
+            // It may waste time, but it's safe.
             string body = JSON.encode(json);
+            json = JSON.decode(body);
             if (Save != null) Save(this, json);
 
         }

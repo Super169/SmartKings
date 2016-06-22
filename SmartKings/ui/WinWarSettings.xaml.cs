@@ -31,11 +31,17 @@ namespace SmartKings.ui
             InitializeComponent();
         }
 
-        public void init(string title, GameAccount oGA, dynamic json)
+        public WinWarSettings(string title, GameAccount oGA, dynamic json, int minHeros, int maxHeros, bool reqChief)
+        {
+            InitializeComponent();
+            this.init(title, oGA, json, minHeros,  maxHeros,  reqChief);
+        }
+
+        public void init(string title, GameAccount oGA, dynamic json, int minHeros, int maxHeros, bool reqChief)
         {
             this.Title = title;
             this.oGA = oGA;
-            warSettings.init(oGA, json);
+            warSettings.init(oGA, json, minHeros, maxHeros, reqChief);
 
         }
 
