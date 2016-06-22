@@ -38,33 +38,37 @@ namespace SmartKings
                     goAction("檢查遺漏", allPlayers, action.checkAllOutstandingTasks);
                     break;
                 case "btnHarvest":
-                    goAction("封地收獲", allPlayers, action.task.goHarvest);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Harvest), allPlayers, action.task.goHarvest);
                     break;
                 case "btnMonthSignIn":
-                    goAction("簽到領獎", allPlayers, action.task.goSignIn);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.SignIn), allPlayers, action.task.goSignIn);
                     break;
                 case "btnCleanBag":
-                    goAction("清理背包", allPlayers, action.task.goCleanupBag);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag), allPlayers, action.task.goCleanupBag);
                     break;
                 case "btnStarrySetup":
                     goStarrySetup();
                     break;
                 case "btnStarry":
-                    goAction("攬星壇", allPlayers, action.task.goCheckStarry);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
                     break;
                 case "btnMarket":
-                    goAction("糧草先行", allPlayers, action.task.goMarket);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Market), allPlayers, action.task.goMarket);
                     break;
                 case "btnCycleShop":
-                    goAction("東瀛寶船", allPlayers, action.task.goCycleShop);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.CycleShop), allPlayers, action.task.goCycleShop);
                     break;
                 case "btnReadEmail":
-                    goAction("開啟郵件", allPlayers, action.task.goReadAllEmail);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.ReadAllEmail), allPlayers, action.task.goReadAllEmail);
                     break;
                 case "btnFinishTask":
-                    goAction("任務報酬", allPlayers, action.task.goFinishAllTask);
+                    goAction(Scheduler.getTaskName(Scheduler.TaskId.FinishTask), allPlayers, action.task.goFinishAllTask);
                     break;
-
+                case "btnAutoTaskSetting":
+                    ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
+                    winConfig.Owner = this;
+                    winConfig.ShowDialog();
+                    break;
             }
 
         }

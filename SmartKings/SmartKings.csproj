@@ -81,6 +81,9 @@
     <Compile Include="ui\UcWarSettings.xaml.cs">
       <DependentUpon>UcWarSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ui\WinAutoTaskConfig.xaml.cs">
+      <DependentUpon>WinAutoTaskConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ui\WinWarSettings.xaml.cs">
       <DependentUpon>WinWarSettings.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ui\UcWarSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ui\WinAutoTaskConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

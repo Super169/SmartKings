@@ -19,5 +19,6 @@
         <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="110,106,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnReadEmail" Content="開啟郵件" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnFinishTask" Content="任務報酬" HorizontalAlignment="Left" Margin="110,128,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
     </Grid>
 </UserControl>
