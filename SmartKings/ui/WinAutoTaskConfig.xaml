@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings.ui"
         mc:Ignorable="d"
-        Title="WinAutoTaskConfig" Height="402.409" Width="310.843" WindowStartupLocation="CenterOwner">
+        Title="WinAutoTaskConfig" Height="402.409" Width="552.003" WindowStartupLocation="CenterOwner">
     <Grid>
         <ListView x:Name="lvTask" Margin="10,10,10,49">
             <ListView.View>
@@ -17,11 +17,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="程序" Width="200"  DisplayMemberBinding="{Binding taskName}"/>
+                    <GridViewColumn Header="工作" Width="80"  DisplayMemberBinding="{Binding taskName}"/>
+                    <GridViewColumn Header="簡介" Width="400"  DisplayMemberBinding="{Binding info}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="218,0,0,10" Width="75" Height="34" VerticalAlignment="Bottom" Click="btnClose_Click"/>
+        <Button x:Name="btnClose" Content="Close" Margin="0,0,10,10" Height="34" VerticalAlignment="Bottom" Click="btnClose_Click" HorizontalAlignment="Right" Width="75"/>
 
     </Grid>
 </Window>

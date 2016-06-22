@@ -69,6 +69,7 @@ namespace KingsLib.scheduler
         public class KingsTask
         {
             public string id;
+            public string info { get; set;  }
             public bool isEnabled { get; set; }
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
@@ -82,14 +83,78 @@ namespace KingsLib.scheduler
         public static void initAutoTasks()
         {
             autoTaskList = new List<KingsTask>();
-            autoTaskList.Add(new KingsTask() { id = TaskId.CleanUpBag, isEnabled = true, customSchedule = false, executeTask = action.task.goCleanupBag });
-            autoTaskList.Add(new KingsTask() { id = TaskId.CycleShop, isEnabled = true, customSchedule = false, executeTask = action.task.goCycleShop });
-            autoTaskList.Add(new KingsTask() { id = TaskId.FinishTask, isEnabled = true, customSchedule = false, executeTask = action.task.goFinishAllTask });
-            autoTaskList.Add(new KingsTask() { id = TaskId.Harvest, isEnabled = true, customSchedule = false, executeTask = action.task.goHarvest });
-            autoTaskList.Add(new KingsTask() { id = TaskId.Market, isEnabled = true, customSchedule = false, executeTask = action.task.goMarket });
-            autoTaskList.Add(new KingsTask() { id = TaskId.SignIn, isEnabled = true, customSchedule = false, executeTask = action.task.goSignIn });
-            autoTaskList.Add(new KingsTask() { id = TaskId.ReadAllEmail, isEnabled = true, customSchedule = false, executeTask = action.task.goReadAllEmail });
-            autoTaskList.Add(new KingsTask() { id = TaskId.Starry, isEnabled = true, customSchedule = true, executeTask = action.task.goCheckStarry });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.CleanUpBag,
+                info = "使用背包中的消耗品 - 喇叭, 地圖, 寶箱",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goCleanupBag
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.CycleShop,
+                info = "在東瀛寶船以銀子購物",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goCycleShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.FinishTask,
+                info = "領取已完成的任務的獎勵",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goFinishAllTask
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Harvest,
+                info = "收取封地上生產的 銀子, 糧食 及 精鐵",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goHarvest
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Market,
+                info = "到 雜貨店 以銀子購買 糧食 及 精鐵",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goMarket
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.SignIn,
+                info = "自動進行每天登入",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goSignIn
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.ReadAllEmail,
+                info = "打開郵件並取出附件的物品",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goReadAllEmail
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Starry,
+                info = "在 攬星壇 作戰以取得兵書所需",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goCheckStarry
+            });
         }
 
         public static ScheduleInfo defaultSchedule(string taskId)
