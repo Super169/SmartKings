@@ -30,7 +30,7 @@ namespace KingsLib
                         csi.res = JSON.getString(item, RRO.Shop.res, "");
                         csi.nm = JSON.getString(item, RRO.Shop.nm, "");
                         csi.amount = JSON.getInt(item, RRO.Shop.amount);
-                        csi.sold = JSON.getBool(RRO.Shop.sold);
+                        csi.sold = JSON.getBool(item, RRO.Shop.sold);
                         csis.Add(csi);
                     }
                 }
