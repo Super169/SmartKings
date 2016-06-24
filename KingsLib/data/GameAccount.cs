@@ -223,6 +223,13 @@ namespace KingsLib.data
                     this.autoTasks.Add(oAT);
                 }
             }
+            foreach (Scheduler.AutoTask myTask in this.autoTasks)
+            {
+                if (myTask.schedule == null)
+                {
+                    myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
+                }
+            }
         }
 
         public static bool find(List<GameAccount> gameAccounts, GameAccount oGA, ref GameAccount oFind)
@@ -343,5 +350,30 @@ namespace KingsLib.data
 
             return sysTask.executeTask(this, updateInfo, debug);
         }
+
+        public DateTime goAutoTask(action.DelegateUpdateInfo updateInfo, bool debug)
+        {
+            DateTime nextTime = DateTime.Now.AddMinutes(5);
+            foreach (Scheduler.AutoTask myTask in this.autoTasks)
+            {
+                if (myTask.schedule.readyToGo())
+                {
+                    string taskName = Scheduler.getTaskName(myTask.taskId);
+                    if (debug) updateInfo(this.displayName, taskName, "**** 開始");
+                    myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
+                    if (debug) updateInfo(this.displayName, taskName, string.Format("**** 結束, 下次執行時間: {0:HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
+                }
+                DateTime? myNext = myTask.schedule.nextExecutionTime;
+                if (myNext != null)
+                {
+                    DateTime realNext = myNext.GetValueOrDefault();
+                    if (realNext < nextTime) nextTime = realNext;
+                }
+            }
+            return nextTime;
+        }
+
+        
+
     }
 }

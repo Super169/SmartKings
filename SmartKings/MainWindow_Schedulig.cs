@@ -1,4 +1,5 @@
-﻿using KingsLib.scheduler;
+﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -52,12 +53,24 @@ namespace SmartKings
 
             // Thread.Sleep(3000);
 
+            DateTime nextActionTime = DateTime.Now.AddMinutes(5);
+            
+            foreach (GameAccount oGA in gameAccounts)
+            {
+                if (oGA.IsOnline())  {
+                    DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
+                    if (nextTime < nextActionTime) nextActionTime = nextTime;
+                }
+            }
+
+            /*
             DateTime minNext;
             DateTime nextActionTime;
 
             minNext = DateTime.Now;
             int currMinSlot =  ( (int) (minNext.Minute / AppSettings.elapseMin + 1)) * AppSettings.elapseMin;
             nextActionTime = new DateTime(minNext.Year, minNext.Month, minNext.Day, minNext.Hour, 00, 00).AddMinutes(currMinSlot + AppSettings.extraStartMin);
+            */
 
             double waitMS = (nextActionTime - DateTime.Now).TotalSeconds * 1000;
             if (waitMS < 0) waitMS = 1000;
