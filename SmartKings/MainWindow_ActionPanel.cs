@@ -38,31 +38,39 @@ namespace SmartKings
                     goAction("檢查遺漏", allPlayers, action.checkAllOutstandingTasks);
                     break;
                 case "btnHarvest":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Harvest), allPlayers, action.task.goHarvest);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Harvest), allPlayers, action.task.goHarvest);
+                    goTask(Scheduler.TaskId.Harvest, allPlayers);
                     break;
                 case "btnMonthSignIn":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.SignIn), allPlayers, action.task.goSignIn);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.SignIn), allPlayers, action.task.goSignIn);
+                    goTask(Scheduler.TaskId.SignIn, allPlayers);
                     break;
                 case "btnCleanBag":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag), allPlayers, action.task.goCleanupBag);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag), allPlayers, action.task.goCleanupBag);
+                    goTask(Scheduler.TaskId.CleanUpBag, allPlayers);
                     break;
                 case "btnStarrySetup":
                     goStarrySetup();
                     break;
                 case "btnStarry":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
+                    goTask(Scheduler.TaskId.Starry, allPlayers);
                     break;
                 case "btnMarket":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.Market), allPlayers, action.task.goMarket);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Market), allPlayers, action.task.goMarket);
+                    goTask(Scheduler.TaskId.Market, allPlayers);
                     break;
                 case "btnCycleShop":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.CycleShop), allPlayers, action.task.goCycleShop);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.CycleShop), allPlayers, action.task.goCycleShop);
+                    goTask(Scheduler.TaskId.CycleShop, allPlayers);
                     break;
                 case "btnReadEmail":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.ReadAllEmail), allPlayers, action.task.goReadAllEmail);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.ReadAllEmail), allPlayers, action.task.goReadAllEmail);
+                    goTask(Scheduler.TaskId.ReadAllEmail, allPlayers);
                     break;
                 case "btnFinishTask":
-                    goAction(Scheduler.getTaskName(Scheduler.TaskId.FinishTask), allPlayers, action.task.goFinishAllTask);
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.FinishTask), allPlayers, action.task.goFinishAllTask);
+                    goTask(Scheduler.TaskId.FinishTask, allPlayers);
                     break;
                 case "btnAutoTaskSetting":
                     ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
@@ -103,6 +111,68 @@ namespace SmartKings
                 autoTask.parameter = ( json == null ? null : JSON.encode(json));
             }
         }
+
+        private void goTask(string taskId, bool allPlayers)
+        {
+            if (allPlayers)
+            {
+                Thread thread = new Thread(() => goTaskThread(null, taskId));
+                thread.Start();
+            }
+            else
+            {
+                // Must get account in UI thread then pass to background thread
+                GameAccount oGA = GetSelectedAccount();
+                if (oGA == null) return;
+                if (oGA.IsOnline())
+                {
+                    Thread thread = new Thread(() => goTaskThread(oGA, taskId));
+                    thread.Start();
+                }
+                else
+                {
+                    MessageBox.Show("帳戶已在其他地方登入");
+                }
+            }
+        }
+
+        private void goTaskThread(GameAccount oGA, string taskId)
+        {
+            string actionName = Scheduler.getTaskName(taskId);
+            if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
+            {
+                try
+                {
+                    UpdateProgress(actionName + " 進行中......");
+                    if (AppSettings.DEBUG) DebugLog(actionName, "開始");
+                    if (oGA == null)
+                    {
+                        foreach (GameAccount gameAccount in gameAccounts)
+                        {
+                            gameAccount.checkStatus(true);
+                            oGA.executeTask(taskId, UpdateInfo, AppSettings.DEBUG);
+                        }
+                    }
+                    else
+                    {
+                        oGA.checkStatus(true);
+                        oGA.executeTask(taskId, UpdateInfo, AppSettings.DEBUG);
+                    }
+
+                    if (AppSettings.DEBUG) DebugLog(actionName, "結束");
+                    UpdateProgress();
+                }
+                finally
+                {
+                    Monitor.Exit(AppSettings.actionLocker);
+                }
+            }
+            else
+            {
+                UpdateInfo((oGA == null ? null : oGA.displayName), actionName, "等待超時, 未能進行");
+            }
+        }
+
 
         private void goAction(string actionName, bool allPlayers, DelegateActionHandler actionHandler)
         {

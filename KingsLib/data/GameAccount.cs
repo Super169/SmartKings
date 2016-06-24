@@ -332,5 +332,16 @@ namespace KingsLib.data
             return autoTask.parmObject;
         }
 
+
+        public bool executeTask (string taskId, action.DelegateUpdateInfo updateInfo, bool debug)
+        {
+            Scheduler.AutoTask myTask = findAutoTask(taskId);
+            if (myTask == null) return false;
+
+            Scheduler.KingsTask sysTask = Scheduler.autoTaskList.Find(x => x.id == taskId);
+            if (sysTask == null) return false;
+
+            return sysTask.executeTask(this, updateInfo, debug);
+        }
     }
 }
