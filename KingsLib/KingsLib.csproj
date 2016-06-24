@@ -156,6 +156,7 @@
     <Compile Include="request\WelfareLottery.cs" />
     <Compile Include="request\World.cs" />
     <Compile Include="request\WuFuLinMen.cs" />
+    <Compile Include="request\Yiling.cs" />
     <Compile Include="request\YunYou.cs" />
     <Compile Include="request\ZaJinDan.cs" />
     <Compile Include="scheduler\Scheduler_AutoTask.cs" />

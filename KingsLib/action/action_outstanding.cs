@@ -77,6 +77,11 @@ namespace KingsLib
             // 草船借箭
             goCheckOutstandTasks(action, "草船借箭", checkOutstandingGrassArrow, oGA, updateInfo, debug);
 
+            // 夷陵之戰
+            goCheckOutstandTasks(action, "夷陵之戰", checkOutstandingYiling, oGA, updateInfo, debug);
+
+
+
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -552,6 +557,25 @@ namespace KingsLib
                 }
             }
 
+            return true;
+        }
+
+        public static bool checkOutstandingYiling(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.Yiling.getStatus(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!(rro.exists(RRO.Yiling.canBattleTimes) &&
+                  rro.exists(RRO.Yiling.boughtTimes) &&
+                  rro.exists(RRO.Yiling.isInMap)
+                  )) return false;
+
+            int canBattleTimes = rro.getInt(RRO.Yiling.canBattleTimes);
+            bool isInMap = rro.getBool(RRO.Yiling.isInMap);
+            int boughtTimes = rro.getInt(RRO.Yiling.boughtTimes);
+            if (isInMap) updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未完成", module), true, false);
+            else if (canBattleTimes > 0) updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 次未開始", module, canBattleTimes), true, false);
+            else if (boughtTimes == 0) updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有未購買額外次數", module), true, false);
             return true;
         }
 

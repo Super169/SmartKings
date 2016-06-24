@@ -339,6 +339,20 @@ namespace KingsLib
                 public const string todayCharge = "todayCharge";
 
             }
+
+            public static class Yiling
+            {
+                public const string canBattleTimes = "canBattleTimes";
+                public const string boughtTimes = "boughtTimes";
+                public const string isInMap = "isInMap";
+                public const string level = "level";
+                public const string step = "step";
+                public const string rewardStep = "rewardStep";
+                public const string resetFailureTimes = "resetFailureTimes";
+                public const string deadHers = "deadHers";
+
+            }
+
         }
 
     }
