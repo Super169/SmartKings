@@ -27,6 +27,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_corpsCityReward);
         }
 
+        public static RequestReturnObject getCityRewardInfo(ConnectionInfo ci, string sid, int step)
+        {
+            string body = string.Format("{{\"step\":{0}}}", step);
+            return com.SendGenericRequest(ci, sid, CMD_getCityRewardInfo, true, body);
+        }
+
         public static RequestReturnObject getCorpsMessageNum(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_getCorpsMessageNum);
@@ -36,6 +42,13 @@ namespace KingsLib.request
         {
             return com.SendGenericRequest(ci, sid, CMD_getJoinedCorps);
         }
+
+        public static RequestReturnObject getNationalRank(ConnectionInfo ci, string sid, int page)
+        {
+            string body = string.Format("{{\"page\":{0}}}", page);
+            return com.SendGenericRequest(ci, sid, CMD_getNationalRank, true, body);
+        }
+
 
         public static RequestReturnObject personIndustryRefresh(ConnectionInfo ci, string sid)
         {

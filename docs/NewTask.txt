@@ -1,0 +1,11 @@
+1) Add a Task under action\task with the signature:
+     public static bool go???(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+
+2) Update scheduler\Scheduler_KingsTask.cs
+	a) Create TaskId
+	b) Update getTaskName: 
+    c) Update initAutoTask 
+
+For testing (in main project):
+1) Update ui\UcActionPanel add new button
+2) Update MainWindow_ActionPanel.cs to handle this button

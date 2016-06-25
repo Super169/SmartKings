@@ -100,11 +100,21 @@ namespace KingsLib
 
             }
 
+            public static class Corps
+            {
+                public const string corpsCityReward = "corpsCityReward";
+                public const string cityNum = "cityNum";
+                public const string corpsFund = "corpsFund";
+                public const string chestMap = "chestMap";
+                public const string personalReward = "personalReward";
+
+
+            }
+
             public static class DianJiangTai
             {
                 public const string leftTimes = "leftTimes";
             }
-
 
             public static class EightTrigrams
             {
