@@ -24,14 +24,14 @@ namespace KingsLib.request
 
         public static RequestReturnObject arriveStep(ConnectionInfo ci, string sid, int step)
         {
-            string body = "{\"step\":" + step.ToString() + "}";
+            string body = string.Format("{{\"step\":{0}}}", step);
             return com.SendGenericRequest(ci, sid, CMD_arriveStep, true, body);
         }
 
 
         public static RequestReturnObject attack(ConnectionInfo ci, string sid, int step)
         {
-            string body = "{\"step\":" + step.ToString() + "}";
+            string body = string.Format("{{\"step\":{0}}}", step);
             return com.SendGenericRequest(ci, sid, CMD_attack, true, body);
         }
 
@@ -42,7 +42,7 @@ namespace KingsLib.request
 
         public static RequestReturnObject controlDice(ConnectionInfo ci, string sid, int num)
         {
-            string body = "{\"num\":" + num.ToString() + "}";
+            string body = string.Format("{{\"num\":{0}}}", num);
             return com.SendGenericRequest(ci, sid, CMD_controlDice, true, body);
         }
 
@@ -75,7 +75,7 @@ namespace KingsLib.request
 
         public static RequestReturnObject viewStep(ConnectionInfo ci, string sid, int step)
         {
-            string body = "{\"step\":" + step.ToString() + "}";
+            string body = string.Format("{{\"step\":{0}}}", step);
             return com.SendGenericRequest(ci, sid, CMD_viewStep, true, body);
         }
 

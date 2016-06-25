@@ -18,6 +18,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getTurnCardRewards);
         }
 
+        public static RequestReturnObject turnCard(ConnectionInfo ci, string sid, string turnCardMode)
+        {
+            string body = string.Format("{{\"turnCardMode\":\"{0}\"}}", turnCardMode);
+            return com.SendGenericRequest(ci, sid, CMD_turnCard, true, body);
+        }
+
 
     }
 }

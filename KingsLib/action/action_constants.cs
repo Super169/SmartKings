@@ -89,6 +89,15 @@ namespace KingsLib
 
                 public const string enemies = "enemies";
 
+                public const string data = "data";
+                public const string state = "state";
+                public const string state_PREPARE = "PREPARE";
+
+                public const string _type = "_type";
+                public const string _rs = "_rs";
+
+                public const string difficult_normal = "普通";
+
             }
 
             public static class DianJiangTai
@@ -303,6 +312,7 @@ namespace KingsLib
 
                 public const string _type_SCEnterCampaign = "SCEnterCampaign";
 
+
             }
 
 
@@ -332,6 +342,15 @@ namespace KingsLib
             {
                 public const string diceNum = "diceNum";
 
+            }
+
+            public static class TurnCardReward
+            {
+                public const string rewards = "rewards";
+                public const string itemDefs = "itemDefs";
+                public const string name = "name";
+                public const string num = "num";
+                public const string turnCardMode_ONE = "ONE";
             }
 
 

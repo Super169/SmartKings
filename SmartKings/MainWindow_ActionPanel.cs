@@ -81,8 +81,17 @@ namespace SmartKings
                     winConfig.Owner = this;
                     winConfig.ShowDialog();
                     break;
+                case "btnEliteFightSetup":
+                    goEliteFightSetup();
+                    break;
+                case "btnEliteFight":
+                    MessageBoxResult dialogResult = MessageBox.Show("討伐群雄的對象及目標是否已設定正確", "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question );
+                    if (dialogResult ==  MessageBoxResult.Yes)
+                    {
+                        goTask(Scheduler.TaskId.EliteFight, false);
+                    }
+                    break;
             }
-
         }
 
         private void goCheckStatus()
@@ -135,7 +144,7 @@ namespace SmartKings
                 }
                 else
                 {
-                    MessageBox.Show("帳戶已在其他地方登入");
+                    System.Windows.MessageBox.Show("帳戶已在其他地方登入");
                 }
             }
         }
@@ -197,7 +206,7 @@ namespace SmartKings
                 }
                 else
                 {
-                    MessageBox.Show("帳戶已在其他地方登入");
+                    System.Windows.MessageBox.Show("帳戶已在其他地方登入");
                 }
             }
         }
@@ -242,14 +251,37 @@ namespace SmartKings
         {
             if (gameAccounts.Count == 0)
             {
-                MessageBox.Show("尚未偵測到大皇帝帳戶, 請先登入遊戲.");
+                System.Windows.MessageBox.Show("尚未偵測到大皇帝帳戶, 請先登入遊戲.");
                 return null;
             }
 
             GameAccount oGA = (GameAccount)lvAccounts.SelectedItem;
-            if (oGA == null) MessageBox.Show("請先選擇帳戶");
+            if (oGA == null) System.Windows.MessageBox.Show("請先選擇帳戶");
             return oGA;
         }
+
+        private void goEliteFightSetup()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            ui.WinWarSettings winStarry = new ui.WinWarSettings("討伐群雄佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.EliteFight), 1, 5, true);
+            winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveEliteFightSertting);
+            winStarry.Owner = this;
+            bool? dialogResult = winStarry.ShowDialog();
+        }
+
+        private void saveEliteFightSertting(GameAccount oGA, dynamic json)
+        {
+            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.EliteFight);
+            if (autoTask != null)
+            {
+                autoTask.parmObject = json;
+                autoTask.parameter = (json == null ? null : JSON.encode(json));
+            }
+        }
+
+
 
     }
 }

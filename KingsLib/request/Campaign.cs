@@ -29,6 +29,18 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_eliteBuyTime);
         }
 
+        public static RequestReturnObject eliteFight(ConnectionInfo ci, string sid, string difficult, int stage, int chapter)
+        {
+            string body = string.Format("{{\"difficult\":\"{0}\", \"stage\":{1}, \"chapter\":{2}}}", difficult, stage, chapter);
+            return com.SendGenericRequest(ci, sid, CMD_eliteFight, true, body);
+        }
+
+        public static RequestReturnObject eliteGetCampaignInfo(ConnectionInfo ci, string sid, string difficult, int chapter)
+        {
+            string body = string.Format("{{\"difficult\":\"{0}\", \"chapter\":{1}}}", difficult, chapter);
+            return com.SendGenericRequest(ci, sid, CMD_eliteGetCampaignInfo, true, body);
+        }
+
         public static RequestReturnObject eliteGetAllInfos(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_eliteGetAllInfos);

@@ -25,7 +25,7 @@ namespace KingsLib.scheduler
             public const string ReadAllEmail = "ReadAllEmail";
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
-
+            public const string EliteFight = "EliteFight";
         }
 
         public static string getTaskName(string id)
@@ -62,6 +62,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.ReadAllEmail:
                     taskName = "開啟郵件";
+                    break;
+                case TaskId.EliteFight:
+                    taskName = "討伐群雄";
                     break;
                 default:
                     taskName = string.Format("[{id}]", id);
@@ -165,6 +168,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goStarryReward
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.EliteFight,
+                info = "進行討伐群雄",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goEliteFight
             });
 
         }

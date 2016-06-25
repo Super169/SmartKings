@@ -107,9 +107,6 @@ namespace KingsLib
                     }
                     if (chapter.starReward < 7)
                     {
-                        // Seems some game logic require getting chapter info before getting reward
-                        // rro = request.Starry.chapterInfo(ci, sid, chapter.chapterId);
-
                         int starCnt = 0;
                         foreach (StarryInfo.ChapterInfo.BarrierInfo bi in chapter.barrierList)
                         {

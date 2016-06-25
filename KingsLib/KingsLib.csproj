@@ -60,6 +60,7 @@
     <Compile Include="action\starry.cs" />
     <Compile Include="action\system.cs" />
     <Compile Include="action\task\Bag.cs" />
+    <Compile Include="action\task\Campaign.cs" />
     <Compile Include="action\task\Email.cs" />
     <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="scheduler\Scheduler_AutoTask.cs" />
     <Compile Include="scheduler\Scheduler_ScheduleInfo.cs" />
     <Compile Include="scheduler\Scheduler_KingsTask.cs" />
+    <Compile Include="util\util_gameInfo.cs" />
     <Compile Include="util\util_infoBaseList.cs" />
   </ItemGroup>
   <ItemGroup>
