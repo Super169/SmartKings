@@ -108,21 +108,7 @@ namespace SmartKings
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-
-            ui.WinWarSettings winStarry = new ui.WinWarSettings("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.StarryFight),1,5,true);
-            winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveStarrySertting);
-            winStarry.Owner = this;
-            bool? dialogResult = winStarry.ShowDialog();
-        }
-
-        private void saveStarrySertting(GameAccount oGA, dynamic json)
-        {
-            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.StarryFight);
-            if (autoTask != null)
-            {
-                autoTask.parmObject = json;
-                autoTask.parameter = ( json == null ? null : JSON.encode(json));
-            }
+            WarSetup.goSetup(oGA, Scheduler.TaskId.StarryFight, 1, 5, true, this);
         }
 
         private void goTask(string taskId, bool allPlayers)
@@ -264,24 +250,7 @@ namespace SmartKings
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-
-            ui.WinWarSettings winStarry = new ui.WinWarSettings("討伐群雄佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.EliteFight), 1, 5, true);
-            winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveEliteFightSertting);
-            winStarry.Owner = this;
-            bool? dialogResult = winStarry.ShowDialog();
+            WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 1, 5, true, this);
         }
-
-        private void saveEliteFightSertting(GameAccount oGA, dynamic json)
-        {
-            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.EliteFight);
-            if (autoTask != null)
-            {
-                autoTask.parmObject = json;
-                autoTask.parameter = (json == null ? null : JSON.encode(json));
-            }
-        }
-
-
-
     }
 }

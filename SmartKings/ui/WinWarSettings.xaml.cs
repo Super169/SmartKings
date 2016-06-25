@@ -22,25 +22,27 @@ namespace SmartKings.ui
     /// </summary>
     public partial class WinWarSettings : Window
     {
-        public delegate void DelSaveSettingHandler(GameAccount oGA, dynamic json);
+        public delegate void DelSaveSettingHandler(GameAccount oGA, string taskId, dynamic json);
         public event DelSaveSettingHandler saveSettingHandler;
 
         GameAccount oGA;
+        string taskId;
         public WinWarSettings()
         {
             InitializeComponent();
         }
 
-        public WinWarSettings(string title, GameAccount oGA, dynamic json, int minHeros, int maxHeros, bool reqChief)
+        public WinWarSettings(GameAccount oGA, string taskId, dynamic json, int minHeros, int maxHeros, bool reqChief)
         {
             InitializeComponent();
-            this.init(title, oGA, json, minHeros,  maxHeros,  reqChief);
+            this.init(oGA, taskId, json, minHeros,  maxHeros,  reqChief);
         }
 
-        public void init(string title, GameAccount oGA, dynamic json, int minHeros, int maxHeros, bool reqChief)
+        public void init(GameAccount oGA, string taskId, dynamic json, int minHeros, int maxHeros, bool reqChief)
         {
-            this.Title = title;
             this.oGA = oGA;
+            this.taskId = taskId;
+            this.Title = Scheduler.getTaskName(taskId) + " 佈陣設定";
             warSettings.init(oGA, json, minHeros, maxHeros, reqChief);
 
         }
@@ -57,7 +59,7 @@ namespace SmartKings.ui
 
         private void SaveSettingHandler(object sender, object e)
         {
-            if (saveSettingHandler != null) saveSettingHandler(oGA, (dynamic)e);
+            if (saveSettingHandler != null) saveSettingHandler(oGA, taskId, (dynamic)e);
 
             this.Close();
         }

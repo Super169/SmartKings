@@ -87,6 +87,7 @@
     <Compile Include="ui\WinWarSettings.xaml.cs">
       <DependentUpon>WinWarSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WarSetup.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
