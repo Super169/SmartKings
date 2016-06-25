@@ -14,7 +14,7 @@ namespace SmartKings
     {
         private const string parmObjEleName = "WarSetup";
 
-        public static void goSetup(GameAccount oGA, string taskId, int minHeros, int maxHeros, bool reqChief, Window owner)
+        public static void goSetup(GameAccount oGA, string taskId, int minHeros, int maxHeros, bool reqChief, int fixHero, string fixHeroName, Window owner)
         {
             if (oGA == null) return;
 
@@ -24,10 +24,11 @@ namespace SmartKings
             {
                 warSetup = parmObj[parmObjEleName];
             }
-            ui.WinWarSettings winStarry = new ui.WinWarSettings(oGA, taskId, warSetup, minHeros, maxHeros, reqChief);
-            winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(saveWarSetup);
-            winStarry.Owner = owner;
-            bool? dialogResult = winStarry.ShowDialog();
+            ui.WinWarSettings winWarSetup = new ui.WinWarSettings(oGA, taskId, warSetup, minHeros, maxHeros, reqChief);
+            winWarSetup.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(saveWarSetup);
+            winWarSetup.Owner = owner;
+            if (fixHero >= 0) winWarSetup.setFixedHero(fixHero, fixHeroName);
+            bool? dialogResult = winWarSetup.ShowDialog();
         }
 
         private static  void saveWarSetup(GameAccount oGA, string taskId, dynamic json)

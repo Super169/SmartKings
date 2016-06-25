@@ -92,7 +92,7 @@ namespace SmartKings
                     }
                     break;
                 case "btnPatrolSetup":
-                    goWarSetup(Scheduler.TaskId.Patrol,1,5,true);
+                    goWarSetup(Scheduler.TaskId.Patrol,1,5,true,3,"預留");
                     break;
                 case "btnPatrol":
                     goTask(Scheduler.TaskId.Patrol, allPlayers);
@@ -117,7 +117,7 @@ namespace SmartKings
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, Scheduler.TaskId.StarryFight, 1, 5, true, this);
+            WarSetup.goSetup(oGA, Scheduler.TaskId.StarryFight, 1, 5, true, -1, null, this);
         }
 
         private void goTask(string taskId, bool allPlayers)
@@ -259,14 +259,14 @@ namespace SmartKings
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 1, 5, true, this);
+            WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 1, 5, true, -1, null, this);
         }
 
-        private void goWarSetup(string taskId, int minHeros, int maxHeros, bool reqChief)
+        private void goWarSetup(string taskId, int minHeros, int maxHeros, bool reqChief, int fixHero, string fixHeroName)
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, taskId, minHeros, maxHeros, reqChief, this);
+            WarSetup.goSetup(oGA, taskId, minHeros, maxHeros, reqChief, fixHero, fixHeroName, this);
         }
 
     }
