@@ -62,6 +62,7 @@
     <Compile Include="action\task\Bag.cs" />
     <Compile Include="action\task\Campaign.cs" />
     <Compile Include="action\task\Email.cs" />
+    <Compile Include="action\task\Patrol.cs" />
     <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />
     <Compile Include="action\task\MonthSignIn.cs" />

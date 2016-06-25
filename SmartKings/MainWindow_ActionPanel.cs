@@ -91,6 +91,12 @@ namespace SmartKings
                         goTask(Scheduler.TaskId.EliteFight, false);
                     }
                     break;
+                case "btnPatrolSetup":
+                    goWarSetup(Scheduler.TaskId.Patrol,1,5,true);
+                    break;
+                case "btnPatrol":
+                    goTask(Scheduler.TaskId.Patrol, allPlayers);
+                    break;
             }
         }
 
@@ -149,7 +155,7 @@ namespace SmartKings
                         foreach (GameAccount gameAccount in gameAccounts)
                         {
                             gameAccount.checkStatus(true);
-                            oGA.executeTask(taskId, UpdateInfo, AppSettings.DEBUG);
+                            gameAccount.executeTask(taskId, UpdateInfo, AppSettings.DEBUG);
                         }
                     }
                     else
@@ -252,5 +258,13 @@ namespace SmartKings
             if (oGA == null) return;
             WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 1, 5, true, this);
         }
+
+        private void goWarSetup(string taskId, int minHeros, int maxHeros, bool reqChief)
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+            WarSetup.goSetup(oGA, taskId, minHeros, maxHeros, reqChief, this);
+        }
+
     }
 }

@@ -232,6 +232,23 @@ namespace KingsLib
                 public const string num = "num";
             }
 
+            public static class Patrol
+            {
+                public const string jf = "jf";
+                public const string rewarded = "rewarded";
+                public const string events = "events";
+                public const string nextTm = "nextTm";
+                public const string type = "type";
+                public const string id = "id";
+                public const string idx = "idx";
+                public const string city = "city";
+                public const string sec = "sec";
+                public const string target = "target";
+                public const string data = "data";
+                public const string title = "title";
+            }
+
+
             public static class Player
             {
                 public const string ARENA_COIN = "ARENA_COIN";

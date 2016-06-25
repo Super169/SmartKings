@@ -18,6 +18,10 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getPatrolInfo);
         }
 
-
+        public static RequestReturnObject dealPatroledEvent(ConnectionInfo ci, string sid, int cityId)
+        {
+            string body = string.Format("{{\"cityId\":{0}}}", cityId);
+            return com.SendGenericRequest(ci, sid, CMD_dealPatroledEvent, true, body);
+        }
     }
 }

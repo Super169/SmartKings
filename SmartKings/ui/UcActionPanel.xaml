@@ -23,5 +23,7 @@
         <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="110,152,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,176,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="110,176,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,200,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
     </Grid>
 </UserControl>

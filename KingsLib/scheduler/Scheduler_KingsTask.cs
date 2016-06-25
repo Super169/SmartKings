@@ -26,6 +26,7 @@ namespace KingsLib.scheduler
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
             public const string EliteFight = "EliteFight";
+            public const string Patrol = "Patrol";
         }
 
         public static string getTaskName(string id)
@@ -65,6 +66,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.EliteFight:
                     taskName = "討伐群雄";
+                    break;
+                case TaskId.Patrol:
+                    taskName = "民生民惰";
                     break;
                 default:
                     taskName = string.Format("[{id}]", id);
@@ -177,6 +181,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goEliteFight
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Patrol,
+                info = "執行民生民情任務",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goPatrol
             });
 
         }
