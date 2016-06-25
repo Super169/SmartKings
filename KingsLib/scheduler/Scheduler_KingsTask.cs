@@ -23,7 +23,8 @@ namespace KingsLib.scheduler
             public const string Market = "Market";
             public const string SignIn = "SignIn";
             public const string ReadAllEmail = "ReadAllEmail";
-            public const string Starry = "Starry";
+            public const string StarryFight = "StarryFight";
+            public const string StarryReward = "StarryReward";
 
         }
 
@@ -53,8 +54,11 @@ namespace KingsLib.scheduler
                 case TaskId.SignIn:
                     taskName = "簽到領獎";
                     break;
-                case TaskId.Starry:
-                    taskName = "攬星壇";
+                case TaskId.StarryFight:
+                    taskName = "攬星通關";
+                    break;
+                case TaskId.StarryReward:
+                    taskName = "攬星獎勵";
                     break;
                 case TaskId.ReadAllEmail:
                     taskName = "開啟郵件";
@@ -74,8 +78,6 @@ namespace KingsLib.scheduler
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
             public string taskName { get { return getTaskName(id); } }
-
-
         }
 
 
@@ -149,12 +151,22 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
-                id = TaskId.Starry,
+                id = TaskId.StarryFight,
                 info = "在 攬星壇 作戰以取得兵書所需",
                 isEnabled = true,
                 customSchedule = true,
-                executeTask = action.task.goCheckStarry
+                executeTask = action.task.goStarryFight
             });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.StarryReward,
+                info = "檢查並領取 攬星壇 中已完成任務的獎勵",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goStarryReward
+            });
+
         }
 
         public static ScheduleInfo defaultSchedule(string taskId)

@@ -22,19 +22,12 @@ using System.Web.Helpers;
 // 皇榜
 // 五福臨門
 // 草船借箭
+// 奇門八卦
 
 namespace KingsLib
 {
     public static partial class action
     {
-        public delegate bool DelegateCheckOutstandingTask(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug);
-
-        private static void showDebugMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)
-        {
-            updateInfo(account, action, "**** " + msg, true, false);
-            LOG.D(string.Format("{0} : {1} : {2}", account, action, msg));
-        }
-
         public static bool checkAllOutstandingTasks(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug = false)
         {
             string action = "遺漏任務";
@@ -80,6 +73,8 @@ namespace KingsLib
             // 夷陵之戰
             goCheckOutstandTasks(action, "夷陵之戰", checkOutstandingYiling, oGA, updateInfo, debug);
 
+            // 奇門八卦
+            goCheckOutstandTasks(action, "奇門八卦", checkOutstandingEightTrigrams, oGA, updateInfo, debug);
 
 
 
@@ -565,6 +560,8 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.Yiling.getStatus(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
+            if (rro.prompt == PROMPT.NOT_IN_ACTIVITY_TIME) return true;
+            if (rro.responseText == "") return true;  // Not met the minimum requirement
             if (!(rro.exists(RRO.Yiling.canBattleTimes) &&
                   rro.exists(RRO.Yiling.boughtTimes) &&
                   rro.exists(RRO.Yiling.isInMap)
@@ -579,6 +576,23 @@ namespace KingsLib
             return true;
         }
 
+        public static bool checkOutstandingEightTrigrams(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.EightTrigrams.open(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!(rro.exists(RRO.EightTrigrams.isIn) &&
+                  rro.exists(RRO.EightTrigrams.leftTimes)
+                  )) return false;
+
+            bool isIn = rro.getBool(RRO.EightTrigrams.isIn);
+            int leftTimes = rro.getInt(RRO.EightTrigrams.leftTimes);
+            if (isIn) updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未完成", module), true, false);
+            else if (leftTimes > 0) updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚可購買 {1} 次額外次數", module, leftTimes), true, false);
+            return true;
+        }
+
+        
 
     }
 }

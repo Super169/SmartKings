@@ -12,12 +12,14 @@ namespace KingsLib
     {
         public static partial class task
         {
-            public static bool goCheckStarry(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goStarryFight(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskName = "攬星壇";
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
+
+                if (debug) action.showDebugMsg(updateInfo, oGA.displayName, taskName, "通關任務 - 開始");
 
                 StarryInfo si = action.starry.getInfo(ci, sid);
 
@@ -28,7 +30,7 @@ namespace KingsLib
                 int lastBarrierId = -1;
 
 
-                string fightHeros = oGA.getTaskParameter(Scheduler.TaskId.Starry);
+                string fightHeros = oGA.getTaskParameter(Scheduler.TaskId.StarryFight);
 
                 updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
 
@@ -72,11 +74,63 @@ namespace KingsLib
                         updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3} - 作戰失敗", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
                         // Need some action for fail?
                         return false;
-                    } else
+                    }
+                    else
                     {
                         updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
                     }
                 }
+                if (debug) action.showDebugMsg(updateInfo, oGA.displayName, taskName, "通關任務 - 結束");
+
+                return true;
+            }
+
+            public static bool goStarryReward(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            {
+                string taskName = "攬星壇";
+                ConnectionInfo ci = oGA.connectionInfo;
+                string sid = oGA.sid;
+                RequestReturnObject rro;
+
+                if (debug) action.showDebugMsg(updateInfo, oGA.displayName, taskName, "領取獎勵 - 開始");
+
+                StarryInfo si = action.starry.getInfo(ci, sid);
+                foreach (StarryInfo.ChapterInfo chapter in si.chapterList)
+                {
+                    if (chapter.chapterReward == 1)
+                    {
+                        rro = request.Starry.chapterReward(ci, sid, chapter.chapterId);
+                        if (rro.ok == 1)
+                        {
+                            updateInfo(oGA.displayName, taskName, string.Format("領取 Chapter {0} 的獎勵", chapter.chapterId));
+                        }
+                    }
+                    if (chapter.starReward < 7)
+                    {
+                        // Seems some game logic require getting chapter info before getting reward
+                        // rro = request.Starry.chapterInfo(ci, sid, chapter.chapterId);
+
+                        int starCnt = 0;
+                        foreach (StarryInfo.ChapterInfo.BarrierInfo bi in chapter.barrierList)
+                        {
+                            starCnt += bi.star;
+                        }
+                        for (int step = 1; step <= 3; step++)
+                        {
+                            if ((starCnt >= (5 * step)) && ((chapter.starReward & (1 << (step - 1))) == 0))
+                            {
+                                rro = request.Starry.starReward(ci, sid, chapter.chapterId, step);
+                                if (rro.ok == 1)
+                                {
+                                    updateInfo(oGA.displayName, taskName, string.Format("領取 Chapter {0}, step {1} 的獎勵", chapter.chapterId, step));
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                if (debug) action.showDebugMsg(updateInfo, oGA.displayName, taskName, "領取獎勵 - 結束");
                 return true;
             }
         }

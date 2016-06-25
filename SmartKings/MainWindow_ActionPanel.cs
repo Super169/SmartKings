@@ -52,9 +52,13 @@ namespace SmartKings
                 case "btnStarrySetup":
                     goStarrySetup();
                     break;
-                case "btnStarry":
+                case "btnStarryFight":
                     // goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
-                    goTask(Scheduler.TaskId.Starry, allPlayers);
+                    goTask(Scheduler.TaskId.StarryFight, allPlayers);
+                    break;
+                case "btnStarryReward":
+                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
+                    goTask(Scheduler.TaskId.StarryReward, allPlayers);
                     break;
                 case "btnMarket":
                     // goAction(Scheduler.getTaskName(Scheduler.TaskId.Market), allPlayers, action.task.goMarket);
@@ -96,7 +100,7 @@ namespace SmartKings
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
 
-            ui.WinWarSettings winStarry = new ui.WinWarSettings("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.Starry),1,5,true);
+            ui.WinWarSettings winStarry = new ui.WinWarSettings("攬星壇佈陣設定", oGA, oGA.getTaskParmObject(Scheduler.TaskId.StarryFight),1,5,true);
             winStarry.saveSettingHandler += new ui.WinWarSettings.DelSaveSettingHandler(this.saveStarrySertting);
             winStarry.Owner = this;
             bool? dialogResult = winStarry.ShowDialog();
@@ -104,7 +108,7 @@ namespace SmartKings
 
         private void saveStarrySertting(GameAccount oGA, dynamic json)
         {
-            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.Starry);
+            Scheduler.AutoTask autoTask = oGA.findAutoTask(Scheduler.TaskId.StarryFight);
             if (autoTask != null)
             {
                 autoTask.parmObject = json;

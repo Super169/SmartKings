@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="action\account.cs" />
+    <Compile Include="action\action_util.cs" />
     <Compile Include="action\bag.cs" />
     <Compile Include="action\campaign.cs" />
     <Compile Include="action\action_constants.cs" />

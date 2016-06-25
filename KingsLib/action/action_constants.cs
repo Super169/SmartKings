@@ -25,10 +25,12 @@ namespace KingsLib
 
             public const string ACTIVITY_NOT_OPEN = "ACTIVITY_IS_NOT_OPEN";
             public const string GOT_REWARD_ALREADY = "GOT_REWARD_ALREADY";
+            public const string NOT_IN_ACTIVITY_TIME = "NOT_IN_ACTIVITY_TIME";
 
             public const string RESOURCE_FULL = "RESOURCE_FULL";
 
             public const string ACTIVITY_CAN_NOT_PARTICIPATE = "ACTIVITY_CAN_NOT_PARTICIPATE";
+
 
         }
 
@@ -93,6 +95,15 @@ namespace KingsLib
             {
                 public const string leftTimes = "leftTimes";
             }
+
+
+            public static class EightTrigrams
+            {
+                public const string isIn = "isIn";
+                public const string leftTimes = "leftTimes";
+                public const string resetGold = "resetGold";
+            }
+
 
             public static class Email
             {
