@@ -88,6 +88,7 @@
     <Compile Include="data\RequestReturnObject.cs" />
     <Compile Include="data\conv.cs" />
     <Compile Include="data\StarryInfo.cs" />
+    <Compile Include="data\WarInfo.cs" />
     <Compile Include="monitor\KingsMonitor.cs" />
     <Compile Include="monitor\KingsPacket.cs" />
     <Compile Include="monitor\KingsPacketKey.cs" />

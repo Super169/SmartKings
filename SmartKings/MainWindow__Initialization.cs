@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using KingsLib.monitor;
 using KingsLib;
 using KingsLib.scheduler;
+using KingsLib.data;
 
 namespace SmartKings
 {
@@ -34,8 +35,13 @@ namespace SmartKings
             // Load settings
             loadAppSettings();
             restoreAutoTasksSettings();
-            bindAccounts();
+            restoreAccounts();
+            restoreWarInfos();
 
+            // UI Settings                
+            bindAccounts();
+            bindEventLogs();
+            initActionPanel();
 
             // Monitor
             KingsMonitor.notificationEventHandler += new KingsMonitor.NotificationEventHandler(this.OnNotificationHandler);
@@ -46,14 +52,14 @@ namespace SmartKings
                 this.Close();
             }
 
-            // UI Settings                
-            bindEventLogs();
-            initActionPanel();
 
             // AUtoTask settings
             initTimer();
             if (AppSettings.AutoRun) goAutoKings();
 
         }
+
+
+
     }
 }

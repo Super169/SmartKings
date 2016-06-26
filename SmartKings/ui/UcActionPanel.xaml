@@ -19,12 +19,13 @@
         <Button x:Name="btnMarket" Content="糧草先行" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnStarryReward" Content="攬星壇獎勵" HorizontalAlignment="Left" Margin="110,124,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnReadEmail" Content="開啟郵件" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnCorpsCityReward" Content="城池產出" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnFinishTask" Content="任務報酬" HorizontalAlignment="Left" Margin="110,146,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="110,170,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="110,194,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,218,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnCorpsCityReward" Content="城池產出" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnPatrolSetup2" Content="民生後備設定" HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
     </Grid>
 </UserControl>

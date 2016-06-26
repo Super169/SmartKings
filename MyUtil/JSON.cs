@@ -443,7 +443,7 @@ namespace MyUtil
 
         public static dynamic decode(string jsonString)
         {
-            if (jsonString == null) return JSON.Empty;
+            if ((jsonString == null)|| (jsonString.Trim() == "")) return JSON.Empty;
             dynamic json;
             try
             {
@@ -468,6 +468,11 @@ namespace MyUtil
                 jsonString = JSON.EmptyString;
             }
             return jsonString;
+        }
+        
+        public static dynamic recode(dynamic json)
+        {
+            return JSON.decode(JSON.encode(json));
         }
 
         public static bool exists(dynamic json, string key, Type targetType = null)

@@ -44,56 +44,52 @@ namespace SmartKings
                     goAction("檢查遺漏", allPlayers, action.checkAllOutstandingTasks);
                     break;
                 case "btnHarvest":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Harvest), allPlayers, action.task.goHarvest);
                     goTask(Scheduler.TaskId.Harvest, allPlayers);
                     break;
                 case "btnMonthSignIn":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.SignIn), allPlayers, action.task.goSignIn);
                     goTask(Scheduler.TaskId.SignIn, allPlayers);
                     break;
                 case "btnCleanBag":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag), allPlayers, action.task.goCleanupBag);
                     goTask(Scheduler.TaskId.CleanUpBag, allPlayers);
                     break;
                 case "btnStarrySetup":
-                    goStarrySetup();
+                    // goStarrySetup();
+                    goWarSetup(Scheduler.TaskId.StarryFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnStarryFight":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
                     goTask(Scheduler.TaskId.StarryFight, allPlayers);
                     break;
                 case "btnStarryReward":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Starry), allPlayers, action.task.goCheckStarry);
                     goTask(Scheduler.TaskId.StarryReward, allPlayers);
                     break;
                 case "btnMarket":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.Market), allPlayers, action.task.goMarket);
                     goTask(Scheduler.TaskId.Market, allPlayers);
                     break;
                 case "btnCycleShop":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.CycleShop), allPlayers, action.task.goCycleShop);
                     goTask(Scheduler.TaskId.CycleShop, allPlayers);
                     break;
                 case "btnReadEmail":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.ReadAllEmail), allPlayers, action.task.goReadAllEmail);
                     goTask(Scheduler.TaskId.ReadAllEmail, allPlayers);
                     break;
                 case "btnFinishTask":
-                    // goAction(Scheduler.getTaskName(Scheduler.TaskId.FinishTask), allPlayers, action.task.goFinishAllTask);
                     goTask(Scheduler.TaskId.FinishTask, allPlayers);
                     break;
                 case "btnEliteFightSetup":
-                    goEliteFightSetup();
+                    // goEliteFightSetup();
+                    goWarSetup(Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnEliteFight":
-                    MessageBoxResult dialogResult = MessageBox.Show("討伐群雄的對象及目標是否已設定正確", "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question );
-                    if (dialogResult ==  MessageBoxResult.Yes)
+                    MessageBoxResult dialogResult = MessageBox.Show("討伐群雄的對象及目標是否已設定正確", "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (dialogResult == MessageBoxResult.Yes)
                     {
                         goTask(Scheduler.TaskId.EliteFight, false);
                     }
                     break;
                 case "btnPatrolSetup":
-                    goWarSetup(Scheduler.TaskId.Patrol,1,5,true,3,"預留");
+                    goWarSetup(Scheduler.TaskId.Patrol, 0, 1, 5, true, 3, "預留");
+                    break;
+                case "btnPatrolSetup2":
+                    goWarSetup(Scheduler.TaskId.Patrol, 1, 1, 5, true, 3, "預留");
                     break;
                 case "btnPatrol":
                     goTask(Scheduler.TaskId.Patrol, allPlayers);
@@ -114,12 +110,14 @@ namespace SmartKings
             UpdateProgress();
         }
 
+        /*
         private void goStarrySetup()
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, Scheduler.TaskId.StarryFight, 1, 5, true, -1, null, this);
+            WarSetup.goSetup(oGA, Scheduler.TaskId.StarryFight, 0, 1, 5, true, -1, null, this);
         }
+        */
 
         private void goTask(string taskId, bool allPlayers)
         {
@@ -256,18 +254,21 @@ namespace SmartKings
             return oGA;
         }
 
+        /*
         private void goEliteFightSetup()
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 1, 5, true, -1, null, this);
+            WarSetup.goSetup(oGA, Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null, this);
         }
+        */
 
-        private void goWarSetup(string taskId, int minHeros, int maxHeros, bool reqChief, int fixHero, string fixHeroName)
+        private void goWarSetup(string taskId, int idx, int minHeros, int maxHeros, bool reqChief, int fixHero, string fixHeroName)
         {
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
-            WarSetup.goSetup(oGA, taskId, minHeros, maxHeros, reqChief, fixHero, fixHeroName, this);
+            WarSetup.goSetup(oGA, taskId, idx, minHeros, maxHeros, reqChief, fixHero, fixHeroName, this);
+            saveWarInfos();
         }
 
     }

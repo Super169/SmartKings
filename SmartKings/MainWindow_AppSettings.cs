@@ -33,17 +33,29 @@ namespace SmartKings
         const string KEY_AUTOTASKS = "autoTasks";
         const string jazAutoTasks = "autoTasks.jaz";
 
-        private void  restoreAutoTasksSettings()
+        private void saveAutoTasksSettings()
+        {
+            dynamic json = JSON.Empty;
+            List<dynamic> taskList = new List<dynamic>();
+            foreach (Scheduler.KingsTask kt in Scheduler.autoTaskList)
+            {
+                taskList.Add(kt.toJson());
+            }
+            json[KEY_AUTOTASKS] = taskList;
+            JSON.toFile(json, jazAutoTasks);
+        }
+
+        private void restoreAutoTasksSettings()
         {
             // Don't load directly from file, load to temporary location then update the static variable
             List<Scheduler.KingsTask> aTasks = new List<Scheduler.KingsTask>();
             dynamic json = JSON.Empty;
             if (!JSON.fromFile(ref json, jazAutoTasks)) return;
             if (!JSON.exists(json, KEY_AUTOTASKS, typeof(DynamicJsonArray))) return;
-            DynamicJsonArray dja = json[KEY_AUTOTASKS];
-            foreach(dynamic j in dja)
+            DynamicJsonArray kts = json[KEY_AUTOTASKS];
+            foreach (dynamic kt in kts)
             {
-                Scheduler.KingsTask t = new Scheduler.KingsTask(j);
+                Scheduler.KingsTask t = new Scheduler.KingsTask(kt);
                 Scheduler.KingsTask at = Scheduler.autoTaskList.Find(x => x.id == t.id);
                 if (at != null)
                 {
@@ -51,19 +63,6 @@ namespace SmartKings
                 }
             }
         }
-
-        private void saveAutoTasksSettings()
-        {
-            dynamic json = JSON.Empty;
-            List<dynamic> taskList = new List<dynamic>();
-            foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
-            {
-                taskList.Add(t.toJson());
-            }
-            json[KEY_AUTOTASKS] = taskList;
-            JSON.toFile(json, jazAutoTasks);
-        }
-
 
     }
 }

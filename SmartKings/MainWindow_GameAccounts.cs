@@ -20,12 +20,11 @@ namespace SmartKings
     {
         List<GameAccount> gameAccounts = new List<GameAccount>();
         Object gameAccountsLocker = new Object();
-        const string KEY_GA = "gameAccounts";
-        const string jazFileName = "gameAccounts.jaz";
+        const string KEY_GAMEACCOUNTS = "gameAccounts";
+        const string jazGameAccounts = "gameAccounts.jaz";
 
         private void bindAccounts()
         {
-            restoreAccounts();
             lvAccounts.ItemsSource = gameAccounts;
         }
 
@@ -37,17 +36,17 @@ namespace SmartKings
             {
                 acList.Add(oGA.toJson());
             }
-            jsonData[KEY_GA] = acList;
-            JSON.toFile(jsonData, jazFileName);
+            jsonData[KEY_GAMEACCOUNTS] = acList;
+            JSON.toFile(jsonData, jazGameAccounts);
         }
 
         private void restoreAccounts()
         {
 
             dynamic json = JSON.Empty;
-            if (!JSON.fromFile(ref json, jazFileName)) return;
-            if ((json[KEY_GA] == null) || (json[KEY_GA].GetType() != typeof(DynamicJsonArray))) return;
-            DynamicJsonArray dja = json[KEY_GA];
+            if (!JSON.fromFile(ref json, jazGameAccounts)) return;
+            if ((json[KEY_GAMEACCOUNTS] == null) || (json[KEY_GAMEACCOUNTS].GetType() != typeof(DynamicJsonArray))) return;
+            DynamicJsonArray dja = json[KEY_GAMEACCOUNTS];
 
             int currSelectedIndex = lvAccounts.SelectedIndex;
             lock (gameAccountsLocker)
@@ -97,6 +96,7 @@ namespace SmartKings
                 {
                     GameAccount oGA = new GameAccount(li, ci);
                     gameAccounts.Add(oGA);
+                    restoreWarInfos(oGA.account);
                     if (lvAccounts.SelectedIndex == -1) lvAccounts.SelectedIndex = 0;
 
                     UpdateStatus(String.Format("加入 {0}: {1} - {2} [{3}]", li.account, li.serverTitle, li.nickName, li.sid));

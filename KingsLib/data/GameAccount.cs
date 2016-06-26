@@ -65,6 +65,7 @@ namespace KingsLib.data
         public List<HeroInfo> heros;
         public List<DecreeInfo> decreeHeros;
         public List<Scheduler.AutoTask> autoTasks;
+        public List<WarInfo> warInfos;
 
         public string displayName { get { return this.serverCode + " " + this.nickName; } }
 
@@ -88,6 +89,7 @@ namespace KingsLib.data
             this.heros = new List<HeroInfo>();
             this.decreeHeros = new List<DecreeInfo>();
             this.autoTasks = new List<Scheduler.AutoTask>();
+            this.warInfos = new List<WarInfo>();
         }
 
         public GameAccount(AccountInfo li, ConnectionInfo ci)
@@ -168,6 +170,7 @@ namespace KingsLib.data
                 }
             }
             rebuildAutoTasks();
+            // Do not restore warInfo here, warInfo will be save/restore from otherway
             this.ready = true;
             return true;
         }
@@ -191,6 +194,7 @@ namespace KingsLib.data
             json[KEY.heros] = util.infoBaseListToJsonArray(this.heros.ToArray());
             json[KEY.decreeHeros] = util.infoBaseListToJsonArray(this.decreeHeros.ToArray());
             json[KEY.autoTasks] = util.infoBaseListToJsonArray(this.autoTasks.ToArray());
+            // Do not save warInfo here, warInfo will be save/restore from otherway
 
             return json;
         }
@@ -201,24 +205,6 @@ namespace KingsLib.data
             {
                 rebuildAutoTask(t.id);
             }
-            /*
-                        foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
-                        {
-                            Scheduler.AutoTask oAT = this.autoTasks.Find(x => x.taskId == t.id);
-                            if (oAT == null)
-                            {
-                                oAT = new Scheduler.AutoTask(t.id, true, null, null);
-                                this.autoTasks.Add(oAT);
-                            }
-                        }
-                        foreach (Scheduler.AutoTask myTask in this.autoTasks)
-                        {
-                            if (myTask.schedule == null)
-                            {
-                                myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
-                            }
-                        }
-            */
         }
 
         public Scheduler.AutoTask rebuildAutoTask(string taskId)
@@ -234,7 +220,6 @@ namespace KingsLib.data
                 oAT.schedule = Scheduler.defaultSchedule(taskId);
             }
             return oAT;
-
         }
 
 
@@ -345,6 +330,11 @@ namespace KingsLib.data
             return autoTask.parmObject;
         }
 
+        public WarInfo getWarInfo(string taskId, int idx)
+        {
+            WarInfo wi = warInfos.Find(x => ((x.account == this.account) && (x.taskId == taskId) && (x.idx == idx)));
+            return wi;
+        }
 
         public bool executeTask (string taskId, action.DelegateUpdateInfo updateInfo, bool debug)
         {

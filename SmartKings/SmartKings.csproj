@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="MainWindow_ActionPanel.cs" />
     <Compile Include="MainWindow_AppSettings.cs" />
+    <Compile Include="MainWindow_WarInfo.cs" />
     <Compile Include="MainWindow__Initialization.cs" />
     <Compile Include="ui\UcActionPanel.xaml.cs">
       <DependentUpon>UcActionPanel.xaml</DependentUpon>
