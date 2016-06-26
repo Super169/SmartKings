@@ -23,6 +23,7 @@ using System.Web.Helpers;
 // 五福臨門
 // 草船借箭
 // 奇門八卦
+// 懸賞任務
 
 namespace KingsLib
 {
@@ -76,6 +77,8 @@ namespace KingsLib
             // 奇門八卦
             goCheckOutstandTasks(action, "奇門八卦", checkOutstandingEightTrigrams, oGA, updateInfo, debug);
 
+            // 懸賞任務
+            goCheckOutstandTasks(action, "懸賞任務", checkOutstandingSevenDaysPoints, oGA, updateInfo, debug);
 
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
@@ -592,7 +595,20 @@ namespace KingsLib
             return true;
         }
 
-        
+        public static bool checkOutstandingSevenDaysPoints(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+            rro = request.SevenDaysPoints.getOldInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.SuccessWithJson(RRO.SevenDaysPoints.needRefresh)) return false;
+            if (rro.getBool(RRO.SevenDaysPoints.needRefresh))
+            {
+                rro = request.SevenDaysPoints.getActInfo(oGA.connectionInfo, oGA.sid);
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 獲取任務", module), true, false);
+            }
+            return true;
+        }
+
+
 
     }
 }

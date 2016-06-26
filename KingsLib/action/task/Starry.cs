@@ -14,7 +14,7 @@ namespace KingsLib
         {
             public static bool goStarryFight(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = "攬星壇";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.StarryFight);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -29,8 +29,9 @@ namespace KingsLib
                 int currBarrierId = si.chapterList.Last().barrierList.Last().barrierId;
                 int lastBarrierId = -1;
 
-
-                string fightHeros = oGA.getTaskParameter(Scheduler.TaskId.StarryFight);
+                WarInfo wi = oGA.getWarInfo(Scheduler.TaskId.StarryFight, 0);
+                string fightHeros = null;
+                if (wi != null) fightHeros = wi.body;
 
                 updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, Chapter: {1}:{2}, Barrier {3}", si.leftAllCount, currChapterId, si.chapterList.Last().barrierList.Count, currBarrierId));
 
@@ -48,7 +49,8 @@ namespace KingsLib
 
                     updateInfo(oGA.displayName, taskName, string.Format("備戰: ChapterId: {0}, Barrier {1}", currChapterId, currBarrierId));
 
-                    int fightResult = action.starry.fight(ci, sid, currBarrierId, fightHeros);
+                    int fightResult = action.starry.fight(ci, sid, currBarrierId, ref fightHeros);
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("作戰陣形 {0} ", fightHeros));
 
                     if (fightResult == -1)
                     {
@@ -87,7 +89,7 @@ namespace KingsLib
 
             public static bool goStarryReward(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = "攬星壇";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.StarryReward);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;

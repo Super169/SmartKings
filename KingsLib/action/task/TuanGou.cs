@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace KingsLib
 
             public static bool goTuanGou(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string actionName = "團購寶箱";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.TuanGo);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
 
@@ -43,7 +44,7 @@ namespace KingsLib
                         rro = request.Activity.tuanGouReward(ci, sid, bagId);
                         if (rro.ok == 1)
                         {
-                            updateInfo(oGA.displayName, actionName, string.Format("開啟寶箱 {0} ", bagId), true, false);
+                            updateInfo(oGA.displayName, taskName, string.Format("開啟寶箱 {0} ", bagId), true, false);
                         }
                     }
                 }

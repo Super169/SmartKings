@@ -97,6 +97,9 @@ namespace SmartKings
                 case "btnCorpsCityReward":
                     goTask(Scheduler.TaskId.CorpsCityReward, allPlayers);
                     break;
+                case "btnIndustryShop":
+                    goTask(Scheduler.TaskId.IndustryShop, allPlayers);
+                    break;
             }
         }
 

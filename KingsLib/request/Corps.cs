@@ -49,6 +49,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getNationalRank, true, body);
         }
 
+        public static RequestReturnObject personIndustryList(ConnectionInfo ci, string sid, string industryId)
+        {
+            string body = string.Format("{{\"industryId\":\"{0}\"}}", industryId);
+            return com.SendGenericRequest(ci, sid, CMD_personIndustryList, true, body);
+        }
+
 
         public static RequestReturnObject personIndustryRefresh(ConnectionInfo ci, string sid)
         {

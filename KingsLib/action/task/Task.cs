@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace KingsLib
         {
             public static bool goFinishAllTask(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string actionName = "讀取郵件";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.FinishTask);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -37,7 +38,7 @@ namespace KingsLib
                         }
                     }
                 }
-                if (finCnt > 0) updateInfo(oGA.displayName, actionName, string.Format("領取 {0} 項任務報酬", finCnt));
+                if (finCnt > 0) updateInfo(oGA.displayName, taskName, string.Format("領取 {0} 項任務報酬", finCnt));
 
 
                 return true;

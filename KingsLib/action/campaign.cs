@@ -22,7 +22,7 @@ namespace KingsLib
                 return returnValue;
             }
 
-            public static int eliteFight(ConnectionInfo ci, string sid, string difficult, int stage, int chapter, string fightHeros)
+            public static int eliteFight(ConnectionInfo ci, string sid, string difficult, int stage, int chapter, ref string fightHeros)
             {
                 RequestReturnObject rro;
 
@@ -42,25 +42,20 @@ namespace KingsLib
                 rro = request.Campaign.getAttFormation(ci, sid, "ELITE");
                 if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid, -1);
 
-                string body;
                 if ((fightHeros == null) || (fightHeros == ""))
                 {
                     if (rro.responseJson[RRO.Campaign.heros].Length < 5) return campaign.quitCampaign(ci, sid, 1);
                     dynamic json = JSON.Empty;
                     json[RRO.Campaign.heros] = rro.responseJson[RRO.Campaign.heros];
                     json[RRO.Campaign.chief] = rro.getInt(RRO.Campaign.chief);
-                    body = JSON.encode(json);
-                }
-                else
-                {
-                    body = fightHeros;
+                    fightHeros = JSON.encode(json);
                 }
 
                 rro = request.Campaign.nextEnemies(ci, sid);
                 if (!rro.SuccessWithJson(RRO.Campaign.enemies, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid, -1);
                 // Thread.Sleep(500);
 
-                rro = request.Campaign.saveFormation(ci, sid, body);
+                rro = request.Campaign.saveFormation(ci, sid, fightHeros);
                 if (!rro.SuccessWithJson(RRO.Campaign.power)) return campaign.quitCampaign(ci, sid, -1);
                 // Thread.Sleep(500);
 

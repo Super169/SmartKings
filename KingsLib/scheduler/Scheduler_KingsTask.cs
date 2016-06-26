@@ -29,6 +29,10 @@ namespace KingsLib.scheduler
             public const string EliteFight = "EliteFight";
             public const string Patrol = "Patrol";
             public const string CorpsCityReward = "CorpsCityReward";
+            public const string OneYearSignIn = "OneYearSignIn";
+            public const string SLShop = "SLShop";
+            public const string IndustryShop = "IndustryShop";
+            public const string TuanGo = "TuanGo";
         }
 
         public static string getTaskName(string id)
@@ -75,6 +79,19 @@ namespace KingsLib.scheduler
                 case TaskId.CorpsCityReward:
                     taskName = "城池產出";
                     break;
+                case TaskId.OneYearSignIn:
+                    taskName = "嘉年華會";
+                    break;
+                case TaskId.SLShop:
+                    taskName = "勢力商店";
+                    break;
+                case TaskId.IndustryShop:
+                    taskName = "勢力市集";
+                    break;
+                case TaskId.TuanGo:
+                    taskName = "團購寶箱";
+                    break;
+
                 default:
                     taskName = string.Format("[{0}]", id);
                     break;
@@ -249,6 +266,15 @@ namespace KingsLib.scheduler
                 executeTask = action.task.goCorpsCityReward
             });
 
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.IndustryShop,
+                info = "在勢力市集中購買糧食/銀子",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goIndustryShop
+            });
+
         }
 
         public static ScheduleInfo defaultSchedule(string taskId)
@@ -296,6 +322,12 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(10, 35, 0));
                     si.executionTimes.Add(new TimeSpan(13, 35, 0));
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
+                case TaskId.IndustryShop:
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(9, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(12, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(18, 35, 0));
                     break;
                 default:
                     // Default excuted at the following timeslot

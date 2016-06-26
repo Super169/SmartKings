@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace KingsLib
         {
             public static bool goReadAllEmail(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string actionName = "讀取郵件";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.ReadAllEmail);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -40,7 +41,7 @@ namespace KingsLib
                         }
                     }
                 }
-                if (readCnt > 0) updateInfo(oGA.displayName, actionName, string.Format("開啟 {0} 封郵件", readCnt));
+                if (readCnt > 0) updateInfo(oGA.displayName, taskName, string.Format("開啟 {0} 封郵件", readCnt));
 
                 return true;
             }

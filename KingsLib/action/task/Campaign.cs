@@ -23,18 +23,25 @@ namespace KingsLib
 
                 rro = request.Campaign.getLeftTimes(ci, sid);
                 if (!rro.SuccessWithJson(RRO.Campaign.elite)) return false;
-                if (rro.getInt(RRO.Campaign.elite) <= 0) return true;
+                int leftCount = rro.getInt(RRO.Campaign.elite);
+                if (leftCount <= 0) return true;
 
-                int targetChapter = 6;
-                int targetStage = 5;
+                // S35 : 10-1
+                // S37 :  9-2
+                int targetChapter = 9;
+                int targetStage = 2;
                 string[] targetReward = { "金旗鼓号", "金鞋", "金旗鼓號" };
 
-                updateInfo(oGA.displayName, actionName, string.Format("出戰: {0} - {1}",
+                updateInfo(oGA.displayName, actionName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
+                                                                      leftCount,
                                                                       util.getEliteChapterName(targetChapter),
                                                                       util.getEliteHeroName(targetChapter, targetStage)));
 
-                string fightHeros = oGA.getTaskParameter(Scheduler.TaskId.EliteFight);
-                int fightResult = action.campaign.eliteFight(ci, sid, RRO.Campaign.difficult_normal, targetStage, targetChapter, fightHeros);
+                WarInfo wi = oGA.getWarInfo(Scheduler.TaskId.EliteFight, 0);
+                string fightHeros = null;
+                if (wi != null) fightHeros = wi.body;
+                int fightResult = action.campaign.eliteFight(ci, sid, RRO.Campaign.difficult_normal, targetStage, targetChapter, ref fightHeros);
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("作戰陣形 {0} ", fightHeros));
 
                 if (fightResult == -1)
                 {
@@ -45,7 +52,7 @@ namespace KingsLib
                 {
                     updateInfo(oGA.displayName, actionName, "尚未完成佈陣");
                     return false;
-                }
+                } 
 
                 // Before get reward; just do as what the frontend does, no handling on return
                 rro = request.Campaign.getLeftTimes(ci, sid);
@@ -64,11 +71,11 @@ namespace KingsLib
                 
                 rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
                 targetCnt -= checkReward(rro, targetReward, ref itemList);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("第一次翻牌後, 餘下 {0} 個目標物: {1}", targetCnt, itemList));
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("第一次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
 
                 rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
                 targetCnt -= checkReward(rro, targetReward, ref itemList);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("第二次翻牌後, 餘下 {0} 個目標物: {1}", targetCnt, itemList));
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("第二次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
 
                 // Pay 5 gold only if more than 2 target remained
                 if (targetCnt >= 2)
@@ -77,7 +84,7 @@ namespace KingsLib
                     if (debug)
                     {
                         targetCnt -= checkReward(rro, targetReward, ref itemList);
-                        showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("付費翻牌一次後, 餘下 {0} 個目標物: itemList", targetCnt, itemList));
+                        showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("付費翻牌一次後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
                     }
                 }
 

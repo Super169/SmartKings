@@ -100,6 +100,14 @@ namespace KingsLib
 
             }
 
+            public static class City
+            {
+                public const string items = "items";
+                public const string config = "config";
+                public const string discount = "discount";
+                public const string sold = "sold";
+            }
+
             public static class Corps
             {
                 public const string corpsCityReward = "corpsCityReward";
@@ -107,6 +115,15 @@ namespace KingsLib
                 public const string corpsFund = "corpsFund";
                 public const string chestMap = "chestMap";
                 public const string personalReward = "personalReward";
+                public const string items = "items";
+                public const string city = "city";
+                public const string industryId = "industryId";
+                public const string type = "type";
+                public const string reward = "reward";
+                public const string resource = "resource";
+                public const string amount = "amount";
+                public const string tips = "tips";
+
 
 
             }
@@ -289,6 +306,11 @@ namespace KingsLib
                 public const string XIYU_COIN = "XIYU_COIN";
 
 
+            }
+
+            public static class SevenDaysPoints
+            {
+                public const string needRefresh = "needRefresh";
             }
 
             public static class Shop

@@ -81,6 +81,7 @@
     <Compile Include="data\HeroInfo.cs" />
     <Compile Include="data\IInfoObject.cs" />
     <Compile Include="data\Industry.cs" />
+    <Compile Include="data\IndustryInfo.cs" />
     <Compile Include="data\InfoBase.cs" />
     <Compile Include="data\AccountInfo.cs" />
     <Compile Include="data\ManorInfo.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="request\RedEnvelope.cs" />
     <Compile Include="request\RewardActivity.cs" />
     <Compile Include="request\Rogue.cs" />
+    <Compile Include="request\SevenDaysPoints.cs" />
     <Compile Include="request\Shop.cs" />
     <Compile Include="request\Shop2.cs" />
     <Compile Include="request\SignInReward.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="request\YunYou.cs" />
     <Compile Include="request\ZaJinDan.cs" />
     <Compile Include="scheduler\Scheduler_AutoTask.cs" />
+    <Compile Include="scheduler\Scheduler_Parm.cs" />
     <Compile Include="scheduler\Scheduler_ScheduleInfo.cs" />
     <Compile Include="scheduler\Scheduler_KingsTask.cs" />
     <Compile Include="util\util_gameInfo.cs" />

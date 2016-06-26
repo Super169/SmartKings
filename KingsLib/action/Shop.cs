@@ -16,7 +16,7 @@ namespace KingsLib
             public static List<CycleShopInfo> getCycleShopInfo(ConnectionInfo ci, string sid)
             {
 
-                
+
                 List<CycleShopInfo> csis = new List<CycleShopInfo>();
                 RequestReturnObject rro = request.Shop.getCycleShopInfo(ci, sid);
                 if (!rro.SuccessWithJson(RRO.Shop.items, typeof(DynamicJsonArray))) return csis;
@@ -75,6 +75,75 @@ namespace KingsLib
                 return buyCount;
             }
 
+            public static int goIndustryBuyAll(ConnectionInfo ci, string sid, bool buyFood, bool buySilver)
+            {
+                PlayerProperties pp = action.player.getProperties(ci, sid);
+                if (!pp.ready) return -1;
+                int exploit = pp.EXPLOIT;
+                int buyCnt = 0;
+
+                List<Industry> industrys = getIndustgryList(ci, sid, "");
+                foreach (Industry industry in industrys)
+                {
+                    if (industry.isMarket())
+                    {
+                        List<IndustryInfo> iis = getIndustryInfo(ci, sid, industry.industryId);
+                        // Need to buy by position, so cnannot use foreach here
+                        for (int idx = 0; idx < iis.Count; idx++)
+                        {
+                            IndustryInfo ii = iis.ElementAt(idx);
+                            int itemCost = ii.ItemCost(exploit, buyFood, buySilver);
+                            if (itemCost > 0)
+                            {
+                                RequestReturnObject rro = request.City.buyProduct(ci, sid, industry.industryId, idx);
+                                if (rro.ok == 1)
+                                {
+                                    buyCnt++;
+                                    exploit -= itemCost;
+                                }
+                            }
+                        }
+                    }
+                }
+                return buyCnt;
+            }
+
+            private static List<Industry> getIndustgryList(ConnectionInfo ci, string sid, string industryId)
+            {
+                List<Industry> industrys = new List<Industry>();
+                RequestReturnObject rro = request.Corps.personIndustryList(ci, sid, industryId);
+                if (rro.SuccessWithJson(RRO.Corps.items, typeof(DynamicJsonArray)))
+                {
+                    DynamicJsonArray items = rro.responseJson[RRO.Corps.items];
+                    foreach (dynamic item in items)
+                    {
+                        Industry industry = new Industry();
+                        industry.industryId = JSON.getInt(item, RRO.Corps.industryId);
+                        industry.city = JSON.getString(item, RRO.Corps.city, "");
+                        industry.type = JSON.getString(item, RRO.Corps.type, "");
+                        industrys.Add(industry);
+                    }
+                }
+                return industrys;
+            }
+
+            private static List<IndustryInfo> getIndustryInfo(ConnectionInfo ci, string sid, int industryId)
+            {
+                List<IndustryInfo> iis = new List<IndustryInfo>();
+                RequestReturnObject rro = request.City.getIndustryInfo(ci, sid, industryId);
+                if (!rro.SuccessWithJson(RRO.City.items, typeof(DynamicJsonArray))) return iis;
+
+                DynamicJsonArray items = rro.responseJson[RRO.City.items];
+                foreach (dynamic item in items)
+                {
+                    IndustryInfo ii = new IndustryInfo();
+                    ii.config = JSON.getInt(item, RRO.City.config);
+                    ii.discount = JSON.getInt(item, RRO.City.discount);
+                    ii.sold = JSON.getBool(item, RRO.City.sold);
+                    iis.Add(ii);
+                }
+                return iis;
+            }
         }
     }
 }

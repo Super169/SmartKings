@@ -27,5 +27,6 @@
         <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,218,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnPatrolSetup2" Content="民生後備設定" HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnIndustryShop" Content="勢力市集" HorizontalAlignment="Left" Margin="110,242,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace KingsLib
         {
             public static bool goCleanupBag(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = "清理背包";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag);
+
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
 

@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using KingsLib.scheduler;
 using MyUtil;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace KingsLib
                 if ((dow != 0) && (dow != 3)) return true;
 
                 DateTime now = DateTime.Now;
-                string actionName = "東瀛寶船";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.CycleShop);
 
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
@@ -41,7 +42,7 @@ namespace KingsLib
                         {
                             info += "失敗";
                         }
-                        updateInfo(oGA.displayName, actionName, info , true, false);
+                        updateInfo(oGA.displayName, taskName, info , true, false);
                     }
                 }
                 return true;
@@ -51,7 +52,7 @@ namespace KingsLib
             {
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
-                string actionName = "糧草先行";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.Market);
 
                 RequestReturnObject rro;
                 rro = request.Task.getTaskTraceInfo(ci, sid);
@@ -76,7 +77,7 @@ namespace KingsLib
                         return false;
                     }
                 }
-                updateInfo(oGA.displayName, actionName, string.Format("市集: 為任務購買 {0}", buyType), true, false);
+                updateInfo(oGA.displayName, taskName, string.Format("市集: 為任務購買 {0}", buyType), true, false);
 
                 return true;
             }
@@ -85,7 +86,7 @@ namespace KingsLib
             {
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
-                string actionName = "勢力商店";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.SLShop);
 
                 int buyCount = action.Shop.goSLShopBuyFood(ci, sid);
                 if (buyCount < 0)
@@ -93,7 +94,7 @@ namespace KingsLib
                     return false;
                 } else if (buyCount > 0)
                 {
-                    updateInfo(oGA.displayName, actionName, string.Format("購買了 {0} 次糧食", buyCount), true, false);
+                    updateInfo(oGA.displayName, taskName, string.Format("購買了 {0} 次糧食", buyCount), true, false);
                 }
                 return true;
             }
@@ -102,8 +103,17 @@ namespace KingsLib
             {
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
-                string actionName = "勢力市集";
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.IndustryShop);
 
+                dynamic json = oGA.getTaskParmObject(Scheduler.TaskId.IndustryShop);
+                bool buyFood = JSON.getBool(json, Scheduler.Parm.IndustryShop.buyFood, true);
+                bool buySilver = JSON.getBool(json, Scheduler.Parm.IndustryShop.buySilver, false);
+                int buyCount = action.Shop.goIndustryBuyAll(ci, sid, true, false);
+                if (buyCount < 0) return false;
+                if (buyCount > 0)
+                {
+                    updateInfo(oGA.displayName, taskName, string.Format("購買了 {0} 次", buyCount), true, false);
+                }
                 return true;
             }
 
