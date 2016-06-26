@@ -30,7 +30,7 @@ namespace KingsLib
     {
         public delegate bool DelegateCheckOutstandingTask(GameAccount oGA, DelegateUpdateInfo updateInfo, string action, string module, bool debug);
 
-        private static void showDebugMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)
+        public static void showDebugMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)
         {
             updateInfo(account, action, "**** " + msg, true, false);
             LOG.D(string.Format("{0} : {1} : {2}", account, action, msg));

@@ -94,8 +94,16 @@ namespace KingsLib
             rro = request.Campaign.fightNext(ci, sid);
             if (rro.ok != 1) return campaign.quitCampaign(ci, sid, -1);
 
-            return campaign.quitCampaign(ci, sid, 0);
+            campaign.quitCampaign(ci, sid, 0);
 
+            // Check for draw
+            rro = request.TurnCardReward.getTurnCardRewards(ci, sid);
+            if (!rro.SuccessWithJson(RRO.TurnCardReward.rewards)) return 0;
+
+            request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+            request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+
+            return 0;
         }
     }
 }

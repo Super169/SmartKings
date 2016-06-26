@@ -104,15 +104,6 @@ namespace SmartKings
                 else
                 {
                     oExists.updateSession(li, ci);
-                    /*
-                    oExists.status = GameAccount.AccountStatus.Online;
-                    oExists.sid = li.sid;
-                    oExists.serverTitle = li.serverTitle;
-                    oExists.nickName = li.nickName;
-                    oExists.currHeader = oH;
-                    oExists.lastUpdateDTM = DateTime.Now;
-                    oExists.refreshAccount();
-                    */
                     UpdateStatus(String.Format("更新 {0}: {1} - {2} [{3}]", li.account, li.serverTitle, li.nickName, li.sid));
                 }
                 refreshAccountList();

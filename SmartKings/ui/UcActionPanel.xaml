@@ -7,24 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="200">
     <Grid>
-        <CheckBox x:Name="cbxAllPlayers" Content="所有帳戶" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="71"/>
-        <Button x:Name="btnCheckStatus" Content="檢查全部狀況" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnOutstanding" Content="檢查遺漏" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnHarvest" Content="封田收獲" HorizontalAlignment="Left" Margin="110,34,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnMonthSignIn" Content="簽到領獎" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnCleanBag" Content="清理背包" HorizontalAlignment="Left" Margin="110,58,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnStarrySetup" Content="攬星壇設定" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnStarryFight" Content="攬星壇通關" HorizontalAlignment="Left" Margin="110,82,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnMarket" Content="糧草先行" HorizontalAlignment="Left" Margin="10,106,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnStarryReward" Content="攬星壇獎勵" HorizontalAlignment="Left" Margin="110,106,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnReadEmail" Content="開啟郵件" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnFinishTask" Content="任務報酬" HorizontalAlignment="Left" Margin="110,128,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="110,152,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,176,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="110,176,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
-        <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,200,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
-        <Button x:Name="btnCorpsCityReward" Content="城池產出" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="110,4,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <CheckBox x:Name="cbxAllPlayers" Content="所有帳戶" Margin="10,28,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="71"/>
+        <Button x:Name="btnCheckStatus" Content="檢查全部狀況" HorizontalAlignment="Left" Margin="110,28,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnOutstanding" Content="檢查遺漏" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnHarvest" Content="封田收獲" HorizontalAlignment="Left" Margin="110,52,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnMonthSignIn" Content="簽到領獎" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnCleanBag" Content="清理背包" HorizontalAlignment="Left" Margin="110,76,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnStarrySetup" Content="攬星壇設定" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnStarryFight" Content="攬星壇通關" HorizontalAlignment="Left" Margin="110,100,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnMarket" Content="糧草先行" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnStarryReward" Content="攬星壇獎勵" HorizontalAlignment="Left" Margin="110,124,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnReadEmail" Content="開啟郵件" HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnFinishTask" Content="任務報酬" HorizontalAlignment="Left" Margin="110,146,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="110,170,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,194,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="110,194,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,218,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
+        <Button x:Name="btnCorpsCityReward" Content="城池產出" HorizontalAlignment="Left" Margin="10,169,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using KingsLib.data;
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +76,7 @@ namespace KingsLib.scheduler
                     taskName = "城池產出";
                     break;
                 default:
-                    taskName = string.Format("[{id}]", id);
+                    taskName = string.Format("[{0}]", id);
                     break;
             }
             return taskName;
@@ -89,6 +90,49 @@ namespace KingsLib.scheduler
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
             public string taskName { get { return getTaskName(id); } }
+
+            private static class KEY
+            {
+                public const string id = "id";
+                public const string info = "info";
+                public const string isEnabled = "isEnabled";
+                public const string customSchedule = "customSchedule";
+                public const string executeTask = "executeTask";
+            }
+
+            public KingsTask()
+            {
+                initObject();
+            }
+
+            public KingsTask(dynamic json)
+            {
+                fromJson(json);
+            }
+
+            private void initObject()
+            {
+                this.id = "";
+                this.info = "";
+                this.isEnabled = false;
+                this.customSchedule = false;
+                this.executeTask = null;
+            }
+            public dynamic toJson()
+            {
+                dynamic json = JSON.Empty;
+                json[KEY.id] = this.id;
+                json[KEY.isEnabled] = this.isEnabled;
+                return json;
+            }
+
+            public void fromJson(dynamic json)
+            {
+                initObject();
+                this.id = JSON.getString(json, KEY.id, "");
+                this.isEnabled = JSON.getBool(json, KEY.isEnabled);
+            }
+
         }
 
 
@@ -212,11 +256,46 @@ namespace KingsLib.scheduler
             ScheduleInfo si = new ScheduleInfo();
             switch (taskId)
             {
-                case TaskId.Harvest:
                 case TaskId.CleanUpBag:
+                case TaskId.CorpsCityReward:
+                case TaskId.FinishTask:
+                case TaskId.Harvest:
+                case TaskId.Patrol:
+                case TaskId.ReadAllEmail:
                     si.elapseMin = 60;
                     si.maxRetry = 3;
                     si.retryFreqMin = 1;
+                    break;
+                case TaskId.CycleShop:
+                    si.dow = new List<int>();
+                    si.dow.Add(0);
+                    si.dow.Add(3);
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(5, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
+                case TaskId.EliteFight:
+                    si.dow = new List<int>();
+                    si.dow.Add(0);
+                    si.dow.Add(3);
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(19, 15, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
+                case TaskId.Market:
+                case TaskId.SignIn:
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(10, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
+                case TaskId.StarryFight:
+                case TaskId.StarryReward:
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(10, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
                 default:
                     // Default excuted at the following timeslot
@@ -230,7 +309,5 @@ namespace KingsLib.scheduler
 
             return si;
         }
-
-
     }
 }

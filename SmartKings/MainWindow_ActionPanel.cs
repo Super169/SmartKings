@@ -31,6 +31,12 @@ namespace SmartKings
         {
             switch (btnClicked)
             {
+                case "btnAutoTaskSetting":
+                    ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
+                    winConfig.Owner = this;
+                    winConfig.ShowDialog();
+                    saveAutoTasksSettings();
+                    break;
                 case "btnCheckStatus":
                     goCheckStatus();
                     break;
@@ -75,11 +81,6 @@ namespace SmartKings
                 case "btnFinishTask":
                     // goAction(Scheduler.getTaskName(Scheduler.TaskId.FinishTask), allPlayers, action.task.goFinishAllTask);
                     goTask(Scheduler.TaskId.FinishTask, allPlayers);
-                    break;
-                case "btnAutoTaskSetting":
-                    ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
-                    winConfig.Owner = this;
-                    winConfig.ShowDialog();
                     break;
                 case "btnEliteFightSetup":
                     goEliteFightSetup();

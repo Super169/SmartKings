@@ -98,24 +98,7 @@ namespace KingsLib.data
                 this.account = li.account;
                 this.enabled = false;
                 this.updateSession(li, ci);
-                /*
-                this.sid = li.sid;
-                this.status = AccountStatus.Online;
-                // timeAjust will be set later using system.ping
-                this.timeAdjust = 0;
-                this.server = li.server;
-                this.serverTitle = li.serverTitle;
-                this.nickName = li.nickName;
-                this.corpsName = li.CORPS_NAME;
-                this.level = li.LEVEL;
-                this.vipLevel = li.VIP_LEVEL;
-
-                this.currHeader = oH;
-                buildConnectionHeader();
-
-                refreshAccount();
-                this.ready = true;
-                */
+                this.rebuildAutoTasks();
             }
         }
 
@@ -216,21 +199,44 @@ namespace KingsLib.data
         {
             foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
             {
-                Scheduler.AutoTask oAT = this.autoTasks.Find(x => x.taskId == t.id);
-                if (oAT == null)
-                {
-                    oAT = new Scheduler.AutoTask(t.id, true, null, null);
-                    this.autoTasks.Add(oAT);
-                }
+                rebuildAutoTask(t.id);
             }
-            foreach (Scheduler.AutoTask myTask in this.autoTasks)
-            {
-                if (myTask.schedule == null)
-                {
-                    myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
-                }
-            }
+            /*
+                        foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
+                        {
+                            Scheduler.AutoTask oAT = this.autoTasks.Find(x => x.taskId == t.id);
+                            if (oAT == null)
+                            {
+                                oAT = new Scheduler.AutoTask(t.id, true, null, null);
+                                this.autoTasks.Add(oAT);
+                            }
+                        }
+                        foreach (Scheduler.AutoTask myTask in this.autoTasks)
+                        {
+                            if (myTask.schedule == null)
+                            {
+                                myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
+                            }
+                        }
+            */
         }
+
+        public Scheduler.AutoTask rebuildAutoTask(string taskId)
+        {
+            Scheduler.AutoTask oAT = this.autoTasks.Find(x => x.taskId == taskId);
+            if (oAT == null)
+            {
+                oAT = new Scheduler.AutoTask(taskId, true, null, null);
+                this.autoTasks.Add(oAT);
+            } 
+            if (oAT.schedule == null)
+            {
+                oAT.schedule = Scheduler.defaultSchedule(taskId);
+            }
+            return oAT;
+
+        }
+
 
         public static bool find(List<GameAccount> gameAccounts, GameAccount oGA, ref GameAccount oFind)
         {
@@ -354,15 +360,32 @@ namespace KingsLib.data
         public DateTime goAutoTask(action.DelegateUpdateInfo updateInfo, bool debug)
         {
             DateTime nextTime = DateTime.Now.AddMinutes(5);
-            foreach (Scheduler.AutoTask myTask in this.autoTasks)
+            // foreach (Scheduler.AutoTask myTask in this.autoTasks)
+            foreach (Scheduler.KingsTask sysTask in Scheduler.autoTaskList)
             {
+                if (!sysTask.isEnabled) continue;
+                Scheduler.AutoTask myTask = findAutoTask(sysTask.id);
+                if (myTask == null)
+                {
+                    rebuildAutoTask(sysTask.id);
+                    myTask = findAutoTask(sysTask.id);
+                    // In case myTask still cannot rebuild
+                    if (myTask == null)
+                    {
+                        LOG.E(string.Format("{0}: Unable to rebuild autoTask {1}", this.displayName, sysTask.id));
+                        continue;
+                    }
+                }
+
+                string taskName = Scheduler.getTaskName(myTask.taskId);
                 if (myTask.schedule.readyToGo())
                 {
-                    string taskName = Scheduler.getTaskName(myTask.taskId);
-                    if (debug) updateInfo(this.displayName, taskName, "**** 開始");
+                    if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
                     myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
-                    if (debug) updateInfo(this.displayName, taskName, string.Format("**** 結束, 下次執行時間: {0:HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
+                    if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
                 }
+                
+                if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, string.Format("下次執行時間: {0:yyyy-MM-dd HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
                 DateTime? myNext = myTask.schedule.nextExecutionTime;
                 if (myNext != null)
                 {

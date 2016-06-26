@@ -31,25 +31,7 @@ namespace SmartKings
         {
             InitializeComponent();
             this.Title = ((App)Application.Current).winTitle;
-            UpdateStatus(this.Title + " 啟動");
-            com.start("SmartKings");
-            Scheduler.initAutoTasks();
-            loadAppSettings();
-            bindAccounts();
-            bindEventLogs();
-
-            KingsMonitor.notificationEventHandler += new NotificationEventHandler(this.OnNotificationHandler);
-            KingsMonitor.newSidEventHandler += new NewSidEventHandler(this.OnNewSidHandler);
-
-            if (!KingsMonitor.Start())
-            {
-                MessageBox.Show("啟動監察器失敗");
-                this.Close();
-            }
-
-            initActionPanel();
-            initTimer();
-            if (AppSettings.AutoRun) goAutoKings();
+            mainInitialization();
         }
 
     }
