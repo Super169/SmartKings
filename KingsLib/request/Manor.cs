@@ -44,6 +44,12 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getManorInfo);
         }
 
+        public static RequestReturnObject harvestActivity(ConnectionInfo ci, string sid, int field)
+        {
+            string body = string.Format("{{\"field\":{0}}}", field);
+            return com.SendGenericRequest(ci, sid, CMD_harvestActivity, true, body);
+        }
+
         public static RequestReturnObject harvestProduct(ConnectionInfo ci, string sid, int field)
         {
             string body = string.Format("{{\"field\":{0}}}", field);
@@ -59,6 +65,14 @@ namespace KingsLib.request
         {
             return com.SendGenericRequest(ci, sid, CMD_resHourOutput);
         }
+
+        public static RequestReturnObject trainHeroInfo(ConnectionInfo ci, string sid, int field)
+        {
+            string body = string.Format("{{\"field\":{0}}}", field);
+            return com.SendGenericRequest(ci, sid, CMD_trainHeroInfo, true, body);
+        }
+
+
 
     }
 }

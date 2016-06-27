@@ -25,6 +25,17 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_doGrassArrowFight);
         }
 
+        public static RequestReturnObject drawStageReward(ConnectionInfo ci, string sid, int id)
+        {
+            string body = string.Format("{{\"id\":{0}}}", id);
+            return com.SendGenericRequest(ci, sid, CMD_drawStageReward, true, body);
+        }
+
+        public static RequestReturnObject exchangeGrassArrow(ConnectionInfo ci, string sid, int itemId)
+        {
+            string body = string.Format("{{\"itemId\":{0}}}", itemId);
+            return com.SendGenericRequest(ci, sid, CMD_exchangeGrassArrow, true, body);
+        }
 
     }
 }

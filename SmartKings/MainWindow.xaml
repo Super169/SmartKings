@@ -37,7 +37,7 @@
                         <GridView>
                             <GridViewColumn Header="時間" Width="100" DisplayMemberBinding="{Binding displayTime}" />
                             <GridViewColumn Header="帳戶" Width="120" DisplayMemberBinding="{Binding account}" />
-                            <GridViewColumn Header="任務" Width="67" DisplayMemberBinding="{Binding action}" />
+                            <GridViewColumn Header="任務" Width="92" DisplayMemberBinding="{Binding action}" />
                             <GridViewColumn Header="資訊" Width="500" DisplayMemberBinding="{Binding msg}" />
                         </GridView>
                     </ListView.View>

@@ -28,7 +28,7 @@ namespace KingsLib
                     return true;
                 }
 
-                List<ManorInfo> mis = manor.getInfo(ci, sid);
+                List<ManorInfo> mis = Manor.getManorInfo(ci, sid);
                 int getSILVER = 0, getFOOD = 0, getIRON = 0;
 
                 foreach (ManorInfo mi in mis)
@@ -40,7 +40,7 @@ namespace KingsLib
                         case "SP":
                             if ((mi.products > MIN_HARVEST) && (pp.SILVER < pp.MAX_SILVER))
                             {
-                                outProducts = manor.harvestField(ci, sid, mi.field);
+                                outProducts = Manor.harvestField(ci, sid, mi.field);
                                 if (outProducts > 0)
                                 {
                                     // updateInfo(string.Format("收取 {0} 的銀 {1}", mi.field, mi.products));
@@ -53,7 +53,7 @@ namespace KingsLib
                         case "MC":
                             if ((mi.products > MIN_HARVEST) && (pp.FOOD < pp.MAX_FOOD))
                             {
-                                outProducts = manor.harvestField(ci, sid, mi.field);
+                                outProducts = Manor.harvestField(ci, sid, mi.field);
                                 if (outProducts > 0)
                                 {
                                     // updateInfo(string.Format("收取 {0} 的糧 {1}", mi.field, mi.products));
@@ -65,7 +65,7 @@ namespace KingsLib
                         case "LTC":
                             if ((mi.products > MIN_HARVEST) && (pp.IRON < pp.MAX_IRON))
                             {
-                                outProducts = manor.harvestField(ci, sid, mi.field);
+                                outProducts = Manor.harvestField(ci, sid, mi.field);
                                 if (outProducts > 0)
                                 {
                                     // updateInfo(string.Format("收取 {0} 的鐵 {1}", mi.field, mi.products));

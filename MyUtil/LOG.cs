@@ -11,25 +11,27 @@ namespace MyUtil
 
         public static string errLog = "error.log";
         public static string debugLog = "debug.log";
+        public static string infoLog = "info.log";
 
-        public static bool D(string errMsg)
+        public static bool D(string msg)
         {
-            return D(errMsg, debugLog);
+            return W(msg, debugLog);
         }
 
-        public static bool D(string errMsg, string fileName)
+        public static bool E(string msg)
         {
-            return FILE.saveToFile(string.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, errMsg), fileName);
+            return W(msg, errLog);
         }
 
-        public static bool E(string errMsg)
+        public static bool I(string msg)
         {
-            return E(errMsg, errLog);
+            return W(msg, infoLog);
         }
 
-        public static bool E(string errMsg, string fileName)
+        public static bool W(string msg, string fileName)
         {
-            return FILE.saveToFile(string.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, errMsg), fileName);
+            return FILE.saveToFile(string.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, msg), fileName);
         }
+
     }
 }

@@ -519,6 +519,13 @@ namespace KingsLib
 
         public static bool checkOutstandingGrassArrow(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
+            int gameDOW = Scheduler.getGameDOW();
+            if (!(gameDOW == 1))
+            {
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "今天沒有草船借箭");
+                return true;
+            }
+
             RequestReturnObject rro;
             rro = request.GrassArrow.acquireGrassArrowInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;

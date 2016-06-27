@@ -31,6 +31,9 @@ namespace SmartKings
         {
             switch (btnClicked)
             {
+                case "btnQuickSetup":
+                    QuickSetup();
+                    break;
                 case "btnAutoTaskSetting":
                     ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
                     winConfig.Owner = this;
@@ -79,11 +82,14 @@ namespace SmartKings
                     goWarSetup(Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnEliteFight":
+                    /*
                     MessageBoxResult dialogResult = MessageBox.Show("討伐群雄的對象及目標是否已設定正確", "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (dialogResult == MessageBoxResult.Yes)
                     {
                         goTask(Scheduler.TaskId.EliteFight, false);
                     }
+                    */
+                    goTask(Scheduler.TaskId.EliteFight, false);
                     break;
                 case "btnPatrolSetup":
                     goWarSetup(Scheduler.TaskId.Patrol, 0, 1, 5, true, 3, "預留");
@@ -99,6 +105,44 @@ namespace SmartKings
                     break;
                 case "btnIndustryShop":
                     goTask(Scheduler.TaskId.IndustryShop, allPlayers);
+                    break;
+                case "btnTrainHero":
+                    goTask(Scheduler.TaskId.TrainHero, allPlayers);
+                    break;
+                case "btnGrassArrowSetup":
+                    goWarSetup(Scheduler.TaskId.GrassArrow, 0, 1, 3, true, 2, "諸葛亮");
+                    break;
+                case "btnGrassArrow":
+                    goTask(Scheduler.TaskId.GrassArrow, allPlayers);
+                    break;
+            }
+        }
+
+
+        private void QuickSetup()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            dynamic json;
+            switch (oGA.displayName)
+            {
+                case "S35 超級一六九":
+                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    json[Scheduler.Parm.EliteFight.targetChapter] = 10;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
+                    break;
+                case "S36 無名無姓":
+                    break;
+                case "S37 怕死的水子遠":
+                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    json[Scheduler.Parm.EliteFight.targetChapter] = 9;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 2;
+                    break;
+                case "S43 自由人":
+                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    json[Scheduler.Parm.EliteFight.targetChapter] = 6;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
                     break;
             }
         }

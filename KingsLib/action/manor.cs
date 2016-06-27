@@ -12,9 +12,9 @@ namespace KingsLib
 {
     public static partial class action
     {
-        public static class manor
+        public static class Manor
         {
-            public static List<ManorInfo> getInfo(ConnectionInfo ci, string sid)
+            public static List<ManorInfo> getManorInfo(ConnectionInfo ci, string sid)
             {
                 List<ManorInfo> manorInfo = new List<ManorInfo>();
                 RequestReturnObject rro = request.Manor.getManorInfo(ci, sid);
@@ -24,7 +24,8 @@ namespace KingsLib
                 {
                     ManorInfo mi = new ManorInfo();
                     mi.field = JSON.getInt(building, RRO.Manor.field);
-                    mi.heroIndex = JSON.getInt(building, RRO.Manor.heroIndex);
+                    // Default to 0, as -1 has other meaning
+                    mi.heroIndex = JSON.getInt(building, RRO.Manor.heroIndex, 0);
                     mi.leftSeconds = JSON.getInt(building, RRO.Manor.leftSeconds);
                     mi.level = JSON.getInt(building, RRO.Manor.level);
                     mi.levelSeconds = JSON.getInt(building, RRO.Manor.levelSeconds);

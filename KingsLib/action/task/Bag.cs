@@ -15,9 +15,9 @@ namespace KingsLib
             public static bool goCleanupBag(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskName = Scheduler.getTaskName(Scheduler.TaskId.CleanUpBag);
-
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
+                RequestReturnObject rro;
 
                 List<BagInfo> bis = action.bag.getInfo(ci, sid);
                 if (bis == null) return false;
@@ -26,7 +26,7 @@ namespace KingsLib
                 {
                     if (bi.AutoUseItem())
                     {
-                        RequestReturnObject rro = request.Bag.useItem(ci, sid, bi.n, bi.idx);
+                        rro = request.Bag.useItem(ci, sid, bi.n, bi.idx);
                         if (rro.SuccessWithJson(RRO.Bag.deleted))
                         {
                             updateInfo(oGA.displayName, taskName, string.Format("倉庫中 {0} 個 {1} 全部使用了", bi.n, bi.nm));

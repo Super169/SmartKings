@@ -12,10 +12,21 @@ namespace KingsLib.scheduler
     {
         public static class Parm
         {
+            public static class EliteFight
+            {
+                public const string targetChapter = "targetChapter";
+                public const string targetStage = "targetStage";
+            }
+
             public static class IndustryShop
             {
                 public const string buyFood = "buyFood";
                 public const string buySilver = "buySilver";
+            }
+
+            public static class TrainHero
+            {
+                public const string targetHeros = "targetHeros";
             }
         }
     }

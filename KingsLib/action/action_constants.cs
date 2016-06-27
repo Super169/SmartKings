@@ -65,6 +65,9 @@ namespace KingsLib
 
             public static class Campaign
             {
+                public const string march_PATROL_NPC = "PATROL_NPC";
+                public const string march_GRASS_ARROW = "GRASS_ARROW";
+
                 public const string elite = "elite";
                 public const string eliteBuyTimes = "eliteBuyTimes";
                 public const string eliteCanBuyTimes = "eliteCanBuyTimes";
@@ -159,6 +162,8 @@ namespace KingsLib
                 public const string rewards = "rewards";
                 public const string got = "got";
                 public const string num = "num";
+                public const string items = "items";
+                public const string id = "id";
             }
 
             public static class Hero
@@ -215,13 +220,23 @@ namespace KingsLib
                 public const string products = "products";
                 public const string type = "type";
 
-                public const string MH = "MH";
-                public const string SP = "SP";
+                public const string type_MH = "MH";
+                public const string type_SP = "SP";
 
-                public const string NT = "NT";
-                public const string MC = "MC";
+                public const string type_NT = "NT";
+                public const string type_MC = "MC";
 
-                public const string LTC = "LTC";
+                public const string type_LTC = "LTC";
+
+                public const string type_JC = "JC";
+
+                public const string trainMinute = "trainMinute";
+                public const string gainExp = "gainExp";
+                public const string totalTimes = "totalTimes";
+                public const string usedTimes = "usedTimes";
+
+                public const string times = "times";
+
 
             }
 
@@ -397,6 +412,7 @@ namespace KingsLib
             {
                 public const string rewards = "rewards";
                 public const string itemDefs = "itemDefs";
+                public const string resources = "resources";
                 public const string name = "name";
                 public const string num = "num";
                 public const string turnCardMode_ONE = "ONE";

@@ -18,21 +18,24 @@ namespace KingsLib.scheduler
         {
             public const string BossWar = "BossWar";
             public const string CleanUpBag = "CleanUpBag";
+            public const string CorpsCityReward = "CorpsCityReward";
             public const string CycleShop = "CycleShop";
+            public const string EliteFight = "EliteFight";
             public const string FinishTask = "FinishTask";
+            public const string GrassArrow = "GrassArrow";
             public const string Harvest = "Harvest";
+            public const string IndustryShop = "IndustryShop";
             public const string Market = "Market";
-            public const string SignIn = "SignIn";
+            public const string OneYearSignIn = "OneYearSignIn";
+            public const string Patrol = "Patrol";
             public const string ReadAllEmail = "ReadAllEmail";
+            public const string SignIn = "SignIn";
+            public const string SLShop = "SLShop";
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
-            public const string EliteFight = "EliteFight";
-            public const string Patrol = "Patrol";
-            public const string CorpsCityReward = "CorpsCityReward";
-            public const string OneYearSignIn = "OneYearSignIn";
-            public const string SLShop = "SLShop";
-            public const string IndustryShop = "IndustryShop";
+            public const string TrainHero = "TrainHero";
             public const string TuanGo = "TuanGo";
+
         }
 
         public static string getTaskName(string id)
@@ -51,6 +54,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.FinishTask:
                     taskName = "任務報酬";
+                    break;
+                case TaskId.GrassArrow:
+                    taskName = "草船借箭";
                     break;
                 case TaskId.Harvest:
                     taskName = "封地收獲";
@@ -90,6 +96,10 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.TuanGo:
                     taskName = "團購寶箱";
+                    break;
+
+                case TaskId.TrainHero:
+                    taskName = "校場訓練";
                     break;
 
                 default:
@@ -187,6 +197,15 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
+                id = TaskId.GrassArrow,
+                info = "進行草船借箭並領取換領獎勵",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goGrassArrow
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
                 id = TaskId.Harvest,
                 info = "收取封地上生產的 銀子, 糧食 及 精鐵",
                 isEnabled = true,
@@ -273,6 +292,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goIndustryShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.TrainHero,
+                info = "訓練英雄, 獲取升級經驗",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goTrainHero
             });
 
         }

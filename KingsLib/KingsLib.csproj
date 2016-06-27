@@ -50,10 +50,11 @@
     <Compile Include="action\campaign.cs" />
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\Corps.cs" />
+    <Compile Include="action\GrassArrow.cs" />
     <Compile Include="action\OneYear.cs" />
     <Compile Include="action\Shop.cs" />
     <Compile Include="action\decree.cs" />
-    <Compile Include="action\manor.cs" />
+    <Compile Include="action\Manor.cs" />
     <Compile Include="action\action_outstanding.cs" />
     <Compile Include="action\hero.cs" />
     <Compile Include="action\player.cs" />
@@ -63,6 +64,8 @@
     <Compile Include="action\task\Campaign.cs" />
     <Compile Include="action\task\Corps.cs" />
     <Compile Include="action\task\Email.cs" />
+    <Compile Include="action\task\GrassArrow.cs" />
+    <Compile Include="action\task\Manor.cs" />
     <Compile Include="action\task\Patrol.cs" />
     <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />

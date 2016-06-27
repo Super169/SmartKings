@@ -16,7 +16,8 @@ namespace KingsLib
         {
             public static bool goEliteFight(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string actionName = scheduler.Scheduler.getTaskName(scheduler.Scheduler.TaskId.EliteFight);
+                string taskId = Scheduler.TaskId.EliteFight;
+                string actionName = Scheduler.getTaskName(Scheduler.TaskId.EliteFight);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -28,8 +29,16 @@ namespace KingsLib
 
                 // S35 : 10-1
                 // S37 :  9-2
-                int targetChapter = 9;
-                int targetStage = 2;
+                dynamic json = oGA.getTaskParmObject(taskId);
+                int targetChapter = JSON.getInt(json, Scheduler.Parm.EliteFight.targetChapter);
+                int targetStage = JSON.getInt(json, Scheduler.Parm.EliteFight.targetStage);
+
+                if (!((targetChapter >0) && (targetStage > 0)))
+                {
+                    updateInfo(oGA.displayName, actionName, "尚未設定目標");
+                    return false;
+                }
+
                 string[] targetReward = { "金旗鼓号", "金鞋", "金旗鼓號" };
 
                 updateInfo(oGA.displayName, actionName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
@@ -109,7 +118,21 @@ namespace KingsLib
                         if (target.Contains(name)) rewardCnt++;
                         if (itemList != "") itemList += ", ";
                         itemList += string.Format("{0} x {1}", name, num);
+                    } else if (JSON.exists(reward, RRO.TurnCardReward.resources))
+                    {
+                        DynamicJsonObject resources = reward[RRO.TurnCardReward.resources];
+                        string  resource = resources.GetDynamicMemberNames().ElementAt(0);
+                        int num = JSON.getInt(resources, resource);
+                        if (num > 0)
+                        {
+                            if (itemList != "") itemList += ", ";
+                            itemList += string.Format("{0} x {1}", resource, num);
+                        }
                     }
+                }
+                if (itemList.Trim() == "")
+                {
+                    LOG.E("Missing items: " + rro.responseText);
                 }
                 return rewardCnt;
             }

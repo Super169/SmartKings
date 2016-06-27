@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SmartKings.ui"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="200">
+             d:DesignHeight="500" d:DesignWidth="200">
     <Grid>
+        <Button x:Name="btnQuickSetup" Content="快速設定" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="110,4,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <CheckBox x:Name="cbxAllPlayers" Content="所有帳戶" Margin="10,28,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="71"/>
         <Button x:Name="btnCheckStatus" Content="檢查全部狀況" HorizontalAlignment="Left" Margin="110,28,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
@@ -28,5 +29,8 @@
         <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="110,218,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnPatrolSetup2" Content="民生後備設定" HorizontalAlignment="Left" Margin="10,242,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
         <Button x:Name="btnIndustryShop" Content="勢力市集" HorizontalAlignment="Left" Margin="110,242,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnTrainHero" Content="校場訓練" HorizontalAlignment="Left" Margin="110,266,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnGrassArrowSetup" Content="草船借箭設定" HorizontalAlignment="Left" Margin="10,290,0,0" VerticalAlignment="Top" Width="80  " Click="btn_Click"/>
+        <Button x:Name="btnGrassArrow" Content="草船借箭" HorizontalAlignment="Left" Margin="110,290,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
     </Grid>
 </UserControl>

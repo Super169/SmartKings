@@ -25,6 +25,10 @@ namespace KingsLib
                 string fightHeros = null;
                 if (wi != null) fightHeros = wi.body;
 
+                 wi = oGA.getWarInfo(Scheduler.TaskId.Patrol, 1);
+                string fightHerosBackup = null;
+                if (wi != null) fightHerosBackup = wi.body;
+
                 rro = request.Patrol.getPatrolInfo(ci, sid);
                 if (!rro.exists(RRO.Patrol.events, typeof(DynamicJsonArray))) return false;
                 DynamicJsonArray events = rro.responseJson[RRO.Patrol.events];
@@ -35,19 +39,36 @@ namespace KingsLib
                     if (cityId > 0)
                     {
                         string title = "";
+                        bool useBackup = false;
                         int fightResult = goPatrolCampaign(ci, sid, cityId, ref fightHeros, ref title, true);
                         if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("作戰陣形 {0} ", fightHeros));
-
-                        if (fightResult == -1)
+                        if ((fightResult == 999) && (fightHerosBackup != null))
                         {
-                            updateInfo(oGA.displayName, taskName, string.Format("{0} 出戰失敗", title));
+                            useBackup = true;
+                            updateInfo(oGA.displayName, taskName, string.Format("{0} 第一部隊作戰失敗, 出動第二部隊", title));
+                            fightResult = goPatrolCampaign(ci, sid, cityId, ref fightHerosBackup, ref title, true);
+                            if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("作戰陣形 {0} ", fightHerosBackup));
+                            LOG.I(string.Format("{0} 民生民情部隊太弱, 未能完成任務", oGA.displayName));
                         }
-                        else if (fightResult == 1)
+
+
+                        switch (fightResult)
                         {
-                            updateInfo(oGA.displayName, taskName, string.Format("{0} 尚未完成佈陣", title));
-                        } else
-                        {
-                            updateInfo(oGA.displayName, taskName, string.Format("{0} 完成任務", title));
+                            case -2:
+                                updateInfo(oGA.displayName, taskName, string.Format("{0} 未能檢查作戰結果", title));
+                                break;
+                            case -1:
+                                updateInfo(oGA.displayName, taskName, string.Format("{0} 出戰失敗", title));
+                                break;
+                            case 1:
+                                updateInfo(oGA.displayName, taskName, string.Format("{0} 尚未完成佈陣", title));
+                                break;
+                            case 0:
+                                updateInfo(oGA.displayName, taskName, string.Format("{0} {1}完成任務", title, (useBackup ? "第二部隊" : "第一部隊")));
+                                break;
+                            case 999:
+                                updateInfo(oGA.displayName, taskName, string.Format("{0} {1}未能完成任務", title, (useBackup ? "派出第一, 二部隊均" : "")));
+                                break;
                         }
                     }
                 }
@@ -56,9 +77,11 @@ namespace KingsLib
             }
         }
 
+        // -2 : fail to check result
         // -1 : fail
-        // 0  : ok
+        // 0  : Win
         // 1  : setup problem
+        // 999 : Fail
         private static int goPatrolCampaign(ConnectionInfo ci, string sid, int cityId, ref string fightHeros, ref string title, bool useLastConfig = false)
         {
             RequestReturnObject rro;
@@ -69,7 +92,7 @@ namespace KingsLib
             if (!rro.SuccessWithJson(RRO.Patrol.data)) return -1;
             title = rro.getString(RRO.Patrol.title);
 
-            rro = request.Campaign.getAttFormation(ci, sid, "PATROL_NPC");
+            rro = request.Campaign.getAttFormation(ci, sid, RRO.Campaign.march_PATROL_NPC);
             if (!rro.SuccessWithJson(RRO.Campaign.heros, typeof(DynamicJsonArray))) return campaign.quitCampaign(ci, sid, -1);
 
             if ((fightHeros == null) || (fightHeros == ""))
@@ -97,12 +120,25 @@ namespace KingsLib
 
             // Check for draw
             rro = request.TurnCardReward.getTurnCardRewards(ci, sid);
-            if (!rro.SuccessWithJson(RRO.TurnCardReward.rewards)) return 0;
+            if (rro.SuccessWithJson(RRO.TurnCardReward.rewards)) {
+                request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+                request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+                // Must win if there has TurnCardReward, so no need to check
+                return 0;
+            }
 
-            request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
-            request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
-
-            return 0;
+            rro = request.Patrol.getPatrolInfo(ci, sid);
+            if (!rro.exists(RRO.Patrol.events, typeof(DynamicJsonArray)))
+            {
+                return -2;
+            }
+            DynamicJsonArray afterEvents = rro.responseJson[RRO.Patrol.events];
+            bool win = true;
+            foreach (dynamic o in afterEvents)
+            {
+                if (JSON.getInt(o, RRO.Patrol.city) == cityId) win = false;
+            }
+            return (win ? 0 : 999);
         }
     }
 }
