@@ -200,6 +200,19 @@ namespace KingsLib
             }
 
 
+            public static class Lottery
+            {
+                public const string freeLotteryTimes = "freeLotteryTimes";
+            }
+
+
+            public static class LuckyCycle
+            {
+                public const string remainCount = "remainCount";
+                public const string id = "id";
+                public const string progress = "progress";
+                public const string needRefresh = "needRefresh";
+            }
 
             public static class LongMarch
             {

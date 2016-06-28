@@ -27,6 +27,8 @@ namespace KingsLib.scheduler
             public const string GrassArrow = "GrassArrow";
             public const string Harvest = "Harvest";
             public const string IndustryShop = "IndustryShop";
+            public const string LuckyCycle = "LuckyCycle";
+            public const string Lottery = "Lottery";
             public const string Market = "Market";
             public const string OneYearSignIn = "OneYearSignIn";
             public const string Patrol = "Patrol";
@@ -68,6 +70,12 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.Harvest:
                     taskName = "封地收獲";
+                    break;
+                case TaskId.LuckyCycle:
+                    taskName = "幸運轉盤";
+                    break;
+                case TaskId.Lottery:
+                    taskName = "轉盤抽獎";
                     break;
                 case TaskId.Market:
                     taskName = "糧草先行";
@@ -309,6 +317,24 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goTrainHero
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.LuckyCycle,
+                info = "轉動幸運轉盤並領取獎勵",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goLuckyCycle
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Lottery,
+                info = "自動完成轉盤抽獎",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goLottery
             });
 
         }
