@@ -1,0 +1,37 @@
+[KingsLib]
+  - com
+    + SendGenericRequest
+
+
+[KingsLib.action]
+  - <class by nature* / action type>
+
+[KingsLib.constant]
+  - STYLE
+  - PROMPT
+  - RRO
+    - <class by action type>
+  - Interface IInfoBase
+
+[KingsLib.task]
+  - KingsTask
+    - static TaskId  
+    - static getTaskName
+  - Interface IKingsTask
+    - isOutstanding
+    - executeTask
+  - kingsTask
+    - getTask(TaskId)
+    - <class by TaskId> : IKingsTask
+ 
+[KingsLib.scheduler]
+  - Scheduler
+    - List<KingsTask> AutoTask
+    
+
+[KingsLib.request]
+  - <class by action type>
+
+[KingsLib.monitor]
+  - KingsMonitor
+

@@ -16,6 +16,8 @@ namespace KingsLib.scheduler
 
         public static class TaskId
         {
+            public const string ArenaReward = "ArenaReward";
+            public const string ArenasReward = "ArenasReward";
             public const string BossWar = "BossWar";
             public const string CleanUpBag = "CleanUpBag";
             public const string CorpsCityReward = "CorpsCityReward";
@@ -43,6 +45,12 @@ namespace KingsLib.scheduler
             string taskName = "";
             switch (id)
             {
+                case TaskId.ArenaReward:
+                    taskName = "天下比武獎勵";
+                    break;
+                case TaskId.ArenasReward:
+                    taskName = "三軍演武獎勵";
+                    break;
                 case TaskId.BossWar:
                     taskName = "神將無雙";
                     break;
