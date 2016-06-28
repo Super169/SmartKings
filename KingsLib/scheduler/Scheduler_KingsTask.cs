@@ -23,6 +23,7 @@ namespace KingsLib.scheduler
             public const string CorpsCityReward = "CorpsCityReward";
             public const string CycleShop = "CycleShop";
             public const string EliteFight = "EliteFight";
+            public const string EliteBuyTime = "EliteBuyTime";
             public const string FinishTask = "FinishTask";
             public const string GrassArrow = "GrassArrow";
             public const string Harvest = "Harvest";
@@ -61,6 +62,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.CycleShop:
                     taskName = "東瀛寶船";
+                    break;
+                case TaskId.EliteBuyTime:
+                    taskName = "購買討伐次數";
                     break;
                 case TaskId.FinishTask:
                     taskName = "任務報酬";
@@ -344,6 +348,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goAreansReward
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.EliteBuyTime,
+                info = "購買額外的英雄討伐次數",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goEliteBuyTime
             });
 
         }
