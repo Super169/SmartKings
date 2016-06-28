@@ -140,9 +140,23 @@ namespace SmartKings
                     json[Scheduler.Parm.EliteFight.targetStage] = 2;
                     break;
                 case "S43 自由人":
+
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 6;
                     json[Scheduler.Parm.EliteFight.targetStage] = 1;
+
+                    dynamic heros = JSON.Empty;
+                    List<int> hs = new List<int>();
+                    hs.Add(5);
+                    hs.Add(10);
+                    hs.Add(18);
+                    hs.Add(3);
+                    hs.Add(4);
+                    heros[Scheduler.Parm.TrainHero.targetHeros] = hs;
+                    heros = JSON.recode(heros);
+
+                    json = oGA.getTaskParmObject(Scheduler.TaskId.TrainHero);
+                    json[Scheduler.Parm.TrainHero.targetHeros] = heros[Scheduler.Parm.TrainHero.targetHeros];
                     break;
             }
         }

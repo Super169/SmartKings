@@ -29,9 +29,9 @@ namespace KingsLib
 
                 // S35 : 10-1
                 // S37 :  9-2
-                dynamic json = oGA.getTaskParmObject(taskId);
-                int targetChapter = JSON.getInt(json, Scheduler.Parm.EliteFight.targetChapter);
-                int targetStage = JSON.getInt(json, Scheduler.Parm.EliteFight.targetStage);
+                dynamic parmObject = oGA.getTaskParmObject(taskId);
+                int targetChapter = JSON.getInt(parmObject, Scheduler.Parm.EliteFight.targetChapter);
+                int targetStage = JSON.getInt(parmObject, Scheduler.Parm.EliteFight.targetStage);
 
                 if (!((targetChapter > 0) && (targetStage > 0)))
                 {

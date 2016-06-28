@@ -263,6 +263,14 @@ namespace KingsLib.data
             return true;
         }
 
+        public string getHeroName(int heroIdx)
+        {
+            HeroInfo hi = heros.Find(x => x.idx == heroIdx);
+            if (hi == null) return "[無名]";
+            return hi.nm;
+        }
+
+
         public void refreshRecord()
         {
             // For pubgame accounts:

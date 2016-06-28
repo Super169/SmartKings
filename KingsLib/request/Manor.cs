@@ -39,6 +39,18 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_decreeInfo);
         }
 
+        public static RequestReturnObject doHeroActivity(ConnectionInfo ci, string sid, int heroIndex, int field)
+        {
+            return doHeroActivity(ci, sid, heroIndex, 0, field, "");
+        }
+
+        public static RequestReturnObject doHeroActivity(ConnectionInfo ci, string sid, int heroIndex, int costGold, int field, string armament)
+        {
+            string body = string.Format("{{\"heroIndex\":{0}, \"costGold\":{1}, \"field\":{2}, \"armament\":\"{3}\"}}", heroIndex, costGold, field, armament);
+            return com.SendGenericRequest(ci, sid, CMD_doHeroActivity, true, body);
+        }
+
+
         public static RequestReturnObject getManorInfo(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_getManorInfo);

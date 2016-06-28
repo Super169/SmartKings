@@ -58,7 +58,7 @@ namespace KingsLib
                     fightCount = rro.getInt(RRO.GrassArrow.fightCount);
                     arrowNum = rro.getInt(RRO.GrassArrow.arrowNum);
                     totalNum = rro.getInt(RRO.GrassArrow.totalNum);
-                    updateInfo(oGA.displayName, taskName, string.Format("出戰後, 獲得 {0} 支箭", totalNum));
+                    updateInfo(oGA.displayName, taskName, string.Format("出戰後, 獲得 {0} 支箭, 現餘下 {1} 支箭", totalNum, arrowNum));
                 }
 
                 DynamicJsonArray items = rro.responseJson[RRO.GrassArrow.items];

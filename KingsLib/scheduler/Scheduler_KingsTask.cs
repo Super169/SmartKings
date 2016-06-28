@@ -383,11 +383,23 @@ namespace KingsLib.scheduler
                 case TaskId.CorpsCityReward:
                 case TaskId.FinishTask:
                 case TaskId.Harvest:
-                case TaskId.Patrol:
                 case TaskId.ReadAllEmail:
                     si.elapseMin = 60;
                     si.maxRetry = 3;
                     si.retryFreqMin = 1;
+                    break;
+                case TaskId.Patrol:
+                    si.elapseMin = 30;
+                    si.maxRetry = 3;
+                    si.retryFreqMin = 1;
+                    break;
+                case TaskId.GrassArrow:
+                    si.dow = new List<int>();
+                    si.dow.Add(1);
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(5, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
                 case TaskId.CycleShop:
                     si.dow = new List<int>();

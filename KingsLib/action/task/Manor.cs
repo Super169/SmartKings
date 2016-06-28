@@ -63,20 +63,34 @@ namespace KingsLib
                 }
                 */
 
-                dynamic json = JSON.Empty;
-                List<int> hs = new List<int>();
-                hs.Add(10);
-                hs.Add(12);
-                json[Scheduler.Parm.TrainHero.targetHeros] = hs;
-                json = JSON.recode(json);
 
                 List<int> targetHeros = new List<int>();
-                DynamicJsonArray dja = json[Scheduler.Parm.TrainHero.targetHeros];
-                foreach (dynamic o in dja)
+
+                dynamic parmObject = oGA.getTaskParmObject(taskId);
+                if (JSON.exists(parmObject, Scheduler.Parm.TrainHero.targetHeros, typeof(DynamicJsonArray)))
                 {
-                    int heroIndex = JSON.getInt(o, -1);
-                    if (heroIndex > 0) targetHeros.Add(heroIndex);
+                    DynamicJsonArray dja = parmObject[Scheduler.Parm.TrainHero.targetHeros];
+                    foreach (dynamic o in dja)
+                    {
+                        int heroIdx = JSON.getInt(o, -1);
+                        if (heroIdx > 0)
+                        {
+                            HeroInfo hi = oGA.heros.Find(x => x.idx == heroIdx);
+                            if ((hi.lv < oGA.level) || (hi.exp < hi.)
+                            {
+                                targetHeros.Add(heroIdx);
+
+                            }
+                        }
+                    }
                 }
+
+                if (targetHeros.Count == 0)
+                {
+                    updateInfo(oGA.displayName, taskName, "設定尚未完成");
+                    return false;
+                }
+
 
                 List<int> jcFields = new List<int>();
 
@@ -112,11 +126,21 @@ namespace KingsLib
                     }
                 }
 
-                foreach (int field in jcFields)
+                int heroPos = 0;
+                int fieldPos = 0;
+                while (fieldPos < jcFields.Count)
                 {
-
+                    int field = jcFields.ElementAt(fieldPos);
+                    rro = request.Manor.doHeroActivity(ci, sid, targetHeros.ElementAt(heroPos), field);
+                    if (rro.ok == 1)
+                    {
+                        string nm = oGA.getHeroName(targetHeros.ElementAt(heroPos));
+                        updateInfo(oGA.displayName, taskName, string.Format("對 {0} 進行訓練", nm));
+                        fieldPos++;
+                    }
+                    if (++heroPos >= targetHeros.Count) break;
                 }
-
+                
                 return true;
             }
 
