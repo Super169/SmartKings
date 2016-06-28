@@ -48,7 +48,14 @@ namespace KingsLib
 
             }
 
-
+            public static class Arenas
+            {
+                public const string rank = "rank";
+                public const string highest = "highest";
+                public const string rwdRank = "rwdRank";
+                public const string coin = "coin";
+                public const string leftTimes = "leftTimes";
+            }
             public static class Bag
             {
                 public const string deleted = "deleted";

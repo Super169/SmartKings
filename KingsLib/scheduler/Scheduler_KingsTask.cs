@@ -337,6 +337,15 @@ namespace KingsLib.scheduler
                 executeTask = action.task.goLottery
             });
 
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.ArenasReward,
+                info = "領取三軍演武的獎勵",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goAreansReward
+            });
+
         }
 
         public static ScheduleInfo defaultSchedule(string taskId)
