@@ -160,6 +160,39 @@ namespace KingsLib
                 return true;
             }
 
+            public static bool goTrialBuyTime(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            {
+                string taskId = Scheduler.TaskId.TrialsBuyTimes;
+                string taskName = Scheduler.getTaskName(taskId);
+                ConnectionInfo ci = oGA.connectionInfo;
+                string sid = oGA.sid;
+                RequestReturnObject rro;
+
+                rro = request.Campaign.getTrialsInfo(ci, sid);
+                if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.exists(RRO.Campaign.buyTimes, typeof(DynamicJsonObject)))) return false;
+                int weekday = rro.getInt(RRO.Campaign.weekday);
+                dynamic buyTimes = rro.responseJson["buyTimes"];
+
+                string[] trialType = { "", "WZLJ", "WJDD", "WHSJ" };
+                int buyCnt = 0;
+                for (int idx = 1; idx <= 3; idx++)
+                {
+                    // Interesting, weekday of Sunday is 7 instead of 0, for sefety, check both 0 & 7.
+                    if ((weekday == 0) || (weekday == 7) || (weekday == idx) || (weekday == idx + 3))
+                    {
+                        int buyTime = JSON.getInt(buyTimes, trialType[idx]);
+                        if (buyTime == 0)
+                        {
+                            rro = request.Campaign.trialsBuyTimes(ci, sid, trialType[idx]);
+                            if (rro.ok == 1) buyCnt++;
+                        }
+                    }
+                }
+                if (buyCnt > 0) updateInfo(oGA.displayName, taskName, string.Format("購買 {0} 次額外次數", buyCnt));
+                return true;
+            }
+
+
 
         }
     }

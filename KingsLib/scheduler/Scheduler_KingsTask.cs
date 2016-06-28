@@ -39,6 +39,7 @@ namespace KingsLib.scheduler
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
             public const string TrainHero = "TrainHero";
+            public const string TrialsBuyTimes = "TrialsBuyTimes";
             public const string TuanGo = "TuanGo";
 
         }
@@ -120,6 +121,9 @@ namespace KingsLib.scheduler
 
                 case TaskId.TrainHero:
                     taskName = "校場訓練";
+                    break;
+                case TaskId.TrialsBuyTimes:
+                    taskName = "購買試練次數";
                     break;
 
                 default:
@@ -357,6 +361,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goEliteBuyTime
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.TrialsBuyTimes,
+                info = "購買額外的英雄試煉次數",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goTrialBuyTime
             });
 
         }
