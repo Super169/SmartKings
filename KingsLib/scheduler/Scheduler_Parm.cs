@@ -27,6 +27,7 @@ namespace KingsLib.scheduler
             public static class TrainHero
             {
                 public const string targetHeros = "targetHeros";
+                public const string trainSameLevel = "trainSameLevel";
             }
         }
     }

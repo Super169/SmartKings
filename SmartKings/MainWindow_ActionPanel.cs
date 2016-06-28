@@ -118,49 +118,6 @@ namespace SmartKings
             }
         }
 
-
-        private void QuickSetup()
-        {
-            GameAccount oGA = GetSelectedAccount();
-            if (oGA == null) return;
-
-            dynamic json;
-            switch (oGA.displayName)
-            {
-                case "S35 超級一六九":
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 10;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
-                    break;
-                case "S36 無名無姓":
-                    break;
-                case "S37 怕死的水子遠":
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 9;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 2;
-                    break;
-                case "S43 自由人":
-
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 6;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
-
-                    dynamic heros = JSON.Empty;
-                    List<int> hs = new List<int>();
-                    hs.Add(5);
-                    hs.Add(10);
-                    hs.Add(18);
-                    hs.Add(3);
-                    hs.Add(4);
-                    heros[Scheduler.Parm.TrainHero.targetHeros] = hs;
-                    heros = JSON.recode(heros);
-
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TrainHero);
-                    json[Scheduler.Parm.TrainHero.targetHeros] = heros[Scheduler.Parm.TrainHero.targetHeros];
-                    break;
-            }
-        }
-
         private void goCheckStatus()
         {
             UpdateProgress("檢查帳戶狀況 進行中......");

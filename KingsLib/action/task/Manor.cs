@@ -69,6 +69,7 @@ namespace KingsLib
                 dynamic parmObject = oGA.getTaskParmObject(taskId);
                 if (JSON.exists(parmObject, Scheduler.Parm.TrainHero.targetHeros, typeof(DynamicJsonArray)))
                 {
+                    bool trainSameLevel = JSON.getBool(parmObject, Scheduler.Parm.TrainHero.trainSameLevel);
                     DynamicJsonArray dja = parmObject[Scheduler.Parm.TrainHero.targetHeros];
                     foreach (dynamic o in dja)
                     {
@@ -76,10 +77,9 @@ namespace KingsLib
                         if (heroIdx > 0)
                         {
                             HeroInfo hi = oGA.heros.Find(x => x.idx == heroIdx);
-                            if ((hi.lv < oGA.level) || (hi.exp < hi.)
+                            if (trainSameLevel || (hi.lv < oGA.level))
                             {
                                 targetHeros.Add(heroIdx);
-
                             }
                         }
                     }
@@ -126,6 +126,7 @@ namespace KingsLib
                     }
                 }
 
+                if (targetHeros.Count == 0) return false;
                 int heroPos = 0;
                 int fieldPos = 0;
                 while (fieldPos < jcFields.Count)
