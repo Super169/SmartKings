@@ -424,6 +424,13 @@ namespace KingsLib
             public static class TeamDuplicate
             {
                 public const string times = "times";
+                public const string refreshTimes = "refreshTimes";
+                public const string items = "items";
+                public const string duplicateId = "duplicateId";
+                public const string completed = "completed";
+                public const string doubleReward = "doubleReward";
+                public const string teamId = "teamId";
+                public const string status = "status";
             }
 
             public static class Travel
