@@ -31,6 +31,7 @@ namespace KingsLib.scheduler
             public const string LuckyCycle = "LuckyCycle";
             public const string Lottery = "Lottery";
             public const string Market = "Market";
+            public const string NavalWar = "NavalWar";
             public const string OneYearSignIn = "OneYearSignIn";
             public const string Patrol = "Patrol";
             public const string ReadAllEmail = "ReadAllEmail";
@@ -84,6 +85,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.Market:
                     taskName = "糧草先行";
+                    break;
+                case TaskId.NavalWar:
+                    taskName = "跨服入侵";
                     break;
                 case TaskId.SignIn:
                     taskName = "簽到領獎";
@@ -370,6 +374,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goTrialBuyTime
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.NavalWar,
+                info = "派兵參與跨服入侵",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goNavalWar
             });
 
         }

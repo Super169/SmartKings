@@ -13,6 +13,11 @@ namespace KingsLib.scheduler
         public const int DAY_START_HOUR = 5;
         public const int DAY_START_ADJ_MIN = 5;
 
+        public static DateTime getRefTime(TimeSpan refTS)
+        {
+            return getRefTime(DateTime.Now, refTS);
+        }
+
         public static DateTime getRefTime(DateTime baseTime, TimeSpan refTS)
         {
             DateTime refTime = new DateTime(baseTime.Year, baseTime.Month, baseTime.Day) + refTS;

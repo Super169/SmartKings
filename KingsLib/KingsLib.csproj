@@ -69,6 +69,7 @@
     <Compile Include="action\task\Lottery.cs" />
     <Compile Include="action\task\LuckyCycle.cs" />
     <Compile Include="action\task\Manor.cs" />
+    <Compile Include="action\task\Naval.cs" />
     <Compile Include="action\task\Patrol.cs" />
     <Compile Include="action\task\shop.cs" />
     <Compile Include="action\task\Harvest.cs" />

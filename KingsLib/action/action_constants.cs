@@ -271,6 +271,10 @@ namespace KingsLib
                 public const string alives = "alives";
                 public const string deads = "deads";
                 public const string deadhero = "deadhero";
+
+                public const string disp = "disp";
+                public const string troops = "troops";
+
             }
 
             public static class OneYear

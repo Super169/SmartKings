@@ -20,6 +20,12 @@ namespace KingsLib.request
         private const string CMD_rewardCfg = "Naval.rewardCfg";
         private const string CMD_sendTroops = "Naval.sendTroops";
 
+        public static RequestReturnObject enterWar(ConnectionInfo ci, string sid, int n)
+        {
+            string body = string.Format("{{\"n\":{0}}}", n);
+            return com.SendGenericRequest(ci, sid, CMD_enterWar, true, body);
+        }
+
         public static RequestReturnObject getInfo(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_getInfo);
@@ -43,6 +49,12 @@ namespace KingsLib.request
         public static RequestReturnObject rewardCfg(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_rewardCfg);
+        }
+
+        public static RequestReturnObject sendTroops(ConnectionInfo ci, string sid, string heros, int cityId)
+        {
+            string body = string.Format("{{\"save\":{0},\"type\":\"NAVAL\",\"cityId\":{1}}}", heros, cityId);
+            return com.SendGenericRequest(ci, sid, CMD_sendTroops, true, body);
         }
 
 
