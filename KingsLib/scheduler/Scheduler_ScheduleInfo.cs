@@ -44,6 +44,17 @@ namespace KingsLib.scheduler
         }
 
 
+        public static bool bossTime()
+        {
+            // For quick checking, just use PC close, no need to convert refTime
+            DateTime now = DateTime.Now;
+            int dow = (int) now.DayOfWeek;
+            if ((dow != 5) && (dow != 0)) return false;
+            if (now.AddMinutes(1).Hour < 20) return false;
+            if (now.AddMinutes(-30).Hour >= 20) return false;
+            return true;
+        }
+
         public class ScheduleInfo : data.InfoBase
         {
  

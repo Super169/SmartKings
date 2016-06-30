@@ -60,7 +60,10 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_rankInfo);
         }
 
-
+        public static RequestReturnObject sendTroop(ConnectionInfo ci, string sid, string body)
+        {
+            return com.SendGenericRequest(ci, sid, CMD_sendTroop, true, body);
+        }
 
 
     }

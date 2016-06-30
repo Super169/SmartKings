@@ -67,6 +67,13 @@ namespace KingsLib.data
         public List<Scheduler.AutoTask> autoTasks;
         public List<WarInfo> warInfos;
 
+        // Boss War Data
+        public string bwBody { get; set; }
+        public bool bwStarted { get; set; }
+        public bool bwEnded { get; set; }
+        public int bwFailCnt { get; set; }
+        public DateTime bwLastSend { get; set; }
+
         public string displayName { get { return this.serverCode + " " + this.nickName; } }
 
         public override void initObject()
@@ -90,6 +97,14 @@ namespace KingsLib.data
             this.decreeHeros = new List<DecreeInfo>();
             this.autoTasks = new List<Scheduler.AutoTask>();
             this.warInfos = new List<WarInfo>();
+
+            this.bwBody = null;
+            this.bwStarted = false;
+            this.bwEnded = false;
+            this.bwFailCnt = 0;
+            // Just set a value for LastSend as required, will be ignored as bwStarted is fales
+            this.bwLastSend = DateTime.Now;
+
         }
 
         public GameAccount(AccountInfo li, ConnectionInfo ci)
@@ -162,9 +177,10 @@ namespace KingsLib.data
             conv.Json2List(ref this.decreeHeros, json[KEY.decreeHeros]);
 
             this.autoTasks = new List<Scheduler.AutoTask>();
-            if (JSON.exists(json, KEY.autoTasks, typeof(DynamicJsonArray))) {
+            if (JSON.exists(json, KEY.autoTasks, typeof(DynamicJsonArray)))
+            {
                 DynamicJsonArray tasks = (DynamicJsonArray)json[KEY.autoTasks];
-                foreach(dynamic t in tasks)
+                foreach (dynamic t in tasks)
                 {
                     autoTasks.Add(new Scheduler.AutoTask(t));
                 }
@@ -214,7 +230,7 @@ namespace KingsLib.data
             {
                 oAT = new Scheduler.AutoTask(taskId, true, null, null);
                 this.autoTasks.Add(oAT);
-            } 
+            }
             if (oAT.schedule == null)
             {
                 oAT.schedule = Scheduler.defaultSchedule(taskId);
@@ -344,7 +360,7 @@ namespace KingsLib.data
             return wi;
         }
 
-        public bool executeTask (string taskId, action.DelegateUpdateInfo updateInfo, bool debug)
+        public bool executeTask(string taskId, action.DelegateUpdateInfo updateInfo, bool debug)
         {
             Scheduler.AutoTask myTask = findAutoTask(taskId);
             if (myTask == null) return false;
@@ -357,6 +373,9 @@ namespace KingsLib.data
 
         public DateTime goAutoTask(action.DelegateUpdateInfo updateInfo, bool debug)
         {
+            // No auto task during Boss War
+            if (Scheduler.bossTime()) return goBossWar(updateInfo, debug);
+
             DateTime nextTime = DateTime.Now.AddMinutes(5);
             // foreach (Scheduler.AutoTask myTask in this.autoTasks)
             foreach (Scheduler.KingsTask sysTask in Scheduler.autoTaskList)
@@ -382,7 +401,7 @@ namespace KingsLib.data
                     myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
                     if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
                 }
-                
+
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, string.Format("下次執行時間: {0:yyyy-MM-dd HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
                 DateTime? myNext = myTask.schedule.nextExecutionTime;
                 if (myNext != null)
@@ -394,7 +413,54 @@ namespace KingsLib.data
             return nextTime;
         }
 
-        
+        private DateTime goBossWar(action.DelegateUpdateInfo updateInfo, bool debug)
+        {
+            // Shoudl BossWar be a special case under GameAccount?
+            // There are many setting to be updated in GameAccount, and it will not use the normal scheduling
+
+            // action.task.goBassWar(this, updateInfo, debug);
+
+            if (bwBody == null)
+            {
+                WarInfo wi = getWarInfo(Scheduler.TaskId.BossWar, 0);
+                if ((wi.body == null) || (wi.body == ""))
+                {
+                    updateInfo(this.displayName, "BossWar", "尚未完成設定, 二分鐘後重試");
+                    return DateTime.Now.AddMinutes(2);
+                }
+                bwBody = wi.body;
+            }
+
+            // BossWar here
+            if (bwStarted && (DateTime.Now < bwLastSend.AddSeconds(30)))
+            {
+                return bwLastSend.AddSeconds(30);
+            }
+
+            if (bwEnded) return DateTime.Now.AddDays(1);
+
+            bool troopsSent = false;
+
+            ConnectionInfo ci = this.connectionInfo;
+            string sid = this.sid;
+
+            // ...
+            // Send Troops here, update troopsSent & bwEnded (fail for 3 times) here
+            troopsSent = action.task.goBassWar(this, updateInfo, debug);
+
+            // .... 
+            if (bwEnded) return DateTime.Now.AddDays(1);
+
+
+            // If failed, retry in 2 seconds later
+            if (!troopsSent) return DateTime.Now.AddSeconds(2);
+            // Send troops here
+
+            this.bwStarted = true;
+            this.bwLastSend = DateTime.Now;
+            return DateTime.Now.AddSeconds(31);
+     
+        }
 
     }
 }

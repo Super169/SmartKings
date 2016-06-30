@@ -70,6 +70,18 @@ namespace KingsLib
                 public const string nm_ticket = "嘉年华入场券";
             }
 
+            public static class BossWar
+            {
+                public const string troops = "troops";
+                public const string sendCount = "sendCount";
+
+                public const string bossInfo = "bossInfo";
+                public const string hpp = "hpp";
+                public const string nm = "nm";
+                public const string lv = "lv";
+            }
+
+
             public static class Campaign
             {
                 public const string march_PATROL_NPC = "PATROL_NPC";
