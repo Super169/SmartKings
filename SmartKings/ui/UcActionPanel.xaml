@@ -34,5 +34,6 @@
         <Button x:Name="btnGrassArrow" Content="草船借箭" HorizontalAlignment="Left" Margin="255,302,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnSetupTeamDuplicate" Content="皇榜設定" HorizontalAlignment="Left" Margin="110,189,0,0" VerticalAlignment="Top" Width="87" Click="btn_Click"/>
         <Button x:Name="btnSetupTrainHero" Content="校場設定" HorizontalAlignment="Left" Margin="110,214,0,0" VerticalAlignment="Top" Width="87" Click="btn_Click"/>
+        <Button x:Name="btnSetupBossWar" Content="神將設定" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Width="87" Click="btn_Click"/>
     </Grid>
 </UserControl>

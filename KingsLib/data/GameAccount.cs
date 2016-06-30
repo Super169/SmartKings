@@ -430,16 +430,19 @@ namespace KingsLib.data
 
             // action.task.goBassWar(this, updateInfo, debug);
 
-            if (bwBody == null)
+            // For safety, read WarInfo all the time
+            WarInfo wi = getWarInfo(Scheduler.TaskId.BossWar, 0);
+            if ((wi == null) || (wi.body == null) || (wi.body == ""))
             {
-                WarInfo wi = getWarInfo(Scheduler.TaskId.BossWar, 0);
-                if ((wi.body == null) || (wi.body == ""))
-                {
-                    updateInfo(this.displayName, "BossWar", "尚未完成設定, 二分鐘後重試");
-                    return DateTime.Now.AddMinutes(2);
-                }
+                bwBody = null;
+                updateInfo(this.displayName, "BossWar", "尚未完成設定, 二分鐘後重試");
+                return DateTime.Now.AddMinutes(2);
+            }
+            else
+            {
                 bwBody = wi.body;
             }
+
 
             // BossWar here
             if (bwStarted && (DateTime.Now < bwLastSend.AddSeconds(30)))

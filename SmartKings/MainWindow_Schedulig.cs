@@ -69,15 +69,6 @@ namespace SmartKings
                         }
                     }
 
-                    /*
-                    DateTime minNext;
-                    DateTime nextActionTime;
-
-                    minNext = DateTime.Now;
-                    int currMinSlot =  ( (int) (minNext.Minute / AppSettings.elapseMin + 1)) * AppSettings.elapseMin;
-                    nextActionTime = new DateTime(minNext.Year, minNext.Month, minNext.Day, minNext.Hour, 00, 00).AddMinutes(currMinSlot + AppSettings.extraStartMin);
-                    */
-
                     if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");
                     UpdateProgress();
 
@@ -91,13 +82,23 @@ namespace SmartKings
                 UpdateInfo("***", "自動大皇帝", string.Format("等待超時, 未能進行.  將於 {0:HH:mm:ss} 重試", nextActionTime));
             }
 
+            // Check boss war time, no schedule between 19:30 - 20:30
+            int dow = (int)DateTime.Now.DayOfWeek;
+            if ((dow == 0) || (dow == 5))
+            {
+                if ((nextActionTime.Hour == 19) && (nextActionTime.Minute < 59))
+                {
+                    // Force to BossWar Time
+                    nextActionTime = nextActionTime.Date.Add(new TimeSpan(19, 59, 5));
+                    UpdateInfo("***", "自動大皇帝", string.Format("進入神將等待時間, 下次將於 {0:HH:mm:ss} 執行", nextActionTime));
+                }
+            }
+
             double waitMS = (nextActionTime - DateTime.Now).TotalSeconds * 1000;
             if (waitMS < 0) waitMS = 1000;
             autoTimer.Interval = waitMS;
             UpdateTextBox(txtNextExecution, nextActionTime.ToString("yyyy-MM-dd HH:mm:ss"));
             autoTimer.Enabled = true;
-
         }
-
     }
 }

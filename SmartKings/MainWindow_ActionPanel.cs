@@ -121,6 +121,9 @@ namespace SmartKings
                 case "btnSetupTrainHero":
                     goSetupTrainHero();
                     break;
+                case "btnSetupBossWar":
+                    goWarSetup(Scheduler.TaskId.BossWar, 0, 1, 5, true, -1, null);
+                    break;
             }
         }
 
