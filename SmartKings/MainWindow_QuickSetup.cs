@@ -33,7 +33,7 @@ namespace SmartKings
                 case "S35 超級一六九":
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 10;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 3;
 
                     // 18 - 吕布; 5 - 吕绮玲; 9 - 周瑜; 42 - 马超; 46 - 孙策
                     heros = JSON.Empty;

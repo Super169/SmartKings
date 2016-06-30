@@ -30,6 +30,7 @@ namespace SmartKings
 
         private void saveAccounts()
         {
+            DateTime startTime = DateTime.Now;
             dynamic jsonData = JSON.Empty;
             List<dynamic> acList = new List<dynamic>();
             foreach (GameAccount oGA in gameAccounts)
@@ -38,6 +39,9 @@ namespace SmartKings
             }
             jsonData[KEY_GAMEACCOUNTS] = acList;
             JSON.toFile(jsonData, jazGameAccounts);
+            DateTime endTime = DateTime.Now;
+            TimeSpan ts = endTime - startTime;
+            if (AppSettings.DEBUG) MessageBox.Show(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));
         }
 
         private void restoreAccounts()

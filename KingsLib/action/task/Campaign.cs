@@ -39,7 +39,7 @@ namespace KingsLib
                     return false;
                 }
 
-                string[] targetReward = { "金旗鼓号", "金鞋", "金旗鼓號" };
+                string[] targetReward = { "金旗鼓号", "金旗鼓號", "金鞋", "金枪", "金马", "金槍", "金馬" };
 
                 updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
                                                                       leftCount,
