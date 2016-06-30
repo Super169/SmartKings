@@ -39,6 +39,7 @@ namespace KingsLib.scheduler
             public const string SLShop = "SLShop";
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
+            public const string TeamDuplicate = "TeamDuplicate";
             public const string TrainHero = "TrainHero";
             public const string TrialsBuyTimes = "TrialsBuyTimes";
             public const string TuanGo = "TuanGo";
@@ -128,6 +129,10 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.TrialsBuyTimes:
                     taskName = "購買試練次數";
+                    break;
+
+                case TaskId.TeamDuplicate:
+                    taskName = "皇榜";
                     break;
 
                 default:
@@ -383,6 +388,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goNavalWar
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.TeamDuplicate,
+                info = "執行皇榜任務",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goTeamDuplicate
             });
 
         }

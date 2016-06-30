@@ -399,8 +399,6 @@ namespace KingsLib
                 public const string _rs = "_rs";
 
                 public const string _type_SCEnterCampaign = "SCEnterCampaign";
-
-
             }
 
 

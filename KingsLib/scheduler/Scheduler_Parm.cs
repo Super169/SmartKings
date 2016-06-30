@@ -29,6 +29,12 @@ namespace KingsLib.scheduler
                 public const string targetHeros = "targetHeros";
                 public const string trainSameLevel = "trainSameLevel";
             }
+
+            public static class TeamDuplicate
+            {
+                public const string heroIdx = "heroIdx";
+            }
+
         }
     }
 }

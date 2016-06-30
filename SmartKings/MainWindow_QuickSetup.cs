@@ -74,6 +74,10 @@ namespace SmartKings
                     json = oGA.getTaskParmObject(Scheduler.TaskId.TrainHero);
                     json[Scheduler.Parm.TrainHero.targetHeros] = heros[Scheduler.Parm.TrainHero.targetHeros];
                     json[Scheduler.Parm.TrainHero.trainSameLevel] = true;
+
+
+                    json = oGA.getTaskParmObject(Scheduler.TaskId.TeamDuplicate);
+                    json[Scheduler.Parm.TeamDuplicate.heroIdx] = "[4,18,5,10]";
                     break;
             }
         }
