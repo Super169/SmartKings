@@ -153,6 +153,7 @@ namespace KingsLib.data
         public GameAccount(dynamic json)
         {
             fromJson(json);
+            this.sortHeros();
         }
 
         public override bool fromJson(dynamic json)
@@ -274,9 +275,18 @@ namespace KingsLib.data
             if (this.status != AccountStatus.Online) return false;
 
             this.heros = action.hero.getInfo(connectionInfo, sid);
+            sortHeros();
             this.decreeHeros = action.decree.getInfo(connectionInfo, sid, this.heros);
 
             return true;
+        }
+
+        public void sortHeros()
+        {
+            this.heros.Sort(delegate (HeroInfo a, HeroInfo b)
+            {
+                return b.power.CompareTo(a.power);
+            });
         }
 
         public string getHeroName(int heroIdx)

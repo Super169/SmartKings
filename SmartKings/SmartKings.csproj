@@ -72,11 +72,17 @@
     <Compile Include="MainWindow_QuickSetup.cs" />
     <Compile Include="MainWindow_WarInfo.cs" />
     <Compile Include="MainWindow__Initialization.cs" />
+    <Compile Include="ui\setup\WinPickHeros.xaml.cs">
+      <DependentUpon>WinPickHeros.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ui\UcActionPanel.xaml.cs">
       <DependentUpon>UcActionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="ui\UcAppSwitches.xaml.cs">
       <DependentUpon>UcAppSwitches.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\UcHeroList.xaml.cs">
+      <DependentUpon>UcHeroList.xaml</DependentUpon>
     </Compile>
     <Compile Include="ui\UcWarHero.xaml.cs">
       <DependentUpon>UcWarHero.xaml</DependentUpon>
@@ -106,11 +112,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ui\setup\WinPickHeros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ui\UcActionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ui\UcAppSwitches.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ui\UcHeroList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

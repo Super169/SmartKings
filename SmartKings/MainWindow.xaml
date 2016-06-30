@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings"
         xmlns:ui="clr-namespace:SmartKings" xmlns:ui1="clr-namespace:SmartKings.ui" x:Class="SmartKings.MainWindow"
-        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800" >
+        mc:Ignorable="d" Height="768" Width="1024" Loaded="Window_Loaded" MinHeight="600" MinWidth="800" FontSize="14" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="2"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="210"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
                 <RowDefinition Height="30" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Button x:Name="btnCheckStatus" Content="檢查帳戶狀況" HorizontalAlignment="Left" Width="83" Margin="2,0,0,0" Click="btnCheckStatus_Click"/>
+                <Button x:Name="btnCheckStatus" Content="檢查帳戶狀況" HorizontalAlignment="Left" Width="88" Margin="2,0,0,0" Click="btnCheckStatus_Click"/>
                 <Button x:Name="btnQuit" Content="離開" Margin="0,0,2,0" HorizontalAlignment="Right" Width="83" Click="btnQuit_Click"/>
             </Grid>
             <Grid Grid.Row="1" Background="#FFE2E1E1" />
@@ -105,10 +105,10 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"  >
                     <Label x:Name="lblAutoRunning" Content="智能大皇帝 準備中" Height="30" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="16" FontWeight="ExtraBlack" FontFamily="MingLiU" ForceCursor="True" Background="#FFD1CFCF"/>
-                    <Label x:Name="lblLastExecution" Content="最後執行:" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="52" VerticalContentAlignment="Center" Padding="0" />
-                    <TextBox x:Name="txtLastExecution" HorizontalAlignment="Right" Height="20" Margin="0,32,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="133" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
-                    <Label x:Name="lblNextExecution" Content="下次執行:" HorizontalAlignment="Left" Margin="5,56,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="52" VerticalContentAlignment="Center" Padding="0" />
-                    <TextBox x:Name="txtNextExecution" HorizontalAlignment="Right" Height="20" Margin="0,56,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="133" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
+                    <Label x:Name="lblLastExecution" Content="最後執行:" HorizontalAlignment="Left" Margin="5,32,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="61" VerticalContentAlignment="Center" Padding="0" />
+                    <TextBox x:Name="txtLastExecution" HorizontalAlignment="Right" Height="20" Margin="0,32,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="124" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
+                    <Label x:Name="lblNextExecution" Content="下次執行:" HorizontalAlignment="Left" Margin="5,56,0,0" VerticalAlignment="Top" FontWeight="Bold" Height="20" Width="61" VerticalContentAlignment="Center" Padding="0" />
+                    <TextBox x:Name="txtNextExecution" HorizontalAlignment="Right" Height="20" Margin="0,56,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="124" Foreground="#FF003FFF" FontWeight="Bold" FontSize="12"/>
 
                     <Button x:Name="btnAuto" Content="立即啟動" Margin="5,0,5,2" Height="29" VerticalAlignment="Bottom" Click="btnAuto_Click" FontSize="18.667" FontWeight="Bold"/>
                 </Grid>

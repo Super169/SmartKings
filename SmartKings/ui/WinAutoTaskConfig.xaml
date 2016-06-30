@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings.ui"
         mc:Ignorable="d"
-        Title="WinAutoTaskConfig" Height="402.409" Width="552.003" WindowStartupLocation="CenterOwner">
+        Title="WinAutoTaskConfig" Height="600" Width="552.003" WindowStartupLocation="CenterOwner" FontSize="14">
     <Grid>
         <ListView x:Name="lvTask" Margin="10,10,10,49">
             <ListView.View>
@@ -24,7 +24,7 @@
         </ListView>
         <Button x:Name="btnSelectAll" Content="全選" Margin="10,0,0,10" Click="btnSelectAll_Click" Height="34" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
         <Button x:Name="btnSelectNone" Content="全不選" HorizontalAlignment="Left" Margin="90,0,0,10" Width="75" Click="btnSelectNone_Click" Height="34" VerticalAlignment="Bottom"/>
-        <Button x:Name="btnClose" Content="Close" Margin="0,0,10,10" Height="34" VerticalAlignment="Bottom" Click="btnClose_Click" HorizontalAlignment="Right" Width="75"/>
+        <Button x:Name="btnClose" Content="關閉" Margin="0,0,10,10" Height="34" VerticalAlignment="Bottom" Click="btnClose_Click" HorizontalAlignment="Right" Width="75"/>
 
     </Grid>
 </Window>

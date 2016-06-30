@@ -30,7 +30,7 @@ namespace KingsLib.data
             public const string amftLvs = "amftLvs";
         }
 
-
+        public bool selected { get; set; }
         public int idx { get; set; }
         public string nm { get; set; }
         public string dsp { get; set; }
@@ -64,6 +64,7 @@ namespace KingsLib.data
 
         public override void initObject()
         {
+            selected = false;
             idx = 0;
         }
 

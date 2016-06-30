@@ -23,12 +23,18 @@ namespace KingsLib
                 RequestReturnObject rro;
 
                 dynamic parmObject = oGA.getTaskParmObject(taskId);
-                string heroIdx = JSON.getString(parmObject, Scheduler.Parm.TeamDuplicate.heroIdx, null);
-                if ((heroIdx == null) || (heroIdx == ""))
-                {
+                if (!JSON.exists(parmObject, Scheduler.Parm.TeamDuplicate.heroIdx, typeof(DynamicJsonArray))) {
                     updateInfo(oGA.displayName, taskName, "設定尚未完成");
                     return false;
                 }
+                DynamicJsonArray dja = parmObject[Scheduler.Parm.TeamDuplicate.heroIdx];
+                string heroIdx = "";
+                foreach (dynamic o in dja)
+                {
+                    int idx = JSON.getInt(o, -1);
+                    if (idx > 0) heroIdx += (heroIdx == "" ? "" : ", ") + idx.ToString();
+                }
+                heroIdx = "[" + heroIdx + "]";
 
                 campaign.quitCampaign(ci, sid, 0);
 

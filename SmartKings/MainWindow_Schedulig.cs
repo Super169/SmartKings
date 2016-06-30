@@ -62,7 +62,7 @@ namespace SmartKings
 
                     foreach (GameAccount oGA in gameAccounts)
                     {
-                        if (oGA.IsOnline())
+                        if (oGA.IsOnline() && oGA.enabled)
                         {
                             DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
                             if (nextTime < nextActionTime) nextActionTime = nextTime;

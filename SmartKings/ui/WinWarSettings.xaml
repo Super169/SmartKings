@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings.ui"
         mc:Ignorable="d"
-        Title="佈陣設定" Height="264.638" Width="469.604" WindowStartupLocation="CenterOwner">
+        Title="佈陣設定" Height="264.638" Width="500" WindowStartupLocation="CenterOwner">
     <Grid>
         <local:UcWarSettings x:Name="warSettings" Margin="0,0,2,10" Save="SaveSettingHandler" Cancel="CancelSettingsHandler" />
     </Grid>

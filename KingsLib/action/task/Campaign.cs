@@ -39,62 +39,67 @@ namespace KingsLib
                     return false;
                 }
 
-                string[] targetReward = { "金旗鼓号", "金旗鼓號", "金鞋", "金枪", "金马", "金槍", "金馬" };
+                string[] targetReward = { "金旗鼓号", "金旗鼓號", "金鞋", "金枪", "金马", "金槍", "金馬", "金轻甲", "金輕甲" };
 
-                updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
-                                                                      leftCount,
-                                                                      util.getEliteChapterName(targetChapter),
-                                                                      util.getEliteHeroName(targetChapter, targetStage)));
-
-                WarInfo wi = oGA.getWarInfo(Scheduler.TaskId.EliteFight, 0);
-                string fightHeros = null;
-                if (wi != null) fightHeros = wi.body;
-                int fightResult = action.campaign.eliteFight(ci, sid, RRO.Campaign.difficult_normal, targetStage, targetChapter, ref fightHeros);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("作戰陣形 {0} ", fightHeros));
-
-                if (fightResult == -1)
+                while (leftCount > 0)
                 {
-                    updateInfo(oGA.displayName, taskName, "出戰失敗");
-                    return false;
-                }
-                else if (fightResult == 1)
-                {
-                    updateInfo(oGA.displayName, taskName, "尚未完成佈陣");
-                    return false;
-                }
+                    updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
+                                                                          leftCount,
+                                                                          util.getEliteChapterName(targetChapter),
+                                                                          util.getEliteHeroName(targetChapter, targetStage)));
 
-                // Before get reward; just do as what the frontend does, no handling on return
-                rro = request.Campaign.getLeftTimes(ci, sid);
-                rro = request.Campaign.eliteGetCampaignInfo(ci, sid, RRO.Campaign.difficult_normal, targetChapter);
-                rro = request.Campaign.getLeftTimes(ci, sid);
-                rro = request.Hero.getFeastInfo(ci, sid);
+                    WarInfo wi = oGA.getWarInfo(Scheduler.TaskId.EliteFight, 0);
+                    string fightHeros = null;
+                    if (wi != null) fightHeros = wi.body;
+                    int fightResult = action.campaign.eliteFight(ci, sid, RRO.Campaign.difficult_normal, targetStage, targetChapter, ref fightHeros);
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("作戰陣形 {0} ", fightHeros));
 
-                // Go get reward
-                int targetCnt = 0;
-                string itemList = "";
-                rro = request.TurnCardReward.getTurnCardRewards(ci, sid);
-                if (!rro.SuccessWithJson(RRO.TurnCardReward.rewards, typeof(DynamicJsonArray))) return true;
-
-                targetCnt = checkReward(rro, targetReward, ref itemList);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("並有 {0} 個目標物: {1}", targetCnt, itemList));
-
-                rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
-                targetCnt -= checkReward(rro, targetReward, ref itemList);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("第一次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
-
-                rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
-                targetCnt -= checkReward(rro, targetReward, ref itemList);
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("第二次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
-
-                // Pay 5 gold only if more than 2 target remained
-                if (targetCnt >= 2)
-                {
-                    rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
-                    if (debug)
+                    if (fightResult == -1)
                     {
-                        targetCnt -= checkReward(rro, targetReward, ref itemList);
-                        showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("付費翻牌一次後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
+                        updateInfo(oGA.displayName, taskName, "出戰失敗");
+                        return false;
                     }
+                    else if (fightResult == 1)
+                    {
+                        updateInfo(oGA.displayName, taskName, "尚未完成佈陣");
+                        return false;
+                    }
+
+                    // Before get reward; just do as what the frontend does, no handling on return
+                    rro = request.Campaign.getLeftTimes(ci, sid);
+                    rro = request.Campaign.eliteGetCampaignInfo(ci, sid, RRO.Campaign.difficult_normal, targetChapter);
+                    rro = request.Campaign.getLeftTimes(ci, sid);
+                    rro = request.Hero.getFeastInfo(ci, sid);
+
+                    // Go get reward
+                    int targetCnt = 0;
+                    string itemList = "";
+                    rro = request.TurnCardReward.getTurnCardRewards(ci, sid);
+                    if (!rro.SuccessWithJson(RRO.TurnCardReward.rewards, typeof(DynamicJsonArray))) return true;
+
+                    targetCnt = checkReward(rro, targetReward, ref itemList);
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("並有 {0} 個目標物: {1}", targetCnt, itemList));
+
+                    rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+                    targetCnt -= checkReward(rro, targetReward, ref itemList);
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("第一次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
+
+                    rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+                    targetCnt -= checkReward(rro, targetReward, ref itemList);
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("第二次翻牌後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
+
+                    // Pay 5 gold only if more than 2 target remained
+                    if (targetCnt >= 2)
+                    {
+                        rro = request.TurnCardReward.turnCard(ci, sid, RRO.TurnCardReward.turnCardMode_ONE);
+                        if (debug)
+                        {
+                            targetCnt -= checkReward(rro, targetReward, ref itemList);
+                            showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("付費翻牌一次後, 取得 {1}, 餘下 {0} 個目標物", targetCnt, itemList));
+                        }
+                    }
+
+                    leftCount--;
                 }
 
                 return true;

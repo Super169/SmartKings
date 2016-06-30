@@ -115,6 +115,12 @@ namespace SmartKings
                 case "btnGrassArrow":
                     goTask(Scheduler.TaskId.GrassArrow, allPlayers);
                     break;
+                case "btnSetupTeamDuplicate":
+                    goSetupTeamDuplicate();
+                    break;
+                case "btnSetupTrainHero":
+                    goSetupTrainHero();
+                    break;
             }
         }
 
@@ -289,5 +295,26 @@ namespace SmartKings
             saveWarInfos();
         }
 
+
+        private void goSetupTeamDuplicate()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            ui.setup.WinPickHeros winSetup = new ui.setup.WinPickHeros(oGA, Scheduler.TaskId.TeamDuplicate, Scheduler.Parm.TeamDuplicate.heroIdx, 4);
+            // ui.WinSetupTeamDuplicate winSetup = new ui.WinSetupTeamDuplicate();
+            winSetup.Owner = this;
+            winSetup.ShowDialog();
+        }
+
+        private void goSetupTrainHero()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            ui.setup.WinPickHeros winSetup = new ui.setup.WinPickHeros(oGA, Scheduler.TaskId.TrainHero, Scheduler.Parm.TrainHero.targetHeros, 999);
+            winSetup.Owner = this;
+            winSetup.ShowDialog();
+        }
     }
 }
