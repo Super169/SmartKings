@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,15 @@ namespace MyUtil
 
         public static bool W(string msg, string fileName)
         {
-            return FILE.saveToFile(string.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, msg), fileName);
+            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Log");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+                if (!Directory.Exists(filePath)) filePath = Directory.GetCurrentDirectory();
+            }
+            string fullName = System.IO.Path.Combine(filePath, fileName);
+
+            return FILE.saveToFile(string.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, msg), fullName);
         }
 
     }

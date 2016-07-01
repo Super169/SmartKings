@@ -35,28 +35,8 @@ namespace SmartKings
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 10;
                     json[Scheduler.Parm.EliteFight.targetStage] = 3;
-                    // 校場訓練
-                    // 18 - 吕布; 5 - 吕绮玲; 9 - 周瑜; 42 - 马超; 46 - 孙策
-                    heros = JSON.Empty;
-                    hs = new List<int>();
-                    hs.Add(18);
-                    hs.Add(5);
-                    hs.Add(9);
-                    hs.Add(42);
-                    hs.Add(46);
-                    heros[Scheduler.Parm.TrainHero.targetHeros] = hs;
-                    heros = JSON.recode(heros);
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TrainHero);
-                    json[Scheduler.Parm.TrainHero.targetHeros] = heros[Scheduler.Parm.TrainHero.targetHeros];
-                    json[Scheduler.Parm.TrainHero.trainSameLevel] = true;
-                    // 皇榜
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TeamDuplicate);
-                    json[Scheduler.Parm.TeamDuplicate.heroIdx] = "[4,18,5,10]";
                     break;
                 case "S36 無名無姓":
-                    // 皇榜
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TeamDuplicate);
-                    json[Scheduler.Parm.TeamDuplicate.heroIdx] = "[12,7,15,29]";
                     break;
 
                 case "S37 怕死的水子遠":
@@ -64,35 +44,14 @@ namespace SmartKings
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 9;
                     json[Scheduler.Parm.EliteFight.targetStage] = 4;
-                    // 皇榜
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TeamDuplicate);
-                    json[Scheduler.Parm.TeamDuplicate.heroIdx] = "[10,34,5,41]";
                     break;
                 case "S43 自由人":
 
                     // 討伐群雄
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 6;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 1;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 3;
 
-                    // 校場訓練
-                    heros = JSON.Empty;
-                    hs = new List<int>();
-                    hs.Add(5);
-                    hs.Add(10);
-                    hs.Add(18);
-                    hs.Add(3);
-                    hs.Add(4);
-                    heros[Scheduler.Parm.TrainHero.targetHeros] = hs;
-                    heros = JSON.recode(heros);
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TrainHero);
-                    json[Scheduler.Parm.TrainHero.targetHeros] = heros[Scheduler.Parm.TrainHero.targetHeros];
-                    json[Scheduler.Parm.TrainHero.trainSameLevel] = true;
-
-
-                    // 皇榜
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.TeamDuplicate);
-                    json[Scheduler.Parm.TeamDuplicate.heroIdx] = "[4,18,5,10]";
                     break;
             }
         }

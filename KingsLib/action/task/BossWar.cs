@@ -25,13 +25,18 @@ namespace KingsLib
                 action.campaign.quitCampaign(ci, sid, 0);
 
                 rro = request.BossWar.enterWar(ci, sid);
-                if (!rro.success) return false;
+                if (!rro.success) {
+                    LOG.E(string.Format("{0}: 神將 enterWar 問題: !rro.success", oGA.displayName));
+                    return false;
+                }
                 if ((rro.style == STYLE.ERROR) && (rro.prompt == PROMPT.ERR_COMMON_NOT_SUPPORT))
                 {
+                    LOG.E(string.Format("{0}: 神將 enterWar 問題: {1}", oGA.displayName, rro.responseText));
                     if (oGA.bwStarted)
                     {
                         oGA.bwEnded = true;
                         updateInfo(oGA.displayName, taskName, "已經完結");
+                        LOG.I(string.Format("{0}: 神將已經完結", oGA.displayName));
                         return true;
                     }
                     return false;
@@ -44,7 +49,15 @@ namespace KingsLib
                 }
 
                 rro = request.BossWar.sendTroop(ci, sid, oGA.bwBody);
-                if (rro.ok != 1) return false;
+                if (!rro.success)
+                {
+                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: !rro.success", oGA.displayName));
+                    return false;
+                }
+                if (rro.ok != 1) {
+                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: {1}", oGA.displayName, rro.responseText));
+                    return false;
+                }
 
                 oGA.bwStarted = true;
                 oGA.bwEnded = false;

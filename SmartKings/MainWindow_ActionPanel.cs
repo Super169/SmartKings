@@ -82,14 +82,7 @@ namespace SmartKings
                     goWarSetup(Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnEliteFight":
-                    /*
-                    MessageBoxResult dialogResult = MessageBox.Show("討伐群雄的對象及目標是否已設定正確", "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (dialogResult == MessageBoxResult.Yes)
-                    {
-                        goTask(Scheduler.TaskId.EliteFight, false);
-                    }
-                    */
-                    goTask(Scheduler.TaskId.EliteFight, false);
+                    goEliteFight();
                     break;
                 case "btnPatrolSetup":
                     goWarSetup(Scheduler.TaskId.Patrol, 0, 1, 5, true, 3, "預留");
@@ -298,6 +291,27 @@ namespace SmartKings
             saveWarInfos();
         }
 
+
+        private void goEliteFight()
+        {
+            GameAccount oGA = GetSelectedAccount();
+            if (oGA == null) return;
+
+            string taskId = Scheduler.TaskId.EliteFight;
+
+            dynamic parmObject = oGA.getTaskParmObject(taskId);
+            int targetChapter = JSON.getInt(parmObject, Scheduler.Parm.EliteFight.targetChapter);
+            int targetStage = JSON.getInt(parmObject, Scheduler.Parm.EliteFight.targetStage);
+
+            string msg = string.Format("{0} 出戰出戰: {1} - {2}", oGA.displayName,
+                                                                 util.getEliteChapterName(targetChapter),
+                                                                 util.getEliteHeroName(targetChapter, targetStage));
+            MessageBoxResult dialogResult = MessageBox.Show(msg, "請再三確認", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (dialogResult == MessageBoxResult.Yes)
+            {
+                goTask(taskId, false);
+            }
+        }
 
         private void goSetupTeamDuplicate()
         {

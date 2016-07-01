@@ -576,6 +576,63 @@ namespace MyUtil
             catch { }
             return false;
         }
+
+        public static bool saveConfig(dynamic json, string fileName)
+        {
+            try
+            {
+                // string jsonString = Json.Encode(json);
+                string jsonString = JSON.encode(json);
+                return saveConfig(jsonString, fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public static bool saveConfig(string jsonString, string fileName)
+        {
+            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Config");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+                if (!Directory.Exists(filePath)) filePath = Directory.GetCurrentDirectory();
+            }
+            string fullName = System.IO.Path.Combine(filePath, fileName);
+
+            return JSON.toFile(jsonString, fullName);
+        }
+
+        public static bool restoreConfig(ref dynamic json, string fileName)
+        {
+            string jsonString = null;
+            if (!restoreConfig(ref jsonString, fileName)) return false;
+            try
+            {
+                json = Json.Decode(jsonString);
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+        public static bool restoreConfig(ref string jsonString, string fileName)
+        {
+            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Config");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+                if (!Directory.Exists(filePath)) filePath = Directory.GetCurrentDirectory();
+            }
+            string fullName = System.IO.Path.Combine(filePath, fileName);
+
+            return JSON.fromFile(ref jsonString, fullName);
+        }
+
+
+
         #endregion
 
         public static List<KeyValuePair<string, string>> getKeyVlauePairList(dynamic json, string key)

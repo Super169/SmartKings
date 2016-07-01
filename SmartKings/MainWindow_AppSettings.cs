@@ -42,7 +42,7 @@ namespace SmartKings
                 taskList.Add(kt.toJson());
             }
             json[KEY_AUTOTASKS] = taskList;
-            JSON.toFile(json, jazAutoTasks);
+            JSON.saveConfig(json, jazAutoTasks);
         }
 
         private void restoreAutoTasksSettings()
@@ -50,7 +50,7 @@ namespace SmartKings
             // Don't load directly from file, load to temporary location then update the static variable
             List<Scheduler.KingsTask> aTasks = new List<Scheduler.KingsTask>();
             dynamic json = JSON.Empty;
-            if (!JSON.fromFile(ref json, jazAutoTasks)) return;
+            if (!JSON.restoreConfig(ref json, jazAutoTasks)) return;
             if (!JSON.exists(json, KEY_AUTOTASKS, typeof(DynamicJsonArray))) return;
             DynamicJsonArray kts = json[KEY_AUTOTASKS];
             foreach (dynamic kt in kts)

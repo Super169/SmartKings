@@ -38,17 +38,17 @@ namespace SmartKings
                 acList.Add(oGA.toJson());
             }
             jsonData[KEY_GAMEACCOUNTS] = acList;
-            JSON.toFile(jsonData, jazGameAccounts);
+            JSON.saveConfig(jsonData, jazGameAccounts);
             DateTime endTime = DateTime.Now;
             TimeSpan ts = endTime - startTime;
-            if (AppSettings.DEBUG) MessageBox.Show(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));
+            if (AppSettings.DEBUG) LOG.D(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));
         }
 
         private void restoreAccounts()
         {
 
             dynamic json = JSON.Empty;
-            if (!JSON.fromFile(ref json, jazGameAccounts)) return;
+            if (!JSON.restoreConfig(ref json, jazGameAccounts)) return;
             if ((json[KEY_GAMEACCOUNTS] == null) || (json[KEY_GAMEACCOUNTS].GetType() != typeof(DynamicJsonArray))) return;
             DynamicJsonArray dja = json[KEY_GAMEACCOUNTS];
 

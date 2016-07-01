@@ -60,14 +60,14 @@ namespace SmartKings
                 warInfoList.Add(wi.toJson());
             }
             json[KEY_WARINFOS] = warInfoList;
-            JSON.toFile(json, jazWarInfos);
+            JSON.saveConfig(json, jazWarInfos);
         }
 
         private void restoreWarInfos()
         {
 
             dynamic json = JSON.Empty;
-            if (!JSON.fromFile(ref json, jazWarInfos)) return;
+            if (!JSON.restoreConfig(ref json, jazWarInfos)) return;
             if (!JSON.exists(json, KEY_WARINFOS, typeof(DynamicJsonArray))) return;
 
             lock (gameAccountsLocker)

@@ -11,9 +11,10 @@ namespace SmartKings
     {
         public static object actionLocker = new object();
 
-        private const string jazFileName = "AppSetting.jaz";
-        private const string errLog = "SmartKings.err";
-        private const string debugLog = "SmartKings.debug";
+        private const string jazAppSetting = "appSetting.jaz";
+        private const string errLog = "SmartKings.err.log";
+        private const string debugLog = "SmartKings.debug.log";
+        private const string infoLog = "SmartKings.info.log";
 
 
         private static class DEFAULT
@@ -59,18 +60,18 @@ namespace SmartKings
         public static bool saveSettings()
         {
             dynamic json = toJson();
-            return JSON.toFile(json, jazFileName);
+            return JSON.saveConfig(json, jazAppSetting);
         }
 
         public static bool restoreSettings()
         {
             dynamic json = JSON.Empty;
-            if (!JSON.fromFile(ref json, jazFileName)) return false;
+            if (!JSON.restoreConfig(ref json, jazAppSetting)) return false;
             fromJson(json);
 
             LOG.errLog = errLog;
             LOG.debugLog = debugLog;
-
+            LOG.infoLog = infoLog;
             return true;
         }
 
