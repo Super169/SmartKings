@@ -43,7 +43,7 @@ namespace SmartKings
             dt = si.nextExecutionTime;
             startDtm = si.getStartTime(DateTime.Now);
             endDtm = si.getEndTime(DateTime.Now);
-            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd hh:mm:ss} - {2:yyyy-MM-dd hh:mm:ss}", dt, startDtm, endDtm);
+            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd HH:mm:ss} - {2:yyyy-MM-dd HH:mm:ss}", dt, startDtm, endDtm);
             Console.WriteLine(msg);
 
 
@@ -54,7 +54,7 @@ namespace SmartKings
             dt = si.nextExecutionTime;
             startDtm = si.getStartTime(DateTime.Now);
             endDtm = si.getEndTime(DateTime.Now);
-            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd hh:mm:ss} - {2:yyyy-MM-dd hh:mm:ss}", dt, startDtm, endDtm);
+            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd HH:mm:ss} - {2:yyyy-MM-dd HH:mm:ss}", dt, startDtm, endDtm);
             Console.WriteLine(msg);
 
             si = new Schedule.ScheduleInfo();
@@ -66,7 +66,7 @@ namespace SmartKings
             dt = si.nextExecutionTime;
             startDtm = si.getStartTime(DateTime.Now);
             endDtm = si.getEndTime(DateTime.Now);
-            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd hh:mm:ss} - {2:yyyy-MM-dd hh:mm:ss}", dt, startDtm, endDtm);
+            msg = string.Format("{0:yyyy-MM-dd HH:mm:ss} : {1:yyyy-MM-dd HH:mm:ss} - {2:yyyy-MM-dd HH:mm:ss}", dt, startDtm, endDtm);
             Console.WriteLine(msg);
             */
             /*

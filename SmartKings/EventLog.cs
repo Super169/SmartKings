@@ -12,6 +12,6 @@ namespace SmartKings
         public string account { get; set; }
         public string action { get; set; }
         public string msg { get; set;  }
-        public string displayTime {  get { return string.Format("{0:MM-dd hh:mm:ss}", this.eventTime); } }
+        public string displayTime {  get { return string.Format("{0:MM-dd HH:mm:ss}", this.eventTime); } }
     }
 }

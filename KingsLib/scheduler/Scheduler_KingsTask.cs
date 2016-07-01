@@ -320,6 +320,15 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
+                id = TaskId.SLShop,
+                info = "到 勢力商店　購買 糧食",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goSLShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
                 id = TaskId.IndustryShop,
                 info = "在勢力市集中購買糧食/銀子",
                 isEnabled = true,
