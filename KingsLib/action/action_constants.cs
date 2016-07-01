@@ -23,7 +23,7 @@ namespace KingsLib
             public const string ERR_COMMON_NOT_SUPPORT = "ERR_COMMON_NOT_SUPPORTED";
             public const string ERR_COMMON_RELOGIN = "ERR_COMMON_RELOGIN";
 
-            public const string ACTIVITY_NOT_OPEN = "ACTIVITY_IS_NOT_OPEN";
+            public const string ACTIVITY_IS_NOT_OPEN = "ACTIVITY_IS_NOT_OPEN";
             public const string GOT_REWARD_ALREADY = "GOT_REWARD_ALREADY";
             public const string NOT_IN_ACTIVITY_TIME = "NOT_IN_ACTIVITY_TIME";
 

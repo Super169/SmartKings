@@ -488,6 +488,7 @@ namespace KingsLib
             RequestReturnObject rro;
             rro = request.WuFuLinMen.getGameInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
+            if (rro.prompt == PROMPT.ACTIVITY_IS_NOT_OPEN) return true;
             if (!rro.exists(RRO.WuFuLinMen.drawDatas)) return false;
 
             dynamic drawDatas = rro.responseJson[RRO.WuFuLinMen.drawDatas];
