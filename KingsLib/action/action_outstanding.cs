@@ -429,11 +429,21 @@ namespace KingsLib
             return true;
         }
 
+        private static void showDebugNoActivity(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module)
+        {
+            showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有 {0} 活動", module));
+        }
+
         public static bool checkOutstandingNaval(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             int gameDOW = Scheduler.getGameDOW();
             DateTime now = DateTime.Now;
-            if ((gameDOW != 1) && (gameDOW != 2)) return true;
+            if ((gameDOW != 1) && (gameDOW != 2)) 
+            {
+                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
+                return true;
+            }
+
             if ((now.Hour < 9) || (now.Hour >= 21)) return true;
 
             int cityId = (gameDOW == 1 ? 1 : 3);
@@ -522,7 +532,7 @@ namespace KingsLib
             int gameDOW = Scheduler.getGameDOW();
             if (!(gameDOW == 1))
             {
-                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, "今天沒有草船借箭");
+                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
                 return true;
             }
 
@@ -588,6 +598,13 @@ namespace KingsLib
 
         public static bool checkOutstandingEightTrigrams(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
+            int gameDOW = Scheduler.getGameDOW();
+            if (gameDOW != 5)
+            {
+                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
+                return true;
+            }
+
             RequestReturnObject rro;
             rro = request.EightTrigrams.open(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
@@ -606,7 +623,13 @@ namespace KingsLib
         {
             RequestReturnObject rro;
             rro = request.SevenDaysPoints.getOldInfo(oGA.connectionInfo, oGA.sid);
-            if (!rro.SuccessWithJson(RRO.SevenDaysPoints.needRefresh)) return false;
+            if (!rro.success) return false;
+            if (rro.style == STYLE.ERROR) return true;  // Already end
+            if (!rro.SuccessWithJson(RRO.SevenDaysPoints.needRefresh))
+            {
+                LOG.E(string.Format("{0} : {1} : Unexpected result: {2}", oGA.displayName, "SevenDaysPoints.getOldInfo", rro.responseText));
+                return false;
+            }
             if (rro.getBool(RRO.SevenDaysPoints.needRefresh))
             {
                 rro = request.SevenDaysPoints.getActInfo(oGA.connectionInfo, oGA.sid);
