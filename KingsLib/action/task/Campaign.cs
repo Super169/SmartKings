@@ -39,7 +39,14 @@ namespace KingsLib
                     return false;
                 }
 
-                string[] targetReward = { "金旗鼓号", "金旗鼓號", "金鞋", "金枪", "金马", "金槍", "金馬", "金轻甲", "金輕甲" };
+                string[] targetReward = { "金旗鼓号", "金旗鼓號",
+                                          "金枪", "金槍",
+                                          "金弓弩","金弓弩",
+                                          "金轻甲", "金輕甲",
+                                          "金重甲", "金重甲",
+                                          "金鞋",
+                                          "金马", "金馬"
+                                        };
 
                 while (leftCount > 0)
                 {

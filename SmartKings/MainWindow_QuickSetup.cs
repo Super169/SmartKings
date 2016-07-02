@@ -34,7 +34,7 @@ namespace SmartKings
                     // 討伐群雄
                     json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
                     json[Scheduler.Parm.EliteFight.targetChapter] = 10;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 3;
+                    json[Scheduler.Parm.EliteFight.targetStage] = 5;
                     break;
                 case "S36 無名無姓":
                     break;

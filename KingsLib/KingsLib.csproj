@@ -86,6 +86,7 @@
     <Compile Include="data\ConnectionInfo.cs" />
     <Compile Include="data\CycleShopInfo.cs" />
     <Compile Include="data\DecreeInfo.cs" />
+    <Compile Include="data\EliteFightInfo.cs" />
     <Compile Include="data\GameAccount.cs" />
     <Compile Include="data\HeroInfo.cs" />
     <Compile Include="data\IInfoObject.cs" />

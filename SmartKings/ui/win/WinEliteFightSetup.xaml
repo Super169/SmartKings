@@ -1,0 +1,17 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmartKings.ui.win"
+        xmlns:uc="clr-namespace:SmartKings.ui.uc" x:Class="SmartKings.ui.win.WinEliteFightSetup"
+        mc:Ignorable="d"
+        Title="WinEliteFightSetup" Height="603.01" Width="540.802" WindowStartupLocation="CenterOwner">
+    <Grid>
+
+        <uc:UcEliteHero x:Name="ucEliteHero" Margin="0,21,0,50"/>
+        <Button x:Name="btnConfirm" Content="確認" HorizontalAlignment="Right" Margin="0,0,100,10" VerticalAlignment="Bottom" Width="80" Height="30" Click="btnConfirm_Click"/>
+        <Button x:Name="btnCancel" Content="取消" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="80" Height="30" Click="btnCancel_Click"/>
+
+    </Grid>
+</Window>

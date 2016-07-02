@@ -78,7 +78,6 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.FinishTask, allPlayers);
                     break;
                 case "btnEliteFightSetup":
-                    // goEliteFightSetup();
                     goWarSetup(Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnEliteFight":
@@ -117,6 +116,16 @@ namespace SmartKings
                 case "btnSetupBossWar":
                     goWarSetup(Scheduler.TaskId.BossWar, 0, 1, 5, true, -1, null);
                     break;
+
+                case "btnEliteFightTarget":
+                    GameAccount oGA = GetSelectedAccount();
+                    if (oGA == null) return;
+                    ui.win.WinEliteFightSetup winEFS = new ui.win.WinEliteFightSetup(oGA);
+                    winEFS.Owner = this;
+                    winEFS.ShowDialog();
+                    break;
+
+
             }
         }
 

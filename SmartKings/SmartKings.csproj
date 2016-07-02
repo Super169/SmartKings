@@ -90,11 +90,17 @@
     <Compile Include="ui\UcWarSettings.xaml.cs">
       <DependentUpon>UcWarSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ui\uc\UcEliteHero.xaml.cs">
+      <DependentUpon>UcEliteHero.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ui\WinAutoTaskConfig.xaml.cs">
       <DependentUpon>WinAutoTaskConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="ui\WinWarSettings.xaml.cs">
       <DependentUpon>WinWarSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\win\WinEliteFightSetup.xaml.cs">
+      <DependentUpon>WinEliteFightSetup.xaml</DependentUpon>
     </Compile>
     <Compile Include="WarSetup.cs" />
     <Page Include="MainWindow.xaml">
@@ -136,11 +142,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ui\uc\UcEliteHero.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ui\WinAutoTaskConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ui\WinWarSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ui\win\WinEliteFightSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,6 +233,7 @@
   <ItemGroup>
     <Resource Include="Logo256.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
