@@ -78,7 +78,9 @@
     <Compile Include="action\task\Starry.cs" />
     <Compile Include="action\task\Task.cs" />
     <Compile Include="action\task\TeamDuplicate.cs" />
+    <Compile Include="action\task\Travel.cs" />
     <Compile Include="action\task\TuanGou.cs" />
+    <Compile Include="action\Travel.cs" />
     <Compile Include="com\com_fiddler.cs" />
     <Compile Include="com\com_requestHandling.cs" />
     <Compile Include="com\com_sendRequest.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="data\RequestReturnObject.cs" />
     <Compile Include="data\conv.cs" />
     <Compile Include="data\StarryInfo.cs" />
+    <Compile Include="data\TravelMapInfo.cs" />
     <Compile Include="data\WarInfo.cs" />
     <Compile Include="monitor\KingsMonitor.cs" />
     <Compile Include="monitor\KingsPacket.cs" />

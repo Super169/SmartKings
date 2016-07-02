@@ -445,8 +445,29 @@ namespace KingsLib
 
             public static class Travel
             {
+                public const string simpleMap = "simpleMap";
+                public const string playerLevel = "playerLevel";
+                public const string currStep = "currStep";
+                public const string remainSteps = "remainSteps";
                 public const string diceNum = "diceNum";
+                public const string nextDicePrice = "nextDicePrice";
+                public const string chipsNum = "chipsNum";
+                public const string avaBuyDice = "avaBuyDice";
+                public const string total = "total";
+                public const string num1 = "num1";
+                public const string num2 = "num2";
+                public const string nextStep = "nextStep";
+                public const string step = "step";
+                public const string stepType = "stepType";
+                public const string reward = "reward";
+                public const string itemDefs = "itemDefs";
+                public const string name = "name";
 
+                public const string MAP_ZHANDOU = "ZHANDOU";
+                public const string MAP_KONG = "KONG";
+                public const string MAP_BAOXIANG = "BAOXIANG";
+                public const string MAP_FANPAI = "FANPAI";
+                public const string MAP_SHANGDIAN = "SHANGDIAN";
             }
 
             public static class TurnCardReward

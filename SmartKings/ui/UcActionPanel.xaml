@@ -34,8 +34,10 @@
         <Button x:Name="btnGrassArrowSetup" Content="草船借箭設定" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnGrassArrow" Content="草船借箭" HorizontalAlignment="Left" Margin="255,302,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnSetupTeamDuplicate" Content="皇榜設定" HorizontalAlignment="Left" Margin="110,214,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnSetupTrainHero" Content="校場設定" HorizontalAlignment="Left" Margin="110,239,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnSetupBossWar" Content="神將設定" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnSetupTrainHero" Content="校場設定" HorizontalAlignment="Left" Margin="110,239,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnTester" Content="獨立測試" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="187" Click="btn_Click"/>
+        <Button x:Name="btnSetupTravel" Content="周遊設定" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnTravel" Content="周遊天下" HorizontalAlignment="Left" Margin="110,264,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
     </Grid>
 </UserControl>

@@ -38,6 +38,8 @@ namespace KingsLib.data
         public bool SuccessWithJson(string key1, string key2, Type targetType)
         {
             if (!success) return false;
+            return exists(key1, key2, targetType);
+            /*
             if (responseJson == null) return false;
             if ((key1 == null) || (key1 == "")) return true;
             if (responseJson[key1] == null) return false;
@@ -46,15 +48,34 @@ namespace KingsLib.data
             if (responseJson[key1][key2] == null) return false;
             if ((targetType != null) && (responseJson[key1][key2].GetType() != targetType)) return false;
             return true;
+            */
         }
 
         public bool exists(string key, Type targetType = null)
         {
+            return exists(key, null, targetType);
+            /*
             if (responseJson == null) return false;
             if ((key == null) || (key == "")) return true;
             if (responseJson[key] == null) return false;
             if (targetType == null) return true;
             if (responseJson[key].GetType() != targetType) return false;
+            return true;
+            */
+        }
+
+        public bool exists(string key1, string key2, Type targetType = null)
+        {
+            if (responseJson == null) return false;
+            if ((key1 == null) || (key1 == "")) return true;
+            if (responseJson[key1] == null) return false;
+            if ((key2 == null) || (key2 == ""))
+            {
+                if (targetType == null) return true;
+                return (responseJson[key1].GetType() == targetType);
+            }
+            if (responseJson[key1][key2] == null) return false;
+            if ((targetType != null) && (responseJson[key1][key2].GetType() != targetType)) return false;
             return true;
         }
 

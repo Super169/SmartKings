@@ -125,6 +125,13 @@ namespace SmartKings
                     winEFS.ShowDialog();
                     break;
 
+                case "btnSetupTravel":
+                    goWarSetup(Scheduler.TaskId.Travel, 0, 1, 5, true, -1, null);
+                    break;
+
+                case "btnTravel":
+                    goTask(Scheduler.TaskId.Travel, allPlayers);
+                    break;
 
             }
         }

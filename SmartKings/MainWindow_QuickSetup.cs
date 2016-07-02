@@ -32,26 +32,25 @@ namespace SmartKings
             {
                 case "S35 超級一六九":
                     // 討伐群雄
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 10;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 5;
+                    /// json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    // json[Scheduler.Parm.EliteFight.targetChapter] = 10;
+                    // json[Scheduler.Parm.EliteFight.targetStage] = 5;
                     break;
                 case "S36 無名無姓":
                     break;
 
                 case "S37 怕死的水子遠":
                     // 討伐群雄
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 9;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 4;
+                    // json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    // json[Scheduler.Parm.EliteFight.targetChapter] = 9;
+                    // json[Scheduler.Parm.EliteFight.targetStage] = 4;
                     break;
                 case "S43 自由人":
 
                     // 討伐群雄
-                    json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
-                    json[Scheduler.Parm.EliteFight.targetChapter] = 6;
-                    json[Scheduler.Parm.EliteFight.targetStage] = 3;
-
+                    // json = oGA.getTaskParmObject(Scheduler.TaskId.EliteFight);
+                    // json[Scheduler.Parm.EliteFight.targetChapter] = 6;
+                    // json[Scheduler.Parm.EliteFight.targetStage] = 3;
                     break;
             }
         }

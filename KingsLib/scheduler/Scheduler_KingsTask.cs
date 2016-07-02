@@ -41,6 +41,7 @@ namespace KingsLib.scheduler
             public const string StarryReward = "StarryReward";
             public const string TeamDuplicate = "TeamDuplicate";
             public const string TrainHero = "TrainHero";
+            public const string Travel = "Travel";
             public const string TrialsBuyTimes = "TrialsBuyTimes";
             public const string TuanGo = "TuanGo";
 
@@ -126,6 +127,9 @@ namespace KingsLib.scheduler
 
                 case TaskId.TrainHero:
                     taskName = "校場訓練";
+                    break;
+                case TaskId.Travel:
+                    taskName = "周遊天下";
                     break;
                 case TaskId.TrialsBuyTimes:
                     taskName = "購買試練次數";
@@ -406,6 +410,15 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 customSchedule = true,
                 executeTask = action.task.goTeamDuplicate
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Travel,
+                info = "分段完成 周遊天下",
+                isEnabled = true,
+                customSchedule = true,
+                executeTask = action.task.goTravel
             });
 
         }
