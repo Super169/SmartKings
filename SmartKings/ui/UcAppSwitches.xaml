@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SmartKings.ui"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="200" FontSize="12">
+             d:DesignHeight="300" d:DesignWidth="200" FontSize="14">
     <Grid Background="#7FE14000">
         <CheckBox x:Name="cbxAutoRun" Content="自動執行" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="cbxAutoRun_Changed" Unchecked="cbxAutoRun_Changed"/>
         <CheckBox x:Name="cbxDebug" Content="除蟲模式" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="cbxDebug_Changed" Unchecked="cbxDebug_Changed"/>

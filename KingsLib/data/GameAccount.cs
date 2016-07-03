@@ -472,8 +472,15 @@ namespace KingsLib.data
             this.bwStarted = true;
             this.bwLastSend = DateTime.Now;
             return DateTime.Now.AddSeconds(31);
-     
+
         }
 
+        public void resetSchedule()
+        {
+            foreach (Scheduler.AutoTask myTask in this.autoTasks)
+            {
+                myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
+            }
+        }
     }
 }

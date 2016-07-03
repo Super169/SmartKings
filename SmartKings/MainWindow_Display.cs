@@ -60,6 +60,9 @@ namespace SmartKings
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
+                // In same rare case during application close, Application.Current can be null
+                if (Application.Current == null) return;
+
                 if (async)
                 {
                     Application.Current.Dispatcher.BeginInvoke(
@@ -150,6 +153,8 @@ namespace SmartKings
         {
             if (Dispatcher.FromThread(Thread.CurrentThread) == null)
             {
+                // In some rare case, Application.Current is null when application exit
+                if (Application.Current == null) return;
                 Application.Current.Dispatcher.Invoke(
                     System.Windows.Threading.DispatcherPriority.Normal,
                     (Action)(() => UpdateProgress(progress)));

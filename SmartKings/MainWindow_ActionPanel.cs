@@ -31,14 +31,20 @@ namespace SmartKings
         {
             switch (btnClicked)
             {
+                case "btnResetSchedule":
+                    resetSchedule(allPlayers);
+                    break;
                 case "btnQuickSetup":
                     QuickSetup();
                     break;
                 case "btnAutoTaskSetting":
+                    MessageBox.Show("功能尚未開放");
+                    /*
                     ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
                     winConfig.Owner = this;
                     winConfig.ShowDialog();
                     saveAutoTasksSettings();
+                    */
                     break;
                 case "btnCheckStatus":
                     goCheckStatus();
@@ -50,7 +56,7 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.Harvest, allPlayers);
                     break;
                 case "btnMonthSignIn":
-                    goTask(Scheduler.TaskId.SignIn, allPlayers);
+                    goTask(Scheduler.TaskId.MonthSignIn, allPlayers);
                     break;
                 case "btnCleanBag":
                     goTask(Scheduler.TaskId.CleanUpBag, allPlayers);
@@ -133,7 +139,34 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.Travel, allPlayers);
                     break;
 
+                case "btnTester":
+                    goTask(Scheduler.TaskId.MonthSignIn, allPlayers);
+                    break;
+
             }
+        }
+
+        private void resetSchedule(bool allPlayers)
+        {
+            if (allPlayers)
+            {
+                foreach (GameAccount oGA in gameAccounts)
+                {
+                    resetSchedule(oGA);
+                }
+            }
+            else
+            {
+                // Must get account in UI thread then pass to background thread
+                GameAccount oGA = GetSelectedAccount();
+                if (oGA != null) resetSchedule(oGA);
+            }
+        }
+
+        private void resetSchedule(GameAccount oGA)
+        {
+            oGA.resetSchedule();
+            UpdateInfo(oGA.displayName, "重設排程", "所有工作排程重設為系統預設排程時間");
         }
 
         private void goCheckStatus()

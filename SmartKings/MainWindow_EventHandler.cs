@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,6 +15,16 @@ namespace SmartKings
     {
         // **** MainWindow_Closing has been added in App.xaml
         
+        public bool readyClose()
+        {
+            if (autoRunning)
+            {
+                MessageBox.Show("自動排程進行中, 暫時不能離開.  請在排程執行結束後再試.", "請稍候");
+                return false;
+            }
+            return true;
+        }
+
         public void WindowPreClose()
         {
             saveAccounts();
@@ -39,20 +50,53 @@ namespace SmartKings
             UpdateEventLog(DateTime.Now, "***", "檢查帳戶", "結束", true);
         }
 
+        private void btnTaskSetting_Click(object sender, RoutedEventArgs e)
+        {
+            ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
+            winConfig.Owner = this;
+            winConfig.ShowDialog();
+            saveAutoTasksSettings();
+        }
+
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
+            if (!readyClose()) return;
             if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                if (Monitor.TryEnter(AppSettings.actionLocker, 60000))
+                {
+                    try
+                    {
+                        normalMode = true;
+                        SetUI();
+                        autoTimer.Enabled = false;
+                        UpdateStatus("自動大皇帝 - 停止");
+                        saveEventLog();
+                    }
+                    finally
+                    {
+                        Monitor.Exit(AppSettings.actionLocker);
+                    }
+                } else
+                {
+                    UpdateInfo("***", "離開失敗", "等待超時, 自動任務進行中, 暫時不能離開.");
+                    return;
+                }
                 ((App)Application.Current).ExitApplication();
             }
         }
 
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
-            goAutoKings();
+            toggleAutoKings();
         }
 
         private void btnSaveEventLog_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(string.Format("Result saved to {0}", saveEventLog()));
+        }
+
+        private string saveEventLog()
         {
             string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Log");
             if (!Directory.Exists(filePath))
@@ -69,7 +113,7 @@ namespace SmartKings
                 sb.Append(string.Format("{0:yyyy-MM-dd HH:mm:ss}: {1} : {2} : {3}\n", log.eventTime, log.account, log.action, log.msg));
             }
             File.WriteAllText(fullName, sb.ToString());
-            MessageBox.Show(string.Format("Result saved to {0}", fullName));
+            return fullName;
         }
 
         private void btnClearEventLog_Click(object sender, RoutedEventArgs e)

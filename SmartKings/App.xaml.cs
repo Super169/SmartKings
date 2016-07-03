@@ -129,6 +129,8 @@ namespace SmartKings
 
         public void ExitApplication()
         {
+            if (!((MainWindow)MainWindow).readyClose()) return;
+
             _isExit = true;
             ((MainWindow) MainWindow).WindowPreClose();
             MainWindow.Close();

@@ -19,15 +19,36 @@ namespace MyUtil
             return W(msg, debugLog);
         }
 
+        public static bool D(string account, string action, string msg)
+        {
+            return W(account, action, msg, debugLog);
+        }
+
         public static bool E(string msg)
         {
             return W(msg, errLog);
+        }
+
+        public static bool E(string account, string action, string msg)
+        {
+            return W(account, action, msg, errLog);
         }
 
         public static bool I(string msg)
         {
             return W(msg, infoLog);
         }
+
+        public static bool I(string account, string action, string msg)
+        {
+            return W(account, action, msg, infoLog);
+        }
+
+        public static bool W(string account, string action, string msg, string fileName)
+        {
+            return W(string.Format("{0} : {1} : {2}", account, action, msg), fileName);
+        }
+
 
         public static bool W(string msg, string fileName)
         {

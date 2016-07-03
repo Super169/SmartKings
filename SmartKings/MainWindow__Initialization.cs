@@ -55,7 +55,7 @@ namespace SmartKings
 
             // AUtoTask settings
             initTimer();
-            if (AppSettings.AutoRun) goAutoKings();
+            if (AppSettings.AutoRun) toggleAutoKings();
 
         }
 

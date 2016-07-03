@@ -275,6 +275,9 @@ namespace KingsLib
             public static class MonthSignIn
             {
                 public const string today = "today";
+                public const string msItems = "msItems";
+                public const string day = "day";
+                public const string st = "st";
             }
 
 

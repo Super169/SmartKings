@@ -16,6 +16,7 @@ namespace SmartKings
     {
         System.Timers.Timer autoTimer = new System.Timers.Timer(1000);
         bool normalMode = true;
+        bool autoRunning = false;
 
         List<Scheduler> systemTasks = new List<Scheduler>();
         Object systemTasksLocker = new object();
@@ -26,7 +27,7 @@ namespace SmartKings
             autoTimer.Enabled = false;
         }
 
-        private void goAutoKings()
+        private void toggleAutoKings()
         {
             normalMode = !normalMode;
             SetUI();
@@ -45,6 +46,7 @@ namespace SmartKings
 
         void autoTimerElapsedEventHandler(object sender, ElapsedEventArgs e)
         {
+            autoRunning = true;
             autoTimer.Enabled = false;
             DateTime nextActionTime = DateTime.Now.AddMinutes(1);
             UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);
@@ -99,6 +101,7 @@ namespace SmartKings
             autoTimer.Interval = waitMS;
             UpdateTextBox(txtNextExecution, nextActionTime.ToString("yyyy-MM-dd HH:mm:ss"));
             autoTimer.Enabled = true;
+            autoRunning = false;
         }
     }
 }

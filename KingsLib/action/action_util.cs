@@ -35,5 +35,13 @@ namespace KingsLib
             updateInfo(account, action, "**** " + msg, true, false);
             LOG.D(string.Format("{0} : {1} : {2}", account, action, msg));
         }
+
+
+        public static void showErrMsg(DelegateUpdateInfo updateInfo, string account, string action, string msg)
+        {
+            updateInfo(account, action, "!!!! " + msg, true, false);
+            LOG.E(string.Format("{0} : {1} : {2}", account, action, msg));
+        }
+
     }
 }

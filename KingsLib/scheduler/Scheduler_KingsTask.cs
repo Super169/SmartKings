@@ -35,7 +35,7 @@ namespace KingsLib.scheduler
             public const string OneYearSignIn = "OneYearSignIn";
             public const string Patrol = "Patrol";
             public const string ReadAllEmail = "ReadAllEmail";
-            public const string SignIn = "SignIn";
+            public const string MonthSignIn = "MonthSignIn";
             public const string SLShop = "SLShop";
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
@@ -91,7 +91,7 @@ namespace KingsLib.scheduler
                 case TaskId.NavalWar:
                     taskName = "跨服入侵";
                     break;
-                case TaskId.SignIn:
+                case TaskId.MonthSignIn:
                     taskName = "簽到領獎";
                     break;
                 case TaskId.StarryFight:
@@ -261,11 +261,11 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
-                id = TaskId.SignIn,
+                id = TaskId.MonthSignIn,
                 info = "自動進行每天登入",
                 isEnabled = true,
                 customSchedule = false,
-                executeTask = action.task.goSignIn
+                executeTask = action.task.goMonthSignIn
             });
 
             autoTaskList.Add(new KingsTask()
@@ -468,7 +468,7 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
                 case TaskId.Market:
-                case TaskId.SignIn:
+                case TaskId.MonthSignIn:
                     si.executionTimes = new List<TimeSpan>();
                     si.executionTimes.Add(new TimeSpan(10, 35, 0));
                     si.executionTimes.Add(new TimeSpan(13, 35, 0));
@@ -486,6 +486,9 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(9, 35, 0));
                     si.executionTimes.Add(new TimeSpan(12, 35, 0));
                     si.executionTimes.Add(new TimeSpan(18, 35, 0));
+                    break;
+                case TaskId.Travel:
+                    si.elapseMin = 60;
                     break;
                 default:
                     // Default excuted at the following timeslot

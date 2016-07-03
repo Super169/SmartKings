@@ -66,6 +66,7 @@ namespace KingsLib
                         nextStep = mapInfo.currStep + goStep;
                         if (nextStep > mapInfo.mapSize) nextStep -= mapInfo.mapSize;
                         updateInfo(oGA.displayName, taskName, string.Format("餘下{0} 次, 指定擲出 {1}, 將會前進到 {2}", mapInfo.diceNum, goStep, nextStep));
+                        controlStepOK = true;
                         actStep = nextStep;
                     }
                     else
