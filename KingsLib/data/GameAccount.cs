@@ -445,7 +445,7 @@ namespace KingsLib.data
 
 
             // BossWar here
-            if (bwStarted && (DateTime.Now < bwLastSend.AddSeconds(30)))
+            if (bwStarted && (DateTime.Now < bwLastSend.AddSeconds(31)))
             {
                 return bwLastSend.AddSeconds(30);
             }
@@ -471,7 +471,7 @@ namespace KingsLib.data
 
             this.bwStarted = true;
             this.bwLastSend = DateTime.Now;
-            return DateTime.Now.AddSeconds(31);
+            return bwLastSend.AddSeconds(31);
 
         }
 

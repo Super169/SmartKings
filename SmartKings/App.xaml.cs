@@ -105,7 +105,7 @@ namespace SmartKings
                 Application.Current.Shutdown();
                 return;
             }
-            
+
             MainWindow = new MainWindow();
             MainWindow.Closing += MainWindow_Closing;
 
@@ -129,12 +129,18 @@ namespace SmartKings
 
         public void ExitApplication()
         {
-            if (!((MainWindow)MainWindow).readyClose()) return;
+            //            if (!((MainWindow)MainWindow).readyClose()) return;
 
             AppSettings.stopAllActiion = true;
+            ((MainWindow)MainWindow).WindowPreClose();
+            // MainWindow.Close();
+            //            _notifyIcon.Dispose();
+            //            _notifyIcon = null;
+        }
+
+        public void preClose()
+        {
             _isExit = true;
-            ((MainWindow) MainWindow).WindowPreClose();
-            MainWindow.Close();
             _notifyIcon.Dispose();
             _notifyIcon = null;
         }
@@ -172,5 +178,6 @@ namespace SmartKings
                 mutex.Dispose();
             }
         }
+
     }
 }

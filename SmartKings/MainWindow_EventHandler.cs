@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -14,7 +15,7 @@ namespace SmartKings
     public partial class MainWindow : Window
     {
         // **** MainWindow_Closing has been added in App.xaml
-        
+
         public bool readyClose()
         {
             if (autoRunning)
@@ -27,12 +28,59 @@ namespace SmartKings
 
         public void WindowPreClose()
         {
-            normalMode = true;
-            SetUI();
+            Thread exitThread = new Thread(closeMe);
+            exitThread.Start();
+
+            /*
             autoTimer.Enabled = false;
-            UpdateStatus("自動大皇帝 - 停止");
             saveEventLog();
             saveAccounts();
+            */
+        }
+
+        private void closeMe()
+        {
+            // Must sure no other action is runing by using acitonLocker
+            // May need to improve this part, and Environment.Exit(0) may not be a good choice.
+            if (Monitor.TryEnter(AppSettings.actionLocker, 1000))
+            {
+                try
+                {
+//                    normalMode = true;
+//                    SetUI();
+//                    UpdateStatus("自動大皇帝 - 停止");
+                    autoTimer.Enabled = false;
+                    saveEventLog();
+                    saveAccounts();
+                    ((App)Application.Current).preClose();
+                    closeWindow();
+                }
+                finally
+                {
+                    Monitor.Exit(AppSettings.actionLocker);
+                }
+                // Environment.Exit(0);
+            }
+            else
+            {
+                UpdateInfo("***", "自動大皇帝", "等待超時, 暫時未能離開.");
+                AppSettings.stopAllActiion = false;
+            }
+
+        }
+
+
+
+        private void closeWindow()
+        {
+            if (Dispatcher.FromThread(Thread.CurrentThread) == null)
+            {
+                Application.Current.Dispatcher.BeginInvoke(
+                  System.Windows.Threading.DispatcherPriority.Normal,
+                  (Action)(() => closeWindow()));
+                return;
+            }
+            this.Close();
         }
 
         private void OnNotificationHandler(string info)
@@ -65,12 +113,14 @@ namespace SmartKings
 
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
-            if (!readyClose()) return;
+//            if (!readyClose()) return;
             AppSettings.stopAllActiion = true;
-            if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            // if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (true)
             {
                 ((App)Application.Current).ExitApplication();
-            } else
+            }
+            else
             {
                 AppSettings.stopAllActiion = false;
             }
