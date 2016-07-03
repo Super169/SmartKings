@@ -26,12 +26,11 @@ namespace KingsLib
 
                 rro = request.BossWar.enterWar(ci, sid);
                 if (!rro.success) {
-                    LOG.E(string.Format("{0}: 神將 enterWar 問題: !rro.success", oGA.displayName));
+                    LOG.E(string.Format("{0}: 神將 enterWar 問題: !rro.success : {1}", oGA.displayName, rro.requestText));
                     return false;
                 }
                 if ((rro.style == STYLE.ERROR) && (rro.prompt == PROMPT.ERR_COMMON_NOT_SUPPORT))
                 {
-                    LOG.E(string.Format("{0}: 神將 enterWar 問題: {1}", oGA.displayName, rro.responseText));
                     if (oGA.bwStarted)
                     {
                         oGA.bwEnded = true;
@@ -39,6 +38,7 @@ namespace KingsLib
                         LOG.I(string.Format("{0}: 神將已經完結", oGA.displayName));
                         return true;
                     }
+                    LOG.E(string.Format("{0}: 神將 enterWar 問題: {1} \n {2}", oGA.displayName, rro.requestText, rro.responseText));
                     return false;
                 }
                 int beforeCnt = rro.getInt(RRO.BossWar.sendCount);
@@ -51,11 +51,11 @@ namespace KingsLib
                 rro = request.BossWar.sendTroop(ci, sid, oGA.bwBody);
                 if (!rro.success)
                 {
-                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: !rro.success", oGA.displayName));
+                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: !rro.success : {1}", oGA.displayName, rro.requestText));
                     return false;
                 }
                 if (rro.ok != 1) {
-                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: {1}", oGA.displayName, rro.responseText));
+                    LOG.E(string.Format("{0}: 神將 sendTroop 問題: {1}\n{2}", oGA.displayName, rro.requestText, rro.responseText));
                     return false;
                 }
 
