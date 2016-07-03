@@ -236,6 +236,7 @@ namespace KingsLib.data
             {
                 oAT.schedule = Scheduler.defaultSchedule(taskId);
             }
+            oAT.schedule.initNextTime();
             return oAT;
         }
 
