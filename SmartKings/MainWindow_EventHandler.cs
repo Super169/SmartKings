@@ -42,7 +42,7 @@ namespace SmartKings
         {
             // Must sure no other action is runing by using acitonLocker
             // May need to improve this part, and Environment.Exit(0) may not be a good choice.
-            if (Monitor.TryEnter(AppSettings.actionLocker, 1000))
+            if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
             {
                 try
                 {
@@ -113,10 +113,8 @@ namespace SmartKings
 
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
-//            if (!readyClose()) return;
             AppSettings.stopAllActiion = true;
-            // if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            if (true)
+            if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 ((App)Application.Current).ExitApplication();
             }

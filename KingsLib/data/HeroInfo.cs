@@ -78,6 +78,7 @@ namespace KingsLib.data
                 this.nm = JSON.getString(json, KEY.nm, "");
                 this.army = JSON.getString(json, KEY.army, "");
                 this.lv = JSON.getInt(json, KEY.lv);
+                this.exp = JSON.getInt(json, KEY.exp);
                 this.power = JSON.getInt(json, KEY.power);
                 this.cfd = JSON.getInt(json, KEY.cfd);
                 this.intl = JSON.getInt(json, KEY.intl);

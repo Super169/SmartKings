@@ -433,12 +433,13 @@ namespace KingsLib.scheduler
                 case TaskId.FinishTask:
                 case TaskId.Harvest:
                 case TaskId.ReadAllEmail:
+                case TaskId.TrainHero:
                     si.elapseMin = 60;
                     si.maxRetry = 3;
                     si.retryFreqMin = 1;
                     break;
                 case TaskId.Patrol:
-                    si.elapseMin = 30;
+                    si.elapseMin = 15;
                     si.maxRetry = 3;
                     si.retryFreqMin = 1;
                     break;
@@ -491,6 +492,11 @@ namespace KingsLib.scheduler
                     si.elapseMin = 60;
                     break;
                 default:
+                    // Every Hour without retry
+                    si.elapseMin = 60;
+                    si.maxRetry = 0;
+                    break;
+
                     // Default excuted at the following timeslot
                     // - 05:15 (day start)
                     // - 12:15 (Special start after maintenance)

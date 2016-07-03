@@ -88,7 +88,61 @@ namespace KingsLib
             return elterReward;
         }
 
+        public static int getLevelUpExp(int level)
+        {
+            if (level < 5)
+            {
+                // No information for this level
+                return 100;
+            } else if (level <=20)
+            {
+                return (200 + (level - 5) * 50);
+            }
+            else if (level < 40)
+            {
+                return (1000 + (level - 21) * 100);
+            }
+            else if (level < 50)
+            {
+                return (6000 + (level - 40) * 1000);
+            }
+            else if (level < 60)
+            {
+                return (17000 + (level - 50) * 2000);
+            }
+            else if (level < 80)
+            {
+                return (70000 + (level - 60) * 6000);
+            }
+            else if (level < 90)
+            {
+                return (200000 + (level - 80) * 8000);
+            }
+            else if (level < 100)
+            {
+                return (370000 + (level - 90) * 10000);
+            }
+            return 0;
 
+        }
+
+        public static int getTrainExp(int level)
+        {
+            if (level < 7)
+            {
+                return (1000 + (level - 1) * 500);
+            }
+            else if (level < 13)
+            {
+                return (4000 + (level - 7) * 600);
+            } else if (level < 20)
+            {
+                return (7600 + (level - 13) * 800);
+            } else 
+            {
+                return (13200 + (level - 20) * 12400);
+            }
+        }
 
     }
 }

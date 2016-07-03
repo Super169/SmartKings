@@ -47,6 +47,21 @@ namespace KingsLib
             */
 
 
+            private class TrainHero
+            {
+                public int idx { get; set; }
+                public int level { get; set; }
+                public int power { get; set; }
+                public int exp { get; set; }
+            }
+
+            private class TrainField
+            {
+                public int field { get; set; }
+                public int level { get; set; }
+                public bool used { get; set; }
+            }
+
             public static bool goTrainHero(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskId = Scheduler.TaskId.TrainHero;
@@ -63,85 +78,138 @@ namespace KingsLib
                 }
                 */
 
+                List<int> busyHeros = new List<int>();
+                List<TrainField> trainFields = new List<TrainField>();
 
-                List<int> targetHeros = new List<int>();
+                // Finish all trining first
+                List<ManorInfo> mis = action.Manor.getManorInfo(ci, sid);
+                foreach (ManorInfo mi in mis)
+                {
+
+                    // Check hero in 工匹坊
+                    if (mi.type == RRO.Manor.type_GJF)
+                    {
+                        if (mi.heroIndex > 0)
+                        {
+                            if (mi.leftSeconds == 0)
+                            {
+                                rro = request.Manor.harvestActivity(ci, sid, mi.field);
+                                if (!rro.SuccessWithJson(RRO.Manor.times)) busyHeros.Add(mi.heroIndex);
+                            }
+                            else
+                            {
+                                busyHeros.Add(mi.heroIndex);
+                            }
+                        }
+                        continue;
+                    }
+
+                    if (mi.type != RRO.Manor.type_JC) continue;
+
+                    bool emptyField = false;
+                    if (mi.heroIndex == -1)
+                    {
+                        emptyField = true;
+                    }
+                    else if (mi.leftSeconds == 0)
+                    {
+                        // Finish
+                        rro = request.Manor.harvestActivity(ci, sid, mi.field);
+                        emptyField = rro.SuccessWithJson(RRO.Manor.times);
+                    }
+                    else
+                    {
+                        busyHeros.Add(mi.heroIndex);
+                    }
+                    if (emptyField)
+                    {
+                        rro = request.Manor.trainHeroInfo(ci, sid, mi.field);
+                        if (rro.SuccessWithJson(RRO.Manor.totalTimes) && rro.exists(RRO.Manor.usedTimes))
+                        {
+                            if (rro.getInt(RRO.Manor.totalTimes) > rro.getInt(RRO.Manor.usedTimes))
+                            {
+                                trainFields.Add(new TrainField() { field = mi.field, level = mi.level, used = false });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        busyHeros.Add(mi.heroIndex);
+                    }
+                }
+
+                if (trainFields.Count == 0)
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "沒有可供訓練的教場.");
+                    return true;
+                }
+
+                oGA.refreshHeros();
+
+                List<TrainHero> trainHeros = new List<TrainHero>();
+                int heroCnt = 0;
 
                 dynamic parmObject = oGA.getTaskParmObject(taskId);
                 if (JSON.exists(parmObject, Scheduler.Parm.TrainHero.targetHeros, typeof(DynamicJsonArray)))
                 {
-                    bool trainSameLevel = JSON.getBool(parmObject, Scheduler.Parm.TrainHero.trainSameLevel);
+                    bool trainSameLevel = JSON.getBool(parmObject, Scheduler.Parm.TrainHero.trainSameLevel, true);
                     DynamicJsonArray dja = parmObject[Scheduler.Parm.TrainHero.targetHeros];
                     foreach (dynamic o in dja)
                     {
                         int heroIdx = JSON.getInt(o, -1);
                         if (heroIdx > 0)
                         {
+                            heroCnt++;
                             HeroInfo hi = oGA.heros.Find(x => x.idx == heroIdx);
-                            if (trainSameLevel || (hi.lv < oGA.level))
+                            if ((trainSameLevel || (hi.lv < oGA.level)) &&
+                                (!busyHeros.Exists(x => x == heroIdx)) &&
+                                (util.getLevelUpExp(hi.lv) > hi.exp)
+                               )
                             {
-                                targetHeros.Add(heroIdx);
+                                trainHeros.Add(new TrainHero() { idx = hi.idx, level = hi.lv, exp = hi.exp, power = hi.power });
                             }
                         }
                     }
                 }
 
-                if (targetHeros.Count == 0)
+                if (trainHeros.Count == 0)
                 {
-                    updateInfo(oGA.displayName, taskName, "設定尚未完成");
-                    return false;
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "沒有可供訓練的英雄.");
+                    return true;
                 }
 
+                // Sort heros by power, train the stronger first
+                trainHeros.Sort(delegate (TrainHero a, TrainHero b)
+                                {
+                                    return b.power.CompareTo(a.power);
+                                });
 
-                List<int> jcFields = new List<int>();
-
-                List<ManorInfo> mis = action.Manor.getManorInfo(ci, sid);
-                foreach (ManorInfo mi in mis)
+                foreach (TrainHero th in trainHeros)
                 {
-                    if (mi.type != RRO.Manor.type_JC) continue;
-                    // Unknown error
-                    if (mi.heroIndex == 0) continue;
-                    bool checkCount = false;
-                    if (mi.heroIndex == -1)
-                    {
-                        checkCount = true;
-                    }
-                    else if (mi.leftSeconds == 0)
-                    {
-                        // Finish
-                        rro = request.Manor.harvestActivity(ci, sid, mi.field);
-                        checkCount = rro.SuccessWithJson(RRO.Manor.times);
-                    }
-                    else
-                    {
-                        if (targetHeros.Contains(mi.heroIndex))  targetHeros.Remove(mi.heroIndex);
-                    }
+                    if (!trainFields.Exists(x => !x.used)) break;
+                    int levelUpExp = util.getLevelUpExp(th.level);
+                    int remainExp = levelUpExp - th.exp;
 
-                    if (checkCount)
+                    foreach (TrainField tf in trainFields)
                     {
-                        rro = request.Manor.trainHeroInfo(ci, sid, mi.field);
-                        if (rro.SuccessWithJson(RRO.Manor.totalTimes) && rro.exists(RRO.Manor.usedTimes))
+                        if (tf.used) continue;
+
+                        int trainExp = util.getTrainExp(tf.level);
+                        if (remainExp > (trainExp * 3))
                         {
-                            if (rro.getInt(RRO.Manor.totalTimes) > rro.getInt(RRO.Manor.usedTimes)) jcFields.Add(mi.field);
+                            rro = request.Manor.doHeroActivity(ci, sid, th.idx, tf.field);
+                            if (rro.ok == 1)
+                            {
+                                string nm = oGA.getHeroName(th.idx);
+                                updateInfo(oGA.displayName, taskName, string.Format("對 {0} 進行訓練: {1}/{2} : {3}", nm, th.exp, levelUpExp, trainExp));
+                                tf.used = true;
+                            }
+                            // go to other hero no matter success or not
+                            break;
                         }
                     }
                 }
 
-                if (targetHeros.Count == 0) return false;
-                int heroPos = 0;
-                int fieldPos = 0;
-                while (fieldPos < jcFields.Count)
-                {
-                    int field = jcFields.ElementAt(fieldPos);
-                    rro = request.Manor.doHeroActivity(ci, sid, targetHeros.ElementAt(heroPos), field);
-                    if (rro.ok == 1)
-                    {
-                        string nm = oGA.getHeroName(targetHeros.ElementAt(heroPos));
-                        updateInfo(oGA.displayName, taskName, string.Format("對 {0} 進行訓練", nm));
-                        fieldPos++;
-                    }
-                    if (++heroPos >= targetHeros.Count) break;
-                }
-                
                 return true;
             }
 

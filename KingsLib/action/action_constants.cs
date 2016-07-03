@@ -252,15 +252,22 @@ namespace KingsLib
                 public const string products = "products";
                 public const string type = "type";
 
-                public const string type_MH = "MH";
-                public const string type_SP = "SP";
+                public const string type_OFFICE = "OFFICE"; // 官邸
+                public const string type_YK = "YK"; // 銀庫
+                public const string type_LC = "LC"; // 糧倉
+                public const string type_JTK = "JTK"; // 精鐵庫
 
-                public const string type_NT = "NT";
-                public const string type_MC = "MC";
+                public const string type_GJF = "GJF"; // 工匠坊
 
-                public const string type_LTC = "LTC";
+                public const string type_MH = "MH"; // 民戶
+                public const string type_SP = "SP"; // 商鋪
 
-                public const string type_JC = "JC";
+                public const string type_NT = "NT"; // 農田
+                public const string type_MC = "MC"; // 牧場
+
+                public const string type_LTC = "LTC"; // 鍊鐵廠
+
+                public const string type_JC = "JC";  // 校場
 
                 public const string trainMinute = "trainMinute";
                 public const string gainExp = "gainExp";
