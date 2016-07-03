@@ -37,6 +37,8 @@ namespace SmartKings
         public static bool DEBUG = DEFAULT.DEBUG;
         public static int elapseMin = DEFAULT.elapseMin;
         public static int extraStartMin = DEFAULT.extraStartMin;
+        public static bool stopAllActiion = false;
+
 
         private static dynamic toJson()
         {

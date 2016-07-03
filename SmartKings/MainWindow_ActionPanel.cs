@@ -29,6 +29,7 @@ namespace SmartKings
 
         private void actionPanelHandler(bool allPlayers, string btnClicked)
         {
+            if (AppSettings.stopAllActiion) return;
             switch (btnClicked)
             {
                 case "btnResetSchedule":

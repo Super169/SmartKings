@@ -27,6 +27,11 @@ namespace SmartKings
 
         public void WindowPreClose()
         {
+            normalMode = true;
+            SetUI();
+            autoTimer.Enabled = false;
+            UpdateStatus("自動大皇帝 - 停止");
+            saveEventLog();
             saveAccounts();
         }
 
@@ -61,38 +66,26 @@ namespace SmartKings
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
             if (!readyClose()) return;
+            AppSettings.stopAllActiion = true;
             if (MessageBox.Show("真的要離開?", "請確定", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (Monitor.TryEnter(AppSettings.actionLocker, 60000))
-                {
-                    try
-                    {
-                        normalMode = true;
-                        SetUI();
-                        autoTimer.Enabled = false;
-                        UpdateStatus("自動大皇帝 - 停止");
-                        saveEventLog();
-                    }
-                    finally
-                    {
-                        Monitor.Exit(AppSettings.actionLocker);
-                    }
-                } else
-                {
-                    UpdateInfo("***", "離開失敗", "等待超時, 自動任務進行中, 暫時不能離開.");
-                    return;
-                }
                 ((App)Application.Current).ExitApplication();
+            } else
+            {
+                AppSettings.stopAllActiion = false;
             }
         }
 
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
+            if (AppSettings.stopAllActiion) return;
             toggleAutoKings();
         }
 
         private void btnSaveEventLog_Click(object sender, RoutedEventArgs e)
         {
+            if (AppSettings.stopAllActiion) return;
+            saveEventLog();
             MessageBox.Show(string.Format("Result saved to {0}", saveEventLog()));
         }
 
@@ -118,6 +111,7 @@ namespace SmartKings
 
         private void btnClearEventLog_Click(object sender, RoutedEventArgs e)
         {
+            if (AppSettings.stopAllActiion) return;
             eventLogs.Clear();
             refreshEventLog();
         }

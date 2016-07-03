@@ -131,6 +131,7 @@ namespace SmartKings
         {
             if (!((MainWindow)MainWindow).readyClose()) return;
 
+            AppSettings.stopAllActiion = true;
             _isExit = true;
             ((MainWindow) MainWindow).WindowPreClose();
             MainWindow.Close();

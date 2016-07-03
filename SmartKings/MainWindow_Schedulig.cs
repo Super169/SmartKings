@@ -29,6 +29,7 @@ namespace SmartKings
 
         private void toggleAutoKings()
         {
+            if (AppSettings.stopAllActiion) return;
             normalMode = !normalMode;
             SetUI();
 
@@ -36,7 +37,8 @@ namespace SmartKings
             {
                 autoTimer.Enabled = false;
                 UpdateStatus("自動大皇帝 - 停止");
-            } else
+            }
+            else
             {
                 UpdateStatus("自動大皇帝 - 啟動");
                 autoTimer.Interval = 1000;
@@ -49,50 +51,54 @@ namespace SmartKings
             autoRunning = true;
             autoTimer.Enabled = false;
             DateTime nextActionTime = DateTime.Now.AddMinutes(1);
-            UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);
-            UpdateTextBox(txtNextExecution, "等待中。。。。。。", false);
-
-            if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
+            if (!AppSettings.stopAllActiion)
             {
-                try
+                UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);
+                UpdateTextBox(txtNextExecution, "等待中。。。。。。", false);
+
+                if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
                 {
-                    UpdateTextBox(txtNextExecution, "執行中。。。。。。", false);
-                    UpdateProgress("自動大皇帝 - 進行中......");
-                    if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 開始執行");
-
-                    // Thread.Sleep(3000);
-
-                    foreach (GameAccount oGA in gameAccounts)
+                    try
                     {
-                        if (oGA.IsOnline() && oGA.enabled)
+                        UpdateTextBox(txtNextExecution, "執行中。。。。。。", false);
+                        UpdateProgress("自動大皇帝 - 進行中......");
+                        if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 開始執行");
+
+                        // Thread.Sleep(3000);
+
+                        foreach (GameAccount oGA in gameAccounts)
                         {
-                            DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
-                            if (nextTime < nextActionTime) nextActionTime = nextTime;
+                            if (oGA.IsOnline() && oGA.enabled)
+                            {
+                                DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
+                                if (nextTime < nextActionTime) nextActionTime = nextTime;
+                            }
                         }
+
+                        if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");
+                        UpdateProgress();
+
                     }
-
-                    if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");
-                    UpdateProgress();
-
+                    finally
+                    {
+                        Monitor.Exit(AppSettings.actionLocker);
+                    }
                 }
-                finally
+                else
                 {
-                    Monitor.Exit(AppSettings.actionLocker);
+                    UpdateInfo("***", "自動大皇帝", string.Format("等待超時, 未能進行.  將於 {0:HH:mm:ss} 重試", nextActionTime));
                 }
-            } else
-            {
-                UpdateInfo("***", "自動大皇帝", string.Format("等待超時, 未能進行.  將於 {0:HH:mm:ss} 重試", nextActionTime));
-            }
 
-            // Check boss war time, no schedule between 19:30 - 20:30
-            int dow = (int)DateTime.Now.DayOfWeek;
-            if ((dow == 0) || (dow == 5))
-            {
-                if ((nextActionTime.Hour == 19) && (nextActionTime.Minute < 59))
+                // Check boss war time, no schedule between 19:30 - 20:30
+                int dow = (int)DateTime.Now.DayOfWeek;
+                if ((dow == 0) || (dow == 5))
                 {
-                    // Force to BossWar Time
-                    nextActionTime = nextActionTime.Date.Add(new TimeSpan(19, 59, 5));
-                    UpdateInfo("***", "自動大皇帝", string.Format("進入神將等待時間, 下次將於 {0:HH:mm:ss} 執行", nextActionTime));
+                    if ((nextActionTime.Hour == 19) && (nextActionTime.Minute < 59))
+                    {
+                        // Force to BossWar Time
+                        nextActionTime = nextActionTime.Date.Add(new TimeSpan(19, 59, 5));
+                        UpdateInfo("***", "自動大皇帝", string.Format("進入神將等待時間, 下次將於 {0:HH:mm:ss} 執行", nextActionTime));
+                    }
                 }
             }
 
