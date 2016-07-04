@@ -23,7 +23,11 @@ namespace KingsLib
 
                 rro = request.GrassArrow.acquireGrassArrowInfo(ci, sid);
                 if (!(rro.SuccessWithJson(RRO.GrassArrow.items, typeof(DynamicJsonArray)) &&
-                      rro.SuccessWithJson(RRO.GrassArrow.rewards, typeof(DynamicJsonArray)))) return false;
+                      rro.SuccessWithJson(RRO.GrassArrow.rewards, typeof(DynamicJsonArray))))
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "GrassArrow.acquireGrassArrowInfo 出錯");
+                    return false;
+                }
                 int fightCount = rro.getInt(RRO.GrassArrow.fightCount);
                 int arrowNum = rro.getInt(RRO.GrassArrow.arrowNum);
                 int totalNum = rro.getInt(RRO.GrassArrow.totalNum);
@@ -54,11 +58,19 @@ namespace KingsLib
                     }
                     rro = request.GrassArrow.acquireGrassArrowInfo(ci, sid);
                     if (!(rro.SuccessWithJson(RRO.GrassArrow.items, typeof(DynamicJsonArray)) &&
-                          rro.SuccessWithJson(RRO.GrassArrow.rewards, typeof(DynamicJsonArray)))) return false;
+                          rro.SuccessWithJson(RRO.GrassArrow.rewards, typeof(DynamicJsonArray))))
+                    {
+                        if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "GrassArrow.acquireGrassArrowInfo 出錯");
+                        return false;
+                    }
                     fightCount = rro.getInt(RRO.GrassArrow.fightCount);
                     arrowNum = rro.getInt(RRO.GrassArrow.arrowNum);
                     totalNum = rro.getInt(RRO.GrassArrow.totalNum);
                     updateInfo(oGA.displayName, taskName, string.Format("出戰後, 獲得 {0} 支箭, 現餘下 {1} 支箭", totalNum, arrowNum));
+                }
+                else
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("早前已經完成了, 獲得 {0} 支箭, 現餘下 {1} 支箭", totalNum, arrowNum));
                 }
 
                 DynamicJsonArray items = rro.responseJson[RRO.GrassArrow.items];
@@ -107,6 +119,7 @@ namespace KingsLib
                         goExchange(oGA, updateInfo, debug, taskName, ref arrowNum, 10, 160, "高級經驗書", 1);
                         break;
                 }
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("換領完畢, 餘下 {0} 支箭", arrowNum));
                 return true;
             }
 
