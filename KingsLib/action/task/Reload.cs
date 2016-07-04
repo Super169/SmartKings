@@ -28,6 +28,7 @@ namespace KingsLib
                     return true;
                 }
                 string url = "http://www.pubgame.tw/play.do?gc=king&gsc=" + oGA.pubGameServerId.ToString();
+                updateInfo(oGA.displayName, taskName, string.Format("重啟 {0} - 開始", url));
                 Process.Start("chrome.exe", url);
                 int waitCnt = 0;
                 // Wait a maximum of 1 minute
@@ -36,6 +37,7 @@ namespace KingsLib
                     Thread.Sleep(5000);
                     if (sid != oGA.sid) waitCnt = 100;
                 }
+                updateInfo(oGA.displayName, taskName, string.Format("重啟 {0} - {1}", url, (sid == oGA.sid ? "失敗" : "成功")));
                 // Wait extra 5s for safety, as some system prcess may still running
                 Thread.Sleep(5000);
                 return true;

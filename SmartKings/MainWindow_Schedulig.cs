@@ -66,7 +66,7 @@ namespace SmartKings
 
                         // Thread.Sleep(3000);
 
-
+                        /*
                         // Handle for reload first
                         if (!Scheduler.bossTime())
                         {
@@ -82,16 +82,15 @@ namespace SmartKings
                             }
 
                         }
-
+                        */
                         foreach (GameAccount oGA in gameAccounts)
                         {
-                            if (oGA.IsOnline() && oGA.enabled)
+                            if (oGA.enabled)
                             {
+                                oGA.checkStatus();
                                 DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
                                 if (nextTime < nextActionTime) nextActionTime = nextTime;
                             }
-
-
                         }
 
                         if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");

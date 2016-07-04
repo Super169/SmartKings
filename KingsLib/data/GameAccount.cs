@@ -392,7 +392,7 @@ namespace KingsLib.data
             foreach (Scheduler.KingsTask sysTask in Scheduler.autoTaskList)
             {
                 if (!sysTask.isEnabled) continue;
-                if (sysTask.id == Scheduler.TaskId.Reload) continue;
+                if (!(IsOnline() || (sysTask.id == Scheduler.TaskId.Reload))) continue;
 
                 executeAndScheduleTask(updateInfo, debug, sysTask.id, ref nextTime);
                 /*
