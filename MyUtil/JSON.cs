@@ -582,7 +582,8 @@ namespace MyUtil
             try
             {
                 // string jsonString = Json.Encode(json);
-                string jsonString = JSON.encode(json);
+                // string jsonString = JSON.encode(json);
+                string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(json);
                 return saveConfig(jsonString, fileName);
             }
             catch (Exception ex)
