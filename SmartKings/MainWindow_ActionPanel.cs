@@ -42,13 +42,13 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.Reload, allPlayers);
                     break;
                 case "btnAutoTaskSetting":
-                    MessageBox.Show("功能尚未開放");
-                    /*
-                    ui.WinAutoTaskConfig winConfig = new ui.WinAutoTaskConfig();
-                    winConfig.Owner = this;
-                    winConfig.ShowDialog();
-                    saveAutoTasksSettings();
-                    */
+                    {
+                        GameAccount oGA = GetSelectedAccount();
+                        if (oGA == null) return;
+                        ui.win.WinAccTaskConfig winConfig = new ui.win.WinAccTaskConfig(oGA);
+                        winConfig.Owner = this;
+                        winConfig.ShowDialog();
+                    }
                     break;
                 case "btnCheckStatus":
                     goCheckStatus();
@@ -68,6 +68,10 @@ namespace SmartKings
                 case "btnStarrySetup":
                     // goStarrySetup();
                     goWarSetup(Scheduler.TaskId.StarryFight, 0, 1, 5, true, -1, null);
+                    break;
+                case "btnNavalWarSetup":
+                    // goStarrySetup();
+                    goWarSetup(Scheduler.TaskId.NavalWar, 0, 1, 5, true, -1, null);
                     break;
                 case "btnStarryFight":
                     goTask(Scheduler.TaskId.StarryFight, allPlayers);
@@ -128,11 +132,13 @@ namespace SmartKings
                     break;
 
                 case "btnEliteFightTarget":
-                    GameAccount oGA = GetSelectedAccount();
-                    if (oGA == null) return;
-                    ui.win.WinEliteFightSetup winEFS = new ui.win.WinEliteFightSetup(oGA);
-                    winEFS.Owner = this;
-                    winEFS.ShowDialog();
+                    {
+                        GameAccount oGA = GetSelectedAccount();
+                        if (oGA == null) return;
+                        ui.win.WinEliteFightSetup winEFS = new ui.win.WinEliteFightSetup(oGA);
+                        winEFS.Owner = this;
+                        winEFS.ShowDialog();
+                    }
                     break;
 
                 case "btnSetupTravel":

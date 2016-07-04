@@ -83,6 +83,53 @@ namespace KingsLib.scheduler
             public int retryCnt { get; set; }
             public DateTime? nextExecutionTime;
 
+            public string getScheduleInfo()
+            {
+                StringBuilder sb = new StringBuilder();
+                if (dow.Count == 0)
+                {
+                    sb.Append("每天:");
+                } else
+                {
+                    sb.Append("星期 ");
+                    foreach (int i in dow)
+                    {
+                        string[] dName = { "日","一","二","三","四","五","六", "日" };
+                        sb.Append(dName[i]);
+                    }
+                    sb.Append(":");
+                }
+                if (this.startTime != null)
+                {
+                    if (this.endTime != null)
+                    {
+                        sb.Append(string.Format(" {0:HH:mm} 至 {1:HH:mm}", this.startTime, this.endTime));
+                    } else
+                    {
+                        sb.Append(string.Format(" {0:HH:mm} 之後", this.startTime));
+                    }
+                } else if (this.endTime != null)
+                {
+                    sb.Append(string.Format(" {0:HH:mm} 之前", this.startTime));
+                }
+                if (this.elapseMin > 0)
+                {
+                    sb.Append(string.Format(" 每 {0} 分鐘一次", this.elapseMin));
+                } else if (executionTimes.Count > 0)
+                {
+                    sb.Append(" 在");
+                    foreach (TimeSpan ts in this.executionTimes)
+                    {
+                        sb.Append(string.Format(" [{0:hh\\:mm}]", ts));
+                    }
+                    sb.Append(" 執行");
+                } else
+                {
+                    sb.Append(" 執行一次");
+                }
+                return sb.ToString();
+            }
+
             public ScheduleInfo()
             {
                 this.initObject();

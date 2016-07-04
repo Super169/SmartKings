@@ -15,7 +15,8 @@ namespace KingsLib
         {
             public static bool goNavalWar(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = Scheduler.getTaskName(Scheduler.TaskId.NavalWar);
+                string taskId = Scheduler.TaskId.NavalWar;
+                string taskName = Scheduler.getTaskName(taskId);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -36,7 +37,7 @@ namespace KingsLib
 
                 for (int idx = 0; idx < 3; idx++)
                 {
-                    WarInfo wi = oGA.getWarInfo(Scheduler.TaskId.Patrol, idx);
+                    WarInfo wi = oGA.getWarInfo(taskId, idx);
                     if (wi == null) fightHeros[idx] = null;
                     else fightHeros[idx] = wi.body;
                 }
@@ -48,11 +49,14 @@ namespace KingsLib
                 }
 
                 rro = request.Naval.inMissionHeros(oGA.connectionInfo, oGA.sid);
-                if (!rro.success) return false;
-                if (!(rro.exists(RRO.Naval.alives, typeof(DynamicJsonArray)) &&
+                if (!(rro.success &&
+                      rro.exists(RRO.Naval.alives, typeof(DynamicJsonArray)) &&
                       rro.exists(RRO.Naval.deads, typeof(DynamicJsonArray)) &&
                       rro.exists(RRO.Naval.deadhero, typeof(DynamicJsonArray))))
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "Naval.inMissionHeros 出錯.");
                     return false;
+                }
 
                 DynamicJsonArray oAlives, oDeads, oDeadHero;
                 oAlives = rro.responseJson["alives"];
@@ -61,13 +65,25 @@ namespace KingsLib
 
                 // The task should be executed before start, so may only need to check alives
                 // If any of them contain data, that means troops already sent, no action required.
-                if ((oAlives.Length + oDeads.Length + oDeadHero.Length) > 0) return true;
+                if ((oAlives.Length + oDeads.Length + oDeadHero.Length) > 0)
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "早前已派遣部隊參與");
+                    return true;
+                }
 
                 rro = request.Naval.enterWar(ci, sid, cityId);
-                if (!rro.SuccessWithJson(RRO.Naval.disp)) return false;
+                if (!rro.SuccessWithJson(RRO.Naval.disp))
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "Naval.enterWar 出錯.");
+                    return false;
+                }
 
                 rro = request.Naval.inMissionHeros(ci, sid);
-                if (!rro.success) return false;
+                if (!rro.success)
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "第二次執行 Naval.inMissionHeros 出錯.");
+                    return false;
+                }
 
                 int maxIdx = (cityId == 1 ? 2 : 3);
                 for (int idx = 0; idx < maxIdx; idx++)
@@ -78,10 +94,13 @@ namespace KingsLib
                         if (rro.SuccessWithJson(RRO.Naval.troops))
                         {
                             updateInfo(oGA.displayName, taskName, string.Format("向戰場 {0} 出兵: {1}", cityId + idx, fightHeros[idx]));
+                        } else
+                        {
+                            if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("向戰場 {0} 出兵: {1} 時出了問題", cityId + idx, fightHeros[idx]));
+                            return false;
                         }
                     }
                 }
-
                 return true;
             }
 

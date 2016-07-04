@@ -34,6 +34,7 @@
         <Button x:Name="btnIndustryShop" Content="勢力市集" HorizontalAlignment="Left" Margin="278,260,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnTrainHero" Content="校場訓練" HorizontalAlignment="Left" Margin="278,286,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnGrassArrowSetup" Content="草船借箭設定" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnNavalWarSetup" Content="跨服入侵箭設定" HorizontalAlignment="Left" Margin="10,272,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnGrassArrow" Content="草船借箭" HorizontalAlignment="Left" Margin="278,310,0,0" VerticalAlignment="Top" Width="80" Click="btn_Click"/>
         <Button x:Name="btnSetupTeamDuplicate" Content="皇榜設定" HorizontalAlignment="Left" Margin="110,244,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnSetupBossWar" Content="神將設定" HorizontalAlignment="Left" Margin="60,212,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>

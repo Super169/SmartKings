@@ -158,6 +158,7 @@ namespace KingsLib.scheduler
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
             public string taskName { get { return getTaskName(id); } }
+            public string defaultSchedule { get { return Scheduler.defaultSchedule(this.id).getScheduleInfo(); } }
 
             private static class KEY
             {
