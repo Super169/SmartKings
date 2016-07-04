@@ -22,6 +22,7 @@ namespace SmartKings
 
         private void QuickSetup()
         {
+            /*
             GameAccount oGA = GetSelectedAccount();
             if (oGA == null) return;
 
@@ -53,6 +54,7 @@ namespace SmartKings
                     // json[Scheduler.Parm.EliteFight.targetStage] = 3;
                     break;
             }
+            */
         }
 
 

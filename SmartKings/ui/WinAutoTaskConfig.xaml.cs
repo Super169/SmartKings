@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +28,7 @@ namespace SmartKings.ui
         {
             InitializeComponent();
             lvTask.ItemsSource = Scheduler.autoTaskList;
+            txtElapseMin.Text = AppSettings.elapseMin.ToString();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -49,8 +51,8 @@ namespace SmartKings.ui
             foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
             {
                 t.isEnabled = isEnabled;
-                lvTask.ItemsSource = Scheduler.autoTaskList;
             }
+            lvTask.ItemsSource = Scheduler.autoTaskList;
             RefreshList();
         }
 
@@ -68,5 +70,48 @@ namespace SmartKings.ui
             view.Refresh();
         }
 
+        private void txtElapseMin_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            int elapseMin = 0;
+            bool ready = false;
+            try
+            {
+                elapseMin = Int32.Parse(txtElapseMin.Text);
+                ready = (elapseMin > 0);
+            }
+            catch { }
+            if (!ready)
+            {
+                MessageBox.Show("執行間距不正確, 必須為 1-99 的數值.");
+                e.Cancel = true;
+            }
+            AppSettings.elapseMin = elapseMin;
+            AppSettings.saveSettings();
+        }
+
+        private void btnSelectSafe_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
+            {
+                t.isEnabled = (t.suggestion == 1);
+            }
+            lvTask.ItemsSource = Scheduler.autoTaskList;
+            RefreshList();
+        }
+
+        private void btnSelectSuggested_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Scheduler.KingsTask t in Scheduler.autoTaskList)
+            {
+                t.isEnabled = ((t.suggestion == 1) || (t.suggestion == 2));
+            }
+            lvTask.ItemsSource = Scheduler.autoTaskList;
+            RefreshList();
+        }
     }
 }

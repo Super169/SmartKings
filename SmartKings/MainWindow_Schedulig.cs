@@ -50,7 +50,7 @@ namespace SmartKings
         {
             autoRunning = true;
             autoTimer.Enabled = false;
-            DateTime nextActionTime = DateTime.Now.AddMinutes(1);
+            DateTime nextActionTime = DateTime.Now.AddMinutes(AppSettings.elapseMin);
             if (!AppSettings.stopAllActiion)
             {
                 UpdateTextBox(txtLastExecution, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), false);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings.ui"
         mc:Ignorable="d"
-        Title="WinAutoTaskConfig" Height="600" Width="800" WindowStartupLocation="CenterOwner" FontSize="14">
+        Title="WinAutoTaskConfig" Height="600" Width="800" WindowStartupLocation="CenterOwner" FontSize="14" Closing="Window_Closing" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
     <Grid>
         <ListView x:Name="lvTask" Margin="10,10,10,49">
             <ListView.View>
@@ -25,7 +25,12 @@
         </ListView>
         <Button x:Name="btnSelectAll" Content="全選" Margin="10,0,0,10" Click="btnSelectAll_Click" Height="34" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
         <Button x:Name="btnSelectNone" Content="全不選" HorizontalAlignment="Left" Margin="90,0,0,10" Width="75" Click="btnSelectNone_Click" Height="34" VerticalAlignment="Bottom"/>
+        <Button x:Name="btnSelectSafe" Content="安全選項" Margin="170,0,0,10" Click="btnSelectSafe_Click" Height="34" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
+        <Button x:Name="btnSelectSuggested" Content="建議選項" Margin="250,0,0,10" Click="btnSelectSuggested_Click" Height="34" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
         <Button x:Name="btnClose" Content="關閉" Margin="0,0,10,10" Height="34" VerticalAlignment="Bottom" Click="btnClose_Click" HorizontalAlignment="Right" Width="75"/>
+        <Label x:Name="label" Content="每次執行間距不多於　　　分鐘 (神將無雙時段除外)" HorizontalAlignment="Left" Margin="339,0,0,13" Height="29" VerticalAlignment="Bottom" FontWeight="Bold" Width="338"/>
+        <TextBox x:Name="txtElapseMin" HorizontalAlignment="Left" Margin="476,0,0,15" Text="0" Width="30" TextAlignment="Right" BorderThickness="2,2,1,1" PreviewTextInput="txtElapseMin_PreviewTextInput" MaxLength="2" MaxLines="1" Height="23" VerticalAlignment="Bottom" />
+
 
     </Grid>
 </Window>

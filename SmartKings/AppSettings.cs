@@ -21,7 +21,7 @@ namespace SmartKings
         {
             public const bool AutoRun = true;
             public const bool DEBUG = false;
-            public const int elapseMin = 2;
+            public const int elapseMin = 5;
             public const int extraStartMin = 0;
         }
 
@@ -36,7 +36,6 @@ namespace SmartKings
         public static bool AutoRun = DEFAULT.AutoRun;
         public static bool DEBUG = DEFAULT.DEBUG;
         public static int elapseMin = DEFAULT.elapseMin;
-        public static int extraStartMin = DEFAULT.extraStartMin;
         public static bool stopAllActiion = false;
 
 
@@ -46,7 +45,6 @@ namespace SmartKings
             json[KEY.AutoRun] = AutoRun;
             json[KEY.DEBUG] = DEBUG;
             json[KEY.elapseMin] = elapseMin;
-            json[KEY.extraStartMin] = extraStartMin;
             return json;
         }
 
@@ -56,7 +54,6 @@ namespace SmartKings
             AutoRun = JSON.getBool(json, KEY.AutoRun, DEFAULT.AutoRun);
             DEBUG = JSON.getBool(json, KEY.DEBUG, DEFAULT.DEBUG);
             elapseMin = JSON.getInt(json, KEY.elapseMin, DEFAULT.elapseMin);
-            extraStartMin = JSON.getInt(json, KEY.extraStartMin, DEFAULT.extraStartMin);
         }
 
         public static bool saveSettings()

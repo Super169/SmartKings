@@ -15,9 +15,9 @@ namespace KingsLib
         public static partial class task
         {
 
-            public static bool goTuanGou(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goTuanGouReward(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = Scheduler.getTaskName(Scheduler.TaskId.TuanGo);
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.TuanGoReward);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
 

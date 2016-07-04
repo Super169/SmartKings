@@ -85,6 +85,14 @@ namespace SmartKings.ui.uc
             lvAutoTaskInfo.ItemsSource = atis;
         }
 
+        public void SaveSettings()
+        {
+            foreach (AutoTaskInfo ati in atis)
+            {
+                Scheduler.AutoTask myTask = oGA.findAutoTask(ati.id);
+                if (myTask != null) myTask.isEnabled = ati.accEnabled;
+            }
+        }
 
     }
 }

@@ -44,7 +44,7 @@ namespace KingsLib.scheduler
             public const string TrainHero = "TrainHero";
             public const string Travel = "Travel";
             public const string TrialsBuyTimes = "TrialsBuyTimes";
-            public const string TuanGo = "TuanGo";
+            public const string TuanGoReward = "TuanGoReward";
 
         }
 
@@ -111,7 +111,7 @@ namespace KingsLib.scheduler
                     taskName = "討伐群雄";
                     break;
                 case TaskId.Patrol:
-                    taskName = "民生民惰";
+                    taskName = "民生民情";
                     break;
                 case TaskId.CorpsCityReward:
                     taskName = "城池產出";
@@ -125,7 +125,7 @@ namespace KingsLib.scheduler
                 case TaskId.IndustryShop:
                     taskName = "勢力市集";
                     break;
-                case TaskId.TuanGo:
+                case TaskId.TuanGoReward:
                     taskName = "團購寶箱";
                     break;
 
@@ -155,6 +155,7 @@ namespace KingsLib.scheduler
             public string id;
             public string info { get; set;  }
             public bool isEnabled { get; set; }
+            public int suggestion { get; set; }
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
             public string taskName { get { return getTaskName(id); } }
@@ -165,6 +166,7 @@ namespace KingsLib.scheduler
                 public const string id = "id";
                 public const string info = "info";
                 public const string isEnabled = "isEnabled";
+                public const string suggestion = "suggestion";
                 public const string customSchedule = "customSchedule";
                 public const string executeTask = "executeTask";
             }
@@ -184,6 +186,7 @@ namespace KingsLib.scheduler
                 this.id = "";
                 this.info = "";
                 this.isEnabled = false;
+                this.suggestion = 0;
                 this.customSchedule = false;
                 this.executeTask = null;
             }
@@ -204,8 +207,6 @@ namespace KingsLib.scheduler
 
         }
 
-
-
         public static void initAutoTasks()
         {
             autoTaskList = new List<KingsTask>();
@@ -215,64 +216,9 @@ namespace KingsLib.scheduler
                 id = TaskId.Reload,
                 info = "重新啟動, 可更新畫面資料",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = false,
                 executeTask = action.task.goReload
-            });
-
-
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.CleanUpBag,
-                info = "使用背包中的消耗品 - 喇叭, 地圖, 寶箱",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goCleanupBag
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.CycleShop,
-                info = "在東瀛寶船以銀子購物",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goCycleShop
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.FinishTask,
-                info = "領取已完成的任務的獎勵",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goFinishAllTask
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.GrassArrow,
-                info = "進行草船借箭並領取換領獎勵",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goGrassArrow
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.Harvest,
-                info = "收取封地上生產的 銀子, 糧食 及 精鐵",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goHarvest
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.Market,
-                info = "到 雜貨店 以銀子購買 糧食 及 精鐵",
-                isEnabled = true,
-                customSchedule = false,
-                executeTask = action.task.goMarket
             });
 
             autoTaskList.Add(new KingsTask()
@@ -280,53 +226,29 @@ namespace KingsLib.scheduler
                 id = TaskId.MonthSignIn,
                 info = "自動進行每天登入",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = false,
                 executeTask = action.task.goMonthSignIn
             });
 
             autoTaskList.Add(new KingsTask()
             {
-                id = TaskId.ReadAllEmail,
-                info = "打開郵件並取出附件的物品",
+                id = TaskId.Harvest,
+                info = "收取封地上生產的 銀子, 糧食 及 精鐵",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = false,
-                executeTask = action.task.goReadAllEmail
+                executeTask = action.task.goHarvest
             });
 
             autoTaskList.Add(new KingsTask()
             {
-                id = TaskId.StarryFight,
-                info = "在 攬星壇 作戰以取得兵書所需",
+                id = TaskId.CleanUpBag,
+                info = "使用背包中的消耗品 - 喇叭, 地圖, 寶箱",
                 isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goStarryFight
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.StarryReward,
-                info = "檢查並領取 攬星壇 中已完成任務的獎勵",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goStarryReward
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.EliteFight,
-                info = "進行討伐群雄",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goEliteFight
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.Patrol,
-                info = "執行民生民情任務",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goPatrol
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goCleanupBag
             });
 
             autoTaskList.Add(new KingsTask()
@@ -334,35 +256,19 @@ namespace KingsLib.scheduler
                 id = TaskId.CorpsCityReward,
                 info = "收取城池產出獎勵",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = true,
                 executeTask = action.task.goCorpsCityReward
             });
 
             autoTaskList.Add(new KingsTask()
             {
-                id = TaskId.SLShop,
-                info = "到 勢力商店　購買 糧食",
+                id = TaskId.FinishTask,
+                info = "領取已完成的任務的獎勵",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = false,
-                executeTask = action.task.goSLShop
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.IndustryShop,
-                info = "在勢力市集中購買糧食/銀子",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goIndustryShop
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.TrainHero,
-                info = "訓練英雄, 獲取升級經驗",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goTrainHero
+                executeTask = action.task.goFinishAllTask
             });
 
             autoTaskList.Add(new KingsTask()
@@ -370,6 +276,7 @@ namespace KingsLib.scheduler
                 id = TaskId.LuckyCycle,
                 info = "轉動幸運轉盤並領取獎勵",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = true,
                 executeTask = action.task.goLuckyCycle
             });
@@ -379,6 +286,7 @@ namespace KingsLib.scheduler
                 id = TaskId.Lottery,
                 info = "自動完成轉盤抽獎",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = true,
                 executeTask = action.task.goLottery
             });
@@ -388,8 +296,49 @@ namespace KingsLib.scheduler
                 id = TaskId.ArenasReward,
                 info = "領取三軍演武的獎勵",
                 isEnabled = true,
+                suggestion = 1,
                 customSchedule = true,
                 executeTask = action.task.goAreansReward
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.TuanGoReward,
+                info = "領取三軍演武的獎勵",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = true,
+                executeTask = action.task.goTuanGouReward
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.StarryReward,
+                info = "檢查並領取 攬星壇 中已完成任務的獎勵",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = true,
+                executeTask = action.task.goStarryReward
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.ReadAllEmail,
+                info = "打開郵件並取出附件的物品",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goReadAllEmail
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.TrainHero,
+                info = "訓練英雄, 獲取升級經驗",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goTrainHero
             });
 
             autoTaskList.Add(new KingsTask()
@@ -397,6 +346,7 @@ namespace KingsLib.scheduler
                 id = TaskId.EliteBuyTime,
                 info = "購買額外的英雄討伐次數",
                 isEnabled = true,
+                suggestion = 2,
                 customSchedule = true,
                 executeTask = action.task.goEliteBuyTime
             });
@@ -406,17 +356,9 @@ namespace KingsLib.scheduler
                 id = TaskId.TrialsBuyTimes,
                 info = "購買額外的英雄試煉次數",
                 isEnabled = true,
+                suggestion = 2,
                 customSchedule = true,
                 executeTask = action.task.goTrialBuyTime
-            });
-
-            autoTaskList.Add(new KingsTask()
-            {
-                id = TaskId.NavalWar,
-                info = "派兵參與跨服入侵",
-                isEnabled = true,
-                customSchedule = true,
-                executeTask = action.task.goNavalWar
             });
 
             autoTaskList.Add(new KingsTask()
@@ -424,8 +366,49 @@ namespace KingsLib.scheduler
                 id = TaskId.TeamDuplicate,
                 info = "執行皇榜任務",
                 isEnabled = true,
+                suggestion = 2,
                 customSchedule = true,
                 executeTask = action.task.goTeamDuplicate
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Patrol,
+                info = "執行民生民情任務",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goPatrol
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.EliteFight,
+                info = "進行討伐群雄",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goEliteFight
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.GrassArrow,
+                info = "進行草船借箭並領取換領獎勵",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = false,
+                executeTask = action.task.goGrassArrow
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.NavalWar,
+                info = "派兵參與跨服入侵",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goNavalWar
             });
 
             autoTaskList.Add(new KingsTask()
@@ -433,9 +416,61 @@ namespace KingsLib.scheduler
                 id = TaskId.Travel,
                 info = "分段完成 周遊天下",
                 isEnabled = true,
+                suggestion = 2,
                 customSchedule = true,
                 executeTask = action.task.goTravel
             });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.SLShop,
+                info = "到 勢力商店　購買 糧食",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = false,
+                executeTask = action.task.goSLShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.IndustryShop,
+                info = "在勢力市集中購買糧食/銀子",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goIndustryShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Market,
+                info = "為 糧草先行 任務到 雜貨店 購物",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = false,
+                executeTask = action.task.goMarket
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.CycleShop,
+                info = "在東瀛寶船以銀子購物",
+                isEnabled = true,
+                suggestion = 0,
+                customSchedule = false,
+                executeTask = action.task.goCycleShop
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.StarryFight,
+                info = "在 攬星壇 作戰以取得兵書所需",
+                isEnabled = true,
+                suggestion = 0,
+                customSchedule = true,
+                executeTask = action.task.goStarryFight
+            });
+
 
         }
 
@@ -444,6 +479,13 @@ namespace KingsLib.scheduler
             ScheduleInfo si = new ScheduleInfo();
             switch (taskId)
             {
+                case TaskId.Reload:
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(5, 15, 0));
+                    si.executionTimes.Add(new TimeSpan(9, 15, 0));
+                    si.executionTimes.Add(new TimeSpan(12, 15, 0));
+                    si.executionTimes.Add(new TimeSpan(18, 15, 0));
+                    break;
                 case TaskId.CleanUpBag:
                 case TaskId.CorpsCityReward:
                 case TaskId.FinishTask:

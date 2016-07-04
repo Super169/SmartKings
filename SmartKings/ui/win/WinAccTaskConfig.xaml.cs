@@ -35,5 +35,15 @@ namespace SmartKings.ui.win
             this.Title = string.Format("{0} 掛機設定", oGA.displayName);
             lvAutoTaskInfo.Setup(oGA);
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            lvAutoTaskInfo.SaveSettings();
+        }
     }
 }

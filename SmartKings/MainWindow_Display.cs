@@ -131,6 +131,8 @@ namespace SmartKings
             }
             eventLogs.Add(new EventLog() { eventTime = eventTime, account = account, action = action, msg = msg });
             refreshEventLog();
+            lvEventLog.SelectedIndex = lvEventLog.Items.Count - 1;
+            lvEventLog.ScrollIntoView(lvEventLog.SelectedItem);
         }
 
 
