@@ -38,6 +38,9 @@ namespace SmartKings
                 case "btnQuickSetup":
                     QuickSetup();
                     break;
+                case "btnReload":
+                    goTask(Scheduler.TaskId.Reload, allPlayers);
+                    break;
                 case "btnAutoTaskSetting":
                     MessageBox.Show("功能尚未開放");
                     /*
@@ -201,7 +204,7 @@ namespace SmartKings
                 // Must get account in UI thread then pass to background thread
                 GameAccount oGA = GetSelectedAccount();
                 if (oGA == null) return;
-                if (oGA.IsOnline())
+                if (oGA.IsOnline() || (taskId == Scheduler.TaskId.Reload))
                 {
                     Thread thread = new Thread(() => goTaskThread(oGA, taskId));
                     thread.Start();

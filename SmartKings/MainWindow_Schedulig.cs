@@ -66,6 +66,23 @@ namespace SmartKings
 
                         // Thread.Sleep(3000);
 
+
+                        // Handle for reload first
+                        if (!Scheduler.bossTime())
+                        {
+                            Scheduler.KingsTask reloadTask = Scheduler.autoTaskList.Find(x => x.id == Scheduler.TaskId.Reload);
+                            if ((reloadTask != null) && (reloadTask.isEnabled))
+                            {
+                                foreach (GameAccount oGA in gameAccounts)
+                                {
+                                    if (oGA.enabled) {
+                                        oGA.executeAndScheduleTask(UpdateInfo, AppSettings.DEBUG, Scheduler.TaskId.Reload, ref nextActionTime);
+                                    }
+                                }
+                            }
+
+                        }
+
                         foreach (GameAccount oGA in gameAccounts)
                         {
                             if (oGA.IsOnline() && oGA.enabled)
@@ -73,6 +90,8 @@ namespace SmartKings
                                 DateTime nextTime = oGA.goAutoTask(UpdateInfo, AppSettings.DEBUG);
                                 if (nextTime < nextActionTime) nextActionTime = nextTime;
                             }
+
+
                         }
 
                         if (AppSettings.DEBUG) UpdateInfo("***", "排程", "自動大皇帝 - 執行完畢");

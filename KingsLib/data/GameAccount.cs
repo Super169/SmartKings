@@ -392,6 +392,10 @@ namespace KingsLib.data
             foreach (Scheduler.KingsTask sysTask in Scheduler.autoTaskList)
             {
                 if (!sysTask.isEnabled) continue;
+                if (sysTask.id == Scheduler.TaskId.Reload) continue;
+
+                executeAndScheduleTask(updateInfo, debug, sysTask.id, ref nextTime);
+                /*
                 Scheduler.AutoTask myTask = findAutoTask(sysTask.id);
                 if (myTask == null)
                 {
@@ -420,9 +424,45 @@ namespace KingsLib.data
                     DateTime realNext = myNext.GetValueOrDefault();
                     if (realNext < nextTime) nextTime = realNext;
                 }
+                */
             }
             return nextTime;
         }
+
+
+        public bool executeAndScheduleTask(action.DelegateUpdateInfo updateInfo, bool debug, string taskId, ref DateTime nextTime)
+        {
+            Scheduler.AutoTask myTask = findAutoTask(taskId);
+            if (myTask == null)
+            {
+                rebuildAutoTask(taskId);
+                myTask = findAutoTask(taskId);
+                // In case myTask still cannot rebuild
+                if (myTask == null)
+                {
+                    LOG.E(string.Format("{0}: Unable to rebuild autoTask {1}", this.displayName, taskId));
+                    return false;;
+                }
+            }
+
+            string taskName = Scheduler.getTaskName(myTask.taskId);
+            if (myTask.schedule.readyToGo())
+            {
+                if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
+                myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
+                if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
+            }
+
+            if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, string.Format("下次執行時間: {0:yyyy-MM-dd HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
+            DateTime? myNext = myTask.schedule.nextExecutionTime;
+            if (myNext != null)
+            {
+                DateTime realNext = myNext.GetValueOrDefault();
+                if (realNext < nextTime) nextTime = realNext;
+            }
+            return true;
+        }
+
 
         private DateTime goBossWar(action.DelegateUpdateInfo updateInfo, bool debug)
         {

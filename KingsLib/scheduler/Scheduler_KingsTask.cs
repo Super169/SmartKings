@@ -35,6 +35,7 @@ namespace KingsLib.scheduler
             public const string OneYearSignIn = "OneYearSignIn";
             public const string Patrol = "Patrol";
             public const string ReadAllEmail = "ReadAllEmail";
+            public const string Reload = "Reload";
             public const string MonthSignIn = "MonthSignIn";
             public const string SLShop = "SLShop";
             public const string StarryFight = "StarryFight";
@@ -102,6 +103,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.ReadAllEmail:
                     taskName = "開啟郵件";
+                    break;
+                case TaskId.Reload:
+                    taskName = "重新啟動";
                     break;
                 case TaskId.EliteFight:
                     taskName = "討伐群雄";
@@ -204,6 +208,17 @@ namespace KingsLib.scheduler
         public static void initAutoTasks()
         {
             autoTaskList = new List<KingsTask>();
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Reload,
+                info = "重新啟動, 可更新畫面資料",
+                isEnabled = true,
+                customSchedule = false,
+                executeTask = action.task.goReload
+            });
+
+
 
             autoTaskList.Add(new KingsTask()
             {

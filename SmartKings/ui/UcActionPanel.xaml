@@ -8,25 +8,26 @@
              d:DesignHeight="500" d:DesignWidth="400" FontSize="14">
     <Grid>
         <Button x:Name="btnQuickSetup" Content="快速設定" HorizontalAlignment="Left" Margin="278,12,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnResetSchedule" Content="重設排程" HorizontalAlignment="Left" Margin="109,9,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnResetSchedule" Content="重設排程" HorizontalAlignment="Left" Margin="110,36,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnAutoTaskSetting" Content="掛機設定" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnReload" Content="重啟帳戶" HorizontalAlignment="Left" Margin="109,65,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <CheckBox x:Name="cbxAllPlayers" Content="所有帳戶" Margin="10,12,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="88"/>
         <Button x:Name="btnCheckStatus" Content="檢查全部狀況" HorizontalAlignment="Left" Margin="278,338,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnOutstanding" Content="檢查遺漏" HorizontalAlignment="Left" Margin="109,37,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnOutstanding" Content="檢查遺漏" HorizontalAlignment="Left" Margin="109,9,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnHarvest" Content="封田收獲" HorizontalAlignment="Left" Margin="278,60,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnMonthSignIn" Content="簽到領獎" HorizontalAlignment="Left" Margin="278,86,0,0" VerticalAlignment="Top" Width="88  " Click="btn_Click"/>
         <Button x:Name="btnCleanBag" Content="清理背包" HorizontalAlignment="Left" Margin="278,36,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnStarrySetup" Content="攬星壇設定" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnStarryFight" Content="攬星壇通關" HorizontalAlignment="Left" Margin="109,65,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnStarrySetup" Content="攬星壇設定" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnStarryFight" Content="攬星壇通關" HorizontalAlignment="Left" Margin="109,177,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnMarket" Content="糧草先行" HorizontalAlignment="Left" Margin="278,110,0,0" VerticalAlignment="Top" Width="88  " Click="btn_Click"/>
-        <Button x:Name="btnStarryReward" Content="攬星壇獎勵" HorizontalAlignment="Left" Margin="109,93,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnStarryReward" Content="攬星壇獎勵" HorizontalAlignment="Left" Margin="109,149,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnReadEmail" Content="開啟郵件" HorizontalAlignment="Left" Margin="278,160,0,0" VerticalAlignment="Top" Width="88  " Click="btn_Click"/>
         <Button x:Name="btnCorpsCityReward" Content="城池產出" HorizontalAlignment="Left" Margin="278,210,0,0" VerticalAlignment="Top" Width="88  " Click="btn_Click"/>
         <Button x:Name="btnFinishTask" Content="任務報酬" HorizontalAlignment="Left" Margin="278,136,0,0" VerticalAlignment="Top" Width="88  " Click="btn_Click"/>
         <Button x:Name="btnCycleShop" Content="東瀛寶船" HorizontalAlignment="Left" Margin="278,186,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnEliteFightTarget" Content="討伐目標" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="109,149,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnEliteFightSetup" Content="討伐設定" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnEliteFightTarget" Content="討伐目標" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnEliteFight" Content="討伐群雄" HorizontalAlignment="Left" Margin="109,121,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnPatrolSetup" Content="民生民情設定" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnPatrol" Content="民生民情" HorizontalAlignment="Left" Margin="278,236,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnPatrolSetup2" Content="民生後備設定" HorizontalAlignment="Left" Margin="110,300,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
@@ -37,8 +38,8 @@
         <Button x:Name="btnSetupTeamDuplicate" Content="皇榜設定" HorizontalAlignment="Left" Margin="110,244,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnSetupBossWar" Content="神將設定" HorizontalAlignment="Left" Margin="60,212,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
         <Button x:Name="btnSetupTrainHero" Content="校場設定" HorizontalAlignment="Left" Margin="110,272,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnSetupTravel" Content="周遊設定" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
-        <Button x:Name="btnTravel" Content="周遊天下" HorizontalAlignment="Left" Margin="109,121,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnSetupTravel" Content="周遊設定" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
+        <Button x:Name="btnTravel" Content="周遊天下" HorizontalAlignment="Left" Margin="109,93,0,0" VerticalAlignment="Top" Width="88" Click="btn_Click"/>
 
 
         <Button x:Name="btnTester" Content="獨立測試" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="187" Click="btn_Click"/>
