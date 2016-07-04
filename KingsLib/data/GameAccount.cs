@@ -107,6 +107,11 @@ namespace KingsLib.data
 
         }
 
+        public GameAccount()
+        {
+            initObject();
+        }
+
         public GameAccount(AccountInfo li, ConnectionInfo ci)
         {
             initObject();

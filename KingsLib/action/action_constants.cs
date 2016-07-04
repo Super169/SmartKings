@@ -455,6 +455,9 @@ namespace KingsLib
 
             public static class Travel
             {
+
+                public const string isIn = "isIn";
+                public const string canPlayTimes = "canPlayTimes";
                 public const string simpleMap = "simpleMap";
                 public const string playerLevel = "playerLevel";
                 public const string currStep = "currStep";

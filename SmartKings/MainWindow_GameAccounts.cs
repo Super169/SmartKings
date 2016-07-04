@@ -31,6 +31,7 @@ namespace SmartKings
         private void saveAccounts()
         {
             DateTime startTime = DateTime.Now;
+
             dynamic jsonData = JSON.Empty;
             List<dynamic> acList = new List<dynamic>();
             foreach (GameAccount oGA in gameAccounts)
@@ -39,6 +40,12 @@ namespace SmartKings
             }
             jsonData[KEY_GAMEACCOUNTS] = acList;
             JSON.saveConfig(jsonData, jazGameAccounts);
+
+            /*
+            string js = Newtonsoft.Json.JsonConvert.SerializeObject(gameAccounts);
+            JSON.saveConfig(js, jazGameAccounts);
+            */
+
             DateTime endTime = DateTime.Now;
             TimeSpan ts = endTime - startTime;
             if (AppSettings.DEBUG) LOG.D(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));
@@ -47,12 +54,12 @@ namespace SmartKings
         private void restoreAccounts()
         {
 
+            int currSelectedIndex = lvAccounts.SelectedIndex;
             dynamic json = JSON.Empty;
             if (!JSON.restoreConfig(ref json, jazGameAccounts)) return;
             if ((json[KEY_GAMEACCOUNTS] == null) || (json[KEY_GAMEACCOUNTS].GetType() != typeof(DynamicJsonArray))) return;
             DynamicJsonArray dja = json[KEY_GAMEACCOUNTS];
 
-            int currSelectedIndex = lvAccounts.SelectedIndex;
             lock (gameAccountsLocker)
             {
                 gameAccounts.Clear();
@@ -64,6 +71,12 @@ namespace SmartKings
                     oGA.refreshAccount();
                 }
             }
+
+            /*
+            string js = "";
+            if (!JSON.restoreConfig(ref js, jazGameAccounts)) return;
+            gameAccounts = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GameAccount>>(js);
+            */
 
             gameAccounts.Sort();
             lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);

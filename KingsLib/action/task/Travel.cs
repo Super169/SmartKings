@@ -44,9 +44,29 @@ namespace KingsLib
 
                 showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("執行模式: {0}", mode));
 
+                rro = request.Travel.getStatus(ci, sid);
+                if (!(rro.SuccessWithJson(RRO.Travel.isIn) && rro.exists(RRO.Travel.canPlayTimes))) {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "Travel.getStatus 出錯");
+                    return false;
+                }
+                if (!rro.getBool(RRO.Travel.isIn) && (rro.getInt(RRO.Travel.canPlayTimes, -1) == 0))
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "今天的周遊已完結");
+                    return false;
+                }
+
+
                 TravelMapInfo mapInfo = action.Travel.getTravelMapInfo(ci, sid);
-                if (!mapInfo.ready) return false;
-                if (mapInfo.simpleMap.Length == 0) return false;
+                if (!mapInfo.ready)
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "Travel.getTravelMapInfo 出錯");
+                    return false;
+                }
+                if (mapInfo.simpleMap.Length == 0)
+                {
+                    if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "mapInfo.simpleMap 空白");
+                    return false;
+                }
 
 
                 int[] boxInfo = new int[mapInfo.mapSize + 1];
@@ -140,9 +160,9 @@ namespace KingsLib
                                 if (mapInfo.simpleMap[nextStep] != RRO.Travel.MAP_SHANGDIAN)
                                 {
                                     tryCnt++;
-                                    if (tryCnt > 5)
+                                    if ((mapInfo.diceNum < 25) && (tryCnt > 5))
                                     {
-                                        updateInfo(oGA.displayName, taskName, "未能到達商店, 暫時放棄");
+                                        updateInfo(oGA.displayName, taskName, string.Format("未能到達商店, 暫時放棄, 餘下 {0} 次", mapInfo.diceNum));
                                         break;
                                     }
                                 }

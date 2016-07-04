@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace KingsLib.scheduler
 {
@@ -19,6 +20,7 @@ namespace KingsLib.scheduler
                 public const string isEnabled = "isEnabled";
                 public const string parameter = "parameter";
                 public const string parmObject = "parmObject";
+                public const string schedule = "schedule";
             }
 
             public string taskId { get; set; }
@@ -26,6 +28,10 @@ namespace KingsLib.scheduler
             public string parameter { get; set; }
             public dynamic parmObject;
             public ScheduleInfo schedule;
+
+            public AutoTask()
+            {
+            }
 
             public AutoTask(string taskId, bool isEnabled, string parameter, ScheduleInfo schedule)
             {
@@ -63,6 +69,14 @@ namespace KingsLib.scheduler
                 this.parameter = JSON.getString(json, KEY.parameter, null);
                 string js = JSON.getString(json, KEY.parmObject, null);
                 this.parmObject = JSON.decode(js);
+                /*
+                js = JSON.getString(json, KEY.schedule, null);
+                DynamicJsonObject jSchedule = JSON.decode(js);
+                if (jSchedule.GetDynamicMemberNames().Count() > 0)
+                {
+                    this.schedule = new ScheduleInfo(js);
+                }
+                */
                 return true;
             }
 
@@ -73,6 +87,7 @@ namespace KingsLib.scheduler
                 json[KEY.isEnabled] = isEnabled;
                 json[KEY.parameter] = parameter;
                 json[KEY.parmObject] = JSON.encode(parmObject);
+                // json[KEY.schedule] = JSON.encode(schedule.toJson());
                 return json;
             }
         }

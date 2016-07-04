@@ -30,54 +30,63 @@ namespace KingsLib
                 string sid = oGA.sid;
                 RequestReturnObject rro;
 
+                // Try go MAP_SHANGDIAN with control dic when stpep < 25
+                // No control when diceNum > 25
+
                 int goStep = -1;
                 int checkPos = mapInfo.currStep;
-                for (int i = 1; i <= 6; i++)
-                {
-                    checkPos++;
-                    if (checkPos > mapInfo.mapSize) checkPos -= mapInfo.mapSize;
-                    if (mode == 0)
-                    {
-                        if ((boxInfo[checkPos] == 3) ||
-                            ((mapInfo.diceNum <= 25) && (boxInfo[checkPos] == 2)) ||
-                            ((mapInfo.diceNum <= 20) && (boxInfo[checkPos] == 1)))
-                        {
-                            goStep = i;
-                            break;
-                        }
-
-                    }
-                    else
-                    {
-                        if (mapInfo.simpleMap[checkPos] == RRO.Travel.MAP_SHANGDIAN)
-                        {
-                            goStep = i;
-                            break;
-                        }
-                    }
-                }
-
                 bool controlStepOK = false;
-                if ((goStep >= 1) && (goStep <= 6))
+
+                if (mapInfo.diceNum <= 25)
                 {
-                    rro = request.Travel.controlDice(ci, sid, goStep);
-                    if (rro.ok == 1)
+                    for (int i = 1; i <= 6; i++)
                     {
-                        nextStep = mapInfo.currStep + goStep;
-                        if (nextStep > mapInfo.mapSize) nextStep -= mapInfo.mapSize;
-                        updateInfo(oGA.displayName, taskName, string.Format("餘下{0} 次, 指定擲出 {1}, 將會前進到 {2}", mapInfo.diceNum, goStep, nextStep));
-                        controlStepOK = true;
-                        actStep = nextStep;
+                        checkPos++;
+                        if (checkPos > mapInfo.mapSize) checkPos -= mapInfo.mapSize;
+                        if (mode == 0)
+                        {
+                            if ((boxInfo[checkPos] == 3) ||
+                                ((mapInfo.diceNum <= 25) && (boxInfo[checkPos] == 2)) ||
+                                ((mapInfo.diceNum <= 20) && (boxInfo[checkPos] == 1)))
+                            {
+                                goStep = i;
+                                break;
+                            }
+
+                        }
+                        else
+                        {
+                            if (mapInfo.simpleMap[checkPos] == RRO.Travel.MAP_SHANGDIAN)
+                            {
+                                goStep = i;
+                                break;
+                            }
+                        }
                     }
-                    else
+
+                    if ((goStep >= 1) && (goStep <= 6))
                     {
-                        updateInfo(oGA.displayName, taskName, string.Format("餘下{0} 次, 操控骰子失敗", mapInfo.diceNum));
+                        rro = request.Travel.controlDice(ci, sid, goStep);
+                        if (rro.ok == 1)
+                        {
+                            nextStep = mapInfo.currStep + goStep;
+                            if (nextStep > mapInfo.mapSize) nextStep -= mapInfo.mapSize;
+                            updateInfo(oGA.displayName, taskName, string.Format("餘下{0} 次, 指定擲出 {1}, 將會前進到 {2}", mapInfo.diceNum, goStep, nextStep));
+                            controlStepOK = true;
+                            actStep = nextStep;
+                        }
+                        else
+                        {
+                            updateInfo(oGA.displayName, taskName, string.Format("餘下{0} 次, 操控骰子失敗", mapInfo.diceNum));
+                        }
                     }
+
                 }
+
                 if (!controlStepOK)
                 {
                     rro = request.Travel.dice(ci, sid);
-                    if (!rro.SuccessWithJson()) return false;
+                    if (!rro.success) return false;
                     mapInfo.diceNum--;
                     int num1 = rro.getInt(RRO.Travel.num1);
                     int num2 = rro.getInt(RRO.Travel.num2);
@@ -88,6 +97,7 @@ namespace KingsLib
                     if (nextStep < 0)
                     {
                         // Invalid dice (i.e. not allow die at this moment, e.g. dice before battle completed
+                        LOG.E(oGA.displayName, taskName, string.Format("Travel.dice 結果有問題: {0}", rro.responseText));
                         return false;
                     }
                     if (nextStep > mapInfo.mapSize) return false;
