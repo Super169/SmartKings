@@ -58,7 +58,7 @@ namespace KingsLib.scheduler
         public class ScheduleInfo : data.InfoBase
         {
  
-            private static class SI_KEY
+            private static class KEY
             {
                 public const string dow = "dow";
                 public const string startTime = "startTime";
@@ -162,28 +162,32 @@ namespace KingsLib.scheduler
             public override bool fromJson(dynamic json)
             {
                 this.initObject();
-                dow = JSON.getIntList(json, SI_KEY.dow);
-                startTime = JSON.getTimeSpanX(json, SI_KEY.startTime);
-                endTime = JSON.getTimeSpanX(json, SI_KEY.endTime);
-                elapseMin = JSON.getInt(json, SI_KEY.elapseMin);
-                executionTimes = JSON.getTimeSpanList(json, SI_KEY.executionTimes);
-                lastExecutionTime = JSON.getDateTimeX(json, SI_KEY.lastExecutionTime);
-                retryCnt = JSON.getInt(json, SI_KEY.retryCnt);
-                nextExecutionTime = JSON.getDateTimeX(json, SI_KEY.nextExecutionTime);
+                dow = JSON.getIntList(json, KEY.dow);
+                startTime = JSON.getTimeSpanX(json, KEY.startTime);
+                endTime = JSON.getTimeSpanX(json, KEY.endTime);
+                elapseMin = JSON.getInt(json, KEY.elapseMin);
+                executionTimes = JSON.getTimeSpanList(json, KEY.executionTimes);
+                maxRetry = JSON.getInt(json, KEY.maxRetry);
+                retryFreqMin = JSON.getInt(json, KEY.retryFreqMin);
+                lastExecutionTime = JSON.getDateTimeX(json, KEY.lastExecutionTime);
+                retryCnt = JSON.getInt(json, KEY.retryCnt);
+                nextExecutionTime = JSON.getDateTimeX(json, KEY.nextExecutionTime);
                 return true;
             }
 
             public override dynamic toJson()
             {
                 dynamic json = JSON.Empty;
-                json[SI_KEY.dow] = dow;
-                json[SI_KEY.startTime] = startTime;
-                json[SI_KEY.endTime] = endTime;
-                json[SI_KEY.elapseMin] = elapseMin;
-                json[SI_KEY.executionTimes] = executionTimes;
-                json[SI_KEY.lastExecutionTime] = lastExecutionTime;
-                json[SI_KEY.retryCnt] = retryCnt;
-                json[SI_KEY.nextExecutionTime] = nextExecutionTime;
+                json[KEY.dow] = dow;
+                json[KEY.startTime] = startTime;
+                json[KEY.endTime] = endTime;
+                json[KEY.elapseMin] = elapseMin;
+                json[KEY.executionTimes] = executionTimes;
+                json[KEY.maxRetry] = maxRetry;
+                json[KEY.retryFreqMin] = retryFreqMin;
+                json[KEY.lastExecutionTime] = lastExecutionTime;
+                json[KEY.retryCnt] = retryCnt;
+                json[KEY.nextExecutionTime] = nextExecutionTime;
                 return json;
             }
 

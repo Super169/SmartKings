@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Windows;
 
 namespace SmartKings
@@ -22,8 +23,48 @@ namespace SmartKings
             UpdateInfo(oGA.serverCode, "測試", rro.requestText);
             Console.WriteLine("Done");
             */
-            Thread oThread = new Thread(new ThreadStart(goTester));
-            oThread.Start();
+            // Thread oThread = new Thread(new ThreadStart(goTester));
+            // oThread.Start();
+            int a = 1;
+            
+            GameAccount oGA1 = gameAccounts.ElementAt(0);
+            string js = oGA1.toJsonString();
+            dynamic json = JSON.decode(js);
+            GameAccount oGA2 = new GameAccount(json);
+
+            a = a + 1;
+
+            List<Scheduler.AutoTask> ats = oGA1.autoTasks;
+            Scheduler.AutoTask at1 = ats.ElementAt(a);
+            js = at1.toJsonString();
+            Scheduler.AutoTask at2 = new Scheduler.AutoTask(js);
+
+            a = a + 1;
+
+            Scheduler.ScheduleInfo si1 = at1.schedule;
+            js = si1.toJsonString();
+            Scheduler.ScheduleInfo si2 = new Scheduler.ScheduleInfo(js);
+
+            a = a + 1;
+            
+            /*
+            a = a + 1;
+            DateTime d1 = DateTime.Now;
+            dynamic j1 = Json.Decode("{}");
+            j1["now"] = d1;
+            string js1 = Json.Encode(j1);
+
+            dynamic j2 = Json.Decode(js1);
+            string js2 = Json.Encode(j2);
+            DateTime d2 = j2["now"];
+
+            a = a + 1;
+
+            TimeZone tz = TimeZone.CurrentTimeZone;
+            DateTime d3 = TimeZoneInfo.ConvertTimeFromUtc(d2, TimeZoneInfo.Local);
+            a = a + 1;
+            */
+
         }
 
         private void goTester()

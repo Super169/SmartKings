@@ -83,7 +83,7 @@ namespace SmartKings
                 o.refreshAccount();
             }
 
-            gameAccounts = ga;  // Dummy for testing
+            // gameAccounts = ga;  // Dummy for testing
 
             gameAccounts.Sort();
             lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);

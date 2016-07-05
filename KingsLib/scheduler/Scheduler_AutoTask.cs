@@ -69,14 +69,17 @@ namespace KingsLib.scheduler
                 this.parameter = JSON.getString(json, KEY.parameter, null);
                 string js = JSON.getString(json, KEY.parmObject, null);
                 this.parmObject = JSON.decode(js);
-                /*
+                
                 js = JSON.getString(json, KEY.schedule, null);
-                DynamicJsonObject jSchedule = JSON.decode(js);
-                if (jSchedule.GetDynamicMemberNames().Count() > 0)
+                if (js != null)
                 {
-                    this.schedule = new ScheduleInfo(js);
+                    DynamicJsonObject jSchedule = JSON.decode(js);
+                    if (jSchedule.GetDynamicMemberNames().Count() > 0)
+                    {
+                        this.schedule = new ScheduleInfo(js);
+                    }
                 }
-                */
+
                 return true;
             }
 
@@ -87,7 +90,7 @@ namespace KingsLib.scheduler
                 json[KEY.isEnabled] = isEnabled;
                 json[KEY.parameter] = parameter;
                 json[KEY.parmObject] = JSON.encode(parmObject);
-                // json[KEY.schedule] = JSON.encode(schedule.toJson());
+                json[KEY.schedule] = JSON.encode(schedule.toJson());
                 return json;
             }
         }
