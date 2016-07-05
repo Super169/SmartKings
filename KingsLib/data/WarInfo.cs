@@ -31,7 +31,8 @@ namespace KingsLib.data
 
         public WarInfo()
         {
-            this.initObject();
+            // this.initObject();
+            // this.warSetup = null;
         }
 
         public WarInfo(dynamic json)

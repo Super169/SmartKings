@@ -22,6 +22,7 @@ namespace SmartKings
         Object gameAccountsLocker = new Object();
         const string KEY_GAMEACCOUNTS = "gameAccounts";
         const string jazGameAccounts = "gameAccounts.jaz";
+        const string jazNewtonGameAccounts = "gameAccounts.newton.jaz";
 
         private void bindAccounts()
         {
@@ -41,10 +42,9 @@ namespace SmartKings
             jsonData[KEY_GAMEACCOUNTS] = acList;
             JSON.saveConfig(jsonData, jazGameAccounts);
 
-            /*
+            
             string js = Newtonsoft.Json.JsonConvert.SerializeObject(gameAccounts);
-            JSON.saveConfig(js, jazGameAccounts);
-            */
+            JSON.saveConfig(js, jazNewtonGameAccounts);
 
             DateTime endTime = DateTime.Now;
             TimeSpan ts = endTime - startTime;
@@ -72,11 +72,18 @@ namespace SmartKings
                 }
             }
 
-            /*
+            List<GameAccount> ga;
+
             string js = "";
-            if (!JSON.restoreConfig(ref js, jazGameAccounts)) return;
-            gameAccounts = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GameAccount>>(js);
-            */
+            if (!JSON.restoreConfig(ref js, jazNewtonGameAccounts)) return;
+            ga = Newtonsoft.Json.JsonConvert.DeserializeObject<List<GameAccount>>(js);
+
+            foreach (GameAccount o in ga)
+            {
+                o.refreshAccount();
+            }
+
+            gameAccounts = ga;  // Dummy for testing
 
             gameAccounts.Sort();
             lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);
