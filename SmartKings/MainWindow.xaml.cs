@@ -30,6 +30,14 @@ namespace SmartKings
         public MainWindow()
         {
             InitializeComponent();
+            
+            var version = Assembly.GetEntryAssembly().GetName().Version;
+            var buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+            TimeSpan.TicksPerDay * version.Build + // days since 1 January 2000
+            TimeSpan.TicksPerSecond * 2 * version.Revision)); /* seconds since midnight,
+                                                     (multiply by 2 to get original) */
+                                                              // this.Title = ((App)Application.Current).winTitle + string.Format("   [{0:yyyy-MM-dd HH:mm}]", buildDateTime);
+
             this.Title = ((App)Application.Current).winTitle;
             mainInitialization();
         }

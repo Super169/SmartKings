@@ -45,5 +45,10 @@ namespace SmartKings.ui.win
         {
             lvAutoTaskInfo.SaveSettings();
         }
+
+        private void btnResetSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.resetSchedule();
+        }
     }
 }

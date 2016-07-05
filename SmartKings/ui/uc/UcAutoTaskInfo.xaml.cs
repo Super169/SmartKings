@@ -3,6 +3,7 @@ using KingsLib.data;
 using KingsLib.scheduler;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,5 +95,43 @@ namespace SmartKings.ui.uc
             }
         }
 
+        private AutoTaskInfo getSelectedTask()
+        {
+
+            if (atis.Count == 0) return null;
+
+            AutoTaskInfo ati  = (AutoTaskInfo) lvAutoTaskInfo.SelectedItem;
+
+            return ati;
+        }
+
+
+        public void resetSchedule()
+        {
+            AutoTaskInfo ati = getSelectedTask();
+
+            if (ati == null)
+            {
+                MessageBox.Show("請先選擇排程項目");
+                return;
+            }
+
+            Scheduler.AutoTask at = oGA.findAutoTask(ati.id);
+            if (at == null)
+            {
+                MessageBox.Show("系統錯誤, 找不到相關排程.");
+                return;
+            }
+
+            at.schedule.lastExecutionTime = null;
+            at.schedule.initNextTime();
+
+            ati.lastExecution = (at.schedule.lastExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.lastExecutionTime));
+            ati.nextExecution = (at.schedule.nextExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.nextExecutionTime));
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvAutoTaskInfo.ItemsSource);
+            view.Refresh();
+
+        }
     }
 }

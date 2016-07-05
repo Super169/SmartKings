@@ -399,6 +399,9 @@ namespace KingsLib.data
                 if (!sysTask.isEnabled) continue;
                 if (!(IsOnline() || (sysTask.id == Scheduler.TaskId.Reload))) continue;
 
+                Scheduler.AutoTask myTask = findAutoTask(sysTask.id);
+                if ((myTask == null) || (!myTask.isEnabled)) continue;
+
                 executeAndScheduleTask(updateInfo, debug, sysTask.id, ref nextTime);
                 /*
                 Scheduler.AutoTask myTask = findAutoTask(sysTask.id);

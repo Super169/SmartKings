@@ -22,7 +22,12 @@ namespace SmartKings
         private System.Windows.Forms.NotifyIcon _notifyIcon;
         private bool _isExit;
 
-        public string winTitle = "SmartKings v" + Assembly.GetExecutingAssembly().GetName().Version;
+        public static System.Version version = Assembly.GetExecutingAssembly().GetName().Version;
+        public static DateTime buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+                                               TimeSpan.TicksPerDay * version.Build + // days since 1 January 2000
+                                               TimeSpan.TicksPerSecond * 2 * version.Revision)); // seconds since midnight, (multiply by 2 to get original) 
+
+        public string winTitle = string.Format("SmartKings v{0}  [{1:yyyy-MM-dd HH:mm}]", version, buildDateTime);
 
         Mutex mutex;
 
