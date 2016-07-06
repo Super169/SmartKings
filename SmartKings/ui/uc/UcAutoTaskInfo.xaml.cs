@@ -78,7 +78,7 @@ namespace SmartKings.ui.uc
                         info = kt.info,
                         lastExecution = (at.schedule.lastExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.lastExecutionTime)),
                         nextExecution = (at.schedule.nextExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.nextExecutionTime)),
-                        remark = at.schedule.getScheduleInfo()
+                        remark = at.schedule.getScheduleInfo(kt.getNextTime == null)
                     };
                 }
                 atis.Add(ati);

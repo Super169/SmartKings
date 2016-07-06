@@ -440,6 +440,13 @@ namespace KingsLib.data
 
         public bool executeAndScheduleTask(action.DelegateUpdateInfo updateInfo, bool debug, string taskId, ref DateTime nextTime)
         {
+            Scheduler.KingsTask sysTask = Scheduler.autoTaskList.Find(x => x.id == taskId);
+            string taskName = Scheduler.getTaskName(taskId);
+            if (sysTask == null) {
+                updateInfo(this.displayName, taskName, "系統設定錯誤");
+                LOG.E(this.displayName, Scheduler.getTaskName(taskId), "找不到系統設定");
+                return false;
+            }
             Scheduler.AutoTask myTask = findAutoTask(taskId);
             if (myTask == null)
             {
@@ -453,11 +460,22 @@ namespace KingsLib.data
                 }
             }
 
-            string taskName = Scheduler.getTaskName(myTask.taskId);
             if (myTask.schedule.readyToGo())
             {
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
-                myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
+                bool success = this.executeTask(myTask.taskId, updateInfo, debug);
+                DateTime? nextExecTime = null;
+                if (this.IsOnline() && (sysTask.getNextTime != null))
+                {
+                    nextExecTime  = sysTask.getNextTime(this, updateInfo, debug);
+                }
+                if (nextExecTime == null)
+                {
+                    myTask.schedule.setNextTime(success);
+                } else
+                {
+                    myTask.schedule.nextExecutionTime = nextExecTime;
+                }
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
             }
 

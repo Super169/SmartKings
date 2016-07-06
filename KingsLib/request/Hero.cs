@@ -11,6 +11,7 @@ namespace KingsLib.request
     public static class Hero
     {
         private const string CMD_assessScore = "Hero.assessScore";
+        private const string CMD_feastHero = "Hero.feastHero";
         private const string CMD_getConvenientFormations = "Hero.getConvenientFormations";
         private const string CMD_getCurrRecommendActivityInfo = "Hero.getCurrRecommendActivityInfo";
         private const string CMD_getFeastInfo = "Hero.getFeastInfo";
@@ -25,6 +26,12 @@ namespace KingsLib.request
         public static RequestReturnObject assessScore(ConnectionInfo ci, string sid)
         {
             return com.SendGenericRequest(ci, sid, CMD_assessScore);
+        }
+
+        public static RequestReturnObject feastHero(ConnectionInfo ci, string sid, bool free, string type)
+        {
+            string body = string.Format("{{\"free\":{0}, \"type\":\"{1}\"}}", free, type);
+            return com.SendGenericRequest(ci, sid, CMD_feastHero, true, body);
         }
 
         public static RequestReturnObject getConvenientFormations(ConnectionInfo ci, string sid)

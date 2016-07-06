@@ -198,6 +198,16 @@ namespace KingsLib
                 public const string sta_MAKE = "MAKE";
                 public const string sta_IN_ACT = "IN_ACT";
                 public const string sta_STR = "STR";
+
+                public const string commonLeftSeconds = "commonLeftSeconds";
+                public const string goldLeftSeconds = "goldLeftSeconds";
+                public const string discountTimes = "discountTimes";
+                public const string goldOneTms = "goldOneTms";
+                public const string type_COMMON_FIVE = "COMMON_FIVE";
+                public const string type_GOLD_ONE = "GOLD_ONE";
+                public const string discount = "discount";
+
+
             }
 
             public static class KingRoad

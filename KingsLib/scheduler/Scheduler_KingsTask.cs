@@ -13,6 +13,7 @@ namespace KingsLib.scheduler
         public static List<KingsTask> autoTaskList;
 
         public delegate bool DelegateExecuteTask(GameAccount oGA, action.DelegateUpdateInfo updateInfo, bool debug);
+        public delegate DateTime? DelegateGetNextTime(GameAccount oGA, action.DelegateUpdateInfo updateInfo, bool debug);
 
         public static class TaskId
         {
@@ -25,6 +26,7 @@ namespace KingsLib.scheduler
             public const string EliteFight = "EliteFight";
             public const string EliteBuyTime = "EliteBuyTime";
             public const string FinishTask = "FinishTask";
+            public const string FeastHero = "feastHero";
             public const string GrassArrow = "GrassArrow";
             public const string Harvest = "Harvest";
             public const string IndustryShop = "IndustryShop";
@@ -70,6 +72,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.EliteBuyTime:
                     taskName = "購買討伐次數";
+                    break;
+                case TaskId.FeastHero:
+                    taskName = "宴請英雄";
                     break;
                 case TaskId.FinishTask:
                     taskName = "任務報酬";
@@ -158,8 +163,9 @@ namespace KingsLib.scheduler
             public int suggestion { get; set; }
             public bool customSchedule;
             public DelegateExecuteTask executeTask;
+            public DelegateGetNextTime getNextTime;
             public string taskName { get { return getTaskName(id); } }
-            public string defaultSchedule { get { return Scheduler.defaultSchedule(this.id).getScheduleInfo(); } }
+            public string defaultSchedule { get { return Scheduler.defaultSchedule(this.id).getScheduleInfo(this.getNextTime == null); } }
 
             private static class KEY
             {
@@ -169,6 +175,7 @@ namespace KingsLib.scheduler
                 public const string suggestion = "suggestion";
                 public const string customSchedule = "customSchedule";
                 public const string executeTask = "executeTask";
+                public const string getNextTime = "getNextTime";
             }
 
             public KingsTask()
@@ -229,6 +236,17 @@ namespace KingsLib.scheduler
                 suggestion = 1,
                 customSchedule = false,
                 executeTask = action.task.goMonthSignIn
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.FeastHero,
+                info = "在酒館進行免費 酒宴/盛宴",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goFeastHero,
+                getNextTime = action.task.getFeastHeroNextTime
             });
 
             autoTaskList.Add(new KingsTask()

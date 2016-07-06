@@ -83,8 +83,10 @@ namespace KingsLib.scheduler
             public int retryCnt { get; set; }
             public DateTime? nextExecutionTime;
 
-            public string getScheduleInfo()
+            public string getScheduleInfo(bool calculateNextTime = true)
             {
+                if (!calculateNextTime) return "根據遊戲中下次可執行時間決定";
+
                 StringBuilder sb = new StringBuilder();
                 if (dow.Count == 0)
                 {

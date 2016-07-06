@@ -71,6 +71,7 @@
     <Compile Include="action\task\Corps.cs" />
     <Compile Include="action\task\Email.cs" />
     <Compile Include="action\task\GrassArrow.cs" />
+    <Compile Include="action\task\Hero.cs" />
     <Compile Include="action\task\Lottery.cs" />
     <Compile Include="action\task\LuckyCycle.cs" />
     <Compile Include="action\task\Manor.cs" />
