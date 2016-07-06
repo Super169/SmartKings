@@ -207,7 +207,10 @@ namespace KingsLib
                 public const string type_GOLD_ONE = "GOLD_ONE";
                 public const string discount = "discount";
 
-
+                public const string nxtTm = "nxtTm";
+                public const string wineConsume = "wineConsume";
+                public const string wineTms = "wineTms";
+                public const string items = "items";
             }
 
             public static class KingRoad

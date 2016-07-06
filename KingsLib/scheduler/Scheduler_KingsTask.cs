@@ -47,6 +47,7 @@ namespace KingsLib.scheduler
             public const string Travel = "Travel";
             public const string TrialsBuyTimes = "TrialsBuyTimes";
             public const string TuanGoReward = "TuanGoReward";
+            public const string WineHero = "WineHero";
 
         }
 
@@ -148,6 +149,10 @@ namespace KingsLib.scheduler
                     taskName = "皇榜";
                     break;
 
+                case TaskId.WineHero:
+                    taskName = "煮酒論英雄";
+                    break;
+
                 default:
                     taskName = string.Format("[{0}]", id);
                     break;
@@ -247,6 +252,17 @@ namespace KingsLib.scheduler
                 customSchedule = false,
                 executeTask = action.task.goFeastHero,
                 getNextTime = action.task.getFeastHeroNextTime
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.WineHero,
+                info = "在客棧進行 煮酒論英雄",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goWineHero,
+                getNextTime = action.task.getWineHeroNextTime
             });
 
             autoTaskList.Add(new KingsTask()

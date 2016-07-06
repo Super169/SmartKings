@@ -21,6 +21,7 @@ namespace KingsLib.request
         private const string CMD_getVisitHeroInfo = "Hero.getVisitHeroInfo";
         private const string CMD_getWineInfo = "Hero.getWineInfo";
         private const string CMD_matchHero = "Hero.matchHero";
+        private const string CMD_wineHero = "Hero.wineHero";
 
 
         public static RequestReturnObject assessScore(ConnectionInfo ci, string sid)
@@ -77,6 +78,10 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_getWineInfo);
         }
 
+        public static RequestReturnObject wineHero(ConnectionInfo ci, string sid)
+        {
+            return com.SendGenericRequest(ci, sid, CMD_wineHero);
+        }
 
 
 
