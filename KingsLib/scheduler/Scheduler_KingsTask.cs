@@ -29,6 +29,7 @@ namespace KingsLib.scheduler
             public const string FeastHero = "feastHero";
             public const string GrassArrow = "GrassArrow";
             public const string Harvest = "Harvest";
+            public const string HuarongRoad = "HuarongRoad";
             public const string IndustryShop = "IndustryShop";
             public const string LuckyCycle = "LuckyCycle";
             public const string Lottery = "Lottery";
@@ -85,6 +86,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.Harvest:
                     taskName = "封地收獲";
+                    break;
+                case TaskId.HuarongRoad:
+                    taskName = "華容道";
                     break;
                 case TaskId.LuckyCycle:
                     taskName = "幸運轉盤";
@@ -263,6 +267,16 @@ namespace KingsLib.scheduler
                 customSchedule = false,
                 executeTask = action.task.goWineHero,
                 getNextTime = action.task.getWineHeroNextTime
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.HuarongRoad,
+                info = "自動執行華容道",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goHuarongRoad
             });
 
             autoTaskList.Add(new KingsTask()
@@ -583,12 +597,18 @@ namespace KingsLib.scheduler
                 case TaskId.Travel:
                     si.elapseMin = 60;
                     break;
+                case TaskId.HuarongRoad:
+                    si.dow = new List<int>();
+                    si.dow.Add(4);
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(5, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
                 default:
                     // Every Hour without retry
                     si.elapseMin = 60;
                     si.maxRetry = 0;
-                    break;
-
                     // Default excuted at the following timeslot
                     // - 05:15 (day start)
                     // - 12:15 (Special start after maintenance)

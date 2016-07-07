@@ -64,8 +64,8 @@ namespace SmartKings
             else
             {
                 UpdateInfo("***", "自動大皇帝", "等待超時, 暫時未能離開.");
-                AppSettings.stopAllActiion = false;
             }
+            AppSettings.stopAllActiion = false;
 
         }
 
@@ -162,6 +162,38 @@ namespace SmartKings
             if (AppSettings.stopAllActiion) return;
             eventLogs.Clear();
             refreshEventLog();
+        }
+
+        private void btnAccSaveSetting_Click(object sender, RoutedEventArgs e)
+        {
+            Thread saveThread = new Thread(goAccSaveSetting);
+            saveThread.Start();
+        }
+
+        private void goAccSaveSetting()
+        {
+
+            AppSettings.stopAllActiion = true;
+            if (Monitor.TryEnter(AppSettings.actionLocker, 5000))
+            {
+                try
+                {
+                    UpdateProgress("儲存帳戶資料......");
+                    saveAccounts();
+                    UpdateProgress("");
+                }
+                finally
+                {
+                    Monitor.Exit(AppSettings.actionLocker);
+                }
+                // Environment.Exit(0);
+            }
+            else
+            {
+                UpdateInfo("***", "儲存帳戶資料", "等待超時, 暫時未能離開.");
+            }
+            AppSettings.stopAllActiion = false;
+
         }
     }
 }

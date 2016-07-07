@@ -80,6 +80,8 @@ namespace KingsLib
             // 懸賞任務
             goCheckOutstandTasks(action, "懸賞任務", checkOutstandingSevenDaysPoints, oGA, updateInfo, debug);
 
+            // 華容道
+            goCheckOutstandTasks(action, "華容道", checkOutstandingHuarongRoad, oGA, updateInfo, debug);
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -639,7 +641,50 @@ namespace KingsLib
             return true;
         }
 
+        public static bool checkOutstandingHuarongRoad(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+
+            rro = request.Circle.getHuarongRoadInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!(rro.exists(RRO.Circle.left) && rro.exists(RRO.Circle.reset) && rro.exists(RRO.Circle.refresh) && rro.exists(RRO.Circle.rewarded))) {
+                LOG.E(string.Format("{0} : {1} : Unexpected result: {2}", oGA.displayName, "Circle.getHuarongRoadInfo", rro.responseText));
+                return false;
+            }
+            // Step is saved in step of step
+            dynamic stepInfo = rro.responseJson[RRO.Circle.step];
+            int step = JSON.getInt(stepInfo, RRO.Circle.step);
+            if (step < 7)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未完成, 當前位置: {1}", module, step), true, false);
+                return true;
+            }
+            if (!rro.getBool(RRO.Circle.rewarded))
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未提取獎勵", module), true, false);
+                return true;
+            }
+            if (rro.getInt(RRO.Circle.reset) < 1)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未花費 50金 再次挑戰", module), true, false);
+                return true;
+            }
 
 
+            rro = request.SevenDaysPoints.getOldInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (rro.style == STYLE.ERROR) return true;  // Already end
+            if (!rro.SuccessWithJson(RRO.SevenDaysPoints.needRefresh))
+            {
+                LOG.E(string.Format("{0} : {1} : Unexpected result: {2}", oGA.displayName, "SevenDaysPoints.getOldInfo", rro.responseText));
+                return false;
+            }
+            if (rro.getBool(RRO.SevenDaysPoints.needRefresh))
+            {
+                rro = request.SevenDaysPoints.getActInfo(oGA.connectionInfo, oGA.sid);
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 獲取任務", module), true, false);
+            }
+            return true;
+        }
     }
 }

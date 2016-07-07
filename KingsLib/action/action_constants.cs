@@ -86,6 +86,7 @@ namespace KingsLib
             {
                 public const string march_PATROL_NPC = "PATROL_NPC";
                 public const string march_GRASS_ARROW = "GRASS_ARROW";
+                public const string march_HUARONG_ROAD = "HUARONG_ROAD";
 
                 public const string elite = "elite";
                 public const string eliteBuyTimes = "eliteBuyTimes";
@@ -121,6 +122,23 @@ namespace KingsLib
                 public const string difficult_normal = "普通";
 
             }
+
+            public static class Circle
+            {
+                public const string left = "left";
+                public const string step = "step";
+                public const string reset = "reset";
+                public const string refresh = "refresh";
+                public const string rewarded = "rewarded";
+                public const string status = "status";
+                public const string status_INIT = "INIT";
+                public const string status_REWARED = "REWARED";
+
+                public const string specInfo = "specInfo";
+                public const string heroStg = "heroStg";
+                public const string targets = "targets";
+            }
+
 
             public static class City
             {

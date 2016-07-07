@@ -42,8 +42,6 @@ namespace KingsLib
                 else if (hour < 19) mode = 4;
                 else mode = 0;
 
-                showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("執行模式: {0}", mode));
-
                 rro = request.Travel.getStatus(ci, sid);
                 if (!(rro.SuccessWithJson(RRO.Travel.isIn) && rro.exists(RRO.Travel.canPlayTimes))) {
                     if (debug) showDebugMsg(updateInfo, oGA.displayName, taskName, "Travel.getStatus 出錯");
@@ -107,6 +105,8 @@ namespace KingsLib
                         }
                     }
                 }
+
+                showDebugMsg(updateInfo, oGA.displayName, taskName, string.Format("執行模式: {0}", mode));
 
                 int nextStep = 0;
                 int errCount = 0;

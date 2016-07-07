@@ -70,5 +70,32 @@ namespace KingsLib.data
             json[KEY.warSetup] = this.warSetup;
             return json;
         }
+
+        public static bool validBody(string jsonString, bool reqChief = true, int minHeros = 1, int maxHeros = 5)
+        {
+            int[,] warPos = { { -5, -1 }, { -3, -1 }, { -6, 0 }, { -4, 0 }, { -2, 0 }, { -5, 1 }, { -3, 1 } };
+            dynamic json = JSON.decode(jsonString);
+            if (json == null) return false;
+            if (reqChief && !JSON.exists(json, "chief")) return false;
+            if (!reqChief && JSON.exists(json, "chief")) return false;
+            if (!JSON.exists(json, "heros", typeof(DynamicJsonArray))) return false;
+            DynamicJsonArray heros = json["heros"];
+            if ((heros.Length < minHeros) || (heros.Length > maxHeros)) return false;
+
+            foreach (dynamic o in heros)
+            {
+                int pos = -1;
+                for (int idx = 0; idx < 7; idx++)
+                {
+                    if ((warPos[idx, 0] == JSON.getInt(o,"x",-999)) && (warPos[idx, 1] == JSON.getInt(o, "y", -999)))
+                    {
+                        pos = idx;
+                        break;
+                    }
+                }
+                if (pos == -1) return false;
+            }
+            return true;
+        }
     }
 }

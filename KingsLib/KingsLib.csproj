@@ -68,6 +68,7 @@
     <Compile Include="action\task\Bag.cs" />
     <Compile Include="action\task\BossWar.cs" />
     <Compile Include="action\task\Campaign.cs" />
+    <Compile Include="action\task\Circle.cs" />
     <Compile Include="action\task\Corps.cs" />
     <Compile Include="action\task\Email.cs" />
     <Compile Include="action\task\GrassArrow.cs" />

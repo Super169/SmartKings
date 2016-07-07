@@ -150,7 +150,8 @@ namespace SmartKings
                     break;
 
                 case "btnTester":
-                    goTask(Scheduler.TaskId.MonthSignIn, allPlayers);
+                    goWarSetup(Scheduler.TaskId.HuarongRoad, 0, 1, 5, true, -1, null);
+                    // goTask(Scheduler.TaskId.HuarongRoad, false);
                     break;
 
             }

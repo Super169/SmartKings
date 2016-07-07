@@ -241,7 +241,7 @@ namespace KingsLib.data
             {
                 oAT.schedule = Scheduler.defaultSchedule(taskId);
             }
-            oAT.schedule.initNextTime();
+            if ((oAT.schedule.nextExecutionTime == null) || (oAT.schedule.nextExecutionTime < DateTime.Now)) oAT.schedule.initNextTime();
             return oAT;
         }
 
@@ -435,7 +435,7 @@ namespace KingsLib.data
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
                 bool success = this.executeTask(myTask.taskId, updateInfo, debug);
                 DateTime? nextExecTime = null;
-                nextExecTime = this.getNextTime(myTask.taskId, false, success, updateInfo, debug);
+                nextExecTime = this.setNextExecutionTime(myTask.taskId, false, success, updateInfo, debug);
                 /*
                 if (this.IsOnline() && (sysTask.getNextTime != null))
                 {

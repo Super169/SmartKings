@@ -35,6 +35,11 @@ namespace KingsLib.scheduler
                 public const string heroIdx = "heroIdx";
             }
 
+            public static class HuarongRoad
+            {
+                public const string skipPos = "skipPos";
+            }
+
         }
     }
 }

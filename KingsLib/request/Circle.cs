@@ -36,6 +36,11 @@ namespace KingsLib.request
             return com.SendGenericRequest(ci, sid, CMD_restartHuarongRoad);
         }
 
+        public static RequestReturnObject turnOverHeroCard(ConnectionInfo ci, string sid, int idx)
+        {
+            string body = string.Format("{{\"idx\":{0}}}", idx);
+            return com.SendGenericRequest(ci, sid, CMD_turnOverHeroCard, true, body);
+        }
 
     }
 }

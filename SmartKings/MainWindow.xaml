@@ -25,6 +25,7 @@
             <Grid Grid.Row="0">
                 <Button x:Name="btnCheckStatus" Content="檢查帳戶狀況" HorizontalAlignment="Left" Width="100" Margin="2,0,0,0" Click="btnCheckStatus_Click"/>
                 <Button x:Name="btnTaskSetting" Content="系統掛機設定" HorizontalAlignment="Left" Width="100" Margin="110,0,0,0" Click="btnTaskSetting_Click"/>
+                <Button x:Name="btnSaveAccSetting" Content="儲存帳戶資料" HorizontalAlignment="Right" Width="100" Margin="0,0,100,0" Click="btnAccSaveSetting_Click"/>
                 <Button x:Name="btnQuit" Content="離開" Margin="0,0,2,0" HorizontalAlignment="Right" Width="83" Click="btnQuit_Click"/>
             </Grid>
             <Grid Grid.Row="1" Background="#FFE2E1E1" />

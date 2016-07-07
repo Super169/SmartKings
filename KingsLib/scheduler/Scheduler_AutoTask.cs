@@ -41,7 +41,7 @@ namespace KingsLib.scheduler
                 this.parmObject = null;
                 if (schedule == null) this.schedule = defaultSchedule(taskId);
                 else this.schedule = schedule;
-                this.schedule.initNextTime();
+                if ((this.schedule.nextExecutionTime == null) || (this.schedule.nextExecutionTime < DateTime.Now)) this.schedule.initNextTime();
             }
 
             public AutoTask(string jsonString)
