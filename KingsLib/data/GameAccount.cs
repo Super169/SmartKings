@@ -393,7 +393,6 @@ namespace KingsLib.data
             if (Scheduler.bossTime()) return goBossWar(updateInfo, debug);
 
             DateTime nextTime = DateTime.Now.AddMinutes(5);
-            // foreach (Scheduler.AutoTask myTask in this.autoTasks)
             foreach (Scheduler.KingsTask sysTask in Scheduler.autoTaskList)
             {
                 if (!sysTask.isEnabled) continue;
@@ -403,36 +402,6 @@ namespace KingsLib.data
                 if ((myTask == null) || (!myTask.isEnabled)) continue;
 
                 executeAndScheduleTask(updateInfo, debug, sysTask.id, ref nextTime);
-                /*
-                Scheduler.AutoTask myTask = findAutoTask(sysTask.id);
-                if (myTask == null)
-                {
-                    rebuildAutoTask(sysTask.id);
-                    myTask = findAutoTask(sysTask.id);
-                    // In case myTask still cannot rebuild
-                    if (myTask == null)
-                    {
-                        LOG.E(string.Format("{0}: Unable to rebuild autoTask {1}", this.displayName, sysTask.id));
-                        continue;
-                    }
-                }
-
-                string taskName = Scheduler.getTaskName(myTask.taskId);
-                if (myTask.schedule.readyToGo())
-                {
-                    if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
-                    myTask.schedule.setNextTime(this.executeTask(myTask.taskId, updateInfo, debug));
-                    if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
-                }
-
-                if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, string.Format("下次執行時間: {0:yyyy-MM-dd HH:mm:ss}", myTask.schedule.nextExecutionTime.GetValueOrDefault()));
-                DateTime? myNext = myTask.schedule.nextExecutionTime;
-                if (myNext != null)
-                {
-                    DateTime realNext = myNext.GetValueOrDefault();
-                    if (realNext < nextTime) nextTime = realNext;
-                }
-                */
             }
             return nextTime;
         }
@@ -442,7 +411,8 @@ namespace KingsLib.data
         {
             Scheduler.KingsTask sysTask = Scheduler.autoTaskList.Find(x => x.id == taskId);
             string taskName = Scheduler.getTaskName(taskId);
-            if (sysTask == null) {
+            if (sysTask == null)
+            {
                 updateInfo(this.displayName, taskName, "系統設定錯誤");
                 LOG.E(this.displayName, Scheduler.getTaskName(taskId), "找不到系統設定");
                 return false;
@@ -456,7 +426,7 @@ namespace KingsLib.data
                 if (myTask == null)
                 {
                     LOG.E(string.Format("{0}: Unable to rebuild autoTask {1}", this.displayName, taskId));
-                    return false;;
+                    return false; ;
                 }
             }
 
@@ -465,17 +435,21 @@ namespace KingsLib.data
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "開始");
                 bool success = this.executeTask(myTask.taskId, updateInfo, debug);
                 DateTime? nextExecTime = null;
+                nextExecTime = this.getNextTime(myTask.taskId, false, success, updateInfo, debug);
+                /*
                 if (this.IsOnline() && (sysTask.getNextTime != null))
                 {
-                    nextExecTime  = sysTask.getNextTime(this, updateInfo, debug);
+                    nextExecTime = sysTask.getNextTime(this, updateInfo, debug);
                 }
                 if (nextExecTime == null)
                 {
                     myTask.schedule.setNextTime(success);
-                } else
+                }
+                else
                 {
                     myTask.schedule.nextExecutionTime = nextExecTime;
                 }
+                */
                 if (debug) action.showDebugMsg(updateInfo, this.displayName, taskName, "結束");
             }
 
@@ -549,5 +523,45 @@ namespace KingsLib.data
                 myTask.schedule = Scheduler.defaultSchedule(myTask.taskId);
             }
         }
+
+
+        public DateTime? setNextExecutionTime(string taskId, bool initial, bool success, action.DelegateUpdateInfo updateInfo, bool debug)
+        {
+            DateTime? nextTime = null;
+
+            Scheduler.KingsTask sysTask = Scheduler.autoTaskList.Find(x => x.id == taskId);
+            if (sysTask == null) return null;
+
+            Scheduler.AutoTask myTask = this.autoTasks.Find(x => x.taskId == taskId);
+            if (myTask == null)
+            {
+                myTask = new Scheduler.AutoTask(taskId, true, null, null);
+                this.autoTasks.Add(myTask);
+            }
+
+            if (IsOnline() && (sysTask.getNextTime != null))
+            {
+                nextTime = sysTask.getNextTime(this, updateInfo, debug);
+            }
+
+            if (nextTime == null)
+            {
+                if (initial)
+                {
+                    myTask.schedule.initNextTime();
+                }
+                else
+                {
+                    myTask.schedule.setNextTime(success);
+                }
+                nextTime = myTask.schedule.nextExecutionTime;
+            }
+            else
+            {
+                myTask.schedule.nextExecutionTime = nextTime;
+            }
+            return nextTime;
+        }
+
     }
 }
