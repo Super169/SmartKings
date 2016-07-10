@@ -23,6 +23,7 @@ namespace KingsLib.request
         private const string CMD_quitCampaign = "Campaign.quitCampaign";
         private const string CMD_saveFormation = "Campaign.saveFormation";
         private const string CMD_trialsBuyTimes = "Campaign.trialsBuyTimes";
+        private const string CMD_trialsFight = "Campaign.trialsFight";
 
         public static RequestReturnObject eliteBuyTime(ConnectionInfo ci, string sid)
         {
@@ -86,6 +87,12 @@ namespace KingsLib.request
         {
             string body = string.Format("{{\"type\":\"{0}\"}}", type);
             return com.SendGenericRequest(ci, sid, CMD_trialsBuyTimes, true, body);
+        }
+
+        public static RequestReturnObject trialsFight(ConnectionInfo ci, string sid, string type, int camp)
+        {
+            string body = string.Format("{{\"type\":\"{0}\", \"camp\":{1}}}", type, camp);
+            return com.SendGenericRequest(ci, sid, CMD_trialsFight, true, body);
         }
 
     }

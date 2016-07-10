@@ -19,6 +19,7 @@ namespace KingsLib
 
         public static class PROMPT
         {
+            public const string ERR_DEBUG = "ERR_DEBUG";
             public const string ERR_NOT_ENOUGH = "ERR_NOT_ENOUGH";
             public const string ERR_COMMON_NOT_SUPPORT = "ERR_COMMON_NOT_SUPPORTED";
             public const string ERR_COMMON_RELOGIN = "ERR_COMMON_RELOGIN";
@@ -30,7 +31,6 @@ namespace KingsLib
             public const string RESOURCE_FULL = "RESOURCE_FULL";
 
             public const string ACTIVITY_CAN_NOT_PARTICIPATE = "ACTIVITY_CAN_NOT_PARTICIPATE";
-
 
         }
 
@@ -87,6 +87,7 @@ namespace KingsLib
                 public const string march_PATROL_NPC = "PATROL_NPC";
                 public const string march_GRASS_ARROW = "GRASS_ARROW";
                 public const string march_HUARONG_ROAD = "HUARONG_ROAD";
+                public const string march_TRIALS = "TRIALS";
 
                 public const string elite = "elite";
                 public const string eliteBuyTimes = "eliteBuyTimes";
@@ -120,6 +121,14 @@ namespace KingsLib
                 public const string _rs = "_rs";
 
                 public const string difficult_normal = "普通";
+
+                // - code for error
+                public const string args = "args";
+                public const string args_NOT_ACTIVITY = "本日没有开放";
+                public const string args_LEVEL_TOO_LOW = "等级不足，无法进入";
+
+
+
 
             }
 

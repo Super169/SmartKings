@@ -1,15 +1,26 @@
 [KingsLib]
-  - com
+  - com     (communization layer)
     + SendGenericRequest
 
+[KingsLib]
+  - request (lowest level communizaton)
+    - <class by action type>
 
-[KingsLib.action]
-  - <class by nature* / action type>
+[KingsLib]
+  - action  (shared utilities for task)
+    - <class by nature>
+
+[KingsLib]
+  - task    (being called by autoTask)
+    - <class by task>
+
 
 [KingsLib.constant]
-  - STYLE
-  - PROMPT
+  - REQUEST
+    - <class by action type>
   - RRO
+    - STYLE
+    - PROMPT
     - <class by action type>
   - Interface IInfoBase
 
@@ -28,9 +39,6 @@
   - Scheduler
     - List<KingsTask> AutoTask
     
-
-[KingsLib.request]
-  - <class by action type>
 
 [KingsLib.monitor]
   - KingsMonitor

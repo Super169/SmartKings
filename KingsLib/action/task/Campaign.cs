@@ -172,7 +172,7 @@ namespace KingsLib
                 return true;
             }
 
-            public static bool goTrialBuyTime(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            public static bool goTrialsBuyTime(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskId = Scheduler.TaskId.TrialsBuyTimes;
                 string taskName = Scheduler.getTaskName(taskId);
@@ -183,7 +183,7 @@ namespace KingsLib
                 rro = request.Campaign.getTrialsInfo(ci, sid);
                 if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.exists(RRO.Campaign.buyTimes, typeof(DynamicJsonObject)))) return false;
                 int weekday = rro.getInt(RRO.Campaign.weekday);
-                dynamic buyTimes = rro.responseJson["buyTimes"];
+                dynamic buyTimes = rro.responseJson[RRO.Campaign.buyTimes];
 
                 string[] trialType = { "", "WZLJ", "WJDD", "WHSJ" };
                 int buyCnt = 0;
@@ -204,7 +204,93 @@ namespace KingsLib
                 return true;
             }
 
+            public static bool goTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            {
+                string taskId = Scheduler.TaskId.EliteFight;
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.EliteFight);
+                ConnectionInfo ci = oGA.connectionInfo;
+                string sid = oGA.sid;
+                RequestReturnObject rro;
 
+                string[] trialType = { "", "WZLJ", "WJDD", "WHSJ" };
+
+                rro = request.Campaign.getTrialsInfo(ci, sid);
+                if (!(rro.SuccessWithJson(RRO.Campaign.weekday) && rro.exists(RRO.Campaign.buyTimes, typeof(DynamicJsonObject)))) return false;
+                int weekday = rro.getInt(RRO.Campaign.weekday);
+
+                dynamic remainTimes = rro.responseJson[RRO.Campaign.times];
+
+                for (int idx = 1; idx <= 3; idx++)
+                {
+                    // Interesting, weekday of Sunday is 7 instead of 0, for sefety, check both 0 & 7.
+                    if ((weekday == 0) || (weekday == 7) || (weekday == idx) || (weekday == idx + 3))
+                    {
+                        int remainTime = JSON.getInt(remainTimes, trialType[idx]);
+                        if (remainTime == 0)
+                        {
+                            // goOneTrials
+
+                        }
+                    }
+                }
+
+                return true;
+            }
+
+            private static void goOneTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug, int idx, string type)
+            {
+                string taskId = Scheduler.TaskId.EliteFight;
+                string taskName = Scheduler.getTaskName(Scheduler.TaskId.EliteFight);
+                ConnectionInfo ci = oGA.connectionInfo;
+                string sid = oGA.sid;
+                RequestReturnObject rro;
+
+                campaign.quitCampaign(ci, sid, 0);
+
+                int campBase = 22000 + idx * 100;
+                // for (int campPos = 9; campPos > 0; campPos--)
+                int campPos = 9;
+                int retryCnt = 0;
+                while (campPos > 0)
+                {
+                    int camp = campBase + campPos;
+
+                    rro = request.Campaign.trialsFight(ci, sid, type, campPos);
+                    if (!rro.success)
+                    {
+                        if (++retryCnt > 3) break;
+                        continue;
+                    }
+                    if (rro.style == STYLE.ERROR)
+                    {
+                        if (rro.exists(RRO.Campaign.args, typeof(DynamicJsonArray)))
+                        {
+                            DynamicJsonArray args = rro.responseJson[RRO.Campaign.args];
+                            if (args.Length == 0)
+                            {
+                                if (++retryCnt > 3) break;
+                                continue;
+                            }
+                            string arg = (string)args.ElementAt(0);
+                            if (arg == RRO.Campaign.args_NOT_ACTIVITY)
+                            {
+                                break;
+                            }
+                            if (arg == RRO.Campaign.args_LEVEL_TOO_LOW)
+                            {
+                                campPos--;
+                                continue;
+                            }
+                            // UNKNOWN error, do try and quit
+                            break;
+                        }
+                    }
+                    rro = request.Campaign.getAttFormation(ci, sid, RRO.Campaign.march_TRIALS);
+
+                  
+
+                }
+            }
 
         }
     }

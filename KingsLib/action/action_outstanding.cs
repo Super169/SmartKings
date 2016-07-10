@@ -442,7 +442,7 @@ namespace KingsLib
             DateTime now = DateTime.Now;
             if ((gameDOW != 1) && (gameDOW != 2)) 
             {
-                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有{0}", module));
                 return true;
             }
 
@@ -535,7 +535,7 @@ namespace KingsLib
             int gameDOW = Scheduler.getGameDOW();
             if (!(gameDOW == 1))
             {
-                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有{0}", module));
                 return true;
             }
 
@@ -602,9 +602,9 @@ namespace KingsLib
         public static bool checkOutstandingEightTrigrams(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
             int gameDOW = Scheduler.getGameDOW();
-            if (gameDOW != 5)
+            if (!(gameDOW == 5))
             {
-                if (debug) showDebugNoActivity(oGA, updateInfo, actionName, module);
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有{0}", module));
                 return true;
             }
 
@@ -643,6 +643,13 @@ namespace KingsLib
 
         public static bool checkOutstandingHuarongRoad(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
         {
+            int gameDOW = Scheduler.getGameDOW();
+            if (!(gameDOW == 4))
+            {
+                if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有{0}", module));
+                return true;
+            }
+
             RequestReturnObject rro;
 
             rro = request.Circle.getHuarongRoadInfo(oGA.connectionInfo, oGA.sid);

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("KingsLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hospital Authority")]
+[assembly: AssemblyCompany("Super169 Group")]
 [assembly: AssemblyProduct("KingsLib")]
-[assembly: AssemblyCopyright("Copyright © Hospital Authority 2016")]
+[assembly: AssemblyCopyright("Copyright © 2016 Super169 Group")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

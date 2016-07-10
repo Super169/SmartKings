@@ -18,10 +18,10 @@
                                 </Canvas>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding sysEnabled}" Value="true">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="images\Online.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding sysEnabled}" Value="false">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="images\Offline.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

@@ -46,6 +46,7 @@ namespace KingsLib.scheduler
             public const string TeamDuplicate = "TeamDuplicate";
             public const string TrainHero = "TrainHero";
             public const string Travel = "Travel";
+            public const string Trials = "Trials";
             public const string TrialsBuyTimes = "TrialsBuyTimes";
             public const string TuanGoReward = "TuanGoReward";
             public const string WineHero = "WineHero";
@@ -144,6 +145,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.Travel:
                     taskName = "周遊天下";
+                    break;
+                case TaskId.Trials:
+                    taskName = "英雄試練";
                     break;
                 case TaskId.TrialsBuyTimes:
                     taskName = "購買試練次數";
@@ -406,7 +410,17 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 suggestion = 2,
                 customSchedule = true,
-                executeTask = action.task.goTrialBuyTime
+                executeTask = action.task.goTrialsBuyTime
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.Trials,
+                info = "進行英雄試煉",
+                isEnabled = true,
+                suggestion = 2,
+                customSchedule = true,
+                executeTask = action.task.goTrials
             });
 
             autoTaskList.Add(new KingsTask()
@@ -567,9 +581,6 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
                 case TaskId.EliteFight:
-                    si.dow = new List<int>();
-                    si.dow.Add(0);
-                    si.dow.Add(3);
                     si.executionTimes = new List<TimeSpan>();
                     si.executionTimes.Add(new TimeSpan(19, 15, 0));
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
