@@ -48,6 +48,7 @@ namespace KingsLib
                                           "金马", "金馬"
                                         };
 
+                int failCnt = 0;
                 while (leftCount > 0)
                 {
                     updateInfo(oGA.displayName, taskName, string.Format("餘下 {0} 次, 是次出戰: {1} - {2}",
@@ -76,6 +77,18 @@ namespace KingsLib
                     rro = request.Campaign.getLeftTimes(ci, sid);
                     rro = request.Campaign.eliteGetCampaignInfo(ci, sid, RRO.Campaign.difficult_normal, targetChapter);
                     rro = request.Campaign.getLeftTimes(ci, sid);
+                    int leftCountAfter = rro.getInt(RRO.Campaign.elite);
+
+                    if (leftCount == leftCountAfter)
+                    {
+                        failCnt++;
+                        updateInfo(oGA.displayName, taskName, string.Format("討伐失敗 {0} 次, {1}.", failCnt, (failCnt < 3 ? "再戰" : "退出, 下次再試")));
+                        if (failCnt >= 3) return false;
+                        continue;
+                    }
+                    updateInfo(oGA.displayName, taskName, "討伐成功");
+                    failCnt = 0;
+
                     rro = request.Hero.getFeastInfo(ci, sid);
 
                     // Go get reward
@@ -207,7 +220,7 @@ namespace KingsLib
             public static bool goTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
                 string taskId = Scheduler.TaskId.EliteFight;
-                string taskName = Scheduler.getTaskName(Scheduler.TaskId.EliteFight);
+                string taskName = Scheduler.getTaskName(taskId);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;
@@ -240,7 +253,7 @@ namespace KingsLib
             private static void goOneTrials(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug, int idx, string type)
             {
                 string taskId = Scheduler.TaskId.EliteFight;
-                string taskName = Scheduler.getTaskName(Scheduler.TaskId.EliteFight);
+                string taskName = Scheduler.getTaskName(taskId);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;

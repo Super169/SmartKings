@@ -21,7 +21,7 @@ namespace SmartKings.ui
     public partial class UcAppSwitches : UserControl
     {
 
-        public event EventHandler<string> UpdateStatus;
+        // public event EventHandler<string> UpdateStatus;
 
         public UcAppSwitches()
         {

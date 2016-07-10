@@ -21,14 +21,14 @@ namespace SmartKings
         private void loadAppSettings()
         {
             AppSettings.restoreSettings();
-            ucAppSwitches.UpdateStatus += new EventHandler<string>(ucAppSetting_UpdateStatus);
+            // ucAppSwitches.UpdateStatus += new EventHandler<string>(ucAppSetting_UpdateStatus);
             ucAppSwitches.loadAppSwitches();
         }
 
-        private void ucAppSetting_UpdateStatus(object sender, string status)
-        {
-            UpdateInfo("***", "系統設定", status);
-        }
+        //private void ucAppSetting_UpdateStatus(object sender, string status)
+        //{
+        //    UpdateInfo("***", "系統設定", status);
+        //}
 
         const string KEY_AUTOTASKS = "autoTasks";
         const string jazAutoTasks = "autoTasks.jaz";
