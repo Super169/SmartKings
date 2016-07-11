@@ -1,12 +1,14 @@
 ﻿using KingsLib;
 using KingsLib.data;
 using KingsLib.scheduler;
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,6 +34,9 @@ namespace SmartKings.ui.uc
             public bool accEnabled { get; set; }
             public string id { get; set; }
             public string taskName { get; set; }
+            public int basicSetup { get; set; }
+            public int war0Setup { get; set; }
+            public int war1Setup { get; set; }
             public string info { get; set; }
             public string remark { get; set; }
             public string lastExecution { get; set; }
@@ -71,7 +76,11 @@ namespace SmartKings.ui.uc
                         info = kt.info,
                         lastExecution = "--",
                         nextExecution = "--",
-                        remark = "帳戶沒有該項工作"
+                        remark = "帳戶沒有該項工作",
+                        basicSetup = -1,
+                        war0Setup = -1,
+                        war1Setup = -1
+
                     };
                 }
                 else
@@ -86,7 +95,11 @@ namespace SmartKings.ui.uc
                         lastExecution = (at.schedule.lastExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.lastExecutionTime)),
                         nextExecution = (at.schedule.nextExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.nextExecutionTime)),
                         remark = at.schedule.getScheduleInfo(kt.getNextTime == null)
+
                     };
+                    ati.basicSetup = getBasicSetupStatus(kt.id);
+                    ati.war0Setup = getWarSetupStatus(kt.id, 0);
+                    ati.war1Setup = getWarSetupStatus(kt.id, 1);
                 }
                 atis.Add(ati);
             }
@@ -110,7 +123,7 @@ namespace SmartKings.ui.uc
 
             if (atis.Count == 0) return null;
 
-            AutoTaskInfo ati  = (AutoTaskInfo) lvAutoTaskInfo.SelectedItem;
+            AutoTaskInfo ati = (AutoTaskInfo)lvAutoTaskInfo.SelectedItem;
 
             return ati;
         }
@@ -158,10 +171,11 @@ namespace SmartKings.ui.uc
             foreach (Scheduler.AutoTask at in oGA.autoTasks)
             {
                 Scheduler.KingsTask kt = Scheduler.autoTaskList.Find(x => x.id == at.taskId);
-                if (kt ==null)
+                if (kt == null)
                 {
                     at.isEnabled = false;
-                } else
+                }
+                else
                 {
                     at.isEnabled = (kt.suggestion == 1);
                 }
@@ -186,9 +200,31 @@ namespace SmartKings.ui.uc
             refreshAll();
         }
 
-        public void taskSetup()
+
+        private int getWarSetupStatus(string taskId, int idx)
         {
+            bool checkSetup = false;
+            switch (taskId)
+            {
+                case Scheduler.TaskId.StarryFight:
+                case Scheduler.TaskId.NavalWar:
+                case Scheduler.TaskId.EliteFight:
+                case Scheduler.TaskId.Patrol:
+                    checkSetup = true;
+                    break;
+                case Scheduler.TaskId.GrassArrow:
+                case Scheduler.TaskId.BossWar:
+                    checkSetup = (idx == 0);
+                    break;
+            }
+            if (!checkSetup) return -1;
+
+            WarInfo wi = oGA.getWarInfo(taskId, idx);
+            if (wi == null) return 0;
+            return 1;
         }
+
+
 
         public void warSetup(int idx)
         {
@@ -225,13 +261,21 @@ namespace SmartKings.ui.uc
                     goWarSetup(Scheduler.TaskId.Patrol, idx, 1, 5, true, 3, "預留");
                     break;
                 case Scheduler.TaskId.GrassArrow:
-                    goWarSetup(Scheduler.TaskId.GrassArrow, idx, 1, 3, true, 2, "諸葛亮");
+                    if (idx == 0)
+                    {
+                        goWarSetup(Scheduler.TaskId.GrassArrow, idx, 1, 3, true, 2, "諸葛亮");
+                    }
+                    else
+                    {
+                        MessageBox.Show(taskName + " 不支援後備部隊設定");
+                    }
                     break;
                 case Scheduler.TaskId.BossWar:
                     if (idx == 0)
                     {
                         goWarSetup(Scheduler.TaskId.BossWar, 0, 1, 5, true, -1, null);
-                    } else
+                    }
+                    else
                     {
                         MessageBox.Show(taskName + " 不支援後備部隊設定");
                     }
@@ -249,6 +293,89 @@ namespace SmartKings.ui.uc
         }
 
 
+        private int getBasicSetupStatus(string taskId)
+        {
+            switch (taskId)
+            {
+                case Scheduler.TaskId.TeamDuplicate:
+                case Scheduler.TaskId.TrainHero:
+                case Scheduler.TaskId.EliteFight:
+                    DynamicJsonObject json = oGA.getTaskParmObject(taskId);
+                    if (json == null) return 0;
+                    if (json.GetDynamicMemberNames().Count() == 0) return 0;
+                    return 1;
+            }
+            return -1;
+        }
 
+        public void taskSetup()
+        {
+            AutoTaskInfo ati = getSelectedTask();
+
+            if (ati == null)
+            {
+                MessageBox.Show("請先選擇排程項目");
+                return;
+            }
+
+            Scheduler.AutoTask at = oGA.findAutoTask(ati.id);
+            if (at == null)
+            {
+                MessageBox.Show("系統錯誤, 找不到相關排程.");
+                return;
+            }
+
+            string taskId = at.taskId;
+            string taskName = Scheduler.getTaskName(taskId);
+
+            switch (taskId)
+            {
+                case Scheduler.TaskId.TeamDuplicate:
+                    goSetupTeamDuplicate();
+                    break;
+                case Scheduler.TaskId.TrainHero:
+                    goSetupTrainHero();
+                    break;
+                case Scheduler.TaskId.EliteFight:
+                    goSetupElite();
+                    break;
+                case Scheduler.TaskId.StarryFight:
+                case Scheduler.TaskId.NavalWar:
+                case Scheduler.TaskId.Patrol:
+                case Scheduler.TaskId.GrassArrow:
+                case Scheduler.TaskId.BossWar:
+                default:
+                    MessageBox.Show(taskName + " 沒有提供設定項目");
+                    break;
+            }
+        }
+
+
+        private void goSetupTeamDuplicate()
+        {
+            if (oGA == null) return;
+
+            ui.setup.WinPickHeros winSetup = new ui.setup.WinPickHeros(oGA, Scheduler.TaskId.TeamDuplicate, Scheduler.Parm.TeamDuplicate.heroIdx, 4);
+            // ui.WinSetupTeamDuplicate winSetup = new ui.WinSetupTeamDuplicate();
+            winSetup.Owner = Window.GetWindow(this);
+            winSetup.ShowDialog();
+        }
+
+        private void goSetupTrainHero()
+        {
+            if (oGA == null) return;
+
+            ui.setup.WinPickHeros winSetup = new ui.setup.WinPickHeros(oGA, Scheduler.TaskId.TrainHero, Scheduler.Parm.TrainHero.targetHeros, 999);
+            winSetup.Owner = Window.GetWindow(this);
+            winSetup.ShowDialog();
+        }
+
+        private void goSetupElite()
+        {
+            if (oGA == null) return;
+            ui.win.WinEliteFightSetup winEFS = new ui.win.WinEliteFightSetup(oGA);
+            winEFS.Owner = Window.GetWindow(this);
+            winEFS.ShowDialog();
+        }
     }
 }

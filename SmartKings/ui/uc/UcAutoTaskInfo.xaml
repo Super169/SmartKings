@@ -35,6 +35,61 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="工作" Width="100"  DisplayMemberBinding="{Binding taskName}"/>
+
+                    <GridViewColumn Header="" Width="20">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type ListViewItem}">
+                                <Canvas Width="20" Height="20">
+                                    <Image x:Name="StatusIcon" Height="20" Width="20" Margin="-6,0"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding basicSetup}" Value="1">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding basicSetup}" Value="0">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="" Width="20">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type ListViewItem}">
+                                <Canvas Width="20" Height="20">
+                                    <Image x:Name="StatusIcon" Height="20" Width="20" Margin="-6,0"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding war0Setup}" Value="1">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding war0Setup}" Value="0">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="" Width="20">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type ListViewItem}">
+                                <Canvas Width="20" Height="20">
+                                    <Image x:Name="StatusIcon" Height="20" Width="20" Margin="-6,0"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding war1Setup}" Value="1">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding war1Setup}" Value="0">
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <GridViewColumn Header="最後執行時間" Width="150"  DisplayMemberBinding="{Binding lastExecution}"/>
                     <GridViewColumn Header="下次執行時間" Width="150"  DisplayMemberBinding="{Binding nextExecution}"/>
                     <GridViewColumn Header="排程" Width="400"  DisplayMemberBinding="{Binding remark}"/>
