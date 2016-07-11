@@ -50,5 +50,40 @@ namespace SmartKings.ui.win
         {
             lvAutoTaskInfo.resetSchedule();
         }
+
+        private void btnSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.updateSelection(true);
+        }
+
+        private void btnSelectNone_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.updateSelection(false);
+        }
+
+        private void btnSelectSafe_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.selectSafe();
+        }
+
+        private void btnSelectSuggested_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.selectSuggested();
+        }
+
+        private void btTaskSetup_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.taskSetup();
+        }
+
+        private void btTaskWar0_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.warSetup(0);
+        }
+
+        private void btTaskWar1_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.warSetup(1);
+        }
     }
 }

@@ -48,6 +48,7 @@ namespace SmartKings
                         ui.win.WinAccTaskConfig winConfig = new ui.win.WinAccTaskConfig(oGA);
                         winConfig.Owner = this;
                         winConfig.ShowDialog();
+                        saveWarInfos();
                     }
                     break;
                 case "btnCheckStatus":
