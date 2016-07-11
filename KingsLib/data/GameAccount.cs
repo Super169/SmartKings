@@ -378,6 +378,8 @@ namespace KingsLib.data
 
         public bool executeTask(string taskId, action.DelegateUpdateInfo updateInfo, bool debug)
         {
+            if (!(IsOnline() || (taskId == Scheduler.TaskId.Reload))) return false;
+
             Scheduler.AutoTask myTask = findAutoTask(taskId);
             if (myTask == null) return false;
 

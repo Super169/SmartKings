@@ -97,6 +97,8 @@ namespace KingsLib
                 if (debug) action.showDebugMsg(updateInfo, oGA.displayName, taskName, "領取獎勵 - 開始");
 
                 StarryInfo si = action.starry.getInfo(ci, sid);
+                if (si == null) return false;
+
                 foreach (StarryInfo.ChapterInfo chapter in si.chapterList)
                 {
                     if (chapter.chapterReward == 1)
