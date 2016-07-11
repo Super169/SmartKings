@@ -254,6 +254,16 @@
   <ItemGroup>
     <Resource Include="Logo256.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\War2Off.png" />
+    <Resource Include="images\War2On.png" />
+    <Resource Include="images\WarOff.png" />
+    <Resource Include="images\WarOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\SettingOff.png" />
+    <Resource Include="images\SettingOn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -44,10 +44,10 @@
                                 </Canvas>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding basicSetup}" Value="1">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\SettingOn.png" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding basicSetup}" Value="0">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\SettingOff.png" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -62,10 +62,10 @@
                                 </Canvas>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding war0Setup}" Value="1">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\WarOn.png" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding war0Setup}" Value="0">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\WarOff.png" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -80,10 +80,10 @@
                                 </Canvas>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding war1Setup}" Value="1">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Online.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\War2On.png" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding war1Setup}" Value="0">
-                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\Offline.png" />
+                                        <Setter TargetName="StatusIcon" Property="Source" Value="..\..\images\War2Off.png" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
