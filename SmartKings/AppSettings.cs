@@ -21,6 +21,8 @@ namespace SmartKings
         {
             public const bool AutoRun = true;
             public const bool DEBUG = false;
+            public const bool UseProxy = false;
+            public const string Proxy = "";
             public const int elapseMin = 5;
             public const int extraStartMin = 0;
         }
@@ -29,12 +31,16 @@ namespace SmartKings
         {
             public const string AutoRun = "AutoRun";
             public const string DEBUG = "DEBUG";
+            public const string UseProxy = "UseProxy";
+            public const string Proxy = "Proxy";
             public const string elapseMin = "elapseMin";
             public const string extraStartMin = "extraStartMin";
         }
 
         public static bool AutoRun = DEFAULT.AutoRun;
         public static bool DEBUG = DEFAULT.DEBUG;
+        public static bool UseProxy = DEFAULT.UseProxy;
+        public static string Proxy = DEFAULT.Proxy;
         public static int elapseMin = DEFAULT.elapseMin;
         public static bool stopAllActiion = false;
 
@@ -44,6 +50,8 @@ namespace SmartKings
             dynamic json = JSON.Empty;
             json[KEY.AutoRun] = AutoRun;
             json[KEY.DEBUG] = DEBUG;
+            json[KEY.UseProxy] = UseProxy;
+            json[KEY.Proxy] = Proxy;
             json[KEY.elapseMin] = elapseMin;
             return json;
         }
@@ -53,6 +61,8 @@ namespace SmartKings
             if (json == null) return;
             AutoRun = JSON.getBool(json, KEY.AutoRun, DEFAULT.AutoRun);
             DEBUG = JSON.getBool(json, KEY.DEBUG, DEFAULT.DEBUG);
+            UseProxy = JSON.getBool(json, KEY.UseProxy, DEFAULT.UseProxy);
+            Proxy = JSON.getString(json, KEY.Proxy, DEFAULT.Proxy);
             elapseMin = JSON.getInt(json, KEY.elapseMin, DEFAULT.elapseMin);
         }
 

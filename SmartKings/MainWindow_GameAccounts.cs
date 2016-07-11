@@ -42,10 +42,10 @@ namespace SmartKings
             jsonData[KEY_GAMEACCOUNTS] = acList;
             JSON.saveConfig(jsonData, jazGameAccounts);
 
-            
+            /*
             string js = Newtonsoft.Json.JsonConvert.SerializeObject(gameAccounts);
             JSON.saveConfig(js, jazNewtonGameAccounts);
-
+            */
             DateTime endTime = DateTime.Now;
             TimeSpan ts = endTime - startTime;
             if (AppSettings.DEBUG) LOG.D(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));
@@ -53,8 +53,8 @@ namespace SmartKings
 
         private void restoreAccounts()
         {
-
             int currSelectedIndex = lvAccounts.SelectedIndex;
+
             dynamic json = JSON.Empty;
             if (!JSON.restoreConfig(ref json, jazGameAccounts)) return;
             if ((json[KEY_GAMEACCOUNTS] == null) || (json[KEY_GAMEACCOUNTS].GetType() != typeof(DynamicJsonArray))) return;
@@ -68,10 +68,32 @@ namespace SmartKings
                     GameAccount oGA = new GameAccount(o);
                     gameAccounts.Add(oGA);
                     KingsMonitor.addAccount(oGA.account, oGA.sid);
+
+                    ConnectionInfo ci = oGA.connectionInfo;
+
+                    if (ci.headers.Exists(x => x.Key == "Connection")) ci.headers.Remove(ci.headers.Find(x => x.Key == "Connection"));
+                    if (ci.headers.Exists(x => x.Key == "Proxy-Connection")) ci.headers.Remove(ci.headers.Find(x => x.Key == "Proxy-Connection"));
+                    if (ci.headers.Exists(x => x.Key == "Proxy-Authorization")) ci.headers.Remove(ci.headers.Find(x => x.Key == "Proxy-Authorization"));
+                    if (AppSettings.UseProxy)
+                    {
+                        ci.headers.Add(new KeyValuePair<string, string>("Proxy-Connection", "keep-alive"));
+                        ci.headers.Add(new KeyValuePair<string, string>("Proxy-Authorization", AppSettings.Proxy));
+
+                    } else
+                    {
+                        ci.headers.Add(new KeyValuePair<string, string>("Connection", "keep-alive"));
+                    }
+
+
+                    DateTime t1 = DateTime.Now;
                     oGA.refreshAccount();
+                    DateTime t2 = DateTime.Now;
+                    TimeSpan ts = t2 - t1;
+//                    MessageBox.Show(string.Format("{0} - {1}", oGA.displayName, ts));
                 }
             }
 
+            /*
             List<GameAccount> ga;
 
             string js = "";
@@ -82,9 +104,10 @@ namespace SmartKings
             {
                 o.refreshAccount();
             }
-
+            
             // gameAccounts = ga;  // Dummy for testing
 
+            */
             gameAccounts.Sort();
             lvAccounts.SelectedIndex = (currSelectedIndex == -1 ? 0 : currSelectedIndex);
         }

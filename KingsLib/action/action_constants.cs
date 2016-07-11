@@ -325,6 +325,9 @@ namespace KingsLib
                 public const string msItems = "msItems";
                 public const string day = "day";
                 public const string st = "st";
+                public const string auItems = "auItems";
+                public const string days = "days";
+                public const string drawed = "drawed";
             }
 
 

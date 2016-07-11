@@ -9,6 +9,9 @@
     <Grid Background="#7FE14000">
         <CheckBox x:Name="cbxAutoRun" Content="自動執行" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="cbxAutoRun_Changed" Unchecked="cbxAutoRun_Changed"/>
         <CheckBox x:Name="cbxDebug" Content="除蟲模式" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Checked="cbxDebug_Changed" Unchecked="cbxDebug_Changed"/>
+        <CheckBox x:Name="cbxUseProxy" Content="" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Checked="cbxUseProxy_Changed" Unchecked="cbxUseProxy_Changed"/>
+        <TextBox x:Name="txtProxy" Height="18" Margin="27,34,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" TextChanged="txtProxy_TextChanged" FontSize="10" Padding="0,1" Panel.ZIndex="-5"/>
+
 
     </Grid>
 </UserControl>

@@ -32,6 +32,8 @@ namespace SmartKings.ui
         {
             cbxAutoRun.IsChecked = AppSettings.AutoRun;
             cbxDebug.IsChecked = AppSettings.DEBUG;
+            cbxUseProxy.IsChecked = AppSettings.UseProxy;
+            txtProxy.Text = AppSettings.Proxy;
         }
 
         private void saveAppSwitches()
@@ -51,5 +53,16 @@ namespace SmartKings.ui
             saveAppSwitches();
         }
 
+        private void cbxUseProxy_Changed(object sender, RoutedEventArgs e)
+        {
+            AppSettings.UseProxy = (cbxUseProxy.IsChecked == true);
+            saveAppSwitches();
+        }
+
+        private void txtProxy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AppSettings.Proxy = txtProxy.Text;
+            saveAppSwitches();
+        }
     }
 }
