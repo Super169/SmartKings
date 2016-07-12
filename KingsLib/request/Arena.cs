@@ -14,6 +14,8 @@ namespace KingsLib.request
         private const string CMD_changeEnemies = "Arena.changeEnemies";
         private const string CMD_getDefFormation = "Arena.getDefFormation";
         private const string CMD_myArenaStatus = "Arena.myArenaStatus";
+        private const string CMD_saveDefFormation = "Arena.saveDefFormation";
+        
 
         public static RequestReturnObject acceptRankReward(ConnectionInfo ci, string sid)
         {
@@ -34,6 +36,12 @@ namespace KingsLib.request
         {
             return com.SendGenericRequest(ci, sid, CMD_myArenaStatus);
         }
+
+        public static RequestReturnObject saveDefFormation(ConnectionInfo ci, string sid, string body)
+        {
+            return com.SendGenericRequest(ci, sid, CMD_saveDefFormation, true, body);
+        }
+
 
     }
 }

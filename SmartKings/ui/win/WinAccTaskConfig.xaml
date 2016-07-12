@@ -9,14 +9,15 @@
         Title="WinAccTaskConfig" Height="600" Width="900" WindowStartupLocation="CenterOwner" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize"  Closing="Window_Closing">
     <Grid>
         <uc:UcAutoTaskInfo x:Name="lvAutoTaskInfo" Margin="5,5,5,57"/>
-        <Button x:Name="btnResetSchedule" Content="清除執行記錄" Margin="5,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnResetSchedule_Click" HorizontalAlignment="Left" Width="100"/>
-        <Button x:Name="btSelectAll" Content="全選" Margin="110,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectAll_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btSelectNone" Content="全不選" Margin="175,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectNone_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btSelectSafe" Content="安全選項" Margin="240,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectSafe_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btSelectSuggested" Content="建議選項" Margin="305,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectSuggested_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btTaskSetup" Content="任務設定" Margin="400,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskSetup_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btTaskWar0" Content="基本部隊" Margin="470,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskWar0_Click" HorizontalAlignment="Left" Width="60"/>
-        <Button x:Name="btTaskWar1" Content="後備部隊" Margin="540,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskWar1_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btnClearRecord" Content="清除執行記錄" Margin="5,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnClearRecord_Click" HorizontalAlignment="Left" Width="100"/>
+        <Button x:Name="btnResetSchedule" Content="重設排程" Margin="110,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnResetSchedule_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btSelectAll" Content="全選" Margin="199,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectAll_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btSelectNone" Content="全不選" Margin="264,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectNone_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btSelectSafe" Content="安全選項" Margin="329,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectSafe_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btSelectSuggested" Content="建議選項" Margin="394,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btnSelectSuggested_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btTaskSetup" Content="任務設定" Margin="489,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskSetup_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btTaskWar0" Content="基本部隊" Margin="559,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskWar0_Click" HorizontalAlignment="Left" Width="60"/>
+        <Button x:Name="btTaskWar1" Content="後備部隊" Margin="629,0,0,10" Height="30" VerticalAlignment="Bottom" Click="btTaskWar1_Click" HorizontalAlignment="Left" Width="60"/>
         <Button x:Name="btnClose" Content="關閉" Margin="0,0,5,10" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="btnClose_Click"/>
     </Grid>
 </Window>

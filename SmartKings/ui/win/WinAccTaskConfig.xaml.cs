@@ -46,6 +46,11 @@ namespace SmartKings.ui.win
             lvAutoTaskInfo.SaveSettings();
         }
 
+        private void btnClearRecord_Click(object sender, RoutedEventArgs e)
+        {
+            lvAutoTaskInfo.clearRecord();
+        }
+
         private void btnResetSchedule_Click(object sender, RoutedEventArgs e)
         {
             lvAutoTaskInfo.resetSchedule();
@@ -85,5 +90,7 @@ namespace SmartKings.ui.win
         {
             lvAutoTaskInfo.warSetup(1);
         }
+
+
     }
 }

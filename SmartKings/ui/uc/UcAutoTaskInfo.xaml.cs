@@ -129,7 +129,7 @@ namespace SmartKings.ui.uc
         }
 
 
-        public void resetSchedule()
+        public void clearRecord()
         {
             AutoTaskInfo ati = getSelectedTask();
 
@@ -156,6 +156,45 @@ namespace SmartKings.ui.uc
             view.Refresh();
 
         }
+
+        public void resetSchedule()
+        {
+            AutoTaskInfo ati = getSelectedTask();
+
+            if (ati == null)
+            {
+                MessageBox.Show("請先選擇排程項目");
+                return;
+            }
+
+            Scheduler.AutoTask at = oGA.findAutoTask(ati.id);
+            if (at == null)
+            {
+                MessageBox.Show("系統錯誤, 找不到相關排程.");
+                return;
+            }
+
+            at.schedule = Scheduler.defaultSchedule(at.taskId);
+            at.schedule.initNextTime();
+
+            ati.lastExecution = (at.schedule.lastExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.lastExecutionTime));
+            ati.nextExecution = (at.schedule.nextExecutionTime == null ? "--" : string.Format("{0:yyyy-MM-dd HH:mm:ss}", at.schedule.nextExecutionTime));
+
+            Scheduler.KingsTask kt = Scheduler.autoTaskList.Find(x => x.id == at.taskId);
+            if (kt == null)
+            {
+                ati.remark = "";
+            }
+            else
+            {
+                ati.remark = at.schedule.getScheduleInfo(kt.getNextTime == null);
+            }
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(lvAutoTaskInfo.ItemsSource);
+            view.Refresh();
+
+        }
+
 
         public void updateSelection(bool isEnabled)
         {
@@ -206,6 +245,7 @@ namespace SmartKings.ui.uc
             bool checkSetup = false;
             switch (taskId)
             {
+                case Scheduler.TaskId.ArenaDefFormation:
                 case Scheduler.TaskId.StarryFight:
                 case Scheduler.TaskId.NavalWar:
                 case Scheduler.TaskId.EliteFight:
@@ -248,22 +288,19 @@ namespace SmartKings.ui.uc
 
             switch (taskId)
             {
+                case Scheduler.TaskId.ArenaDefFormation:
                 case Scheduler.TaskId.StarryFight:
-                    goWarSetup(Scheduler.TaskId.StarryFight, idx, 1, 5, true, -1, null);
-                    break;
                 case Scheduler.TaskId.NavalWar:
-                    goWarSetup(Scheduler.TaskId.NavalWar, idx, 1, 5, true, -1, null);
-                    break;
                 case Scheduler.TaskId.EliteFight:
-                    goWarSetup(Scheduler.TaskId.EliteFight, idx, 1, 5, true, -1, null);
+                    goWarSetup(taskId, idx, 1, 5, true, -1, null);
                     break;
                 case Scheduler.TaskId.Patrol:
-                    goWarSetup(Scheduler.TaskId.Patrol, idx, 1, 5, true, 3, "預留");
+                    goWarSetup(taskId, idx, 1, 5, true, 3, "預留");
                     break;
                 case Scheduler.TaskId.GrassArrow:
                     if (idx == 0)
                     {
-                        goWarSetup(Scheduler.TaskId.GrassArrow, idx, 1, 3, true, 2, "諸葛亮");
+                        goWarSetup(taskId, idx, 1, 3, true, 2, "諸葛亮");
                     }
                     else
                     {
@@ -273,7 +310,7 @@ namespace SmartKings.ui.uc
                 case Scheduler.TaskId.BossWar:
                     if (idx == 0)
                     {
-                        goWarSetup(Scheduler.TaskId.BossWar, 0, 1, 5, true, -1, null);
+                        goWarSetup(taskId, 0, 1, 5, true, -1, null);
                     }
                     else
                     {
@@ -284,6 +321,7 @@ namespace SmartKings.ui.uc
                     MessageBox.Show(taskName + " 不支援作戰部隊設定");
                     break;
             }
+            refreshAll();
         }
 
         private void goWarSetup(string taskId, int idx, int minHeros, int maxHeros, bool reqChief, int fixHero, string fixHeroName)

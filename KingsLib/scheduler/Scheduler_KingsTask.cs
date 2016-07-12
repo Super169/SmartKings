@@ -17,6 +17,7 @@ namespace KingsLib.scheduler
 
         public static class TaskId
         {
+            public const string ArenaDefFormation = "ArenaDefFormation";
             public const string ArenaReward = "ArenaReward";
             public const string ArenasReward = "ArenasReward";
             public const string BossWar = "BossWar";
@@ -58,6 +59,9 @@ namespace KingsLib.scheduler
             string taskName = "";
             switch (id)
             {
+                case TaskId.ArenaDefFormation:
+                    taskName = "天下比武防守";
+                    break;
                 case TaskId.ArenaReward:
                     taskName = "天下比武獎勵";
                     break;
@@ -243,6 +247,16 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
+                id = TaskId.ArenaDefFormation,
+                info = "天下比武防守, 在 18:00-21:00 設定用第一部隊, 其餘設定為第二部隊",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goArenaDefFormation
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
                 id = TaskId.MonthSignIn,
                 info = "自動進行每天登入",
                 isEnabled = true,
@@ -350,7 +364,7 @@ namespace KingsLib.scheduler
                 isEnabled = true,
                 suggestion = 1,
                 customSchedule = true,
-                executeTask = action.task.goAreansReward
+                executeTask = action.task.goArenasReward
             });
 
             autoTaskList.Add(new KingsTask()
@@ -563,6 +577,13 @@ namespace KingsLib.scheduler
                     si.maxRetry = 3;
                     si.retryFreqMin = 1;
                     break;
+                case TaskId.Market:
+                case TaskId.MonthSignIn:
+                    si.executionTimes = new List<TimeSpan>();
+                    si.executionTimes.Add(new TimeSpan(5, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
+                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
+                    break;
                 case TaskId.GrassArrow:
                     si.dow = new List<int>();
                     si.dow.Add(1);
@@ -585,13 +606,6 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(19, 15, 0));
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
-                case TaskId.Market:
-                case TaskId.MonthSignIn:
-                    si.executionTimes = new List<TimeSpan>();
-                    si.executionTimes.Add(new TimeSpan(10, 35, 0));
-                    si.executionTimes.Add(new TimeSpan(13, 35, 0));
-                    si.executionTimes.Add(new TimeSpan(3, 15, 0));
-                    break;
                 case TaskId.StarryFight:
                 case TaskId.StarryReward:
                     si.executionTimes = new List<TimeSpan>();
@@ -605,6 +619,7 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(12, 35, 0));
                     si.executionTimes.Add(new TimeSpan(18, 35, 0));
                     break;
+                case TaskId.ArenaDefFormation:
                 case TaskId.Travel:
                     si.elapseMin = 60;
                     break;

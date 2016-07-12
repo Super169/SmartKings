@@ -48,6 +48,12 @@ namespace KingsLib
 
             }
 
+            public static class Arena
+            {
+                public const string food = "food";
+                public const string power = "power";
+            }
+
             public static class Arenas
             {
                 public const string rank = "rank";
@@ -56,6 +62,7 @@ namespace KingsLib
                 public const string coin = "coin";
                 public const string leftTimes = "leftTimes";
             }
+
             public static class Bag
             {
                 public const string deleted = "deleted";

@@ -106,6 +106,8 @@ namespace KingsLib
 
                     if (mi.type != RRO.Manor.type_JC) continue;
 
+                    if (mi.levelSeconds > 0) continue;
+
                     bool emptyField = false;
                     if (mi.heroIndex == -1)
                     {
