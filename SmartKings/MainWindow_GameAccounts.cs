@@ -42,10 +42,10 @@ namespace SmartKings
             jsonData[KEY_GAMEACCOUNTS] = acList;
             JSON.saveConfig(jsonData, jazGameAccounts);
 
-            /*
+            
             string js = Newtonsoft.Json.JsonConvert.SerializeObject(gameAccounts);
             JSON.saveConfig(js, jazNewtonGameAccounts);
-            */
+            
             DateTime endTime = DateTime.Now;
             TimeSpan ts = endTime - startTime;
             if (AppSettings.DEBUG) LOG.D(string.Format("It takes {0}ms to save account data", ts.TotalMilliseconds));

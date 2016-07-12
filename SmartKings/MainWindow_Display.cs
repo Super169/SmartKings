@@ -28,7 +28,7 @@ namespace SmartKings
             {
                 Application.Current.Dispatcher.BeginInvoke(
                   System.Windows.Threading.DispatcherPriority.Normal,
-                  (Action)(() => refreshAccountList()));
+                  (Action)(() => refreshEventLog()));
                 return;
             }
 
