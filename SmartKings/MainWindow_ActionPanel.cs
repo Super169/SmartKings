@@ -150,6 +150,10 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.Travel, allPlayers);
                     break;
 
+                case "btnOperateActivity":
+                    goTask(Scheduler.TaskId.OperateActivity, allPlayers);
+                    break;
+
                 case "btnTester":
                     goWarSetup(Scheduler.TaskId.HuarongRoad, 0, 1, 5, true, -1, null);
                     // goTask(Scheduler.TaskId.HuarongRoad, false);

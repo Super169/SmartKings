@@ -25,6 +25,7 @@ using System.Web.Helpers;
 // 奇門八卦
 // 懸賞任務
 // 鏢行四海
+// 登入好禮
 
 namespace KingsLib
 {
@@ -86,6 +87,10 @@ namespace KingsLib
 
             // 鏢行四海
             goCheckOutstandTasks(action, "鏢行四海", checkOutstandingEscort, oGA, updateInfo, debug);
+
+            // 
+            // 登入好禮
+            goCheckOutstandTasks(action, "登入好禮", checkOutstandingOperateActivity, oGA, updateInfo, debug);
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -715,5 +720,20 @@ namespace KingsLib
             }
             return true;
         }
+
+        public static bool checkOutstandingOperateActivity(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+
+            rro = request.OperateActivity.getUpgradeActivityInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.exists(RRO.OperateActivity.isGot)) return false;
+            if (!rro.getBool(RRO.OperateActivity.isGot))
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚未領取", module), true, false);
+            }
+            return true;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KingsLib.scheduler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,45 @@ namespace SmartKings.ui
         public delegate void DelegateActionEventHandler(bool allPlayers, string btnClicked);
         public DelegateActionEventHandler goAction;
 
+        public class SysTaskEntry
+        {
+            public string TaskId { get; set; }
+            public string TaskName { get; set; }
+        }
+
+        List<SysTaskEntry> safeList;
+        List<SysTaskEntry> suggestedList;
+        List<SysTaskEntry> othersList;
+
         public UcActionPanel()
         {
             InitializeComponent();
+        }
+
+        public void initTaskList()
+        {
+            safeList = new List<SysTaskEntry>();
+            suggestedList = new List<SysTaskEntry>();
+            othersList = new List<SysTaskEntry>();
+            foreach (Scheduler.KingsTask kt in Scheduler.autoTaskList)
+            {
+                switch (kt.suggestion)
+                {
+                    case 1:
+                        safeList.Add(new SysTaskEntry() { TaskId = kt.id, TaskName = Scheduler.getTaskName(kt.id) });
+                        break;
+                    case 2:
+                        suggestedList.Add(new SysTaskEntry() { TaskId = kt.id, TaskName = Scheduler.getTaskName(kt.id) });
+                        break;
+                    default:
+                        othersList.Add(new SysTaskEntry() { TaskId = kt.id, TaskName = Scheduler.getTaskName(kt.id) });
+                        break;
+                }
+            }
+            cboSafe.ItemsSource = safeList;
+            cboSuggested.ItemsSource = suggestedList;
+            cboOthers.ItemsSource = othersList;
+
         }
 
         public void setActionHandler(DelegateActionEventHandler actionHandler)
@@ -46,5 +83,26 @@ namespace SmartKings.ui
             Button btn = (Button)sender;
             playAction(btn.Name);
         }
+
+        private void btnGoSafe_Click(object sender, RoutedEventArgs e)
+        {
+            SysTaskEntry ste = (SysTaskEntry)cboSafe.SelectedItem;
+            if (ste == null) return;
+            playAction("btn" + ste.TaskId);
+        }
+
+        private void btnGoSuggested_Click(object sender, RoutedEventArgs e)
+        {
+            SysTaskEntry ste = (SysTaskEntry)cboSuggested.SelectedItem;
+            if (ste == null) return;
+            playAction("btn" + ste.TaskId);
+        }
+        private void btnGoOthers_Click(object sender, RoutedEventArgs e)
+        {
+            SysTaskEntry ste = (SysTaskEntry)cboOthers.SelectedItem;
+            if (ste == null) return;
+            playAction("btn" + ste.TaskId);
+        }
+
     }
 }

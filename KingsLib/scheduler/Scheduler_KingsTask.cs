@@ -37,6 +37,7 @@ namespace KingsLib.scheduler
             public const string Market = "Market";
             public const string NavalWar = "NavalWar";
             public const string OneYearSignIn = "OneYearSignIn";
+            public const string OperateActivity = "OperateActivity";
             public const string Patrol = "Patrol";
             public const string ReadAllEmail = "ReadAllEmail";
             public const string Reload = "Reload";
@@ -115,6 +116,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.StarryReward:
                     taskName = "攬星獎勵";
+                    break;
+                case TaskId.OperateActivity:
+                    taskName = "登入好禮";
                     break;
                 case TaskId.ReadAllEmail:
                     taskName = "開啟郵件";
@@ -263,6 +267,16 @@ namespace KingsLib.scheduler
                 suggestion = 1,
                 customSchedule = false,
                 executeTask = action.task.goMonthSignIn
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
+                id = TaskId.OperateActivity,
+                info = "限時活動: 自動收取登入好禮",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = false,
+                executeTask = action.task.goOperateActivity
             });
 
             autoTaskList.Add(new KingsTask()
@@ -579,6 +593,7 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.Market:
                 case TaskId.MonthSignIn:
+                case TaskId.OperateActivity:
                     si.executionTimes = new List<TimeSpan>();
                     si.executionTimes.Add(new TimeSpan(5, 35, 0));
                     si.executionTimes.Add(new TimeSpan(13, 35, 0));

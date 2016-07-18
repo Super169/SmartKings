@@ -77,6 +77,7 @@
     <Compile Include="action\task\LuckyCycle.cs" />
     <Compile Include="action\task\Manor.cs" />
     <Compile Include="action\task\Naval.cs" />
+    <Compile Include="action\task\OperateActivity.cs" />
     <Compile Include="action\task\Patrol.cs" />
     <Compile Include="action\task\Reload.cs" />
     <Compile Include="action\task\shop.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="request\NpcCorps.cs" />
     <Compile Include="request\OneYear.cs" />
     <Compile Include="request\OneYearEntry.cs" />
+    <Compile Include="request\OperateActivity.cs" />
     <Compile Include="request\Patrol.cs" />
     <Compile Include="request\Platform.cs" />
     <Compile Include="request\Player.cs" />

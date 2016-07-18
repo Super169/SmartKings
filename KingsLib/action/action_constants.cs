@@ -375,6 +375,12 @@ namespace KingsLib
                 public const string num = "num";
             }
 
+            public static class OperateActivity
+            {
+                public const string isGot = "isGot";
+
+            }
+
             public static class Patrol
             {
                 public const string jf = "jf";

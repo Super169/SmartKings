@@ -42,6 +42,7 @@ namespace SmartKings
             bindAccounts();
             bindEventLogs();
             initActionPanel();
+            ucActionPanel.initTaskList();
 
             // Monitor
             KingsMonitor.notificationEventHandler += new KingsMonitor.NotificationEventHandler(this.OnNotificationHandler);
