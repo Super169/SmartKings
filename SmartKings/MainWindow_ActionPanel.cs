@@ -39,6 +39,7 @@ namespace SmartKings
                     QuickSetup();
                     break;
                 case "btnReload":
+                case Scheduler.TaskId.Reload:
                     goTask(Scheduler.TaskId.Reload, allPlayers);
                     break;
                 case "btnAutoTaskSetting":
@@ -58,12 +59,15 @@ namespace SmartKings
                     goAction("檢查遺漏", allPlayers, action.checkAllOutstandingTasks);
                     break;
                 case "btnHarvest":
+                case Scheduler.TaskId.Harvest :
                     goTask(Scheduler.TaskId.Harvest, allPlayers);
                     break;
                 case "btnMonthSignIn":
+                case Scheduler.TaskId.MonthSignIn :
                     goTask(Scheduler.TaskId.MonthSignIn, allPlayers);
                     break;
                 case "btnCleanBag":
+                case Scheduler.TaskId.CleanUpBag :
                     goTask(Scheduler.TaskId.CleanUpBag, allPlayers);
                     break;
                 case "btnStarrySetup":
@@ -75,27 +79,34 @@ namespace SmartKings
                     goWarSetup(Scheduler.TaskId.NavalWar, 0, 1, 5, true, -1, null);
                     break;
                 case "btnStarryFight":
+                case Scheduler.TaskId.StarryFight :
                     goTask(Scheduler.TaskId.StarryFight, allPlayers);
                     break;
                 case "btnStarryReward":
+                case Scheduler.TaskId.StarryReward :
                     goTask(Scheduler.TaskId.StarryReward, allPlayers);
                     break;
                 case "btnMarket":
+                case Scheduler.TaskId.Market :
                     goTask(Scheduler.TaskId.Market, allPlayers);
                     break;
                 case "btnCycleShop":
+                case Scheduler.TaskId.CycleShop :
                     goTask(Scheduler.TaskId.CycleShop, allPlayers);
                     break;
                 case "btnReadEmail":
+                case Scheduler.TaskId.ReadAllEmail :
                     goTask(Scheduler.TaskId.ReadAllEmail, allPlayers);
                     break;
                 case "btnFinishTask":
+                case Scheduler.TaskId.FinishTask :
                     goTask(Scheduler.TaskId.FinishTask, allPlayers);
                     break;
                 case "btnEliteFightSetup":
                     goWarSetup(Scheduler.TaskId.EliteFight, 0, 1, 5, true, -1, null);
                     break;
                 case "btnEliteFight":
+                case Scheduler.TaskId.EliteFight :
                     goEliteFight();
                     break;
                 case "btnPatrolSetup":
@@ -105,21 +116,26 @@ namespace SmartKings
                     goWarSetup(Scheduler.TaskId.Patrol, 1, 1, 5, true, 3, "預留");
                     break;
                 case "btnPatrol":
+                case Scheduler.TaskId.Patrol :
                     goTask(Scheduler.TaskId.Patrol, allPlayers);
                     break;
                 case "btnCorpsCityReward":
+                case Scheduler.TaskId.CorpsCityReward :
                     goTask(Scheduler.TaskId.CorpsCityReward, allPlayers);
                     break;
                 case "btnIndustryShop":
+                case Scheduler.TaskId.IndustryShop :
                     goTask(Scheduler.TaskId.IndustryShop, allPlayers);
                     break;
                 case "btnTrainHero":
+                case Scheduler.TaskId.TrainHero :
                     goTask(Scheduler.TaskId.TrainHero, allPlayers);
                     break;
                 case "btnGrassArrowSetup":
                     goWarSetup(Scheduler.TaskId.GrassArrow, 0, 1, 3, true, 2, "諸葛亮");
                     break;
                 case "btnGrassArrow":
+                case Scheduler.TaskId.GrassArrow :
                     goTask(Scheduler.TaskId.GrassArrow, allPlayers);
                     break;
                 case "btnSetupTeamDuplicate":
@@ -147,10 +163,12 @@ namespace SmartKings
                     break;
 
                 case "btnTravel":
+                case Scheduler.TaskId.Travel :
                     goTask(Scheduler.TaskId.Travel, allPlayers);
                     break;
 
                 case "btnOperateActivity":
+                case Scheduler.TaskId.OperateActivity :
                     goTask(Scheduler.TaskId.OperateActivity, allPlayers);
                     break;
 

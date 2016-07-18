@@ -101,7 +101,7 @@ namespace SmartKings.ui
         {
             SysTaskEntry ste = (SysTaskEntry)cboOthers.SelectedItem;
             if (ste == null) return;
-            playAction("btn" + ste.TaskId);
+            playAction(ste.TaskId);
         }
 
     }

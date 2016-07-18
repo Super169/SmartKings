@@ -5,21 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartKings.ui.win"
         mc:Ignorable="d"
-        Title="鏍行四海" Height="600" Width="800" FontSize="14">
+        Title="鏍行四海" Height="640" Width="840" FontSize="14" WindowStartupLocation="CenterOwner">
     <Grid>
         <ListView x:Name="lvEscort" Margin="10,10,10,40">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="鏢號" Width="50"  DisplayMemberBinding="{Binding id}"/>
-                    <GridViewColumn Header="運鏢者" Width="100"  DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn Header="運鏢者" Width="120"  DisplayMemberBinding="{Binding name}"/>
                     <GridViewColumn Header="類別" Width="50"  DisplayMemberBinding="{Binding type}"/>
                     <GridViewColumn Header="狀況" Width="60"  DisplayMemberBinding="{Binding loot}"/>
-                    <GridViewColumn Header="防守兵力" Width="400"  DisplayMemberBinding="{Binding defend}"/>
+                    <GridViewColumn Header="防守兵力" Width="500"  DisplayMemberBinding="{Binding defend}"/>
                 </GridView>
             </ListView.View>
         </ListView>
         <Button x:Name="btnRefresh" Content="更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Click="btnRefresh_Click" Height="25" VerticalAlignment="Bottom"/>
         <Button x:Name="btnLoot" Content="搶劫" HorizontalAlignment="Left" Margin="106,0,0,10" Width="75" Click="btnLoot_Click" Height="25" VerticalAlignment="Bottom"/>
+        <Label x:Name="lblStatus" Content="Working ......Please Wait......" Margin="0,0,10,10" HorizontalContentAlignment="Right" Background="Lime" HorizontalAlignment="Right" Width="618" Height="25" VerticalAlignment="Bottom" FontWeight="Bold" Visibility="Hidden"/>
 
     </Grid>
 </Window>
