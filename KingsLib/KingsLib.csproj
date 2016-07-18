@@ -136,6 +136,7 @@
     <Compile Include="request\EightTrigrams.cs" />
     <Compile Include="request\Email.cs" />
     <Compile Include="request\Emperor.cs" />
+    <Compile Include="request\Escort.cs" />
     <Compile Include="request\Firecracker.cs" />
     <Compile Include="request\Gamble.cs" />
     <Compile Include="request\GmActivity.cs" />

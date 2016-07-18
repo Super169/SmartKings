@@ -250,6 +250,7 @@ namespace SmartKings.ui.uc
                 case Scheduler.TaskId.NavalWar:
                 case Scheduler.TaskId.EliteFight:
                 case Scheduler.TaskId.Patrol:
+                case Scheduler.TaskId.Travel:
                     checkSetup = true;
                     break;
                 case Scheduler.TaskId.GrassArrow:
@@ -291,6 +292,7 @@ namespace SmartKings.ui.uc
                 case Scheduler.TaskId.ArenaDefFormation:
                 case Scheduler.TaskId.StarryFight:
                 case Scheduler.TaskId.NavalWar:
+                case Scheduler.TaskId.Travel:
                 case Scheduler.TaskId.EliteFight:
                     goWarSetup(taskId, idx, 1, 5, true, -1, null);
                     break;

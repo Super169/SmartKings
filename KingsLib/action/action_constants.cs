@@ -206,6 +206,11 @@ namespace KingsLib
                 public const string id = "id";
             }
 
+            public static class Escort
+            {
+                public const string remainLootTime = "remainLootTime";
+            }
+
             public static class GrassArrow
             {
                 public const string fightGold = "fightGold";

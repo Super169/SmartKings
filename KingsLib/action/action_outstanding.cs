@@ -24,6 +24,7 @@ using System.Web.Helpers;
 // 草船借箭
 // 奇門八卦
 // 懸賞任務
+// 鏢行四海
 
 namespace KingsLib
 {
@@ -82,6 +83,9 @@ namespace KingsLib
 
             // 華容道
             goCheckOutstandTasks(action, "華容道", checkOutstandingHuarongRoad, oGA, updateInfo, debug);
+
+            // 鏢行四海
+            goCheckOutstandTasks(action, "鏢行四海", checkOutstandingEscort, oGA, updateInfo, debug);
 
             if (debug) showDebugMsg(updateInfo, oGA.displayName, action, "結束");
 
@@ -440,7 +444,7 @@ namespace KingsLib
         {
             int gameDOW = Scheduler.getGameDOW();
             DateTime now = DateTime.Now;
-            if ((gameDOW != 1) && (gameDOW != 2)) 
+            if ((gameDOW != 1) && (gameDOW != 2))
             {
                 if (debug) showDebugMsg(updateInfo, oGA.displayName, actionName, string.Format("今天沒有{0}", module));
                 return true;
@@ -654,7 +658,8 @@ namespace KingsLib
 
             rro = request.Circle.getHuarongRoadInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return false;
-            if (!(rro.exists(RRO.Circle.left) && rro.exists(RRO.Circle.reset) && rro.exists(RRO.Circle.refresh) && rro.exists(RRO.Circle.rewarded))) {
+            if (!(rro.exists(RRO.Circle.left) && rro.exists(RRO.Circle.reset) && rro.exists(RRO.Circle.refresh) && rro.exists(RRO.Circle.rewarded)))
+            {
                 LOG.E(string.Format("{0} : {1} : Unexpected result: {2}", oGA.displayName, "Circle.getHuarongRoadInfo", rro.responseText));
                 return false;
             }
@@ -690,6 +695,23 @@ namespace KingsLib
             {
                 rro = request.SevenDaysPoints.getActInfo(oGA.connectionInfo, oGA.sid);
                 updateInfo(oGA.displayName, actionName, string.Format("{0}: 獲取任務", module), true, false);
+            }
+            return true;
+        }
+
+
+
+        public static bool checkOutstandingEscort(GameAccount oGA, DelegateUpdateInfo updateInfo, string actionName, string module, bool debug)
+        {
+            RequestReturnObject rro;
+
+            rro = request.Escort.worldInfo(oGA.connectionInfo, oGA.sid);
+            if (!rro.success) return false;
+            if (!rro.exists(RRO.Escort.remainLootTime)) return false;
+            int remainLootTime = rro.getInt(RRO.Escort.remainLootTime);
+            if (remainLootTime > 0)
+            {
+                updateInfo(oGA.displayName, actionName, string.Format("{0}: 尚有 {1} 次鏢可以去劫", module, remainLootTime), true, false);
             }
             return true;
         }
