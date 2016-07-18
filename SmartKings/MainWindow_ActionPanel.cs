@@ -154,6 +154,16 @@ namespace SmartKings
                     goTask(Scheduler.TaskId.OperateActivity, allPlayers);
                     break;
 
+                case "btnEscort":
+                    {
+                        GameAccount oGA = GetSelectedAccount();
+                        if (oGA == null) return;
+                        ui.win.WinEscort winEFS = new ui.win.WinEscort(oGA);
+                        winEFS.Owner = this;
+                        winEFS.ShowDialog();
+                    }
+                    break;
+
                 case "btnTester":
                     goWarSetup(Scheduler.TaskId.HuarongRoad, 0, 1, 5, true, -1, null);
                     // goTask(Scheduler.TaskId.HuarongRoad, false);

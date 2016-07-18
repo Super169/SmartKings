@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KingsLib.request
 {
-    class Escort
+    public static class Escort
     {
         private const string CMD_getDefFormation = "Escort.getDefFormation";
         private const string CMD_loot = "Escort.loot";

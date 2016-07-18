@@ -54,6 +54,7 @@
     <Compile Include="action\campaign.cs" />
     <Compile Include="action\action_constants.cs" />
     <Compile Include="action\Corps.cs" />
+    <Compile Include="action\Escort.cs" />
     <Compile Include="action\GrassArrow.cs" />
     <Compile Include="action\OneYear.cs" />
     <Compile Include="action\Shop.cs" />

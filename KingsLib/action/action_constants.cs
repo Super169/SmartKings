@@ -208,6 +208,25 @@ namespace KingsLib
 
             public static class Escort
             {
+                public const string list = "list";
+                public const string id = "id";
+                public const string a = "a";
+                public const string b = "b";
+                public const string c = "c";
+                public const string d = "d";
+                public const string e = "e";
+                public const string f = "f";
+                public const string g = "g";
+                public const string h = "h";
+
+                public const string displayHero = "displayHero";
+                public const string nm = "nm";
+                public const string lv = "lv";
+                public const string sta = "sta";
+
+                public const string data = "data";
+
+
                 public const string remainLootTime = "remainLootTime";
             }
 

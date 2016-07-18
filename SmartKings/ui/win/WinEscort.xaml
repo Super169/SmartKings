@@ -1,0 +1,25 @@
+﻿<Window x:Class="SmartKings.ui.win.WinEscort"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmartKings.ui.win"
+        mc:Ignorable="d"
+        Title="鏍行四海" Height="600" Width="800" FontSize="14">
+    <Grid>
+        <ListView x:Name="lvEscort" Margin="10,10,10,40">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="鏢號" Width="50"  DisplayMemberBinding="{Binding id}"/>
+                    <GridViewColumn Header="運鏢者" Width="100"  DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn Header="類別" Width="50"  DisplayMemberBinding="{Binding type}"/>
+                    <GridViewColumn Header="狀況" Width="60"  DisplayMemberBinding="{Binding loot}"/>
+                    <GridViewColumn Header="防守兵力" Width="400"  DisplayMemberBinding="{Binding defend}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="btnRefresh" Content="更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Click="btnRefresh_Click" Height="25" VerticalAlignment="Bottom"/>
+        <Button x:Name="btnLoot" Content="搶劫" HorizontalAlignment="Left" Margin="106,0,0,10" Width="75" Click="btnLoot_Click" Height="25" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</Window>

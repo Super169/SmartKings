@@ -115,6 +115,9 @@
     <Compile Include="ui\win\WinEliteFightSetup.xaml.cs">
       <DependentUpon>WinEliteFightSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ui\win\WinEscort.xaml.cs">
+      <DependentUpon>WinEscort.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WarSetup.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ui\win\WinEliteFightSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ui\win\WinEscort.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
