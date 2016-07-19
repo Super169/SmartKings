@@ -496,11 +496,14 @@ namespace KingsLib
                 public const string gold = "gold";
                 public const string boughtCount = "boughtCount";
 
+                public const string rewards = "rewards";
+
                 public const string data = "data";
                 public const string _type = "_type";
                 public const string _rs = "_rs";
 
                 public const string _type_SCEnterCampaign = "SCEnterCampaign";
+
             }
 
 

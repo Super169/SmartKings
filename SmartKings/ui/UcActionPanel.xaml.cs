@@ -88,14 +88,14 @@ namespace SmartKings.ui
         {
             SysTaskEntry ste = (SysTaskEntry)cboSafe.SelectedItem;
             if (ste == null) return;
-            playAction("btn" + ste.TaskId);
+            playAction(ste.TaskId);
         }
 
         private void btnGoSuggested_Click(object sender, RoutedEventArgs e)
         {
             SysTaskEntry ste = (SysTaskEntry)cboSuggested.SelectedItem;
             if (ste == null) return;
-            playAction("btn" + ste.TaskId);
+            playAction(ste.TaskId);
         }
         private void btnGoOthers_Click(object sender, RoutedEventArgs e)
         {

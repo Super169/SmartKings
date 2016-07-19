@@ -9,11 +9,21 @@ namespace KingsLib.request
 {
     public static class Starry
     {
+        private const string CMD_batchStarry = "Starry.batchStarry";
         private const string CMD_info = "Starry.info";
         private const string CMD_chapterInfo = "Starry.chapterInfo";
         private const string CMD_chapterReward = "Starry.chapterReward";
         private const string CMD_fight = "Starry.fight";
         private const string CMD_starReward = "Starry.starReward";
+
+        public static RequestReturnObject batchStarry(ConnectionInfo ci, string sid, int barrierId, int count)
+        {
+            int campaignId = 111000 + barrierId;
+            string body = string.Format("{{\"campaignId\":{0}, \"count\":{1}}}", campaignId, count);
+            return com.SendGenericRequest(ci, sid, CMD_batchStarry, true, body);
+        }
+
+
 
         public static RequestReturnObject info(ConnectionInfo ci, string sid)
         {

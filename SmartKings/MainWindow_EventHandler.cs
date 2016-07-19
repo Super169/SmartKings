@@ -140,11 +140,13 @@ namespace SmartKings
         private string saveEventLog()
         {
             string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Log");
+            filePath = System.IO.Path.Combine(filePath, "EventLog");
             if (!Directory.Exists(filePath))
             {
                 Directory.CreateDirectory(filePath);
                 if (!Directory.Exists(filePath)) filePath = Directory.GetCurrentDirectory();
             }
+
             string fileName = string.Format("{0:yyyyMMddHHmm}.Log", DateTime.Now);
             string fullName = System.IO.Path.Combine(filePath, fileName);
 

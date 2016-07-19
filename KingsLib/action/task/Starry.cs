@@ -1,10 +1,12 @@
 ﻿using KingsLib.data;
 using KingsLib.scheduler;
+using MyUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace KingsLib
 {
@@ -12,9 +14,49 @@ namespace KingsLib
     {
         public static partial class task
         {
+            private static int[,] bookTarget = { { 10, 5 }, { 22, 5 } };
+
+            public static bool goStarryBook(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
+            {
+                string taskId = Scheduler.TaskId.StarryBook;
+                string taskName = Scheduler.getTaskName(taskId);
+                ConnectionInfo ci = oGA.connectionInfo;
+                string sid = oGA.sid;
+                RequestReturnObject rro;
+
+                StarryInfo si = action.starry.getInfo(ci, sid);
+                if (si.leftAllCount <= 0) return true;
+
+                int leftCount = si.leftAllCount;
+                int i = 0;
+                while ((leftCount > 0) && (i < 2))
+                {
+                    int chapterId = bookTarget[i, 0];
+                    int barrierStep = bookTarget[i, 1];
+                    i++;
+                    StarryInfo.ChapterInfo currChapter = action.starry.getChapterInfo(ci, sid, chapterId);
+                    if (currChapter == null) continue;
+                    StarryInfo.ChapterInfo.BarrierInfo bi = currChapter.barrierList.Find(x => x.barrierStep == barrierStep);
+                    if (bi == null) continue;
+                    if (bi.leftCount <= 0) continue;
+                    int fightCount = (bi.leftCount < 3 ? bi.leftCount : 3);
+                    fightCount = (leftCount < fightCount ? leftCount : fightCount);
+                    rro = request.Starry.batchStarry(ci, sid, bi.barrierId, fightCount);
+                    if (!rro.SuccessWithJson(RRO.Starry.rewards, typeof(DynamicJsonArray)))
+                    {
+                        LOG.E(oGA.displayName, taskName, string.Format("Starry.batchStarry: {0} \n-ERR->\n{1}", rro.requestText, rro.requestText));
+                        continue;
+                    }
+                    updateInfo(oGA.displayName, taskName, string.Format("掃蕩 {0} 次:  {1} - {2}", fightCount, chapterId, barrierStep));
+                    leftCount -= fightCount;
+                }
+                return true;
+            }
+
             public static bool goStarryFight(GameAccount oGA, DelegateUpdateInfo updateInfo, bool debug)
             {
-                string taskName = Scheduler.getTaskName(Scheduler.TaskId.StarryFight);
+                string taskId = Scheduler.TaskId.StarryFight;
+                string taskName = Scheduler.getTaskName(taskId);
                 ConnectionInfo ci = oGA.connectionInfo;
                 string sid = oGA.sid;
                 RequestReturnObject rro;

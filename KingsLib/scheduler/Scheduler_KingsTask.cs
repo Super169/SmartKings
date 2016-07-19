@@ -43,6 +43,7 @@ namespace KingsLib.scheduler
             public const string Reload = "Reload";
             public const string MonthSignIn = "MonthSignIn";
             public const string SLShop = "SLShop";
+            public const string StarryBook = "StarryBook";
             public const string StarryFight = "StarryFight";
             public const string StarryReward = "StarryReward";
             public const string TeamDuplicate = "TeamDuplicate";
@@ -110,6 +111,9 @@ namespace KingsLib.scheduler
                     break;
                 case TaskId.MonthSignIn:
                     taskName = "簽到領獎";
+                    break;
+                case TaskId.StarryBook:
+                    taskName = "攬星兵書";
                     break;
                 case TaskId.StarryFight:
                     taskName = "攬星通關";
@@ -413,6 +417,16 @@ namespace KingsLib.scheduler
 
             autoTaskList.Add(new KingsTask()
             {
+                id = TaskId.StarryBook,
+                info = "在 攬星壇 作戰以取得英雄兵書所需",
+                isEnabled = true,
+                suggestion = 1,
+                customSchedule = true,
+                executeTask = action.task.goStarryBook
+            });
+
+            autoTaskList.Add(new KingsTask()
+            {
                 id = TaskId.TrainHero,
                 info = "訓練英雄, 獲取升級經驗",
                 isEnabled = true,
@@ -554,13 +568,12 @@ namespace KingsLib.scheduler
             autoTaskList.Add(new KingsTask()
             {
                 id = TaskId.StarryFight,
-                info = "在 攬星壇 作戰以取得兵書所需",
+                info = "在 攬星壇 作戰以取得兵種兵書所需",
                 isEnabled = true,
                 suggestion = 0,
                 customSchedule = true,
                 executeTask = action.task.goStarryFight
             });
-
 
         }
 
@@ -621,6 +634,7 @@ namespace KingsLib.scheduler
                     si.executionTimes.Add(new TimeSpan(19, 15, 0));
                     si.executionTimes.Add(new TimeSpan(3, 15, 0));
                     break;
+                case TaskId.StarryBook:
                 case TaskId.StarryFight:
                 case TaskId.StarryReward:
                     si.executionTimes = new List<TimeSpan>();

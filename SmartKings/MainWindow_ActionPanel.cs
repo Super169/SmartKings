@@ -78,6 +78,9 @@ namespace SmartKings
                     // goStarrySetup();
                     goWarSetup(Scheduler.TaskId.NavalWar, 0, 1, 5, true, -1, null);
                     break;
+                case Scheduler.TaskId.StarryBook:
+                    goTask(Scheduler.TaskId.StarryBook, allPlayers);
+                    break;
                 case "btnStarryFight":
                 case Scheduler.TaskId.StarryFight :
                     goTask(Scheduler.TaskId.StarryFight, allPlayers);

@@ -39,6 +39,7 @@ namespace SmartKings.ui.win
 
         private GameAccount oGA;
         private List<Escort> escorts = new List<Escort>();
+        private int remainLootTime = 0;
 
         public WinEscort(GameAccount oGA)
         {
@@ -60,7 +61,8 @@ namespace SmartKings.ui.win
 
             lblStatus.Visibility = (visible ? Visibility.Visible : Visibility.Hidden);
             btnRefresh.IsEnabled = !visible;
-            btnLoot.IsEnabled = !visible;
+            btnLoot.IsEnabled = (!visible && (remainLootTime > 0));
+            btnLoot.Content = string.Format("搶劫 ({0})", (remainLootTime < 0 ? "?" : remainLootTime.ToString()));
         }
 
 
@@ -101,6 +103,9 @@ namespace SmartKings.ui.win
         private void refreshList()
         {
             RequestReturnObject rro;
+
+            rro = KingsLib.request.Escort.worldInfo(oGA.connectionInfo, oGA.sid);
+            if (rro.exists(RRO.Escort.remainLootTime)) remainLootTime = rro.getInt(RRO.Escort.remainLootTime);
 
             rro = KingsLib.request.Escort.worldInfo(oGA.connectionInfo, oGA.sid);
             if (!rro.success) return;
